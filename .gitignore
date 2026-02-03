@@ -1,0 +1,5 @@
+venv/
+emails/
+fetch.log
+__pycache__/
+*.pyc

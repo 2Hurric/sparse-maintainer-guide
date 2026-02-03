@@ -1,0 +1,600 @@
+{
+  "total_emails": 8540,
+  "date_range": {
+    "start": [
+      "2002",
+      "01"
+    ],
+    "end": [
+      "2026",
+      "01"
+    ]
+  },
+  "total_contributors": 868,
+  "top_contributors": [
+    {
+      "email": "luc.vanoostenryck () gmail ! com",
+      "count": 1043
+    },
+    {
+      "email": "sparse () chrisli ! org",
+      "count": 774
+    },
+    {
+      "email": "torvalds () osdl ! org",
+      "count": 406
+    },
+    {
+      "email": "torvalds () linux-foundation ! org",
+      "count": 196
+    },
+    {
+      "email": "elver () google ! com",
+      "count": 152
+    },
+    {
+      "email": "josh () joshtriplett ! org",
+      "count": 144
+    },
+    {
+      "email": "terra () gnome ! org (morten welinder)",
+      "count": 125
+    },
+    {
+      "email": "andreyknvl () google ! com",
+      "count": 119
+    },
+    {
+      "email": "josh () freedesktop ! org",
+      "count": 109
+    },
+    {
+      "email": "viro () ftp ! linux ! org ! uk",
+      "count": 97
+    },
+    {
+      "email": "jgarzik () pobox ! com",
+      "count": 89
+    },
+    {
+      "email": "johannes () sipsolutions ! net",
+      "count": 88
+    },
+    {
+      "email": "ramsay () ramsayjones ! plus ! com",
+      "count": 81
+    },
+    {
+      "email": "dan.carpenter () oracle ! com",
+      "count": 80
+    },
+    {
+      "email": "penberg () kernel ! org",
+      "count": 79
+    },
+    {
+      "email": "gwan-gyeong.mun () intel ! com",
+      "count": 78
+    },
+    {
+      "email": "ramsay () ramsay1 ! demon ! co ! uk",
+      "count": 77
+    },
+    {
+      "email": "farbere () amazon ! com",
+      "count": 67
+    },
+    {
+      "email": "miguel.ojeda.sandonis () gmail ! com",
+      "count": 66
+    },
+    {
+      "email": "bvanassche () acm ! org",
+      "count": 65
+    },
+    {
+      "email": "keescook () chromium ! org",
+      "count": 64
+    },
+    {
+      "email": "sam () ravnborg ! org",
+      "count": 62
+    },
+    {
+      "email": "ubizjak () gmail ! com",
+      "count": 61
+    },
+    {
+      "email": "nicstange () gmail ! com",
+      "count": 61
+    },
+    {
+      "email": "ben.dooks () codethink ! co ! uk",
+      "count": 59
+    },
+    {
+      "email": "mailhol () kernel ! org",
+      "count": 58
+    },
+    {
+      "email": "bp () alien8 ! de",
+      "count": 56
+    },
+    {
+      "email": "danielfsantos () att ! net",
+      "count": 56
+    },
+    {
+      "email": "peterz () infradead ! org",
+      "count": 53
+    },
+    {
+      "email": "yamada.masahiro () socionext ! com",
+      "count": 52
+    }
+  ],
+  "yearly_stats": {
+    "2002": {
+      "count": 1,
+      "unique_authors": 1
+    },
+    "2003": {
+      "count": 95,
+      "unique_authors": 5
+    },
+    "2004": {
+      "count": 785,
+      "unique_authors": 105
+    },
+    "2005": {
+      "count": 303,
+      "unique_authors": 52
+    },
+    "2006": {
+      "count": 195,
+      "unique_authors": 65
+    },
+    "2007": {
+      "count": 406,
+      "unique_authors": 55
+    },
+    "2008": {
+      "count": 387,
+      "unique_authors": 72
+    },
+    "2009": {
+      "count": 270,
+      "unique_authors": 47
+    },
+    "2010": {
+      "count": 167,
+      "unique_authors": 54
+    },
+    "2011": {
+      "count": 201,
+      "unique_authors": 36
+    },
+    "2012": {
+      "count": 268,
+      "unique_authors": 41
+    },
+    "2013": {
+      "count": 262,
+      "unique_authors": 78
+    },
+    "2014": {
+      "count": 440,
+      "unique_authors": 68
+    },
+    "2015": {
+      "count": 136,
+      "unique_authors": 29
+    },
+    "2016": {
+      "count": 302,
+      "unique_authors": 36
+    },
+    "2017": {
+      "count": 476,
+      "unique_authors": 28
+    },
+    "2018": {
+      "count": 780,
+      "unique_authors": 53
+    },
+    "2019": {
+      "count": 528,
+      "unique_authors": 67
+    },
+    "2020": {
+      "count": 398,
+      "unique_authors": 68
+    },
+    "2021": {
+      "count": 421,
+      "unique_authors": 85
+    },
+    "2022": {
+      "count": 364,
+      "unique_authors": 70
+    },
+    "2023": {
+      "count": 140,
+      "unique_authors": 43
+    },
+    "2024": {
+      "count": 489,
+      "unique_authors": 55
+    },
+    "2025": {
+      "count": 544,
+      "unique_authors": 37
+    },
+    "2026": {
+      "count": 182,
+      "unique_authors": 18
+    }
+  },
+  "topic_distribution": {
+    "bug_fixes": 895,
+    "patches": 5365,
+    "rfcs": 568,
+    "sparse_core": 1655,
+    "warnings_errors": 716,
+    "announcements": 69,
+    "questions": 525,
+    "checking": 357
+  },
+  "key_threads": [
+    {
+      "subject": "overflow: Introduce overflows_type() and castable_to_type()",
+      "message_count": 80,
+      "participants": 7,
+      "first_date": "2022-09-26T19:11:09+00:00",
+      "last_date": "2022-11-02T19:33:33+00:00"
+    },
+    {
+      "subject": "improve constexpr handling",
+      "message_count": 74,
+      "participants": 4,
+      "first_date": "2015-07-22T22:54:25+00:00",
+      "last_date": "2017-03-31T19:47:17+00:00"
+    },
+    {
+      "subject": "PROPOSAL: Extend inline asm syntax with size spec",
+      "message_count": 71,
+      "participants": 6,
+      "first_date": "2018-10-31T16:31:16+00:00",
+      "last_date": "2018-12-27T04:47:34+00:00"
+    },
+    {
+      "subject": "kbuild: remove gcc's -Wtype-limits",
+      "message_count": 60,
+      "participants": 6,
+      "first_date": "2025-12-18T18:50:01+00:00",
+      "last_date": "2026-01-05T23:56:46+00:00"
+    },
+    {
+      "subject": "LOANS !!!",
+      "message_count": 48,
+      "participants": 1,
+      "first_date": "2019-07-24T09:03:57+00:00",
+      "last_date": "2019-08-30T05:17:45+00:00"
+    },
+    {
+      "subject": "arch/x86/include/asm/processor.h:698:16: sparse: sparse: incorrect type in initi",
+      "message_count": 45,
+      "participants": 4,
+      "first_date": "2024-03-02T15:44:37+00:00",
+      "last_date": "2024-04-04T06:56:19+00:00"
+    },
+    {
+      "subject": "drm/i915: Check for integer truncation on scatterlist creation",
+      "message_count": 44,
+      "participants": 4,
+      "first_date": "2022-09-26T15:39:49+00:00",
+      "last_date": "2022-10-07T16:45:10+00:00"
+    },
+    {
+      "subject": "kasan, arm64: use ARCH_SLAB_MINALIGN instead of manual aligning",
+      "message_count": 44,
+      "participants": 4,
+      "first_date": "2018-12-18T13:30:33+00:00",
+      "last_date": "2019-01-11T13:48:52+00:00"
+    },
+    {
+      "subject": "compiler.h: give up __compiletime_assert_fallback()",
+      "message_count": 44,
+      "participants": 7,
+      "first_date": "2018-08-28T23:00:55+00:00",
+      "last_date": "2018-10-11T15:15:44+00:00"
+    },
+    {
+      "subject": "khwasan: kernel hardware assisted address sanitizer",
+      "message_count": 43,
+      "participants": 4,
+      "first_date": "2018-06-30T02:41:17+00:00",
+      "last_date": "2018-08-08T16:53:54+00:00"
+    },
+    {
+      "subject": "pragma once: treewide conversion",
+      "message_count": 35,
+      "participants": 6,
+      "first_date": "2021-02-28T16:57:07+00:00",
+      "last_date": "2021-03-23T10:03:56+00:00"
+    },
+    {
+      "subject": "suggestion for Merging LLVM",
+      "message_count": 35,
+      "participants": 3,
+      "first_date": "2011-11-22T02:43:07+00:00",
+      "last_date": "2011-12-20T08:53:14+00:00"
+    },
+    {
+      "subject": "overflow: Remove is_non_negative() and is_negative()",
+      "message_count": 31,
+      "participants": 4,
+      "first_date": "2025-12-19T22:39:47+00:00",
+      "last_date": "2026-01-02T22:26:35+00:00"
+    },
+    {
+      "subject": "[GIT PULL] llvm fixes",
+      "message_count": 31,
+      "participants": 2,
+      "first_date": "2017-09-18T09:51:35+00:00",
+      "last_date": "2017-11-26T19:34:47+00:00"
+    },
+    {
+      "subject": "cleanup: Basic compatibility with context analysis",
+      "message_count": 31,
+      "participants": 3,
+      "first_date": "2026-01-06T13:21:38+00:00",
+      "last_date": "2026-01-27T10:21:28+00:00"
+    },
+    {
+      "subject": "locking/mutex: Support Clang's context analysis",
+      "message_count": 31,
+      "participants": 4,
+      "first_date": "2026-01-08T22:10:25+00:00",
+      "last_date": "2026-01-10T03:23:16+00:00"
+    },
+    {
+      "subject": "srcu: Support Clang's context analysis",
+      "message_count": 31,
+      "participants": 3,
+      "first_date": "2025-12-19T15:40:04+00:00",
+      "last_date": "2026-01-26T23:46:49+00:00"
+    },
+    {
+      "subject": "lockdep: Annotate lockdep assertions for context analysis",
+      "message_count": 30,
+      "participants": 3,
+      "first_date": "2025-12-19T15:39:56+00:00",
+      "last_date": "2025-12-19T21:47:06+00:00"
+    },
+    {
+      "subject": "locking/rwlock, spinlock: Support Clang's context analysis",
+      "message_count": 30,
+      "participants": 3,
+      "first_date": "2025-12-19T20:26:16+00:00",
+      "last_date": "2025-12-19T21:48:35+00:00"
+    },
+    {
+      "subject": "compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+      "message_count": 30,
+      "participants": 3,
+      "first_date": "2025-12-19T18:38:53+00:00",
+      "last_date": "2025-12-20T13:33:07+00:00"
+    },
+    {
+      "subject": "locking/ww_mutex: Support Clang's context analysis",
+      "message_count": 30,
+      "participants": 3,
+      "first_date": "2025-12-19T15:40:09+00:00",
+      "last_date": "2026-01-12T10:32:25+00:00"
+    },
+    {
+      "subject": "Servicio de la flota",
+      "message_count": 29,
+      "participants": 4,
+      "first_date": "2021-01-15T09:25:13+00:00",
+      "last_date": "2023-05-11T08:05:22+00:00"
+    },
+    {
+      "subject": "sparse: Allow override of sizeof(bool) warning",
+      "message_count": 28,
+      "participants": 8,
+      "first_date": "2014-02-27T02:03:39+00:00",
+      "last_date": "2014-02-27T21:49:06+00:00"
+    },
+    {
+      "subject": "[RFC PATCH 11/28] x86/pvh: Avoid absolute symbol references in .head.text",
+      "message_count": 28,
+      "participants": 3,
+      "first_date": "2024-09-25T15:01:11+00:00",
+      "last_date": "2024-09-25T22:40:49+00:00"
+    },
+    {
+      "subject": "dependency tee from c parser entities downto token",
+      "message_count": 28,
+      "participants": 3,
+      "first_date": "2012-04-24T09:54:45+00:00",
+      "last_date": "2012-05-05T16:59:39+00:00"
+    },
+    {
+      "subject": "[RFC] bloody mess with __attribute__() syntax",
+      "message_count": 27,
+      "participants": 4,
+      "first_date": "2007-07-05T17:26:40+00:00",
+      "last_date": "2007-07-13T09:04:22+00:00"
+    },
+    {
+      "subject": "include/linux/compiler*.h: fix OPTIMIZER_HIDE_VAR",
+      "message_count": 27,
+      "participants": 3,
+      "first_date": "2019-01-09T14:50:11+00:00",
+      "last_date": "2019-01-20T15:36:14+00:00"
+    },
+    {
+      "subject": "[patch 5/9] x86: Cure per CPU madness on UP",
+      "message_count": 26,
+      "participants": 5,
+      "first_date": "2024-03-16T00:56:36+00:00",
+      "last_date": "2024-03-21T16:49:30+00:00"
+    },
+    {
+      "subject": "[RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+      "message_count": 26,
+      "participants": 3,
+      "first_date": "2024-09-26T21:35:10+00:00",
+      "last_date": "2024-12-19T12:02:46+00:00"
+    },
+    {
+      "subject": "=?utf-8?b?UmU6IOKCrCAyLDAwMCwwMDAuMDAgRXVybw==?=",
+      "message_count": 26,
+      "participants": 2,
+      "first_date": "2019-05-30T21:00:15+00:00",
+      "last_date": "2019-06-08T13:29:50+00:00"
+    },
+    {
+      "subject": "Compiler Attributes: add support for __fallthrough (gcc >= 7.1)",
+      "message_count": 26,
+      "participants": 3,
+      "first_date": "2018-10-22T17:54:02+00:00",
+      "last_date": "2018-10-22T21:34:16+00:00"
+    },
+    {
+      "subject": "compiler.h: add is_const() as a replacement of __is_constexpr()",
+      "message_count": 25,
+      "participants": 4,
+      "first_date": "2024-12-08T01:58:37+00:00",
+      "last_date": "2024-12-09T09:59:44+00:00"
+    },
+    {
+      "subject": "CodingStyle: proscribe do-while without braces.",
+      "message_count": 25,
+      "participants": 5,
+      "first_date": "2007-07-26T21:44:06+00:00",
+      "last_date": "2007-07-27T18:52:10+00:00"
+    },
+    {
+      "subject": "sparse test failures on ppc32le (and other not so common archs)",
+      "message_count": 25,
+      "participants": 6,
+      "first_date": "2017-08-30T16:55:00+00:00",
+      "last_date": "2019-01-10T11:39:32+00:00"
+    },
+    {
+      "subject": "including sparse headers in C++ code",
+      "message_count": 25,
+      "participants": 7,
+      "first_date": "2010-10-11T23:37:07+00:00",
+      "last_date": "2010-11-10T10:52:17+00:00"
+    },
+    {
+      "subject": "=?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=",
+      "message_count": 25,
+      "participants": 3,
+      "first_date": "2020-07-28T09:08:40+00:00",
+      "last_date": "2021-06-10T09:37:38+00:00"
+    },
+    {
+      "subject": "kasan, arm64: add brk handler for inline instrumentation",
+      "message_count": 25,
+      "participants": 2,
+      "first_date": "2018-09-21T15:13:39+00:00",
+      "last_date": "2018-12-06T12:25:54+00:00"
+    },
+    {
+      "subject": "[sparse, be] operand size work",
+      "message_count": 25,
+      "participants": 3,
+      "first_date": "2004-02-09T22:27:40+00:00",
+      "last_date": "2004-02-23T09:08:26+00:00"
+    },
+    {
+      "subject": "minmax: remove useless cast in __is_nonneg()",
+      "message_count": 24,
+      "participants": 3,
+      "first_date": "2025-12-19T22:39:48+00:00",
+      "last_date": "2025-12-20T12:03:31+00:00"
+    },
+    {
+      "subject": "[RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+      "message_count": 24,
+      "participants": 3,
+      "first_date": "2024-09-25T19:59:32+00:00",
+      "last_date": "2024-09-26T13:38:27+00:00"
+    },
+    {
+      "subject": "Feature request - a macro defined for GCC",
+      "message_count": 24,
+      "participants": 13,
+      "first_date": "2008-07-02T00:12:33+00:00",
+      "last_date": "2008-07-03T23:35:35+00:00"
+    },
+    {
+      "subject": "barriers: convert a control to a data dependency",
+      "message_count": 24,
+      "participants": 3,
+      "first_date": "2019-01-07T15:54:23+00:00",
+      "last_date": "2019-01-07T19:25:34+00:00"
+    },
+    {
+      "subject": "Introduce and use absolute_pointer macro",
+      "message_count": 24,
+      "participants": 4,
+      "first_date": "2021-09-12T16:01:45+00:00",
+      "last_date": "2021-09-22T20:50:23+00:00"
+    },
+    {
+      "subject": "BUSINESS LOAN/PROJECT FUNDING...67",
+      "message_count": 24,
+      "participants": 1,
+      "first_date": "2021-06-18T11:44:50+00:00",
+      "last_date": "2021-06-18T11:45:08+00:00"
+    },
+    {
+      "subject": "khwasan: add hooks implementation",
+      "message_count": 24,
+      "participants": 4,
+      "first_date": "2018-06-26T13:15:23+00:00",
+      "last_date": "2018-08-29T11:35:18+00:00"
+    },
+    {
+      "subject": "Compiler Attributes",
+      "message_count": 24,
+      "participants": 4,
+      "first_date": "2018-09-20T17:22:46+00:00",
+      "last_date": "2018-10-06T19:41:22+00:00"
+    },
+    {
+      "subject": "kbuild, x86: revert macros in extended asm workarounds",
+      "message_count": 24,
+      "participants": 6,
+      "first_date": "2018-12-13T10:51:46+00:00",
+      "last_date": "2018-12-18T19:33:07+00:00"
+    },
+    {
+      "subject": "arm64: implement FTRACE_WITH_REGS",
+      "message_count": 24,
+      "participants": 5,
+      "first_date": "2016-07-08T15:24:21+00:00",
+      "last_date": "2016-08-11T19:32:44+00:00"
+    },
+    {
+      "subject": "Checking signedness in sparse..",
+      "message_count": 24,
+      "participants": 4,
+      "first_date": "2004-09-21T15:18:41+00:00",
+      "last_date": "2004-09-21T18:57:06+00:00"
+    },
+    {
+      "subject": "Your mailbox",
+      "message_count": 23,
+      "participants": 2,
+      "first_date": "2013-06-11T08:32:15+00:00",
+      "last_date": "2013-06-11T15:30:21+00:00"
+    }
+  ]
+}
