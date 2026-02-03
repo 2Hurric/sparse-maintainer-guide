@@ -393,6 +393,38 @@
             color: var(--warning);
         }
 
+        .topic-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .view-thread-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .view-thread-btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .view-thread-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
         .expand-icon {
             transition: transform 0.2s;
         }
@@ -577,6 +609,12 @@
                                             <li><strong>Challenge:</strong> Sparse already uses similar annotations but with different semantics; this work removes Sparse support in favor of Clang</li>
                                         </ul>
                                         <div class="outcome">Outcome: Active development, part of larger context analysis infrastructure</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=locking%2Fmutex+context+analysis&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -598,6 +636,12 @@
                                             <li>Prepares guard macros (like <code>DEFINE_LOCK_GUARD</code>) to work with new analysis</li>
                                         </ul>
                                         <div class="outcome">Outcome: Foundation for enabling static locking verification</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=cleanup+context+analysis&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -619,6 +663,12 @@
                                             <li>Debate about whether this forces developers to add suppression annotations</li>
                                         </ul>
                                         <div class="outcome">Outcome: Under discussion, API design trade-offs being evaluated</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=srcu+context+analysis&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -639,6 +689,12 @@
                                             <li>Related to overflow helper changes (removing <code>is_non_negative()</code>/<code>is_negative()</code>)</li>
                                         </ul>
                                         <div class="outcome">Outcome: Active discussion on warning policy</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=kbuild+Wtype-limits&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -727,6 +783,12 @@
                                             <li><strong>Key decision:</strong> Removes Sparse's context tracking support entirely in favor of Clang</li>
                                         </ul>
                                         <div class="outcome">Outcome: Foundation for kernel-wide static lock checking</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=compiler-context-analysis+infrastructure&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -758,6 +820,12 @@
                                             <li>Part of ongoing minmax/overflow macro cleanup effort</li>
                                         </ul>
                                         <div class="outcome">Outcome: Helpers removed, code simplified</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=overflow+is_non_negative&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -903,6 +971,12 @@
                                             <li>Cleaner API proposed to improve readability and maintainability</li>
                                         </ul>
                                         <div class="outcome">Outcome: Under discussion for improved constant detection</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=is_const+__is_constexpr&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -951,6 +1025,12 @@
                                             <li>Part of 28-patch series touching architecture-specific code</li>
                                         </ul>
                                         <div class="outcome">Outcome: RFC stage, exploring feasibility</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=PIE+linking+kernel&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -999,6 +1079,12 @@
                                             <li>Required coordination between x86 maintainers and sparse developers</li>
                                         </ul>
                                         <div class="outcome">Outcome: Fixes applied to reduce false positive warnings</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=processor.h+sparse+incorrect+type&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -1148,6 +1234,12 @@
                                             <li>Extensive KUnit test suite added with 391+ test cases covering all integer type combinations</li>
                                         </ul>
                                         <div class="outcome">Outcome: Merged, now used for compile-time overflow detection</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=overflows_type+castable_to_type&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -1269,6 +1361,12 @@
                                             <li>Implemented using volatile pointer casts to prevent compiler optimizations</li>
                                         </ul>
                                         <div class="outcome">Outcome: Merged into compiler.h, fixes sparse and GCC warnings</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=absolute_pointer+macro&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
@@ -1327,6 +1425,12 @@
                                             <li><strong>Linus's verdict:</strong> "#pragma once is complete garbage... fundamentally more complicated than the #ifdef guard, and it has absolutely zero upsides"</li>
                                         </ul>
                                         <div class="outcome rejected">Outcome: Rejected - traditional include guards remain</div>
+                                        <div class="topic-actions">
+                                            <a href="https://marc.info/?l=linux-sparse&w=2&r=1&s=pragma+once+treewide&q=b" target="_blank" class="view-thread-btn">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                                                View Original Thread
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="topic-item">
