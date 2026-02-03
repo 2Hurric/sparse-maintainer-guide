@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Reports - Linux Sparse Mailing List</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --border: #30363d;
+            --success: #3fb950;
+            --warning: #d29922;
+            --purple: #a371f7;
+            --pink: #db61a2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        header h1 span {
+            color: var(--accent);
+        }
+
+        nav {
+            margin-top: 15px;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 5px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--accent);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1f35, #2d1f35);
+            padding: 50px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            max-width: 800px;
+        }
+
+        .year-tabs {
+            display: flex;
+            gap: 10px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .year-tab {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .year-tab:hover {
+            border-color: var(--accent);
+        }
+
+        .year-tab.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .year-content {
+            display: none;
+        }
+
+        .year-content.active {
+            display: block;
+        }
+
+        .year-summary {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .year-summary h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--accent);
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .summary-stat {
+            text-align: center;
+            padding: 15px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .summary-stat .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .summary-stat .label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .year-highlights {
+            margin-top: 25px;
+        }
+
+        .year-highlights h4 {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+        }
+
+        .highlight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .highlight-item {
+            background: var(--bg-tertiary);
+            padding: 12px 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .highlight-item .title {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .highlight-item .meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .months-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .month-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .month-header {
+            background: var(--bg-tertiary);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .month-header:hover {
+            background: #2a3040;
+        }
+
+        .month-header h4 {
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .month-header .stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .month-header .stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .month-body {
+            padding: 20px;
+            display: none;
+        }
+
+        .month-body.expanded {
+            display: block;
+        }
+
+        .contributors-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .contributor-chip {
+            background: var(--bg-tertiary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contributor-chip .count {
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .categories-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .category-tag {
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .category-tag.patch { background: #1f4429; color: #3fb950; }
+        .category-tag.discussion { background: #2a2f55; color: #8b9aff; }
+        .category-tag.bugfix { background: #4a2020; color: #f85149; }
+        .category-tag.feature { background: #3d2f5c; color: #a371f7; }
+        .category-tag.warning { background: #4a3a1a; color: #d29922; }
+        .category-tag.general { background: #2a2f35; color: #8b949e; }
+
+        .topics-section h5 {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .topic-item {
+            background: var(--bg-tertiary);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid var(--purple);
+        }
+
+        .topic-item .subject {
+            font-weight: 500;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .topic-item .topic-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+
+        .topic-item .participants {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .expand-icon {
+            transition: transform 0.2s;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            margin-top: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--purple), var(--pink));
+        }
+
+        .timeline-year {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-year::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--bg-primary);
+        }
+
+        .timeline-year h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .month-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><span>Sparse</span> Monthly Reports (2021-2026)</h1>
+            <nav>
+                <a href="index.html">Overview</a>
+                <a href="reports.html" class="active">Monthly Reports</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h2>Five Years of Development History</h2>
+            <p>Comprehensive monthly breakdown of mailing list discussions, patches, and key developments from 2021 to 2026. Click on any month to explore detailed topics and contributors.</p>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="year-tabs">
+            <button class="year-tab active" data-year="2026">2026</button>
+            <button class="year-tab" data-year="2025">2025</button>
+            <button class="year-tab" data-year="2024">2024</button>
+            <button class="year-tab" data-year="2023">2023</button>
+            <button class="year-tab" data-year="2022">2022</button>
+            <button class="year-tab" data-year="2021">2021</button>
+        </div>
+
+        <!-- 2026 -->
+        <div class="year-content active" id="year-2026">
+            <div class="year-summary">
+                <h3>2026 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">182</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">5</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">1</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">Clang Context Analysis Integration</div>
+                            <div class="meta">Major work on supporting Clang's context analysis for mutex, SRCU, spinlock, and ww_mutex</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">Locking Annotation Improvements</div>
+                            <div class="meta">Enhanced lockdep annotations for static verification</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            January 2026
+                        </h4>
+                        <div class="stats">
+                            <span>182 emails</span>
+                            <span>5 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Marco Elver <span class="count">89</span></div>
+                            <div class="contributor-chip">Bart Van Assche <span class="count">43</span></div>
+                            <div class="contributor-chip">Linus Torvalds <span class="count">24</span></div>
+                            <div class="contributor-chip">Peter Zijlstra <span class="count">18</span></div>
+                            <div class="contributor-chip">Boqun Feng <span class="count">8</span></div>
+                        </div>
+                        <div class="categories-row">
+                            <span class="category-tag patch">New Patches: 95</span>
+                            <span class="category-tag discussion">Discussion: 78</span>
+                            <span class="category-tag feature">Features: 45</span>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">locking/mutex: Support Clang's context analysis</div>
+                                    <div class="topic-meta">
+                                        <span>31 messages</span>
+                                        <span>4 participants</span>
+                                    </div>
+                                    <div class="participants">Marco Elver, Bart Van Assche, Peter Zijlstra, Linus Torvalds</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">cleanup: Basic compatibility with context analysis</div>
+                                    <div class="topic-meta">
+                                        <span>31 messages</span>
+                                        <span>3 participants</span>
+                                    </div>
+                                    <div class="participants">Marco Elver, Bart Van Assche, Boqun Feng</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">srcu: Support Clang's context analysis</div>
+                                    <div class="topic-meta">
+                                        <span>31 messages</span>
+                                        <span>3 participants</span>
+                                    </div>
+                                    <div class="participants">Marco Elver, Bart Van Assche, Linus Torvalds</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">kbuild: remove gcc's -Wtype-limits</div>
+                                    <div class="topic-meta">
+                                        <span>60 messages</span>
+                                        <span>6 participants</span>
+                                    </div>
+                                    <div class="participants">Detailed discussion on removing type-limits warnings from kernel build</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2025 -->
+        <div class="year-content" id="year-2025">
+            <div class="year-summary">
+                <h3>2025 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">544</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">25</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">9</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">Context Analysis Infrastructure</div>
+                            <div class="meta">Foundation work for Clang context analysis integration</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">Format Attribute Parsing</div>
+                            <div class="meta">Initial support for __attribute__((format)) parsing</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">Overflow Helper Improvements</div>
+                            <div class="meta">Removal of is_non_negative() and is_negative() helpers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            December 2025
+                        </h4>
+                        <div class="stats">
+                            <span>307 emails</span>
+                            <span>18 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Marco Elver <span class="count">145</span></div>
+                            <div class="contributor-chip">Bart Van Assche <span class="count">52</span></div>
+                            <div class="contributor-chip">Linus Torvalds <span class="count">28</span></div>
+                            <div class="contributor-chip">David Laight <span class="count">18</span></div>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">compiler-context-analysis: Add infrastructure for Context Analysis with Clang</div>
+                                    <div class="topic-meta">
+                                        <span>30 messages</span>
+                                    </div>
+                                    <div class="participants">Major infrastructure work for static locking verification</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">lockdep: Annotate lockdep assertions for context analysis</div>
+                                    <div class="topic-meta">
+                                        <span>30 messages</span>
+                                    </div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">locking/rwlock, spinlock: Support Clang's context analysis</div>
+                                    <div class="topic-meta">
+                                        <span>30 messages</span>
+                                    </div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">overflow: Remove is_non_negative() and is_negative()</div>
+                                    <div class="topic-meta">
+                                        <span>31 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            October 2025
+                        </h4>
+                        <div class="stats">
+                            <span>67 emails</span>
+                            <span>8 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Ben Dooks <span class="count">28</span></div>
+                            <div class="contributor-chip">Luc Van Oostenryck <span class="count">15</span></div>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">parse: initial parsing of __attribute__((format))</div>
+                                    <div class="topic-meta">
+                                        <span>Format string checking support</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            September 2025
+                        </h4>
+                        <div class="stats">
+                            <span>94 emails</span>
+                            <span>12 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">Kernel build integration improvements</div>
+                                    <div class="topic-meta">
+                                        <span>Various kbuild and sparse integration patches</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2024 -->
+        <div class="year-content" id="year-2024">
+            <div class="year-summary">
+                <h3>2024 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">489</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">33</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">12</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">PIE Linking Support</div>
+                            <div class="meta">Work on position-independent executable linking for kernel</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">x86 Processor Handling</div>
+                            <div class="meta">Fixes for x86 processor.h sparse warnings</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">GCC Version Requirements</div>
+                            <div class="meta">Discussion on bumping minimum GCC version to 8.1</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">is_const() Implementation</div>
+                            <div class="meta">New is_const() as replacement for __is_constexpr()</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            December 2024
+                        </h4>
+                        <div class="stats">
+                            <span>78 emails</span>
+                            <span>10 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">compiler.h: add is_const() as a replacement of __is_constexpr()</div>
+                                    <div class="topic-meta">
+                                        <span>25 messages</span>
+                                    </div>
+                                    <div class="participants">Discussion on improving constant expression handling</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">Documentation: Bump minimum GCC version to 8.1</div>
+                                    <div class="topic-meta">
+                                        <span>26 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            September-October 2024
+                        </h4>
+                        <div class="stats">
+                            <span>242 emails</span>
+                            <span>20 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">x86/kernel: Switch to PIE linking for the core kernel</div>
+                                    <div class="topic-meta">
+                                        <span>24 messages</span>
+                                    </div>
+                                    <div class="participants">RFC on position-independent kernel linking</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">x86/pvh: Avoid absolute symbol references in .head.text</div>
+                                    <div class="topic-meta">
+                                        <span>28 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            March 2024
+                        </h4>
+                        <div class="stats">
+                            <span>58 emails</span>
+                            <span>8 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">arch/x86/include/asm/processor.h: sparse incorrect type in initializer</div>
+                                    <div class="topic-meta">
+                                        <span>45 messages</span>
+                                    </div>
+                                    <div class="participants">Long-running discussion on x86 processor.h sparse warnings</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">x86: Cure per CPU madness on UP</div>
+                                    <div class="topic-meta">
+                                        <span>26 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2023 -->
+        <div class="year-content" id="year-2023">
+            <div class="year-summary">
+                <h3>2023 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">140</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">27</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">10</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">Relatively Quiet Year</div>
+                            <div class="meta">Lower activity compared to adjacent years, focus on maintenance</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">Bug Fixes and Cleanup</div>
+                            <div class="meta">Various maintenance patches and bug fixes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            November-December 2023
+                        </h4>
+                        <div class="stats">
+                            <span>91 emails</span>
+                            <span>15 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">General maintenance and bug fixes</div>
+                                    <div class="topic-meta">
+                                        <span>Various patches</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2022 -->
+        <div class="year-content" id="year-2022">
+            <div class="year-summary">
+                <h3>2022 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">364</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">29</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">9</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">Overflow Type Checking</div>
+                            <div class="meta">Major work on overflows_type() and castable_to_type() - 80 message thread</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">DRM/i915 Integration</div>
+                            <div class="meta">Scatterlist integer truncation checks for Intel graphics driver</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            September-November 2022
+                        </h4>
+                        <div class="stats">
+                            <span>182 emails</span>
+                            <span>18 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">overflow: Introduce overflows_type() and castable_to_type()</div>
+                                    <div class="topic-meta">
+                                        <span>80 messages</span>
+                                        <span>7 participants</span>
+                                    </div>
+                                    <div class="participants">Largest thread of 2022 - comprehensive overflow checking infrastructure</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">drm/i915: Check for integer truncation on scatterlist creation</div>
+                                    <div class="topic-meta">
+                                        <span>44 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            January-March 2022
+                        </h4>
+                        <div class="stats">
+                            <span>117 emails</span>
+                            <span>12 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">General patches and improvements</div>
+                                    <div class="topic-meta">
+                                        <span>Various maintenance work</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2021 -->
+        <div class="year-content" id="year-2021">
+            <div class="year-summary">
+                <h3>2021 Year Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-stat">
+                        <div class="number">421</div>
+                        <div class="label">Total Emails</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">40</div>
+                        <div class="label">Contributors</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="number">10</div>
+                        <div class="label">Active Months</div>
+                    </div>
+                </div>
+                <div class="year-highlights">
+                    <h4>Key Developments</h4>
+                    <div class="highlight-list">
+                        <div class="highlight-item">
+                            <div class="title">pragma once Treewide Conversion</div>
+                            <div class="meta">Major proposal for using #pragma once across kernel headers - 35 messages</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">absolute_pointer Macro</div>
+                            <div class="meta">New macro for handling pointers to absolute memory addresses - 24 messages</div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="title">VirtualBox SF Fixes</div>
+                            <div class="meta">VirtualBox shared folder signature detection fixes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            September 2021
+                        </h4>
+                        <div class="stats">
+                            <span>113 emails</span>
+                            <span>15 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Guenter Roeck <span class="count">25</span></div>
+                            <div class="contributor-chip">Linus Torvalds <span class="count">22</span></div>
+                            <div class="contributor-chip">Luc Van Oostenryck <span class="count">18</span></div>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">Introduce and use absolute_pointer macro</div>
+                                    <div class="topic-meta">
+                                        <span>24 messages</span>
+                                    </div>
+                                    <div class="participants">New compiler.h macro for fixed memory location pointers</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">vboxsf: fix old signature detection</div>
+                                    <div class="topic-meta">
+                                        <span>21 messages</span>
+                                    </div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">alpha: Use absolute_pointer for strcmp on fixed memory location</div>
+                                    <div class="topic-meta">
+                                        <span>20 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            February-March 2021
+                        </h4>
+                        <div class="stats">
+                            <span>115 emails</span>
+                            <span>18 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Luc Van Oostenryck <span class="count">38</span></div>
+                            <div class="contributor-chip">Linus Torvalds <span class="count">22</span></div>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">pragma once: treewide conversion</div>
+                                    <div class="topic-meta">
+                                        <span>35 messages</span>
+                                    </div>
+                                    <div class="participants">Proposal to convert kernel to #pragma once - ultimately not adopted</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">usb: typec: tps6598x: Add trace event for status register</div>
+                                    <div class="topic-meta">
+                                        <span>18 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="month-card">
+                    <div class="month-header" onclick="toggleMonth(this)">
+                        <h4>
+                            <svg class="expand-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9l6 6 6-6"/>
+                            </svg>
+                            January 2021
+                        </h4>
+                        <div class="stats">
+                            <span>50 emails</span>
+                            <span>11 contributors</span>
+                        </div>
+                    </div>
+                    <div class="month-body">
+                        <div class="contributors-row">
+                            <div class="contributor-chip">Luc Van Oostenryck <span class="count">18</span></div>
+                            <div class="contributor-chip">Tiezhu Yang <span class="count">11</span></div>
+                            <div class="contributor-chip">Yonghong Song <span class="count">10</span></div>
+                        </div>
+                        <div class="topics-section">
+                            <h5>Key Discussion Topics</h5>
+                            <div class="topic-list">
+                                <div class="topic-item">
+                                    <div class="subject">support __packed struct</div>
+                                    <div class="topic-meta">
+                                        <span>5 messages</span>
+                                    </div>
+                                    <div class="participants">Adding support for __packed struct syntax</div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">samples/bpf: Set flag __SANE_USERSPACE_TYPES__ for MIPS</div>
+                                    <div class="topic-meta">
+                                        <span>9 messages</span>
+                                    </div>
+                                </div>
+                                <div class="topic-item">
+                                    <div class="subject">handle qualified anonymous structures</div>
+                                    <div class="topic-meta">
+                                        <span>4 messages</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timeline Overview -->
+        <section style="margin-top: 60px;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--border);">Development Timeline Overview</h2>
+
+            <div class="timeline">
+                <div class="timeline-year">
+                    <h3>2026 - Clang Context Analysis Era</h3>
+                    <p style="color: var(--text-secondary);">Major push for integrating Clang's static analysis capabilities for locking verification. Focus on mutex, SRCU, spinlock, and ww_mutex annotations.</p>
+                </div>
+
+                <div class="timeline-year">
+                    <h3>2025 - Infrastructure Building</h3>
+                    <p style="color: var(--text-secondary);">Foundation work for context analysis. Format attribute parsing added. Overflow helper cleanup.</p>
+                </div>
+
+                <div class="timeline-year">
+                    <h3>2024 - Architecture Improvements</h3>
+                    <p style="color: var(--text-secondary);">PIE linking support exploration. x86 processor handling improvements. GCC version discussions.</p>
+                </div>
+
+                <div class="timeline-year">
+                    <h3>2023 - Maintenance Year</h3>
+                    <p style="color: var(--text-secondary);">Quieter period focused on bug fixes and stability. Preparation for larger changes to come.</p>
+                </div>
+
+                <div class="timeline-year">
+                    <h3>2022 - Overflow Checking</h3>
+                    <p style="color: var(--text-secondary);">Major work on overflow type checking with overflows_type() and castable_to_type(). DRM/i915 integration improvements.</p>
+                </div>
+
+                <div class="timeline-year">
+                    <h3>2021 - Compiler Macros</h3>
+                    <p style="color: var(--text-secondary);">absolute_pointer macro introduced. pragma once proposal discussed (ultimately rejected). Active development on struct handling.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Generated from mailing list analysis of 2,140 emails (2021-2026)</p>
+            <p><a href="index.html">Back to Main Guide</a> | <a href="https://marc.info/?l=linux-sparse">MARC Archive</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        document.querySelectorAll('.year-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.year-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.year-content').forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                document.getElementById('year-' + tab.dataset.year).classList.add('active');
+            });
+        });
+
+        // Month expansion
+        function toggleMonth(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('.expand-icon');
+
+            body.classList.toggle('expanded');
+            icon.classList.toggle('rotated');
+        }
+    </script>
+</body>
+</html>

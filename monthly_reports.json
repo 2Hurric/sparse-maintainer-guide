@@ -1,0 +1,4710 @@
+{
+  "generated_at": "2026-02-03T10:08:15.946636",
+  "years": {
+    "2021": {
+      "summary": {
+        "year": 2021,
+        "total_emails": 421,
+        "total_contributors": 40,
+        "months_active": 10,
+        "category_breakdown": {
+          "New Patch": 193,
+          "Bug Fix": 87,
+          "Discussion": 186,
+          "Warning Report": 20,
+          "Feature": 86,
+          "RFC Patch": 1,
+          "General": 136,
+          "Patch Revision": 66,
+          "Type Checking": 2
+        },
+        "top_topics": [
+          {
+            "subject": "pragma once: treewide conversion",
+            "message_count": 35,
+            "participants": [
+              "Pavel Machek",
+              "Alexey Dobriyan",
+              "Luc Van Oostenryck",
+              "Miguel Ojeda",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "BUSINESS LOAN/PROJECT FUNDING...67",
+            "message_count": 24,
+            "participants": [
+              "Smith Green"
+            ],
+            "categories": [
+              "General"
+            ]
+          },
+          {
+            "subject": "Introduce and use absolute_pointer macro",
+            "message_count": 24,
+            "participants": [
+              "Matt Turner",
+              "Ulrich Teichert",
+              "Guenter Roeck",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Feature",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "=?utf-8?q?Hallo=2C_Sie_haben_eine_Spende_von_=E2=82=AC_2=2E000=2E000=2C00?=",
+            "message_count": 21,
+            "participants": [
+              "<abashiabcom ! al>"
+            ],
+            "categories": [
+              "General"
+            ]
+          },
+          {
+            "subject": "vboxsf: fix old signature detection",
+            "message_count": 21,
+            "participants": [
+              "Arnd Bergmann",
+              "Dan Carpenter",
+              "Hans de Goede",
+              "Linus Torvalds",
+              "Rasmus Villemoes"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "Hello okay",
+            "message_count": 20,
+            "participants": [
+              "Ms. Reem"
+            ],
+            "categories": [
+              "General"
+            ]
+          },
+          {
+            "subject": "Servicio de la flota",
+            "message_count": 20,
+            "participants": [
+              "Alarico Veloz"
+            ],
+            "categories": [
+              "General"
+            ]
+          },
+          {
+            "subject": "alpha: Use absolute_pointer for strcmp on fixed memory location",
+            "message_count": 20,
+            "participants": [
+              "Guenter Roeck",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "usb: typec: tps6598x: Add trace event for status register",
+            "message_count": 18,
+            "participants": [
+              "kernel test robot",
+              "Luc Van Oostenryck",
+              "Linus Torvalds",
+              "Ramsay Jones",
+              "Guido =?iso-8859-1?Q?G=FCnther?="
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Feature"
+            ]
+          },
+          {
+            "subject": "compiler.h: Introduce absolute_pointer macro",
+            "message_count": 18,
+            "participants": [
+              "Sasha Levin",
+              "Geert Uytterhoeven",
+              "Guenter Roeck"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Feature",
+              "New Patch"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2021-01",
+          "total_emails": 50,
+          "unique_contributors": 11,
+          "top_contributors": [
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 18
+            },
+            {
+              "name": "Tiezhu Yang",
+              "count": 11
+            },
+            {
+              "name": "Yonghong Song",
+              "count": 10
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 2
+            },
+            {
+              "name": "Jacob Keller",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 45,
+            "Bug Fix": 27,
+            "Discussion": 28,
+            "Warning Report": 15,
+            "Feature": 9,
+            "RFC Patch": 1,
+            "General": 2
+          },
+          "key_topics": [
+            {
+              "subject": "samples/bpf: Set flag __SANE_USERSPACE_TYPES__ for MIPS to fix build warnings",
+              "message_count": 9,
+              "participants": [
+                "Tiezhu Yang",
+                "Yonghong Song"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "Warning Report",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler.h: Include asm/rwonce.h under ARM64 and ALPHA to fix build errors",
+              "message_count": 8,
+              "participants": [
+                "Sergei Shtylyov",
+                "Tiezhu Yang",
+                "Yonghong Song"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Fix build errors and warnings when make M=samples/bpf",
+              "message_count": 6,
+              "participants": [
+                "Tiezhu Yang",
+                "Yonghong Song"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "Warning Report",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "support __packed struct",
+              "message_count": 5,
+              "participants": [
+                "Ramsay Jones",
+                "Jacob Keller",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "handle qualified anonymous structures",
+              "message_count": 4,
+              "participants": [
+                "Luc Van Oostenryck",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Makefile: add version.h dependency on all objects",
+              "message_count": 2,
+              "participants": [
+                "Kyle Russell",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "Re: [PATCH] RFC: problems with cast optimization at evaluation time",
+              "author": "Linus Torvalds"
+            }
+          ]
+        },
+        {
+          "month": "2021-02",
+          "total_emails": 74,
+          "unique_contributors": 15,
+          "top_contributors": [
+            {
+              "name": "Ms. Reem",
+              "count": 21
+            },
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 17
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 13
+            },
+            {
+              "name": "Ramsay Jones",
+              "count": 5
+            },
+            {
+              "name": "Guido =?iso-8859-1?Q?G=FCnther?=",
+              "count": 4
+            }
+          ],
+          "category_breakdown": {
+            "General": 24,
+            "New Patch": 31,
+            "Feature": 20,
+            "Discussion": 36,
+            "Patch Revision": 18,
+            "Bug Fix": 3,
+            "Warning Report": 1
+          },
+          "key_topics": [
+            {
+              "subject": "Hello okay",
+              "message_count": 20,
+              "participants": [
+                "Ms. Reem"
+              ],
+              "categories": [
+                "General"
+              ]
+            },
+            {
+              "subject": "usb: typec: tps6598x: Add trace event for status register",
+              "message_count": 18,
+              "participants": [
+                "kernel test robot",
+                "Luc Van Oostenryck",
+                "Linus Torvalds",
+                "Ramsay Jones",
+                "Guido =?iso-8859-1?Q?G=FCnther?="
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "pragma once: treewide conversion",
+              "message_count": 16,
+              "participants": [
+                "Pavel Machek",
+                "Alexey Dobriyan",
+                "Luc Van Oostenryck",
+                "Miguel Ojeda",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "slice: OP_SLICE needs the source's type: make it a kind of unop",
+              "message_count": 2,
+              "participants": [
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2021-03",
+          "total_emails": 41,
+          "unique_contributors": 8,
+          "top_contributors": [
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 21
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 9
+            },
+            {
+              "name": "David Laight",
+              "count": 3
+            },
+            {
+              "name": "Alexey Dobriyan",
+              "count": 3
+            },
+            {
+              "name": "Pavel Machek",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 39,
+            "Discussion": 18,
+            "Feature": 3,
+            "Bug Fix": 1,
+            "General": 2
+          },
+          "key_topics": [
+            {
+              "subject": "pragma once: treewide conversion",
+              "message_count": 19,
+              "participants": [
+                "Pavel Machek",
+                "Luc Van Oostenryck",
+                "Alexey Dobriyan",
+                "Miguel Ojeda",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2021-04",
+          "total_emails": 49,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "<abashiabcom ! al>",
+              "count": 21
+            },
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 19
+            },
+            {
+              "name": "Thomas Gleixner",
+              "count": 2
+            },
+            {
+              "name": "Ramsay Jones",
+              "count": 2
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 8,
+            "Discussion": 9,
+            "Warning Report": 3,
+            "General": 26,
+            "New Patch": 10,
+            "Feature": 5
+          },
+          "key_topics": [
+            {
+              "subject": "=?utf-8?q?Hallo=2C_Sie_haben_eine_Spende_von_=E2=82=AC_2=2E000=2E000=2C00?=",
+              "message_count": 21,
+              "participants": [
+                "<abashiabcom ! al>"
+              ],
+              "categories": [
+                "General"
+              ]
+            },
+            {
+              "subject": "builtin: define a symbol_op for a generic op acting on integer",
+              "message_count": 3,
+              "participants": [
+                "Ramsay Jones",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrec",
+              "message_count": 3,
+              "participants": [
+                "Thomas Gleixner",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "no needs to use MARK_CURRENT_DELETED() for multi-jumps",
+              "message_count": 3,
+              "participants": [
+                "Ramsay Jones",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "scheck: add a symbolic checker",
+              "message_count": 2,
+              "participants": [
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "remove early simplification of casts during evaluation",
+              "message_count": 2,
+              "participants": [
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2021-06",
+          "total_emails": 33,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "Smith Green",
+              "count": 24
+            },
+            {
+              "name": "Jotham Masuku",
+              "count": 2
+            },
+            {
+              "name": "Sarah Koffi",
+              "count": 1
+            },
+            {
+              "name": "Mr.  Robert",
+              "count": 1
+            },
+            {
+              "name": "''Tayeb souami''",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 32,
+            "Discussion": 1
+          },
+          "key_topics": [
+            {
+              "subject": "BUSINESS LOAN/PROJECT FUNDING...67",
+              "message_count": 24,
+              "participants": [
+                "Smith Green"
+              ],
+              "categories": [
+                "General"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "Proposal",
+              "author": "Jotham Masuku"
+            }
+          ]
+        },
+        {
+          "month": "2021-07",
+          "total_emails": 39,
+          "unique_contributors": 10,
+          "top_contributors": [
+            {
+              "name": "Alarico Veloz",
+              "count": 20
+            },
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 8
+            },
+            {
+              "name": "Jeff Layton",
+              "count": 3
+            },
+            {
+              "name": "Jotham Masuku",
+              "count": 2
+            },
+            {
+              "name": "Mr. Mmedin Williams",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 26,
+            "New Patch": 5,
+            "Bug Fix": 2,
+            "Feature": 7,
+            "Discussion": 6,
+            "Type Checking": 2
+          },
+          "key_topics": [
+            {
+              "subject": "Servicio de la flota",
+              "message_count": 20,
+              "participants": [
+                "Alarico Veloz"
+              ],
+              "categories": [
+                "General"
+              ]
+            },
+            {
+              "subject": "new sparse release?",
+              "message_count": 6,
+              "participants": [
+                "Christopher Li",
+                "Jeff Layton",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "Re: new sparse release?",
+              "author": "Luc Van Oostenryck"
+            },
+            {
+              "subject": "new sparse release?",
+              "author": "Jeff Layton"
+            },
+            {
+              "subject": "new sparse release?",
+              "author": "Jeff Layton"
+            },
+            {
+              "subject": "Re: new sparse release?",
+              "author": "Luc Van Oostenryck"
+            },
+            {
+              "subject": "Re: new sparse release?",
+              "author": "Jeff Layton"
+            }
+          ]
+        },
+        {
+          "month": "2021-09",
+          "total_emails": 113,
+          "unique_contributors": 20,
+          "top_contributors": [
+            {
+              "name": "Guenter Roeck",
+              "count": 29
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 22
+            },
+            {
+              "name": "Arnd Bergmann",
+              "count": 8
+            },
+            {
+              "name": "Geert Uytterhoeven",
+              "count": 8
+            },
+            {
+              "name": "Ulrich Teichert",
+              "count": 8
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 58,
+            "Bug Fix": 54,
+            "Discussion": 86,
+            "Warning Report": 1,
+            "Patch Revision": 40,
+            "Feature": 42,
+            "General": 8
+          },
+          "key_topics": [
+            {
+              "subject": "Introduce and use absolute_pointer macro",
+              "message_count": 24,
+              "participants": [
+                "Matt Turner",
+                "Ulrich Teichert",
+                "Guenter Roeck",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "vboxsf: fix old signature detection",
+              "message_count": 21,
+              "participants": [
+                "Arnd Bergmann",
+                "Dan Carpenter",
+                "Hans de Goede",
+                "Linus Torvalds",
+                "Rasmus Villemoes"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "alpha: Use absolute_pointer for strcmp on fixed memory location",
+              "message_count": 20,
+              "participants": [
+                "Guenter Roeck",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler.h: Introduce absolute_pointer macro",
+              "message_count": 18,
+              "participants": [
+                "Sasha Levin",
+                "Geert Uytterhoeven",
+                "Guenter Roeck"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "net: i825xx: Use absolute_pointer for memcpy on fixed memory location",
+              "message_count": 10,
+              "participants": [
+                "Jeroen Roovers",
+                "Guenter Roeck"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "[ANNOUNCE] Sparse v0.6.4",
+              "message_count": 6,
+              "participants": [
+                "=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=",
+                "Ben Dooks",
+                "Ramsay Jones",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "General",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "sparse v0.6.4",
+              "message_count": 3,
+              "participants": [
+                "Ramsay Jones",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion",
+                "General"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[ANNOUNCE] Sparse v0.6.4",
+              "author": "Luc Van Oostenryck"
+            },
+            {
+              "subject": "Re: [ANNOUNCE] Sparse v0.6.4",
+              "author": "=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?="
+            },
+            {
+              "subject": "Re: [ANNOUNCE] Sparse v0.6.4",
+              "author": "Ben Dooks"
+            },
+            {
+              "subject": "Re: [ANNOUNCE] Sparse v0.6.4",
+              "author": "Ramsay Jones"
+            },
+            {
+              "subject": "[ANNOUNCE] Sparse v0.6.4-rc1",
+              "author": "Luc Van Oostenryck"
+            }
+          ]
+        },
+        {
+          "month": "2021-10",
+          "total_emails": 5,
+          "unique_contributors": 5,
+          "top_contributors": [
+            {
+              "name": "Mr. Mark James",
+              "count": 1
+            },
+            {
+              "name": "Mrs. Margarita Louis-Dreyfus.",
+              "count": 1
+            },
+            {
+              "name": "Manuel Franco",
+              "count": 1
+            },
+            {
+              "name": "Abdulwali Alhashmi",
+              "count": 1
+            },
+            {
+              "name": "Cr.David Ramcharan",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 5
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2021-11",
+          "total_emails": 10,
+          "unique_contributors": 7,
+          "top_contributors": [
+            {
+              "name": "Alexey Gladkov",
+              "count": 4
+            },
+            {
+              "name": "Joseph Choondak",
+              "count": 1
+            },
+            {
+              "name": "Chim Wai Kin",
+              "count": 1
+            },
+            {
+              "name": "Dr.Ali Ahmed",
+              "count": 1
+            },
+            {
+              "name": "Yafang Shao",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 4,
+            "New Patch": 5,
+            "Discussion": 2
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2021-12",
+          "total_emails": 7,
+          "unique_contributors": 7,
+          "top_contributors": [
+            {
+              "name": "MISS WILLIAMS",
+              "count": 1
+            },
+            {
+              "name": "Richard Palethorpe",
+              "count": 1
+            },
+            {
+              "name": "International Monetary fund",
+              "count": 1
+            },
+            {
+              "name": "David Jackson",
+              "count": 1
+            },
+            {
+              "name": "ele.monjllresort ! com",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 7
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        }
+      ]
+    },
+    "2022": {
+      "summary": {
+        "year": 2022,
+        "total_emails": 364,
+        "total_contributors": 29,
+        "months_active": 9,
+        "category_breakdown": {
+          "Discussion": 266,
+          "Warning Report": 38,
+          "Endianness": 22,
+          "New Patch": 110,
+          "Feature": 157,
+          "General": 20,
+          "Bug Fix": 36,
+          "Patch Revision": 181,
+          "Clang/LLVM": 3,
+          "GCC": 3,
+          "Type Checking": 107,
+          "Address Space": 1
+        },
+        "top_topics": [
+          {
+            "subject": "overflow: Introduce overflows_type() and castable_to_type()",
+            "message_count": 80,
+            "participants": [
+              "Arnd Bergmann",
+              "Nick Desaulniers",
+              "Gwan-gyeong Mun",
+              "Kees Cook"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Type Checking",
+              "Feature"
+            ]
+          },
+          {
+            "subject": "drm/i915: Check for integer truncation on scatterlist creation",
+            "message_count": 44,
+            "participants": [
+              "Gwan-gyeong Mun",
+              "Jani Nikula",
+              "Kees Cook",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "Documentation: dev-tools: Add a section for static analysis tools",
+            "message_count": 23,
+            "participants": [
+              "David Gow",
+              "Shuah Khan",
+              "Dan Carpenter",
+              "Jonathan Corbet",
+              "Dongliang Mu"
+            ],
+            "categories": [
+              "Feature",
+              "Discussion",
+              "New Patch",
+              "Patch Revision"
+            ]
+          },
+          {
+            "subject": "fs/dlm/midcomms.c:913:22: sparse: sparse: restricted __le32 degrades to integer",
+            "message_count": 21,
+            "participants": [
+              "kernel test robot",
+              "Randy Dunlap",
+              "Dan Carpenter",
+              "Alexander Aring",
+              "Al Viro"
+            ],
+            "categories": [
+              "Warning Report",
+              "Discussion",
+              "Endianness"
+            ]
+          },
+          {
+            "subject": "objtool: prefer memory clobber & %= to volatile & __COUNTER__",
+            "message_count": 21,
+            "participants": [
+              "Segher Boessenkool",
+              "Nick Desaulniers",
+              "Josh Poimboeuf",
+              "Borislav Petkov"
+            ],
+            "categories": [
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "riscv: fix build with binutils 2.38",
+            "message_count": 21,
+            "participants": [
+              "torvaldslinux-foundation ! org",
+              "aurelienaurel32 ! net",
+              "Palmer Dabbelt",
+              "Linus Torvalds",
+              "palmerdabbelt ! com"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "[linux-next:master] BUILD REGRESSION 736ee37e2e8eed7fe48d0a37ee5a709514d478b3",
+            "message_count": 18,
+            "participants": [
+              "Geert Uytterhoeven",
+              "Christoph Hellwig",
+              "Luc Van Oostenryck"
+            ],
+            "categories": [
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "overflow: Introduce overflows_type() and __castable_to_type()",
+            "message_count": 15,
+            "participants": [
+              "Gwan-gyeong Mun",
+              "Kees Cook"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Type Checking",
+              "Feature"
+            ]
+          },
+          {
+            "subject": "RISC-V: Add support for the zicbom extension",
+            "message_count": 12,
+            "participants": [
+              "Geert Uytterhoeven",
+              "Palmer Dabbelt",
+              "Luc Van Oostenryck",
+              "Conor Dooley"
+            ],
+            "categories": [
+              "Feature",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "tools: Rename __fallthrough to fallthrough",
+            "message_count": 12,
+            "participants": [
+              "Miguel Ojeda",
+              "Liam R. Howlett",
+              "Liam Howlett",
+              "Arnaldo Carvalho de Melo"
+            ],
+            "categories": [
+              "Discussion",
+              "New Patch"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2022-01",
+          "total_emails": 51,
+          "unique_contributors": 19,
+          "top_contributors": [
+            {
+              "name": "Alexander Aring",
+              "count": 10
+            },
+            {
+              "name": "Borislav Petkov",
+              "count": 6
+            },
+            {
+              "name": "Nick Desaulniers",
+              "count": 6
+            },
+            {
+              "name": "kernel test robot",
+              "count": 5
+            },
+            {
+              "name": "Segher Boessenkool",
+              "count": 5
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 38,
+            "Warning Report": 22,
+            "Endianness": 21,
+            "New Patch": 22,
+            "Feature": 1,
+            "General": 6
+          },
+          "key_topics": [
+            {
+              "subject": "fs/dlm/midcomms.c:913:22: sparse: sparse: restricted __le32 degrades to integer",
+              "message_count": 21,
+              "participants": [
+                "kernel test robot",
+                "Randy Dunlap",
+                "Dan Carpenter",
+                "Alexander Aring",
+                "Al Viro"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion",
+                "Endianness"
+              ]
+            },
+            {
+              "subject": "objtool: prefer memory clobber & %= to volatile & __COUNTER__",
+              "message_count": 21,
+              "participants": [
+                "Segher Boessenkool",
+                "Nick Desaulniers",
+                "Josh Poimboeuf",
+                "Borislav Petkov"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-03",
+          "total_emails": 66,
+          "unique_contributors": 24,
+          "top_contributors": [
+            {
+              "name": "Marcelo Schmitt",
+              "count": 10
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 6
+            },
+            {
+              "name": "Marc Kleine-Budde",
+              "count": 6
+            },
+            {
+              "name": "David Gow",
+              "count": 4
+            },
+            {
+              "name": "Julia Lawall",
+              "count": 4
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 45,
+            "Feature": 32,
+            "Discussion": 41,
+            "Bug Fix": 27,
+            "Patch Revision": 17,
+            "General": 3,
+            "Clang/LLVM": 1,
+            "Warning Report": 1
+          },
+          "key_topics": [
+            {
+              "subject": "Documentation: dev-tools: Add a section for static analysis tools",
+              "message_count": 23,
+              "participants": [
+                "David Gow",
+                "Shuah Khan",
+                "Dan Carpenter",
+                "Jonathan Corbet",
+                "Dongliang Mu"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch",
+                "Patch Revision"
+              ]
+            },
+            {
+              "subject": "riscv: fix build with binutils 2.38",
+              "message_count": 21,
+              "participants": [
+                "torvaldslinux-foundation ! org",
+                "aurelienaurel32 ! net",
+                "Palmer Dabbelt",
+                "Linus Torvalds",
+                "palmerdabbelt ! com"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "x86: bug.h: merge annotate_reachable into _BUG_FLAGS for __WARN_FLAGS",
+              "message_count": 6,
+              "participants": [
+                "Charlemagne Lasse",
+                "Nick Desaulniers",
+                "Vincent MAILHOL"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Add a section for static analysis tools",
+              "message_count": 5,
+              "participants": [
+                "David Gow",
+                "Marcelo Schmitt"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "[cocci] Documentation: dev-tools: Add a section for static analysis tools",
+              "message_count": 4,
+              "participants": [
+                "Julia Lawall"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Documentation: dev-tools: Enhance static analysis section with discussion",
+              "message_count": 2,
+              "participants": [
+                "Dan Carpenter",
+                "Marcelo Schmitt"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-05",
+          "total_emails": 41,
+          "unique_contributors": 10,
+          "top_contributors": [
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 25
+            },
+            {
+              "name": "Christoph Hellwig",
+              "count": 4
+            },
+            {
+              "name": "Geert Uytterhoeven",
+              "count": 3
+            },
+            {
+              "name": "Ramsay Jones",
+              "count": 2
+            },
+            {
+              "name": "kernel test robot",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 30,
+            "Patch Revision": 5,
+            "Feature": 3,
+            "New Patch": 10,
+            "GCC": 3,
+            "Bug Fix": 3,
+            "Clang/LLVM": 2,
+            "Warning Report": 2,
+            "General": 5,
+            "Type Checking": 1
+          },
+          "key_topics": [
+            {
+              "subject": "[linux-next:master] BUILD REGRESSION 736ee37e2e8eed7fe48d0a37ee5a709514d478b3",
+              "message_count": 18,
+              "participants": [
+                "Geert Uytterhoeven",
+                "Christoph Hellwig",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "handle clang's option \"-meabi gnu\"",
+              "message_count": 2,
+              "participants": [
+                "Marc Kleine-Budde",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion",
+                "Clang/LLVM",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "sparse v0.6.4",
+              "message_count": 2,
+              "participants": [
+                "Ramsay Jones",
+                "Randy Dunlap"
+              ],
+              "categories": [
+                "Discussion",
+                "General"
+              ]
+            },
+            {
+              "subject": "[linux-next:master] BUILD REGRESSION 736b6d81d93cf61a0601af90bd552103ef997b3f",
+              "message_count": 2,
+              "participants": [
+                "kernel test robot"
+              ],
+              "categories": [
+                "General"
+              ]
+            },
+            {
+              "subject": "Linux Test Project vendored Sparse",
+              "message_count": 2,
+              "participants": [
+                "Richard Palethorpe",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[PATCH] fix one year off in v0.6.4's release notes",
+              "author": "Luc Van Oostenryck"
+            }
+          ]
+        },
+        {
+          "month": "2022-07",
+          "total_emails": 12,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "Alexander Aring",
+              "count": 3
+            },
+            {
+              "name": "Bart Van Assche",
+              "count": 2
+            },
+            {
+              "name": "=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=",
+              "count": 1
+            },
+            {
+              "name": "Palmer Dabbelt",
+              "count": 1
+            },
+            {
+              "name": "Andy Shevchenko",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 3,
+            "Bug Fix": 3,
+            "Discussion": 9,
+            "Warning Report": 10,
+            "Patch Revision": 1,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "message_count": 7,
+              "participants": [
+                "Peter Zijlstra",
+                "Bart Van Assche",
+                "Alexander Aring",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "fix \"unreplaced\" warnings caused by using typeof() on inline functions",
+              "message_count": 3,
+              "participants": [
+                "=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=",
+                "Andy Shevchenko",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "Warning Report",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Alexander Aring"
+            },
+            {
+              "subject": "Re: [RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Linus Torvalds"
+            },
+            {
+              "subject": "Re: [RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Alexander Aring"
+            },
+            {
+              "subject": "Re: [RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Bart Van Assche"
+            },
+            {
+              "subject": "Re: [RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Peter Zijlstra"
+            }
+          ]
+        },
+        {
+          "month": "2022-08",
+          "total_emails": 11,
+          "unique_contributors": 5,
+          "top_contributors": [
+            {
+              "name": "Conor Dooley",
+              "count": 4
+            },
+            {
+              "name": "Palmer Dabbelt",
+              "count": 3
+            },
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 2
+            },
+            {
+              "name": "Geert Uytterhoeven",
+              "count": 1
+            },
+            {
+              "name": "Miguel Garcia",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 10,
+            "Feature": 10,
+            "Discussion": 7,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "RISC-V: Add support for the zicbom extension",
+              "message_count": 6,
+              "participants": [
+                "Geert Uytterhoeven",
+                "Palmer Dabbelt",
+                "Luc Van Oostenryck",
+                "Conor Dooley"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "RISC-V: Add support fo the zihintpause extension",
+              "message_count": 4,
+              "participants": [
+                "Palmer Dabbelt",
+                "Luc Van Oostenryck",
+                "Conor Dooley"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-09",
+          "total_emails": 82,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "Gwan-gyeong Mun",
+              "count": 39
+            },
+            {
+              "name": "Kees Cook",
+              "count": 17
+            },
+            {
+              "name": "kernel test robot",
+              "count": 9
+            },
+            {
+              "name": "Arnd Bergmann",
+              "count": 4
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 4
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 80,
+            "Feature": 46,
+            "Discussion": 56,
+            "Type Checking": 48,
+            "New Patch": 1,
+            "Bug Fix": 3,
+            "Warning Report": 3,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "drm/i915: Check for integer truncation on scatterlist creation",
+              "message_count": 24,
+              "participants": [
+                "Gwan-gyeong Mun",
+                "Jani Nikula",
+                "Kees Cook",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "overflow: Introduce overflows_type() and castable_to_type()",
+              "message_count": 22,
+              "participants": [
+                "Arnd Bergmann",
+                "Nick Desaulniers",
+                "Gwan-gyeong Mun",
+                "Kees Cook"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Type Checking",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "overflow: Introduce overflows_type() and __castable_to_type()",
+              "message_count": 15,
+              "participants": [
+                "Gwan-gyeong Mun",
+                "Kees Cook"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Type Checking",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "[Intel-gfx] overflow: Introduce overflows_type() and castable_to_type()",
+              "message_count": 8,
+              "participants": [
+                "kernel test robot"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Type Checking",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "overflow: Allow mixed type arguments",
+              "message_count": 2,
+              "participants": [
+                "Gwan-gyeong Mun"
+              ],
+              "categories": [
+                "Patch Revision"
+              ]
+            },
+            {
+              "subject": "drm/i915: Remove truncation warning for large objects",
+              "message_count": 2,
+              "participants": [
+                "Gwan-gyeong Mun"
+              ],
+              "categories": [
+                "Warning Report",
+                "Patch Revision"
+              ]
+            },
+            {
+              "subject": "drm/i915/gem: Typecheck page lookups",
+              "message_count": 2,
+              "participants": [
+                "Gwan-gyeong Mun"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Type Checking"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-10",
+          "total_emails": 61,
+          "unique_contributors": 12,
+          "top_contributors": [
+            {
+              "name": "Gwan-gyeong Mun",
+              "count": 27
+            },
+            {
+              "name": "Kees Cook",
+              "count": 13
+            },
+            {
+              "name": "Jani Nikula",
+              "count": 4
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 3
+            },
+            {
+              "name": "Rasmus Villemoes",
+              "count": 3
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 53,
+            "Feature": 40,
+            "Discussion": 51,
+            "Type Checking": 33,
+            "New Patch": 6,
+            "Address Space": 1,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "overflow: Introduce overflows_type() and castable_to_type()",
+              "message_count": 33,
+              "participants": [
+                "Kees Cook",
+                "Nathan Chancellor",
+                "Gwan-gyeong Mun",
+                "Jani Nikula",
+                "Rasmus Villemoes"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Type Checking",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "drm/i915: Check for integer truncation on scatterlist creation",
+              "message_count": 20,
+              "participants": [
+                "Gwan-gyeong Mun",
+                "Kees Cook",
+                "Jani Nikula",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "RISC-V: Add support for the zicbom extension",
+              "message_count": 6,
+              "participants": [
+                "Geert Uytterhoeven",
+                "Palmer Dabbelt",
+                "Luc Van Oostenryck",
+                "Conor Dooley"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-11",
+          "total_emails": 39,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "Gwan-gyeong Mun",
+              "count": 12
+            },
+            {
+              "name": "Kees Cook",
+              "count": 9
+            },
+            {
+              "name": "Arnaldo Carvalho de Melo",
+              "count": 6
+            },
+            {
+              "name": "Rasmus Villemoes",
+              "count": 4
+            },
+            {
+              "name": "Miguel Ojeda",
+              "count": 3
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 25,
+            "Feature": 25,
+            "Discussion": 34,
+            "Type Checking": 25,
+            "New Patch": 13,
+            "Endianness": 1,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "overflow: Introduce overflows_type() and castable_to_type()",
+              "message_count": 25,
+              "participants": [
+                "Gwan-gyeong Mun",
+                "Kees Cook",
+                "Rasmus Villemoes"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Type Checking",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "tools: Rename __fallthrough to fallthrough",
+              "message_count": 12,
+              "participants": [
+                "Miguel Ojeda",
+                "Liam R. Howlett",
+                "Liam Howlett",
+                "Arnaldo Carvalho de Melo"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2022-12",
+          "total_emails": 1,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "Philip Manul",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        }
+      ]
+    },
+    "2023": {
+      "summary": {
+        "year": 2023,
+        "total_emails": 140,
+        "total_contributors": 27,
+        "months_active": 10,
+        "category_breakdown": {
+          "General": 39,
+          "Patch Revision": 47,
+          "Feature": 47,
+          "Discussion": 67,
+          "Locking": 23,
+          "New Patch": 14,
+          "Bug Fix": 8,
+          "Warning Report": 14,
+          "Clang/LLVM": 2,
+          "RFC Patch": 4,
+          "Type Checking": 10,
+          "Endianness": 1
+        },
+        "top_topics": [
+          {
+            "subject": "landlock: Add network rules support",
+            "message_count": 23,
+            "participants": [
+              "Konstantin Meskhidze",
+              "=?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?=",
+              "Dan Carpenter"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Feature",
+              "Locking"
+            ]
+          },
+          {
+            "subject": "=?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=",
+            "message_count": 23,
+            "participants": [
+              "gvalenciamaprial ! com"
+            ],
+            "categories": [
+              "General"
+            ]
+          },
+          {
+            "subject": "sparse feature request: nocast integer types",
+            "message_count": 10,
+            "participants": [
+              "Dan Carpenter",
+              "Christoph Hellwig",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Discussion",
+              "Type Checking"
+            ]
+          },
+          {
+            "subject": "drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_chann",
+            "message_count": 8,
+            "participants": [
+              "kernel test robot",
+              "Dan Carpenter",
+              "Luc Van Oostenryck",
+              "Lukas Wunner"
+            ],
+            "categories": [
+              "Warning Report",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "RISC-V: Add support for the zicbom extension",
+            "message_count": 6,
+            "participants": [
+              "Geert Uytterhoeven",
+              "Palmer Dabbelt",
+              "Luc Van Oostenryck",
+              "Conor Dooley"
+            ],
+            "categories": [
+              "Feature",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "DCE/DSE: riscv: make every ex_table's name unique",
+            "message_count": 5,
+            "participants": [
+              "Fangrui Song",
+              "Yuan Tan"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "sparse: Expected ) at end of cast operator, got __seg_gs",
+            "message_count": 5,
+            "participants": [
+              "Dan Carpenter",
+              "Luc Van Oostenryck",
+              "Uros Bizjak"
+            ],
+            "categories": [
+              "Warning Report",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+            "message_count": 4,
+            "participants": [
+              "Nathan Chancellor",
+              "Jim Cromie"
+            ],
+            "categories": [
+              "Discussion",
+              "RFC Patch"
+            ]
+          },
+          {
+            "subject": "DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+            "message_count": 4,
+            "participants": [
+              "Yuan Tan"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Feature"
+            ]
+          },
+          {
+            "subject": "sparse regex error",
+            "message_count": 4,
+            "participants": [
+              "Ramsay Jones",
+              "Junio C Hamano",
+              "Luc Van Oostenryck"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Discussion"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2023-01",
+          "total_emails": 27,
+          "unique_contributors": 7,
+          "top_contributors": [
+            {
+              "name": "Konstantin Meskhidze",
+              "count": 13
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 9
+            },
+            {
+              "name": "Miguel Garcia",
+              "count": 1
+            },
+            {
+              "name": "INFO",
+              "count": 1
+            },
+            {
+              "name": "Zbynek Spacek",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 4,
+            "Patch Revision": 23,
+            "Feature": 23,
+            "Discussion": 23,
+            "Locking": 23
+          },
+          "key_topics": [
+            {
+              "subject": "landlock: Add network rules support",
+              "message_count": 23,
+              "participants": [
+                "Konstantin Meskhidze",
+                "=?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?=",
+                "Dan Carpenter"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature",
+                "Locking"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-02",
+          "total_emails": 2,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "Jeff Layton",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 1,
+            "Bug Fix": 2,
+            "Warning Report": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-04",
+          "total_emails": 3,
+          "unique_contributors": 3,
+          "top_contributors": [
+            {
+              "name": "Maria-Elisabeth Schaeffler",
+              "count": 1
+            },
+            {
+              "name": "Mariam Kouame",
+              "count": 1
+            },
+            {
+              "name": "Arnaldo Carvalho de Melo",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 2,
+            "New Patch": 1,
+            "Discussion": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-05",
+          "total_emails": 6,
+          "unique_contributors": 6,
+          "top_contributors": [
+            {
+              "name": "Vladimir Petko",
+              "count": 1
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 1
+            },
+            {
+              "name": "Miguel Garcia",
+              "count": 1
+            },
+            {
+              "name": "nina coulibaly",
+              "count": 1
+            },
+            {
+              "name": "=?UTF-8?Q?Ramon_Vall=C3=A9s_Puig?=",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Bug Fix": 1,
+            "Discussion": 1,
+            "Clang/LLVM": 1,
+            "General": 5
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-07",
+          "total_emails": 6,
+          "unique_contributors": 4,
+          "top_contributors": [
+            {
+              "name": "Jim Cromie",
+              "count": 3
+            },
+            {
+              "name": "Nathan Chancellor",
+              "count": 1
+            },
+            {
+              "name": "Miguel Garcia",
+              "count": 1
+            },
+            {
+              "name": "Guennadi Liakhovetski",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "RFC Patch": 4,
+            "Discussion": 2,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+              "message_count": 4,
+              "participants": [
+                "Nathan Chancellor",
+                "Jim Cromie"
+              ],
+              "categories": [
+                "Discussion",
+                "RFC Patch"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[PATCH v4 18/21] compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+              "author": "Jim Cromie"
+            },
+            {
+              "subject": "[PATCH v4 18/21] compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+              "author": "Jim Cromie"
+            },
+            {
+              "subject": "Re: [PATCH v4 18/21] compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+              "author": "Nathan Chancellor"
+            },
+            {
+              "subject": "[PATCH v4 18/21] compiler.h: RFC - s/__LINE__/__COUNTER__/ in __UNIQUE_ID fallback",
+              "author": "Jim Cromie"
+            }
+          ]
+        },
+        {
+          "month": "2023-08",
+          "total_emails": 1,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "Nick Desaulniers",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-09",
+          "total_emails": 3,
+          "unique_contributors": 3,
+          "top_contributors": [
+            {
+              "name": "=?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?=",
+              "count": 1
+            },
+            {
+              "name": "SCAM VICTIMS",
+              "count": 1
+            },
+            {
+              "name": "Michal Rmoutil",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Clang/LLVM": 1,
+            "General": 2
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-10",
+          "total_emails": 1,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "kernel test robot",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Feature": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-11",
+          "total_emails": 59,
+          "unique_contributors": 9,
+          "top_contributors": [
+            {
+              "name": "gvalenciamaprial ! com",
+              "count": 23
+            },
+            {
+              "name": "Yuan Tan",
+              "count": 19
+            },
+            {
+              "name": "Christoph Hellwig",
+              "count": 6
+            },
+            {
+              "name": "Fangrui Song",
+              "count": 4
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 13,
+            "Type Checking": 10,
+            "Patch Revision": 23,
+            "Feature": 14,
+            "General": 25
+          },
+          "key_topics": [
+            {
+              "subject": "=?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=",
+              "message_count": 23,
+              "participants": [
+                "gvalenciamaprial ! com"
+              ],
+              "categories": [
+                "General"
+              ]
+            },
+            {
+              "subject": "sparse feature request: nocast integer types",
+              "message_count": 10,
+              "participants": [
+                "Dan Carpenter",
+                "Christoph Hellwig",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Discussion",
+                "Type Checking"
+              ]
+            },
+            {
+              "subject": "DCE/DSE: riscv: make every ex_table's name unique",
+              "message_count": 5,
+              "participants": [
+                "Fangrui Song",
+                "Yuan Tan"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+              "message_count": 4,
+              "participants": [
+                "Yuan Tan"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Feature"
+              ]
+            },
+            {
+              "subject": "DCE/DSE: add choice of methods to build reference for orphan sections",
+              "message_count": 3,
+              "participants": [
+                "Fangrui Song",
+                "Yuan Tan"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Feature"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2023-12",
+          "total_emails": 32,
+          "unique_contributors": 11,
+          "top_contributors": [
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 12
+            },
+            {
+              "name": "Conor Dooley",
+              "count": 3
+            },
+            {
+              "name": "kernel test robot",
+              "count": 3
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 2
+            },
+            {
+              "name": "Palmer Dabbelt",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 11,
+            "Discussion": 27,
+            "Endianness": 1,
+            "Warning Report": 13,
+            "Feature": 9,
+            "Bug Fix": 5,
+            "Patch Revision": 1
+          },
+          "key_topics": [
+            {
+              "subject": "drivers/pci/pcie/../pci.h:325:17: sparse: sparse: cast from restricted pci_chann",
+              "message_count": 8,
+              "participants": [
+                "kernel test robot",
+                "Dan Carpenter",
+                "Luc Van Oostenryck",
+                "Lukas Wunner"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "RISC-V: Add support for the zicbom extension",
+              "message_count": 6,
+              "participants": [
+                "Geert Uytterhoeven",
+                "Palmer Dabbelt",
+                "Luc Van Oostenryck",
+                "Conor Dooley"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "sparse: Expected ) at end of cast operator, got __seg_gs",
+              "message_count": 5,
+              "participants": [
+                "Dan Carpenter",
+                "Luc Van Oostenryck",
+                "Uros Bizjak"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "sparse regex error",
+              "message_count": 4,
+              "participants": [
+                "Ramsay Jones",
+                "Junio C Hamano",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "RISC-V: Add support fo the zihintpause extension",
+              "message_count": 3,
+              "participants": [
+                "Geert Uytterhoeven",
+                "Palmer Dabbelt",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Infinite loop in delete_pseudo_user_list_entry() bisected to commit \"cast: optim",
+              "message_count": 3,
+              "participants": [
+                "Herbert, Marc",
+                "Luc Van Oostenryck"
+              ],
+              "categories": [
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        }
+      ]
+    },
+    "2024": {
+      "summary": {
+        "year": 2024,
+        "total_emails": 489,
+        "total_contributors": 33,
+        "months_active": 12,
+        "category_breakdown": {
+          "Warning Report": 79,
+          "Discussion": 368,
+          "Bug Fix": 48,
+          "Patch Revision": 18,
+          "Clang/LLVM": 3,
+          "New Patch": 171,
+          "Feature": 109,
+          "General": 31,
+          "Address Space": 5,
+          "GCC": 26,
+          "Kernel Integration": 63,
+          "Locking": 1,
+          "Context Analysis": 1
+        },
+        "top_topics": [
+          {
+            "subject": "arch/x86/include/asm/processor.h:698:16: sparse: sparse: incorrect type in initi",
+            "message_count": 45,
+            "participants": [
+              "Nathan Chancellor",
+              "Thomas Gleixner",
+              "Uros Bizjak",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Warning Report",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 11/28] x86/pvh: Avoid absolute symbol references in .head.text",
+            "message_count": 28,
+            "participants": [
+              "Ard Biesheuvel",
+              "Jason Andryuk"
+            ],
+            "categories": [
+              "Discussion",
+              "General"
+            ]
+          },
+          {
+            "subject": "[patch 5/9] x86: Cure per CPU madness on UP",
+            "message_count": 26,
+            "participants": [
+              "Arnd Bergmann",
+              "Linus Torvalds",
+              "Thomas Gleixner",
+              "David Laight",
+              "Guenter Roeck"
+            ],
+            "categories": [
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+            "message_count": 26,
+            "participants": [
+              "Arnd Bergmann",
+              "Mark Rutland",
+              "Miguel Ojeda"
+            ],
+            "categories": [
+              "Discussion",
+              "GCC"
+            ]
+          },
+          {
+            "subject": "compiler.h: add is_const() as a replacement of __is_constexpr()",
+            "message_count": 25,
+            "participants": [
+              "David Laight",
+              "Martin Uecker",
+              "Rasmus Villemoes",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Feature",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+            "message_count": 24,
+            "participants": [
+              "Ard Biesheuvel",
+              "Uros Bizjak",
+              "Vegard Nossum"
+            ],
+            "categories": [
+              "Discussion",
+              "Kernel Integration"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for return address",
+            "message_count": 23,
+            "participants": [
+              "Ard Biesheuvel",
+              "Andrew Cooper",
+              "Linus Torvalds"
+            ],
+            "categories": [
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 25/28] x86: Use PIE codegen for the core kernel",
+            "message_count": 22,
+            "participants": [
+              "H. Peter Anvin",
+              "David Laight",
+              "Uros Bizjak"
+            ],
+            "categories": [
+              "Discussion",
+              "Kernel Integration"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as direct calls",
+            "message_count": 22,
+            "participants": [
+              "Ard Biesheuvel",
+              "Josh Poimboeuf"
+            ],
+            "categories": [
+              "Discussion",
+              "General"
+            ]
+          },
+          {
+            "subject": "[RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+            "message_count": 21,
+            "participants": [
+              "Ard Biesheuvel",
+              "Josh Poimboeuf"
+            ],
+            "categories": [
+              "General",
+              "Discussion"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2024-01",
+          "total_emails": 16,
+          "unique_contributors": 7,
+          "top_contributors": [
+            {
+              "name": "kernel test robot",
+              "count": 6
+            },
+            {
+              "name": "Dmitry Torokhov",
+              "count": 3
+            },
+            {
+              "name": "Luc Van Oostenryck",
+              "count": 3
+            },
+            {
+              "name": "Ramsay Jones",
+              "count": 1
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Warning Report": 11,
+            "Discussion": 9,
+            "Bug Fix": 3,
+            "Patch Revision": 1,
+            "Clang/LLVM": 3,
+            "New Patch": 1,
+            "Feature": 1
+          },
+          "key_topics": [
+            {
+              "subject": "include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from",
+              "message_count": 11,
+              "participants": [
+                "kernel test robot",
+                "Chris Morgan",
+                "Luc Van Oostenryck",
+                "Linus Torvalds",
+                "Dmitry Torokhov"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "Compile errors with LLVM v17",
+              "message_count": 2,
+              "participants": [
+                "Ramsay Jones",
+                "Dan Carpenter"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "Clang/LLVM"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-02",
+          "total_emails": 2,
+          "unique_contributors": 2,
+          "top_contributors": [
+            {
+              "name": "Andy Shevchenko",
+              "count": 1
+            },
+            {
+              "name": "Derek M Jones",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 1,
+            "Discussion": 1,
+            "General": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-03",
+          "total_emails": 58,
+          "unique_contributors": 8,
+          "top_contributors": [
+            {
+              "name": "Thomas Gleixner",
+              "count": 26
+            },
+            {
+              "name": "Uros Bizjak",
+              "count": 12
+            },
+            {
+              "name": "Guenter Roeck",
+              "count": 8
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 4
+            },
+            {
+              "name": "Arnd Bergmann",
+              "count": 4
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 35,
+            "Discussion": 50,
+            "Warning Report": 25,
+            "Feature": 2,
+            "Bug Fix": 1
+          },
+          "key_topics": [
+            {
+              "subject": "[patch 5/9] x86: Cure per CPU madness on UP",
+              "message_count": 26,
+              "participants": [
+                "Arnd Bergmann",
+                "Linus Torvalds",
+                "Thomas Gleixner",
+                "David Laight",
+                "Guenter Roeck"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "arch/x86/include/asm/processor.h:698:16: sparse: sparse: incorrect type in initi",
+              "message_count": 23,
+              "participants": [
+                "Nathan Chancellor",
+                "Thomas Gleixner",
+                "Uros Bizjak",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+              "message_count": 2,
+              "participants": [
+                "Thomas Gleixner",
+                "Ingo Molnar"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-04",
+          "total_emails": 25,
+          "unique_contributors": 6,
+          "top_contributors": [
+            {
+              "name": "Uros Bizjak",
+              "count": 13
+            },
+            {
+              "name": "Thomas Gleixner",
+              "count": 8
+            },
+            {
+              "name": "Nathan Chancellor",
+              "count": 1
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 1
+            },
+            {
+              "name": "Thorsten Blum",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 23,
+            "Warning Report": 24,
+            "Feature": 3,
+            "Address Space": 2,
+            "New Patch": 1
+          },
+          "key_topics": [
+            {
+              "subject": "arch/x86/include/asm/processor.h:698:16: sparse: sparse: incorrect type in initi",
+              "message_count": 22,
+              "participants": [
+                "Nathan Chancellor",
+                "Thomas Gleixner",
+                "Uros Bizjak",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[RFC PATCH] Use x86 named address spaces to catch \"sparse: incorrect type in initializer (different ",
+              "author": "Uros Bizjak"
+            }
+          ]
+        },
+        {
+          "month": "2024-05",
+          "total_emails": 1,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "wuruilong",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Feature": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-06",
+          "total_emails": 2,
+          "unique_contributors": 2,
+          "top_contributors": [
+            {
+              "name": "Dan Carpenter",
+              "count": 1
+            },
+            {
+              "name": "Joel Granados via B4 Relay",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 2,
+            "Feature": 2,
+            "Discussion": 1
+          },
+          "key_topics": [
+            {
+              "subject": "sentinel_ctltable: Add a check for sentinel elements in ctl_table arrays",
+              "message_count": 2,
+              "participants": [
+                "Joel Granados via B4 Relay",
+                "Dan Carpenter"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-07",
+          "total_emails": 8,
+          "unique_contributors": 4,
+          "top_contributors": [
+            {
+              "name": "SeongJae Park",
+              "count": 3
+            },
+            {
+              "name": "Greg KH",
+              "count": 3
+            },
+            {
+              "name": "Chun-Hung Tseng",
+              "count": 1
+            },
+            {
+              "name": "Junio C Hamano",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 7,
+            "Bug Fix": 6,
+            "Discussion": 4
+          },
+          "key_topics": [
+            {
+              "subject": "Backport patches for DAMON merge regions fix",
+              "message_count": 5,
+              "participants": [
+                "Greg KH",
+                "SeongJae Park"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-08",
+          "total_emails": 2,
+          "unique_contributors": 2,
+          "top_contributors": [
+            {
+              "name": "Kees Cook",
+              "count": 1
+            },
+            {
+              "name": "Uros Bizjak",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 1,
+            "Discussion": 1,
+            "Feature": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-09",
+          "total_emails": 135,
+          "unique_contributors": 11,
+          "top_contributors": [
+            {
+              "name": "Ard Biesheuvel",
+              "count": 61
+            },
+            {
+              "name": "Jason Andryuk",
+              "count": 25
+            },
+            {
+              "name": "Mark Rutland",
+              "count": 11
+            },
+            {
+              "name": "Vegard Nossum",
+              "count": 9
+            },
+            {
+              "name": "Arnd Bergmann",
+              "count": 9
+            }
+          ],
+          "category_breakdown": {
+            "Feature": 28,
+            "Discussion": 98,
+            "GCC": 24,
+            "Kernel Integration": 41,
+            "General": 15
+          },
+          "key_topics": [
+            {
+              "subject": "[RFC PATCH 11/28] x86/pvh: Avoid absolute symbol references in .head.text",
+              "message_count": 28,
+              "participants": [
+                "Ard Biesheuvel",
+                "Jason Andryuk"
+              ],
+              "categories": [
+                "Discussion",
+                "General"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+              "message_count": 24,
+              "participants": [
+                "Arnd Bergmann",
+                "Mark Rutland",
+                "Miguel Ojeda"
+              ],
+              "categories": [
+                "Discussion",
+                "GCC"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+              "message_count": 24,
+              "participants": [
+                "Ard Biesheuvel",
+                "Uros Bizjak",
+                "Vegard Nossum"
+              ],
+              "categories": [
+                "Discussion",
+                "Kernel Integration"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for return address",
+              "message_count": 23,
+              "participants": [
+                "Ard Biesheuvel",
+                "Andrew Cooper",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 01/28] x86/pvh: Call C code via the kernel virtual mapping",
+              "message_count": 16,
+              "participants": [
+                "Ard Biesheuvel",
+                "Jason Andryuk"
+              ],
+              "categories": [
+                "Discussion",
+                "Kernel Integration"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "[RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for return address",
+              "author": "Ard Biesheuvel"
+            },
+            {
+              "subject": "Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+              "author": "Mark Rutland"
+            },
+            {
+              "subject": "Re: [RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+              "author": "Vegard Nossum"
+            },
+            {
+              "subject": "Re: [RFC PATCH 11/28] x86/pvh: Avoid absolute symbol references in .head.text",
+              "author": "Ard Biesheuvel"
+            },
+            {
+              "subject": "[RFC PATCH 08/28] scripts/kallsyms: Remove support for absolute per-CPU variables",
+              "author": "Ard Biesheuvel"
+            }
+          ]
+        },
+        {
+          "month": "2024-10",
+          "total_emails": 107,
+          "unique_contributors": 13,
+          "top_contributors": [
+            {
+              "name": "Ard Biesheuvel",
+              "count": 34
+            },
+            {
+              "name": "Josh Poimboeuf",
+              "count": 16
+            },
+            {
+              "name": "Uros Bizjak",
+              "count": 15
+            },
+            {
+              "name": "Moon Yeounsu",
+              "count": 10
+            },
+            {
+              "name": "Brian Gerst",
+              "count": 8
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 90,
+            "Kernel Integration": 22,
+            "General": 13,
+            "New Patch": 19,
+            "Bug Fix": 20,
+            "Feature": 19,
+            "Warning Report": 19
+          },
+          "key_topics": [
+            {
+              "subject": "[RFC PATCH 25/28] x86: Use PIE codegen for the core kernel",
+              "message_count": 22,
+              "participants": [
+                "H. Peter Anvin",
+                "David Laight",
+                "Uros Bizjak"
+              ],
+              "categories": [
+                "Discussion",
+                "Kernel Integration"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as direct calls",
+              "message_count": 22,
+              "participants": [
+                "Ard Biesheuvel",
+                "Josh Poimboeuf"
+              ],
+              "categories": [
+                "Discussion",
+                "General"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+              "message_count": 21,
+              "participants": [
+                "Ard Biesheuvel",
+                "Josh Poimboeuf"
+              ],
+              "categories": [
+                "General",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly",
+              "message_count": 21,
+              "participants": [
+                "Ard Biesheuvel",
+                "Brian Gerst",
+                "Uros Bizjak"
+              ],
+              "categories": [
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "net: add inline annotation to fix the build warning",
+              "message_count": 19,
+              "participants": [
+                "Eric Dumazet",
+                "Simon Horman",
+                "Moon Yeounsu",
+                "Stephen Hemminger",
+                "Edward Cree"
+              ],
+              "categories": [
+                "Bug Fix",
+                "New Patch",
+                "Warning Report",
+                "Feature",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "RE: [RFC PATCH 25/28] x86: Use PIE codegen for the core kernel",
+              "author": "David Laight"
+            },
+            {
+              "subject": "[RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+              "author": "Ard Biesheuvel"
+            },
+            {
+              "subject": "Re: [RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as direct calls",
+              "author": "Josh Poimboeuf"
+            },
+            {
+              "subject": "Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly",
+              "author": "Brian Gerst"
+            },
+            {
+              "subject": "Re: [RFC PATCH 24/28] tools/objtool: Treat indirect ftrace calls as direct calls",
+              "author": "Ard Biesheuvel"
+            }
+          ]
+        },
+        {
+          "month": "2024-11",
+          "total_emails": 55,
+          "unique_contributors": 10,
+          "top_contributors": [
+            {
+              "name": "Vincent Mailhol",
+              "count": 16
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 11
+            },
+            {
+              "name": "Uros Bizjak",
+              "count": 11
+            },
+            {
+              "name": "Philipp Reisner",
+              "count": 4
+            },
+            {
+              "name": "Kees Cook",
+              "count": 3
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 32,
+            "Bug Fix": 17,
+            "Feature": 23,
+            "Discussion": 33,
+            "Patch Revision": 15,
+            "Address Space": 2,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "percpu/x86: Enable strict percpu checks via named AS qualifiers",
+              "message_count": 10,
+              "participants": [
+                "Nadav Amit",
+                "Uros Bizjak"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler.h: Add missing include statement for build_bug.h",
+              "message_count": 9,
+              "participants": [
+                "Dan Carpenter",
+                "Philipp Reisner",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler.h: Fix undefined BUILD_BUG_ON_ZERO()",
+              "message_count": 8,
+              "participants": [
+                "Philipp Reisner",
+                "Kees Cook",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "linux/bits.h: simplify GENMASK_INPUT_CHECK()",
+              "message_count": 8,
+              "participants": [
+                "David Laight",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[RESEND PATCH v3 1/2] compiler.h: add _static_assert()",
+              "message_count": 6,
+              "participants": [
+                "Yury Norov",
+                "Rasmus Villemoes",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "linux/bits: simplify GENMASK_INPUT_CHECK()",
+              "message_count": 4,
+              "participants": [
+                "Vincent Mailhol",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2024-12",
+          "total_emails": 78,
+          "unique_contributors": 10,
+          "top_contributors": [
+            {
+              "name": "Vincent Mailhol",
+              "count": 20
+            },
+            {
+              "name": "Vincent Mailhol via B4 Relay",
+              "count": 18
+            },
+            {
+              "name": "David Laight",
+              "count": 16
+            },
+            {
+              "name": "Martin Uecker",
+              "count": 10
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 6
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 73,
+            "Feature": 29,
+            "Discussion": 58,
+            "Address Space": 1,
+            "GCC": 2,
+            "Patch Revision": 1,
+            "General": 1,
+            "Locking": 1,
+            "Context Analysis": 1,
+            "Bug Fix": 1
+          },
+          "key_topics": [
+            {
+              "subject": "compiler.h: add is_const() as a replacement of __is_constexpr()",
+              "message_count": 25,
+              "participants": [
+                "David Laight",
+                "Martin Uecker",
+                "Rasmus Villemoes",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "minmax: simplify __clamp_once() by using is_const_false()",
+              "message_count": 11,
+              "participants": [
+                "David Laight",
+                "Vincent Mailhol via B4 Relay",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()",
+              "message_count": 9,
+              "participants": [
+                "David Laight",
+                "Vincent Mailhol via B4 Relay",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "fortify: replace __is_constexpr() by is_const() in strlen()",
+              "message_count": 9,
+              "participants": [
+                "David Laight",
+                "Vincent Mailhol via B4 Relay",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()",
+              "message_count": 7,
+              "participants": [
+                "David Laight",
+                "Vincent Mailhol via B4 Relay",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler.h: refactor __is_constexpr() into is_const{,_true,_false}()",
+              "message_count": 5,
+              "participants": [
+                "Vincent Mailhol via B4 Relay",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "[RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+              "message_count": 2,
+              "participants": [
+                "Arnd Bergmann",
+                "Mark Rutland"
+              ],
+              "categories": [
+                "Discussion",
+                "GCC"
+              ]
+            }
+          ],
+          "notable_discussions": [
+            {
+              "subject": "Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+              "author": "Arnd Bergmann"
+            },
+            {
+              "subject": "Re: [RFC PATCH 02/28] Documentation: Bump minimum GCC version to 8.1",
+              "author": "Mark Rutland"
+            }
+          ]
+        }
+      ]
+    },
+    "2025": {
+      "summary": {
+        "year": 2025,
+        "total_emails": 544,
+        "total_contributors": 25,
+        "months_active": 9,
+        "category_breakdown": {
+          "Discussion": 411,
+          "Warning Report": 9,
+          "Patch Revision": 409,
+          "Bug Fix": 19,
+          "New Patch": 117,
+          "Kernel Integration": 88,
+          "General": 3,
+          "Feature": 147,
+          "Type Checking": 4,
+          "Locking": 137,
+          "Address Space": 5,
+          "Clang/LLVM": 100,
+          "Context Analysis": 162,
+          "GCC": 59
+        },
+        "top_topics": [
+          {
+            "subject": "kbuild: remove gcc's -Wtype-limits",
+            "message_count": 59,
+            "participants": [
+              "Vincent Mailhol",
+              "Dan Carpenter",
+              "Nicolas Schier",
+              "Linus Torvalds",
+              "David Laight"
+            ],
+            "categories": [
+              "New Patch",
+              "Patch Revision",
+              "GCC",
+              "Kernel Integration",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "overflow: Remove is_non_negative() and is_negative()",
+            "message_count": 31,
+            "participants": [
+              "kernel test robot",
+              "Miguel Ojeda",
+              "Nicolas Schier",
+              "Vincent Mailhol"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "lockdep: Annotate lockdep assertions for context analysis",
+            "message_count": 30,
+            "participants": [
+              "Bart Van Assche",
+              "Marco Elver"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Context Analysis",
+              "Locking"
+            ]
+          },
+          {
+            "subject": "locking/rwlock, spinlock: Support Clang's context analysis",
+            "message_count": 30,
+            "participants": [
+              "Marco Elver",
+              "Bart Van Assche"
+            ],
+            "categories": [
+              "Locking",
+              "Patch Revision",
+              "Clang/LLVM",
+              "Context Analysis",
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+            "message_count": 30,
+            "participants": [
+              "Peter Zijlstra",
+              "Marco Elver",
+              "Bart Van Assche"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Clang/LLVM",
+              "Context Analysis",
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "minmax: remove useless cast in __is_nonneg()",
+            "message_count": 24,
+            "participants": [
+              "kernel test robot",
+              "David Laight",
+              "Vincent Mailhol"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "Backport minmax.h updates from v6.17-rc6",
+            "message_count": 23,
+            "participants": [
+              "Greg KH",
+              "Farber, Eliav",
+              "=?UTF-8?Q?Christian_K=C3=B6nig?="
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "minmax: make generic MIN() and MAX() macros available everywhere",
+            "message_count": 23,
+            "participants": [
+              "Greg KH",
+              "Farber, Eliav"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "overflow, tracing: Define the is_signed_type() macro once",
+            "message_count": 22,
+            "participants": [
+              "Greg KH",
+              "Farber, Eliav"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "Backport minmax.h updates from v6.17-rc7",
+            "message_count": 20,
+            "participants": [
+              "Greg KH",
+              "Farber, Eliav"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2025-01",
+          "total_emails": 8,
+          "unique_contributors": 3,
+          "top_contributors": [
+            {
+              "name": "Geert Uytterhoeven",
+              "count": 3
+            },
+            {
+              "name": "Linus Torvalds",
+              "count": 3
+            },
+            {
+              "name": "kernel test robot",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 6,
+            "Warning Report": 8
+          },
+          "key_topics": [
+            {
+              "subject": "[geert-m68k:master 2/2] lib/muldi3.c:53:28: sparse: sparse: asm output is not an",
+              "message_count": 8,
+              "participants": [
+                "Geert Uytterhoeven",
+                "kernel test robot",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-02",
+          "total_emails": 2,
+          "unique_contributors": 2,
+          "top_contributors": [
+            {
+              "name": "Bart Van Assche",
+              "count": 1
+            },
+            {
+              "name": "Purva Yeshi",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Discussion": 2,
+            "Warning Report": 1,
+            "Patch Revision": 1,
+            "Bug Fix": 1
+          },
+          "key_topics": [],
+          "notable_discussions": [
+            {
+              "subject": "Re: [RFC 0/2] refcount: attempt to avoid imbalance warnings",
+              "author": "Bart Van Assche"
+            }
+          ]
+        },
+        {
+          "month": "2025-03",
+          "total_emails": 2,
+          "unique_contributors": 2,
+          "top_contributors": [
+            {
+              "name": "Dan Carpenter",
+              "count": 1
+            },
+            {
+              "name": "Vincent Mailhol",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "Bug Fix": 2,
+            "Discussion": 1,
+            "Patch Revision": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-04",
+          "total_emails": 28,
+          "unique_contributors": 5,
+          "top_contributors": [
+            {
+              "name": "Kees Cook",
+              "count": 16
+            },
+            {
+              "name": "Vincent Mailhol",
+              "count": 4
+            },
+            {
+              "name": "Yury Norov",
+              "count": 3
+            },
+            {
+              "name": "Christoph Hellwig",
+              "count": 3
+            },
+            {
+              "name": "Nathan Chancellor",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 12,
+            "Bug Fix": 12,
+            "Discussion": 24,
+            "New Patch": 16,
+            "Kernel Integration": 16
+          },
+          "key_topics": [
+            {
+              "subject": "kbuild: Switch from -Wvla to -Wvla-larger-than=0",
+              "message_count": 16,
+              "participants": [
+                "Nathan Chancellor",
+                "Christoph Hellwig",
+                "Kees Cook"
+              ],
+              "categories": [
+                "Discussion",
+                "Kernel Integration",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()",
+              "message_count": 12,
+              "participants": [
+                "Kees Cook",
+                "Yury Norov",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Patch Revision",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-05",
+          "total_emails": 1,
+          "unique_contributors": 1,
+          "top_contributors": [
+            {
+              "name": "Email marketing software",
+              "count": 1
+            }
+          ],
+          "category_breakdown": {
+            "General": 1
+          },
+          "key_topics": [],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-07",
+          "total_emails": 35,
+          "unique_contributors": 8,
+          "top_contributors": [
+            {
+              "name": "H. Peter Anvin",
+              "count": 21
+            },
+            {
+              "name": "Dinh Nguyen",
+              "count": 4
+            },
+            {
+              "name": "Alexey Dobriyan",
+              "count": 3
+            },
+            {
+              "name": "Kees Cook",
+              "count": 2
+            },
+            {
+              "name": "Eduard Zingerman",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "New Patch": 11,
+            "Patch Revision": 23,
+            "Discussion": 13,
+            "Feature": 2,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "selftests/bpf: replace \"__auto_type\" with \"auto\"",
+              "message_count": 7,
+              "participants": [
+                "H. Peter Anvin",
+                "Eduard Zingerman"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "arch/nios2: replace \"__auto_type\" and adjacent equivalent with \"auto\"",
+              "message_count": 7,
+              "participants": [
+                "H. Peter Anvin",
+                "Dinh Nguyen"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "fs/proc: replace \"__auto_type\" with \"auto\"",
+              "message_count": 6,
+              "participants": [
+                "H. Peter Anvin",
+                "Alexey Dobriyan"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "Replace \"__auto_type\" with \"auto\"",
+              "message_count": 5,
+              "participants": [
+                "H. Peter Anvin",
+                "Kees Cook"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "compiler_types.h: add \"auto\" as a macro for \"__auto_type\"",
+              "message_count": 2,
+              "participants": [
+                "H. Peter Anvin",
+                "Miguel Ojeda"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch",
+                "Patch Revision"
+              ]
+            },
+            {
+              "subject": "include/linux: change \"__auto_type\" to \"auto\"",
+              "message_count": 2,
+              "participants": [
+                "H. Peter Anvin"
+              ],
+              "categories": [
+                "Patch Revision",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "fs/proc: replace \"__auto_type\" with \"const auto\"",
+              "message_count": 2,
+              "participants": [
+                "H. Peter Anvin"
+              ],
+              "categories": [
+                "Patch Revision"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-09",
+          "total_emails": 94,
+          "unique_contributors": 12,
+          "top_contributors": [
+            {
+              "name": "Farber, Eliav",
+              "count": 30
+            },
+            {
+              "name": "Eliav Farber",
+              "count": 15
+            },
+            {
+              "name": "=?UTF-8?Q?Christian_K=C3=B6nig?=",
+              "count": 9
+            },
+            {
+              "name": "Chris Li",
+              "count": 9
+            },
+            {
+              "name": "Greg KH",
+              "count": 7
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 78,
+            "Discussion": 75,
+            "New Patch": 14,
+            "Feature": 7,
+            "Type Checking": 1,
+            "Locking": 18,
+            "Bug Fix": 2,
+            "General": 1
+          },
+          "key_topics": [
+            {
+              "subject": "Backport minmax.h updates from v6.17-rc6",
+              "message_count": 23,
+              "participants": [
+                "Greg KH",
+                "Farber, Eliav",
+                "=?UTF-8?Q?Christian_K=C3=B6nig?="
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "minmax: make generic MIN() and MAX() macros available everywhere",
+              "message_count": 23,
+              "participants": [
+                "Greg KH",
+                "Farber, Eliav"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "Compiler-Based Capability- and Locking-Analysis",
+              "message_count": 18,
+              "participants": [
+                "Nathan Chancellor",
+                "Christoph Hellwig",
+                "Marco Elver"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Locking"
+              ]
+            },
+            {
+              "subject": "Warn about \"unsigned value that used to be signed against zero\"",
+              "message_count": 8,
+              "participants": [
+                "Chris Li",
+                "Linus Torvalds",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "vadidation: add used-to-be-signed unit tests",
+              "message_count": 3,
+              "participants": [
+                "Chris Li",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "minmax.h: remove some #defines that are only expanded once",
+              "message_count": 2,
+              "participants": [
+                "Eliav Farber"
+              ],
+              "categories": [
+                "Patch Revision",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "doc: update the instructions for mailing list subscription",
+              "message_count": 2,
+              "participants": [
+                "Chris Li",
+                "Changyuan Lyu"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-10",
+          "total_emails": 67,
+          "unique_contributors": 10,
+          "top_contributors": [
+            {
+              "name": "Greg KH",
+              "count": 31
+            },
+            {
+              "name": "Eliav Farber",
+              "count": 11
+            },
+            {
+              "name": "Farber, Eliav",
+              "count": 11
+            },
+            {
+              "name": "Ben Dooks",
+              "count": 4
+            },
+            {
+              "name": "Jim Cromie",
+              "count": 2
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 54,
+            "Discussion": 46,
+            "Feature": 16,
+            "New Patch": 9,
+            "Type Checking": 2,
+            "Address Space": 5,
+            "Bug Fix": 2
+          },
+          "key_topics": [
+            {
+              "subject": "overflow, tracing: Define the is_signed_type() macro once",
+              "message_count": 22,
+              "participants": [
+                "Greg KH",
+                "Farber, Eliav"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "Backport minmax.h updates from v6.17-rc7",
+              "message_count": 20,
+              "participants": [
+                "Greg KH",
+                "Farber, Eliav"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "compiler.h: add __chkp_no_side_effects() empty hint/assertion macro",
+              "message_count": 4,
+              "participants": [
+                "Jim Cromie",
+                "Linus Torvalds"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "typeof() preserves address space information",
+              "message_count": 2,
+              "participants": [
+                "Chris Li",
+                "Uros Bizjak"
+              ],
+              "categories": [
+                "Feature",
+                "Discussion",
+                "Address Space"
+              ]
+            },
+            {
+              "subject": "symbol: preserve address space qualifiers with typeof()",
+              "message_count": 2,
+              "participants": [
+                "Dan Carpenter",
+                "Chris Li"
+              ],
+              "categories": [
+                "Address Space",
+                "New Patch",
+                "Patch Revision",
+                "Feature",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        },
+        {
+          "month": "2025-12",
+          "total_emails": 307,
+          "unique_contributors": 14,
+          "top_contributors": [
+            {
+              "name": "Marco Elver",
+              "count": 91
+            },
+            {
+              "name": "Bart Van Assche",
+              "count": 64
+            },
+            {
+              "name": "Vincent Mailhol",
+              "count": 55
+            },
+            {
+              "name": "Nicolas Schier",
+              "count": 17
+            },
+            {
+              "name": "Dan Carpenter",
+              "count": 15
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 240,
+            "Discussion": 244,
+            "Feature": 122,
+            "Clang/LLVM": 100,
+            "Locking": 119,
+            "Context Analysis": 162,
+            "New Patch": 67,
+            "GCC": 59,
+            "Kernel Integration": 72,
+            "Type Checking": 1
+          },
+          "key_topics": [
+            {
+              "subject": "kbuild: remove gcc's -Wtype-limits",
+              "message_count": 59,
+              "participants": [
+                "Vincent Mailhol",
+                "Dan Carpenter",
+                "Nicolas Schier",
+                "Linus Torvalds",
+                "David Laight"
+              ],
+              "categories": [
+                "New Patch",
+                "Patch Revision",
+                "GCC",
+                "Kernel Integration",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "overflow: Remove is_non_negative() and is_negative()",
+              "message_count": 31,
+              "participants": [
+                "kernel test robot",
+                "Miguel Ojeda",
+                "Nicolas Schier",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "lockdep: Annotate lockdep assertions for context analysis",
+              "message_count": 30,
+              "participants": [
+                "Bart Van Assche",
+                "Marco Elver"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Context Analysis",
+                "Locking"
+              ]
+            },
+            {
+              "subject": "locking/rwlock, spinlock: Support Clang's context analysis",
+              "message_count": 30,
+              "participants": [
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Locking",
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+              "message_count": 30,
+              "participants": [
+                "Peter Zijlstra",
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "minmax: remove useless cast in __is_nonneg()",
+              "message_count": 24,
+              "participants": [
+                "kernel test robot",
+                "David Laight",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "locking/rwsem: Support Clang's context analysis",
+              "message_count": 20,
+              "participants": [
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Locking",
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "bit_spinlock: Support Clang's context analysis",
+              "message_count": 20,
+              "participants": [
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Locking",
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "compiler-context-analysis: Remove __cond_lock() function-like helper",
+              "message_count": 19,
+              "participants": [
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Context Analysis",
+                "Locking"
+              ]
+            },
+            {
+              "subject": "kbuild: cleanup local -Wno-type-limits exceptions",
+              "message_count": 13,
+              "participants": [
+                "Nicolas Schier",
+                "Vincent Mailhol"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Kernel Integration"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        }
+      ]
+    },
+    "2026": {
+      "summary": {
+        "year": 2026,
+        "total_emails": 182,
+        "total_contributors": 5,
+        "months_active": 1,
+        "category_breakdown": {
+          "Patch Revision": 132,
+          "Discussion": 160,
+          "Context Analysis": 124,
+          "Feature": 104,
+          "Clang/LLVM": 92,
+          "Locking": 61,
+          "Warning Report": 30,
+          "New Patch": 21,
+          "Bug Fix": 10,
+          "GCC": 1,
+          "Kernel Integration": 1,
+          "Type Checking": 1
+        },
+        "top_topics": [
+          {
+            "subject": "cleanup: Basic compatibility with context analysis",
+            "message_count": 31,
+            "participants": [
+              "Marco Elver",
+              "Tetsuo Handa",
+              "Lorenzo Stoakes"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "Context Analysis"
+            ]
+          },
+          {
+            "subject": "locking/mutex: Support Clang's context analysis",
+            "message_count": 31,
+            "participants": [
+              "Christoph Hellwig",
+              "Marco Elver",
+              "Bart Van Assche",
+              "Steven Rostedt"
+            ],
+            "categories": [
+              "Locking",
+              "Patch Revision",
+              "Clang/LLVM",
+              "Context Analysis",
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "srcu: Support Clang's context analysis",
+            "message_count": 31,
+            "participants": [
+              "Peter Zijlstra",
+              "Marco Elver",
+              "Bart Van Assche"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Clang/LLVM",
+              "Context Analysis",
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "locking/ww_mutex: Support Clang's context analysis",
+            "message_count": 30,
+            "participants": [
+              "Maarten Lankhorst",
+              "Marco Elver",
+              "Bart Van Assche"
+            ],
+            "categories": [
+              "Locking",
+              "Patch Revision",
+              "Clang/LLVM",
+              "Context Analysis",
+              "Feature",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "[tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in",
+            "message_count": 23,
+            "participants": [
+              "kernel test robot",
+              "Peter Zijlstra",
+              "Linus Torvalds",
+              "Thomas Gleixner",
+              "Ian Rogers"
+            ],
+            "categories": [
+              "Warning Report",
+              "Discussion"
+            ]
+          },
+          {
+            "subject": "sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+            "message_count": 7,
+            "participants": [
+              "Oleg Nesterov",
+              "Chris Li"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Feature",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+            "message_count": 4,
+            "participants": [
+              "Thomas Gleixner",
+              "Ian Rogers"
+            ],
+            "categories": [
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "RISC-V: restart extension search on match",
+            "message_count": 3,
+            "participants": [
+              "Ben Dooks",
+              "Paul Walmsley"
+            ],
+            "categories": [
+              "Patch Revision",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "RISC-V: Stop warning about Zabha and Zacas",
+            "message_count": 3,
+            "participants": [
+              "Ben Dooks",
+              "Paul Walmsley"
+            ],
+            "categories": [
+              "Warning Report",
+              "Patch Revision",
+              "Discussion",
+              "New Patch"
+            ]
+          },
+          {
+            "subject": "issue with _Static_assert and __builtin()s",
+            "message_count": 3,
+            "participants": [
+              "Ben Dooks",
+              "Dan Carpenter"
+            ],
+            "categories": [
+              "Bug Fix",
+              "Discussion"
+            ]
+          }
+        ]
+      },
+      "months": [
+        {
+          "month": "2026-01",
+          "total_emails": 182,
+          "unique_contributors": 18,
+          "top_contributors": [
+            {
+              "name": "Marco Elver",
+              "count": 52
+            },
+            {
+              "name": "Bart Van Assche",
+              "count": 27
+            },
+            {
+              "name": "Lorenzo Stoakes",
+              "count": 14
+            },
+            {
+              "name": "Peter Zijlstra",
+              "count": 13
+            },
+            {
+              "name": "Ben Dooks",
+              "count": 12
+            }
+          ],
+          "category_breakdown": {
+            "Patch Revision": 132,
+            "Discussion": 160,
+            "Context Analysis": 124,
+            "Feature": 104,
+            "Clang/LLVM": 92,
+            "Locking": 61,
+            "Warning Report": 30,
+            "New Patch": 21,
+            "Bug Fix": 10,
+            "GCC": 1,
+            "Kernel Integration": 1,
+            "Type Checking": 1
+          },
+          "key_topics": [
+            {
+              "subject": "cleanup: Basic compatibility with context analysis",
+              "message_count": 31,
+              "participants": [
+                "Marco Elver",
+                "Tetsuo Handa",
+                "Lorenzo Stoakes"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "Context Analysis"
+              ]
+            },
+            {
+              "subject": "locking/mutex: Support Clang's context analysis",
+              "message_count": 31,
+              "participants": [
+                "Christoph Hellwig",
+                "Marco Elver",
+                "Bart Van Assche",
+                "Steven Rostedt"
+              ],
+              "categories": [
+                "Locking",
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "srcu: Support Clang's context analysis",
+              "message_count": 31,
+              "participants": [
+                "Peter Zijlstra",
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "locking/ww_mutex: Support Clang's context analysis",
+              "message_count": 30,
+              "participants": [
+                "Maarten Lankhorst",
+                "Marco Elver",
+                "Bart Van Assche"
+              ],
+              "categories": [
+                "Locking",
+                "Patch Revision",
+                "Clang/LLVM",
+                "Context Analysis",
+                "Feature",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "[tip:timers/vdso 12/14] net/rds/ib_cm.c:96:35: sparse: sparse: incorrect type in",
+              "message_count": 23,
+              "participants": [
+                "kernel test robot",
+                "Peter Zijlstra",
+                "Linus Torvalds",
+                "Thomas Gleixner",
+                "Ian Rogers"
+              ],
+              "categories": [
+                "Warning Report",
+                "Discussion"
+              ]
+            },
+            {
+              "subject": "sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+              "message_count": 7,
+              "participants": [
+                "Oleg Nesterov",
+                "Chris Li"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Feature",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+              "message_count": 4,
+              "participants": [
+                "Thomas Gleixner",
+                "Ian Rogers"
+              ],
+              "categories": [
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "RISC-V: restart extension search on match",
+              "message_count": 3,
+              "participants": [
+                "Ben Dooks",
+                "Paul Walmsley"
+              ],
+              "categories": [
+                "Patch Revision",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "RISC-V: Stop warning about Zabha and Zacas",
+              "message_count": 3,
+              "participants": [
+                "Ben Dooks",
+                "Paul Walmsley"
+              ],
+              "categories": [
+                "Warning Report",
+                "Patch Revision",
+                "Discussion",
+                "New Patch"
+              ]
+            },
+            {
+              "subject": "issue with _Static_assert and __builtin()s",
+              "message_count": 3,
+              "participants": [
+                "Ben Dooks",
+                "Dan Carpenter"
+              ],
+              "categories": [
+                "Bug Fix",
+                "Discussion"
+              ]
+            }
+          ],
+          "notable_discussions": []
+        }
+      ]
+    }
+  }
+}
