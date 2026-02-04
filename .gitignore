@@ -1,5 +1,6 @@
 venv/
-emails/
+emails/*
+!emails/by_year/
 fetch.log
 __pycache__/
 *.pyc
