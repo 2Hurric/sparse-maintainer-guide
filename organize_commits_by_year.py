@@ -38,7 +38,8 @@ def get_all_commits() -> List[str]:
 def get_commit_details(commit_hash: str) -> Dict[str, Any]:
     """Get detailed information about a commit."""
     # Get commit metadata with full message
-    format_str = '%H%n%an%n%ae%n%ad%n%s%n%b%n---END---'
+    # Use committer date (%cd) instead of author date (%ad) for more reliable timestamps
+    format_str = '%H%n%an%n%ae%n%cd%n%s%n%b%n---END---'
     output = run_git('show', '-s', f'--format={format_str}', '--date=iso', commit_hash)
 
     lines = output.split('\n')
@@ -243,51 +244,81 @@ def organize_commits_by_year():
         except Exception as e:
             print(f"Error processing {commit_hash}: {e}")
 
-    # Save each year's data
-    summary = {
-        'generated_at': datetime.now().isoformat(),
-        'repository': 'https://git.kernel.org/pub/scm/devel/sparse/sparse.git',
-        'total_commits': len(commit_hashes),
-        'years': {}
-    }
+    # Save each year's data as txt
+    summary_lines = [
+        "=" * 80,
+        "SPARSE GIT COMMITS BY YEAR",
+        "=" * 80,
+        f"Generated: {datetime.now().isoformat()}",
+        f"Repository: https://git.kernel.org/pub/scm/devel/sparse/sparse.git",
+        f"Total Commits: {len(commit_hashes)}",
+        "",
+        "YEAR SUMMARY:",
+        "-" * 40,
+    ]
 
     for year in sorted(yearly_data.keys()):
         year_info = yearly_data[year]
 
-        # Convert set to count for JSON
+        # Convert set to count
         contributor_count = len(year_info['stats']['contributors'])
         year_info['stats']['contributors'] = contributor_count
 
         # Sort commits by date (newest first)
         year_info['commits'].sort(key=lambda c: c['date'], reverse=True)
 
-        # Save year file
-        year_file = os.path.join(OUTPUT_DIR, f'{year}.json')
+        # Save year file as txt
+        year_file = os.path.join(OUTPUT_DIR, f'{year}.txt')
         with open(year_file, 'w') as f:
-            json.dump({
-                'year': year,
-                'stats': year_info['stats'],
-                'commits': year_info['commits']
-            }, f, indent=2)
+            # Header
+            f.write("=" * 80 + "\n")
+            f.write(f"Year: {year} | Commits: {year_info['stats']['total_commits']} | Contributors: {contributor_count}\n")
+            f.write(f"Insertions: +{year_info['stats']['total_insertions']} | Deletions: -{year_info['stats']['total_deletions']}\n")
+            f.write("=" * 80 + "\n\n")
 
-        summary['years'][year] = {
-            'file': f'{year}.json',
-            'commits': year_info['stats']['total_commits'],
-            'with_description': year_info['stats']['with_description'],
-            'without_description': year_info['stats']['without_description'],
-            'contributors': contributor_count
-        }
+            # Each commit
+            for commit in year_info['commits']:
+                f.write(f"[{commit['short_hash']}] {commit['date']}\n")
+                f.write(f"Author: {commit['author_name']} <{commit['author_email']}>\n")
+                f.write(f"Subject: {commit['subject']}\n")
+                f.write("\n")
+
+                # Description
+                if commit['body']:
+                    f.write(commit['body'] + "\n")
+                elif commit.get('generated_summary'):
+                    f.write(f"[Auto-summary] {commit['generated_summary']}\n")
+                f.write("\n")
+
+                # Files changed
+                if commit['stats']['files_changed']:
+                    files_str = ", ".join(
+                        f"{fc['file']} (+{fc['insertions']}/-{fc['deletions']})"
+                        for fc in commit['stats']['files_changed'][:5]
+                    )
+                    if len(commit['stats']['files_changed']) > 5:
+                        files_str += f", ... and {len(commit['stats']['files_changed']) - 5} more"
+                    f.write(f"Files: {files_str}\n")
+
+                f.write("-" * 80 + "\n\n")
+
+        summary_lines.append(
+            f"  {year}: {year_info['stats']['total_commits']:4d} commits, "
+            f"{contributor_count:3d} contributors, "
+            f"+{year_info['stats']['total_insertions']}/-{year_info['stats']['total_deletions']}"
+        )
 
         print(f"Saved {year}: {year_info['stats']['total_commits']} commits "
               f"({year_info['stats']['with_description']} with descriptions, "
               f"{year_info['stats']['without_description']} auto-summarized)")
 
     # Save summary index
-    with open(os.path.join(OUTPUT_DIR, 'index.json'), 'w') as f:
-        json.dump(summary, f, indent=2)
+    summary_lines.append("")
+    with open(os.path.join(OUTPUT_DIR, 'index.txt'), 'w') as f:
+        f.write("\n".join(summary_lines))
 
     print(f"\nTotal: {len(yearly_data)} years saved to {OUTPUT_DIR}/")
-    print(f"Summary saved to {OUTPUT_DIR}/index.json")
+    print(f"Summary saved to {OUTPUT_DIR}/index.txt")
 
 
 if __name__ == '__main__':

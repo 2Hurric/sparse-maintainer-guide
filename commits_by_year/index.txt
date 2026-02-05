@@ -1,0 +1,30 @@
+================================================================================
+SPARSE GIT COMMITS BY YEAR
+================================================================================
+Generated: 2026-02-05T00:22:04.796089
+Repository: https://git.kernel.org/pub/scm/devel/sparse/sparse.git
+Total Commits: 4652
+
+YEAR SUMMARY:
+----------------------------------------
+  2005: 1540 commits,  50 contributors, +52248/-23294
+  2006:   79 commits,  13 contributors, +2134/-812
+  2007:  275 commits,  23 contributors, +6531/-2512
+  2008:   50 commits,  13 contributors, +2803/-2001
+  2009:   67 commits,  15 contributors, +2345/-1005
+  2010:   36 commits,  15 contributors, +1480/-157
+  2011:  121 commits,  14 contributors, +3326/-1042
+  2012:   30 commits,  13 contributors, +2400/-144
+  2013:   57 commits,  16 contributors, +3019/-1769
+  2014:   43 commits,  15 contributors, +597/-165
+  2015:   13 commits,   9 contributors, +154/-13
+  2016:    7 commits,   6 contributors, +309/-6
+  2017:  600 commits,  17 contributors, +19701/-4286
+  2018:  676 commits,  12 contributors, +37635/-11352
+  2019:  221 commits,  12 contributors, +6142/-2414
+  2020:  613 commits,  13 contributors, +28177/-9177
+  2021:  146 commits,   4 contributors, +4882/-1320
+  2022:   44 commits,   6 contributors, +763/-98
+  2023:    8 commits,   5 contributors, +162/-9
+  2024:   19 commits,   3 contributors, +176/-52
+  2025:    7 commits,   5 contributors, +167/-14

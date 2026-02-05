@@ -1,0 +1,786 @@
+================================================================================
+Year: 2008 | Commits: 50 | Contributors: 13
+Insertions: +2803 | Deletions: -2001
+================================================================================
+
+[bb54f9a83eaa] 2008-12-28 20:11:13 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Clean up Makefile long lines
+
+Signed-Off-By: Christopher Li<sparse@chrisli.org>
+
+Files: Makefile (+17/-14)
+--------------------------------------------------------------------------------
+
+[6edfd26e39c2] 2008-12-28 20:11:12 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Makefile automatic header dependency
+
+It use the gcc generated dependency file to track
+header file changes.
+
+Use pattern rules to build programes.
+Makefile is much shorter now. Easier to add
+new objs or new programs.
+
+Signed-Off-By: Christopher Li<sparse@chrisli.org>
+
+Files: Makefile (+21/-77)
+--------------------------------------------------------------------------------
+
+[521bacf04c70] 2008-12-28 20:11:12 -0800
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Also warn about sizeof(function)
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: evaluate.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[405cd6edfe2e] 2008-12-28 20:10:55 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Warn about explicit usage of sizeof(void)
+
+sizeof(void) still evaluate as 1 after the warning.
+void_ctype.bit_size remain zero so is_byte_type()
+will continue to work.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+14/-1), symbol.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[eb8559bf861c] 2008-12-25 14:20:38 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Teach classify_type to handle typeof
+
+This change will fix Rusty Russel's test case:
+(*(typeof(v) __attribute__((address_space(0), force)) *)(&v))
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+5/-0), validation/typeof-attribute.c (+16/-0)
+--------------------------------------------------------------------------------
+
+[2479d0f7819b] 2008-12-24 02:34:41 -0800
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: Revert the context tracking code
+
+> Do you want to resend your change which revert the context changes?
+> Make it base on Josh's git's tree and I will merge your changes in my
+> branch.
+
+Below. Or I can give it to you in git if you prefer. I still think we
+should redo this in some form so that annotations with different
+contexts can work properly, but I don't have time to take care of it
+right now.
+
+johannes
+
+>From ca95b62edf1600a2b55ed9ca0515d049807a84fc Mon Sep 17 00:00:00 2001
+From: Johannes Berg <johannes@sipsolutions.net>
+Date: Tue, 23 Dec 2008 10:53:19 +0100
+Subject: [PATCH] Revert context tracking code
+
+Files: inline.c (+2/-10), linearize.c (+16/-15), linearize.h (+3/-4), parse.c (+10/-124), parse.h (+1/-2), ... and 7 more
+--------------------------------------------------------------------------------
+
+[e3bff51f8a10] 2008-12-18 21:11:00 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Let void have sizeof 1
+
+Gcc assumes sizeof(void) being 1.
+Currently sparse would generate wrong code for:
+
+void *test(void *p) {
+       p++;
+       return p;
+}
+
+unsigned long test1(void *p)
+{
+       return sizeof(*p);
+}
+
+.L0x2b48867c1010:
+       <entry-point>
+       add.32      %r2 <- %arg1, $-1
+       ret.32      %r2
+
+test1:
+.L0x2b48867c10b0:
+       <entry-point>
+       ret.32      $-1
+
+And with bit_size set to &bits_in_char, the code looks
+as expected.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: symbol.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[5cba08a5cf79] 2008-12-18 21:11:00 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Rename dirafter to idirafter.
+
+Dirafter was probably just a mistake.
+Gcc uses -idirafter.
+
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Signed-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>
+
+Files: lib.c (+5/-10), pre-process.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[ace0046beb4a] 2008-12-18 21:11:00 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Document -gcc-base-dir in sparse.1
+
+Signed-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>
+
+Files: sparse.1 (+5/-0)
+--------------------------------------------------------------------------------
+
+[9e6965b5031a] 2008-12-18 21:11:00 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Let cgcc pass -gcc-base-dir to sparse.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: cgcc (+13/-1)
+--------------------------------------------------------------------------------
+
+[95f9d2d8a576] 2008-12-18 21:11:00 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Set gcc include path at runtime.
+
+You can now tell sparse where to look for the compiler
+headers with -gcc-base-dir <dir>. Otherwise sparse will
+look for headers used to build it.
+
+Also adds $GCC_BASE/include-fixed used by newer gcc
+versions.
+
+Signed-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>
+
+Files: Makefile (+3/-4), lib.c (+20/-3), pre-process.c (+76/-20)
+--------------------------------------------------------------------------------
+
+[e34179b2e784] 2008-12-18 21:11:00 +0300
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Expand "dubious !x & y" handling to other combinations of !, &, and |.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: evaluate.c (+10/-3), validation/dubious-bitwise-with-not.c (+17/-2)
+--------------------------------------------------------------------------------
+
+[caffda221c4e] 2008-12-18 21:10:59 +0300
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Add enum member list to the parent
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-by: Thomas Schmid <Thomas.Schmid@br-automation.com>
+
+Files: parse.c (+2/-4)
+--------------------------------------------------------------------------------
+
+[383fe762a3c5] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Warning should be enough for an unhandled transparent union
+
+An error would be issued if such union is actually used.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[c01cc97bcb7b] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: A slightly edited irc discussion with Josh Triplett.
+
+Describes most data srtructures used in sparse.
+
+Files: Documentation/data-structures.txt (+54/-0)
+--------------------------------------------------------------------------------
+
+[1839db92cd1b] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Gdb macros to get a better look at some sparse data structures.
+
+Note that we need to build sparse with -g3 -gdwarf-2 to get
+the cpp macros included into the debug ingo.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: Makefile (+11/-9), gdbhelpers (+310/-0)
+--------------------------------------------------------------------------------
+
+[fef304c047dd] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Handle missing argument to -D.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: lib.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[5e48e6b76709] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Mark handle_switch as static and don't export it from lib.h
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: lib.c (+1/-1), lib.h (+0/-1)
+--------------------------------------------------------------------------------
+
+[3056bae9ca3c] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Looks more evident this way.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: symbol.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[4d7c98921a82] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Handle a terminal -o option properly.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: lib.c (+7/-4)
+--------------------------------------------------------------------------------
+
+[775c9d92e4f9] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Make show_symbol newline-consistent
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: show-parse.c (+5/-2)
+--------------------------------------------------------------------------------
+
+[f8461c5cf3a6] 2008-12-18 20:30:22 +0300
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: OpenBSD support
+
+This patch adds OpenBSD support to sparse.
+
+Acked-by: Christopher Li <sparse@chrisli.org>
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+
+Files: cgcc (+3/-0), compat-bsd.c (+20/-0)
+--------------------------------------------------------------------------------
+
+[c765f350c647] 2008-12-18 20:30:22 +0300
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: Sparc64 (Sparc V9, LP64) support
+
+This patch adds support for Sparc64 (Sparc V9, LP64).
+
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+
+Files: cgcc (+7/-0)
+--------------------------------------------------------------------------------
+
+[9a46ba1b5f13] 2008-12-18 20:30:22 +0300
+Author: Christopher Li <spase@chrisli.org>
+Subject: Remove pre_buffer
+
+This patch removes the pre_buffer completely. Instead,
+sparse will tokenized the buffer during add_pre_buffer().
+Sparse just tracks the beginning and end of pre_buffer.
+
+Reviewed-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Signed-Off-By: Christopher Li <spase@chrisli.org>
+
+Files: lib.c (+14/-9), token.h (+1/-1), tokenize.c (+11/-10)
+--------------------------------------------------------------------------------
+
+[ed3d4c5cf65f] 2008-12-18 20:30:22 +0300
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Replace the -specs cgcc option with -target
+
+-spesc is just confusing, as gcc takes the same
+option for something compeltely different.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[8f0331093ca5] 2008-12-18 20:29:35 +0300
+Author: David Given <dg@cowlark.com>
+Subject: Add type information to struct instruction.
+
+Currently there is no generic way to derive phy
+type information from the instruction flow.
+
+Signed-off-by: David Given <dg@cowlark.com>
+
+Files: linearize.c (+3/-1), linearize.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[eb800bdc3791] 2008-12-17 22:01:16 +0300
+Author: David Given <dg@cowlark.com>
+Subject: Unhardcode byte size being 8 bits.
+
+Signed-off-by: David Given <dg@cowlark.com>
+[negative value division fixed by alexey.zaytsev@gmal.com]
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: compile-i386.c (+1/-1), evaluate.c (+13/-13), example.c (+1/-1), expand.c (+1/-1), flow.c (+6/-4), ... and 3 more
+--------------------------------------------------------------------------------
+
+[e45e23489743] 2008-12-15 02:46:29 +0300
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Evaluate iterator symbols
+
+evaluate.c forgets to evaluate iterator_syms, which
+might have some expression in initializer.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[8f208e215a53] 2008-08-26 17:42:25 -0700
+Author: Alexander Shishkin <alexander.shishckin@gmail.com>
+Subject: don't call sparse when called to generate dependencies
+
+I have a situation here when $(CC) is called with -M options with
+slighly different set of -I/-D/etc arguments, which causes all sorts of
+funny reports from sparse. Also, this increases the overall build time
+because every compilation unit if sparsed twice.
+
+Signed-off-by: Alexander Shishkin <alexander.shishckin@gmail.com>
+
+Files: cgcc (+7/-0)
+--------------------------------------------------------------------------------
+
+[cb08a60a8835] 2008-07-14 11:19:48 -0700
+Author: Vegard Nossum <vegardno@ifi.uio.no>
+Subject: Set *tree to NULL on error
+
+On "Syntax error in unary expression", the output parameter "tree" would be left
+uninitialized and subsequently used in unary_expression(), leading to segfault.
+
+Caught by valgrind and fixed by me ;-)
+
+Signed-off-by: Vegard Nossum <vegardno@ifi.uio.no>
+
+Files: expression.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[dd82c7033c46] 2008-07-14 11:19:46 -0700
+Author: Vegard Nossum <vegardno@ifi.uio.no>
+Subject: Fix use of invalid file descriptor
+
+tokenize_buffer() calls setup_stream() with a file descriptor argument of -1.
+This number makes it all the way into nextchar_slow(), where -1 is used as an
+actual file descriptor when calling read().
+
+Check for the -1 before calling read() if the buffer is empty.
+
+(By the way, that read() there is probably missing some additional error
+ handling. An EINTR at the right moment...)
+
+Signed-off-by: Vegard Nossum <vegardno@ifi.uio.no>
+
+Files: tokenize.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[230e6e216792] 2008-06-27 11:05:35 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Ignore "cold" and "hot" attributes, which appeared in gcc 4.3
+
+They describe how likely the function is to be executed, which can
+affect optimization.  Also ignore the attributes with underscores.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: ident-list.h (+2/-0), parse.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[6a0698873c43] 2008-06-11 10:08:31 -0700
+Author: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+Subject: Remove symbol.id_list
+
+It was only used to check if the symbol was already bound, and would
+cause significant complication in the serialization code.
+
+Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>
+
+Files: scope.c (+1/-1), symbol.c (+2/-2), symbol.h (+1/-2)
+--------------------------------------------------------------------------------
+
+[6dcc36aec041] 2008-04-24 19:33:16 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: fix bug in context tracking code
+
+My optimisation to avoid recursion into BBs when checking contexts
+lead to a failure in a case like this:
+
+    static int warn_conditional(void)
+    {
+        if (condition)
+            return 0;
+
+        a();
+        if (condition == 0)
+            return 1;
+        r();
+        return 0;
+    }
+
+because some blocks are called with different contexts and thus
+need to be checked multiple times.
+
+The obvious fix would be to decrease the recursion depth at the
+end of the BB check function, but that, while correct, leads to
+extremely long sparse runtimes on somewhat complex functions.
+Thus, this patch also makes sparse cache which contexts it has
+checked a block in and avoid the re-checking in that case.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: linearize.c (+0/-1), linearize.h (+3/-1), sparse.c (+114/-14), validation/context.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[f43b0e9a874c] 2008-04-24 19:27:57 -0700
+Author: Linus Torvalds <torvalds@woody.linux-foundation.org>
+Subject: Simplify (and warn about) right shifts that result in zero
+
+..due to limited source sizes.
+
+Yeah, should do this for left shifts too.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+Files: simplify.c (+56/-1)
+--------------------------------------------------------------------------------
+
+[a0962f7893fe] 2008-04-24 19:23:18 -0700
+Author: Linus Torvalds <torvalds@woody.linux-foundation.org>
+Subject: Fix cast instruction generation
+
+Whether it's a sign-extending cast or not depends on the source
+of the cast, not destination. The final size of the cast depends
+on the destination, of course.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+Files: linearize.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[32dd96be4de2] 2008-04-21 11:53:48 -0700
+Author: Geoff Johnstone <geoff.johnstone@googlemail.com>
+Subject: Add -Wno-declaration-after-statement
+
+This adds -W[no-]declaration-after-statement, which makes warnings about
+declarations after statements a command-line option. (The code to implement
+the warning was already in there via a #define; the patch just exposes it
+at runtime.) Rationale: C99 allows them, C89 doesn't.
+
+Signed-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>
+
+Files: lib.c (+24/-0), lib.h (+1/-0), parse.c (+1/-3), sparse.1 (+10/-0), validation/declaration-after-statement-ansi.c (+12/-0), ... and 3 more
+--------------------------------------------------------------------------------
+
+[6663e10782e0] 2008-04-21 11:10:50 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: improve -Wcontext code and messages
+
+This builds on my previous code improving the code and the messages,
+the messages now always tell you the expected and actual context
+value. Also add another test since I had mentioned that case.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: sparse.c (+158/-76), validation/context-dynamic.c (+12/-2), validation/context-named.c (+48/-24), validation/context-statement.c (+14/-3), validation/context.c (+75/-15)
+--------------------------------------------------------------------------------
+
+[d8760c3341f8] 2008-04-21 11:09:45 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: inlined call bugfix & test
+
+This patch fixes an oversight in my other patches, inlined
+calls weren't checked for context properly. Also adds a test
+case for this.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: sparse.c (+1/-0), validation/context-named.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[c3903563ac88] 2008-04-21 11:08:50 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: sparse: simple conditional context tracking
+
+This patch enables a very simple form of conditional context tracking,
+namely something like
+
+if (spin_trylock(...)) {
+	[...]
+	spin_unlock(...);
+}
+
+Note that
+__ret = spin_trylock(...);
+if (__ret) {
+	[...]
+	spin_unlock(...);
+}
+
+does /not/ work since that would require tracking the variable and doing
+extra checks to ensure the variable isn't globally accessible or similar
+which could lead to race conditions.
+
+To declare a trylock, one uses:
+
+int spin_trylock(...) __attribute__((conditional_context(spinlock,0,1,0)))
+{...}
+
+Note that doing this currently excludes that function itself from context
+checking completely.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: linearize.c (+6/-16), linearize.h (+1/-2), parse.c (+52/-0), sparse.1 (+9/-0), sparse.c (+40/-14), ... and 2 more
+--------------------------------------------------------------------------------
+
+[7f91144d2de9] 2008-04-21 11:06:22 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: sparse test suite: add test mixing __context__ and __attribute__((context(...)))
+
+An earlier version of the next patch had a bug that this test catches.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: validation/context-named.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[c5b808c9964d] 2008-04-21 10:59:37 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: make sparse keep its promise about context tracking
+
+The sparse man page promises that it will check this:
+
+   Functions with the extended attribute
+	__attribute__((context(expression,in_context,out_context))
+   require the context expression (for instance, a lock) to have the
+   value in_context (a constant nonnegative integer) when called,
+   and return with the value out_context (a constant nonnegative
+   integer).
+
+It doesn't keep that promise though, nor can it, especially with
+contexts that can be acquired recursively (like RCU in the kernel.)
+
+This patch makes sparse track different contexts, and also follows
+up on that promise, but with slightly different semantics:
+
+  * the "require the context to have the value" is changed to require
+    it to have /at least/ the value if 'in_context',
+  * an exact_context(...) attribute is introduced with the previously
+    described semantics (to be used for non-recursive contexts),
+  * the __context__ statement is extended to also include a required
+    context argument (same at least semantics),
+
+Unfortunately, I wasn't able to keep the same output, so now you'll
+see different messages from sparse, especially when trying to unlock
+a lock that isn't locked you'll see a message pointing to the unlock
+function rather than complaining about the basic block, you can see
+that in the test suite changes.
+
+This patch also contains test updates and a lot of new tests for the
+new functionality. Except for the changed messages, old functionality
+should not be affected.
+
+However, the kernel use of __attribute__((context(...)) is actually
+wrong, the kernel often does things like:
+
+    static void *dev_mc_seq_start(struct seq_file *seq, loff_t * pos)
+            __acquires(dev_base_lock)
+    {
+            [...]
+            read_lock(&dev_base_lock);
+            [...]
+    }
+
+rather than
+
+    static void *dev_mc_seq_start(struct seq_file *seq, loff_t * pos)
+            __acquires(dev_base_lock)
+    {
+            [...]
+            __acquire__(dev_base_lock);
+            read_lock(&dev_base_lock);
+            [...]
+    }
+
+(and possibly more when read_lock() is annotated appropriately, such
+as dropping whatever context read_lock() returns to convert the context
+to the dev_base_lock one.)
+
+Currently, sparse doesn't care, but if it's going to check the context
+of functions contained within another function then we need to put the
+actual __acquire__ together with acquiring the context.
+
+The great benefit of this patch is that you can now document at least
+some locking assumptions in a machine-readable way:
+
+before:
+    /* requires mylock held */
+    static void myfunc(void)
+    {...}
+
+after:
+    static void myfunc(void)
+            __requires(mylock)
+    {...}
+
+where, for sparse,
+    #define __requires(x) __attribute__((context(x,1,1)))
+
+Doing so may result in lots of other functions that need to be annoated
+along with it because they also have the same locking requirements, but
+ultimately sparse can check a lot of locking assumptions that way.
+
+I have already used this patch and identify a number of kernel bugs by
+marking things to require certain locks or RCU-protection and checking
+sparse output. To do that, you need a few kernel patches which I'll
+send separately.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: inline.c (+10/-2), linearize.c (+10/-0), linearize.h (+1/-1), parse.c (+72/-10), parse.h (+2/-1), ... and 6 more
+--------------------------------------------------------------------------------
+
+[f93bc9bade1f] 2008-04-07 05:09:57 -0700
+Author: Johannes Berg <johannes@sipsolutions.net>
+Subject: cgcc: handle ppc arch
+
+I'm not sure this is exactly the right thing to do because I'm
+unfamiliar with the default CFLAGS, but it seems to at least make it
+mostly work on powerpc.
+
+Signed-off-by: Johannes Berg <johannes@sipsolutions.net>
+
+Files: cgcc (+7/-0)
+--------------------------------------------------------------------------------
+
+[08431f18af58] 2008-04-05 02:59:06 -0700
+Author: Geoff Johnstone <geoff.johnstone@googlemail.com>
+Subject: Fix type mismatches with incomplete types
+
+If I put the following in a public header:
+
+   struct foo;
+   typedef struct foo *Foo;
+
+   void func (Foo f);
+
+and the definition of struct foo in a private header:
+
+   struct foo { int bar; }
+
+then I get a sparse warning (different base type for argument 1) when
+I compile the implementation file:
+
+   #include "public.h"
+   #include "private.h"
+
+   void func (Foo f) { ... }
+
+i.e. sparse doesn't realise that the incomplete structure definition
+in the function  prototype refers to the same type as the complete
+structure definition in the function definition.
+
+*I think* that the patch fixes this - it silences the error - but I
+don't know enough about sparse to know whether it's correct (or
+whether it silences other legitimate errors, for example).
+
+Signed-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>
+
+Files: evaluate.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[27be02d40555] 2008-04-05 02:52:29 -0700
+Author: Geoff Johnstone <geoff.johnstone@googlemail.com>
+Subject: Add builtin functions for use with __FORTIFY_SOURCE
+
+__FORTIFY_SOURCE=2 converts memcpy() into __builtin___memcpy_chk() etc.
+The patch adds some/all? of the relevant builtin prototypes.
+
+Signed-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>
+
+Files: lib.c (+16/-0)
+--------------------------------------------------------------------------------
+
+[ebed49631963] 2008-04-05 02:50:40 -0700
+Author: Geoff Johnstone <geoff.johnstone@googlemail.com>
+Subject: Add support for GCC's -std=... and -ansi command line options.
+
+This adds support for GCC's -std=... and -ansi command line options,
+i.e. defining __STDC_VERSION__ and __STRICT_ANSI__ appropriately.
+
+This means that code that invokes #error if __STDC_VERSION__ < 199901L
+will work. It will probably also affect the userland header files too.
+
+Signed-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>
+
+Files: lib.c (+75/-0)
+--------------------------------------------------------------------------------
+
+[0a09c64fd78b] 2008-04-03 13:56:19 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for new warning about !x & y
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/dubious-bitwise-with-not.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[33b0ef36fca7] 2008-04-03 13:48:47 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: catch !x & y brainos
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[64b65ec93136] 2008-04-03 13:43:07 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix show_typename()
+
+* postfix stuff had been applied in wrong order (e.g. int a[2][3] generated
+int [addressable][toplevel] a[3][2])
+* after fixing that, we've no need for recursion anymore, a bunch of arguments
+go away and turn into local variables and we get an easy way to get rid of
+bogus space in the show_typename() result.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+[Josh: fix test suite to match]
+Signed-off-by: Josh Triplett <josh@kernel.org>
+
+Files: evaluate.c (+2/-2), show-parse.c (+51/-49), validation/compare-null-to-int.c (+1/-1), validation/cond_expr.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[8ad1087c5947] 2008-04-03 13:32:01 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: saner warnings for restricted types
+
+* don't crap the type->ident for unsigned int just because somebody did
+	typedef unsigned int x;
+  only structs, unions, enums and restricted types need it.
+* generate saner warnings for restricted, include type name(s) into them.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+20/-13), parse.c (+9/-2), show-parse.c (+4/-0)
+--------------------------------------------------------------------------------
+

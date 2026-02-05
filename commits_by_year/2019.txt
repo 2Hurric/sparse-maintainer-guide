@@ -1,0 +1,3598 @@
+================================================================================
+Year: 2019 | Commits: 221 | Contributors: 12
+Insertions: +6142 | Deletions: -2414
+================================================================================
+
+[1a803e7a6cf1] 2019-12-30 17:11:20 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: fix typos
+
+Fix some embarrassing typos.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[341daf20fd91] 2019-12-17 01:13:53 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'msg-wrong-redecl' into next
+
+* improve diagnostic message about wrong redeclaration
+
+Files: evaluate.c (+5/-3), validation/c11-atomic.c (+8/-2), validation/function-redecl.c (+40/-10), validation/restrict.c (+8/-2), validation/typedef-redef.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[3f90fa99393d] 2019-12-17 01:13:38 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'eval-typeof' into next
+
+* tidy-up of typeof expansion
+
+Files: evaluate.c (+6/-4), symbol.c (+21/-20)
+--------------------------------------------------------------------------------
+
+[0f49afdec534] 2019-12-17 01:11:52 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'expand-init' (early part) into next
+
+* improve expansion of constant symbols
+
+Files: evaluate.c (+12/-4), expand.c (+76/-11), memops.c (+11/-0), validation/eval/addressable-complex.c (+23/-0), validation/eval/addressable-degen.c (+17/-0), ... and 13 more
+--------------------------------------------------------------------------------
+
+[1e55dbed260f] 2019-12-17 01:00:09 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'top-level-init' into next
+
+* fix testcase with non-constant initializer
+
+Files: validation/nocast.c (+8/-2)
+--------------------------------------------------------------------------------
+
+[e1ec9736ab7f] 2019-12-17 00:57:28 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix testcase with non-constant initializer
+
+These 2 top-level declarations had a non-constant initializer.
+
+Fix that by moving them into a function.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/nocast.c (+8/-2)
+--------------------------------------------------------------------------------
+
+[31c6724f4f32] 2019-12-16 10:29:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: arch_mach is not needed anymore
+
+arch_target now points to a structure holding all the
+arch-specificities. So, arch_mach is not needed anymore.
+
+Remove arch_mach.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+0/-1), lib.h (+0/-1), target.c (+0/-2)
+--------------------------------------------------------------------------------
+
+[dd0012ff9766] 2019-12-16 10:29:00 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: use arch_target for INT128's predefine
+
+The predefine for INT128 is still done with the generic
+predefines but are arch-specific.
+
+So, set a new flag for each arch supporting int128
+and use this to determine if the predefine must be
+issued or not.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-9), target-arm64.c (+1/-0), target-mips.c (+1/-0), target-ppc.c (+1/-0), target-riscv.c (+1/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[17a0752e0c01] 2019-12-16 10:28:56 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: move cmodel predefines to the target files.
+
+Now that each supported arch has its own target file,
+move the predefines for cmodel, which are arch-specific,
+to the target files.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+0/-50), lib.h (+1/-0), target-arm64.c (+10/-0), target-riscv.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[efd9af566c05] 2019-12-16 10:28:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: move target-specific predefines to the target files.
+
+Now that each supported arch has its own target file,
+move the arch-specific predefines to these files too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+2/-85), target-arm.c (+20/-0), target-arm64.c (+6/-0), target-m68k.c (+7/-0), target-mips.c (+27/-0), ... and 6 more
+--------------------------------------------------------------------------------
+
+[8e0199b78ddb] 2019-12-16 10:28:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: use an arch-specific default for -msize-long
+
+This is for completeness and only useful for S390 which is not
+exactly the most common arch. But since it's now easy to do
+this kind of thing ...
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-s390.c (+1/-0), target.c (+1/-1), target.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[376c74980d75] 2019-12-16 10:27:51 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: move handle_arch_finalize() into target_init()
+
+Before initaializing the builtin types some 'finalizations' are
+needed. target_ini() already does most of this.
+
+So, move the arch-specific content of handle_arch_finalize()
+into the corresponding target files and the generic part to
+target_init().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-34), lib.h (+1/-0), target-arm64.c (+8/-0), target-riscv.c (+12/-0), target.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[47ed6c8134ea] 2019-12-16 10:27:47 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: move parsing of --arch=<ARCH> to target.c
+
+So, the 2 tables indexed by arch are next to each other,
+both in target.c, making easier to add a new arch.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+4/-46), target.c (+53/-0), target.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[d407146a7791] 2019-12-16 10:27:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: move arch-specificities to their own files
+
+lib.c and even more so, target.c, become cluttered by the
+arch specific type initialization.
+It would be better to move this to arch-specific files,
+move the generics target related helpers to target.c
+and have sparse_initialize() to just call these helpers.
+
+For doing this:
+* introduce a struct to hold the configurations for each arch,
+* move the arch-specific type initialization to separate files,
+* make target.c generic.
+
+Also change the default types to LP64.
+
+Note: this is the first step to better handle other arch
+      specificities like the predefines or the handling
+      of some options.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+10/-0), lib.c (+27/-31), machine.h (+1/-1), symbol.h (+0/-1), target-arm.c (+16/-0), ... and 11 more
+--------------------------------------------------------------------------------
+
+[3e22c198adfb] 2019-12-16 10:27:00 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: rename 'ppc64+{be,le}' to 'ppc64{be,le}'
+
+The spec names 'ppc64+{be,le}' had the '+' to force them
+to be internal names but are also useful as external names
+(it helps to make systematic testing of the arch-specific code).
+
+So rename them to 'ppc64{be,le}'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+5/-5)
+--------------------------------------------------------------------------------
+
+[7e553dc53419] 2019-12-16 10:26:39 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: add support for riscv32
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-0)
+--------------------------------------------------------------------------------
+
+[2094267c7d36] 2019-12-15 21:01:48 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: improve diagnostic message about wrong redeclaration
+
+The current message is very long (in most cases the position
+of the previous declaration is past the 80th column) and,
+while saying that the types differ, doesn't show these types.
+
+Change this by splitting the message in 2 parts:
+- first, on the current position, the main message
+  and the type of the current declaration.
+- then the type of the previous declaration on its
+  own position.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+5/-3), validation/c11-atomic.c (+8/-2), validation/function-redecl.c (+40/-10), validation/restrict.c (+8/-2), validation/typedef-redef.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[e0d40e809a6f] 2019-12-15 20:41:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: avoid using is_bitfield_type()
+
+is_bitfield_type() is one of the few type-testing helper
+based on get_sym_type(). But get_sym_type() test for SYM_NODE
+and SYM_ENUM, which is not needed here.
+
+So, simply test for SYM_BITFIELD.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[f8255903ad14] 2019-12-15 20:41:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: extract examine_typeof() from examine_symbol_type()
+
+No functional changes here, just moving the code for the
+conversion of SYM_TYPEOFs in its own function, in preparation
+for some further changes.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+21/-20)
+--------------------------------------------------------------------------------
+
+[cd18af40c57e] 2019-12-15 20:41:37 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: do not let classify_type() do its own SYM_TYPEOF expansion
+
+SYM_TYPEOFs are expanded at examination time.
+However, classify_type() does its own expansion of SYM_TYPEOFs.
+Worse, it does this differently (address space & noderef are
+not removed)..
+
+So, to enforce the same expansion, also use examine_symbol_type()
+to do the expansion in classify_type().
+
+Note: it's not sure that it's currently possible to have
+      SYM_TYPEOFs to expand in classify_type().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+2/-4)
+--------------------------------------------------------------------------------
+
+[f93419360841] 2019-12-15 17:12:08 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testcase: remove trailing ';' in commands
+
+Two testcases had their command wrongly terminated by ';'.
+
+Fix this by removing this ';'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/c11-atomic.c (+1/-1), validation/restrict.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[c3845651306e] 2019-12-15 11:48:58 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: mark strings as examined & evaluated
+
+evaluate_string() leaves the strings it creates as unexamined
+& unevaluated. More exactly, they are examined and evaluated
+(they have correct size & type) but not marked as such.
+
+This doesn't seem to really matter but shows up when auditing
+if classify_type() is always used on examined symbols.
+
+So, mark the strings as examined and evaluated since their
+size & type are known.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[0d92426b4e15] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix cost of dereference of symbols with complex type
+
+Currently, in expand_dereference(), the dereference of a symbol with
+a complex type is considered as costing as high as a non-symbol
+because it's not recognised it's a symbol.
+
+However, both cases should have exactly the same cost since they
+address calculation amounts to 'symbol + offset'.
+
+So, instead of taking in account a single level of
+	symbol + offset
+let's use a loop for this in order to handle
+	symbol [+ offset]*
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+5/-5), validation/expand/cost-deref-nested.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[5d02fb958506] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix simplify_loads() when doing type punning
+
+When doing loads simplification for a location where
+floats & integers are mixed, loads are systematically
+replaced with the value of their dominating memop (this
+checks if the corresponding write or load overlaps).
+
+However, this must not be done if the involved operations
+are doing some form of integer/float type punning.
+
+Fix this by refusing to convert load of an integer by a
+previous float value or the opposite.
+
+Note: another way to describe this problem would be to say
+      that floats need to have their own memory operations:
+          OP_FSTORE & OP_FLOAD
+      or that instructions need to have some form of 'machine type'
+      in addition of the size (like clang's i32/f32, ...).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+11/-0), validation/memops/type-punning-flt2int.c (+0/-1), validation/memops/type-punning-int2flt.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[706254f20d35] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix expansion of initializer (default)
+
+Currently, constant_symbol_value() is doing the expansion
+of a constant initializer when an explicit one is found
+but nothing is done if the initilizer is an implicit one.
+
+Fix this by:
+* adding an helper to lookup the corresponding type from
+  offset;
+* using this helper to get the correct kind for the value:
+  - a 0-valued EXPR_VALUE for integers
+  - a 0.0-valued EXPR_FVALUE for floats.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+63/-2), validation/expand/default-init-struct.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[c0123a2f9172] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix expansion of initializer (mismatching type)
+
+Currently, the expansion of constant initializers is done
+whenever the offset in the initializer match the one
+being expanded.
+
+However, it's not correct to do this expansion of an
+integer with the initializer for a float and vice-versa.
+
+Fix this by adding the corresponding tests to the other
+tests of the value.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+4/-0), validation/expand/constant-union-flt2int.c (+0/-1), validation/expand/constant-union-int2flt.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[9e1c8ec13686] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix expansion of initializer (mismatching size)
+
+Currently, the expansion of constant initializers is done
+whenever the offset in the initializer match the one
+we're expanding.
+
+However, it's not correct to do this expansion if their
+size doesn't match since in this case the value of one
+doesn't represent the value of the other.
+
+Fix this by adding a check for the size.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+4/-4), validation/expand/constant-union-size.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[41ba12bf8e76] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: degenerated arrays & functions are addressable too
+
+Symbols which have their address taken (with the 'addressof'
+operator: &) are marked as such (with the modifier MOD_ADDRESSABLE).
+But degenerated arrays and functions have their address implicitly
+taken.
+
+MOD_ADDRESSABLE is used to prevent to replace a symbol dereference
+nto the value used to initialize to it. For example, in code like:
+	static int foo(void)
+	{
+		int x[2] = { 1, 2 };
+		return x[1];
+	}
+
+the return expression can be replaced by 2. This is not the case
+case if the array is first passed in a function call, like here:
+	extern void def(void *, unsigned int);
+	static int bar(void)
+	{
+		int x[2] = { 1, 2 };
+		def(x, sizeof(x));
+		return x[1];
+	}
+
+Fix this by marking degenerated arrays (and functions) as also
+being addressable.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-0), validation/eval/addressable-degen.c (+0/-1), validation/expand/constant-init-array.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[f9b443940a85] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix addressability marking in evaluate_addressof()
+
+mark_addressable() is used to track if a symbol has its
+address taken but does not take in account the fact that
+a symbol can be accessed via one of its subfields.
+A failure occurs in case like:
+	struct { int a; } s = { 3 };
+	...
+	def(&s.a);
+	return s.a;
+
+where 's' is not marked as being addressable and so the
+the initializer will be expanded and the return expression
+will always be replaced by 3, while def() can redefine it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+2/-0), validation/eval/addressable-complex.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[aa42d419661d] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: extract mark_addressable() from evaluate_addressof().
+
+This is just moving the 3 lines of code to mark a symbol
+as addressable in a speparate function.
+
+This is a preparatory step for one of the next patches.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+9/-4)
+--------------------------------------------------------------------------------
+
+[9fe9cc26a024] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add test for constant expansion of complex initializer
+
+Constant expansion of symbols with a complex type is not done
+like for simpler ones. Only the first-level EXPR_INITIALIZER
+is handled.
+
+Add some testcases for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/constant-init-nested-array.c (+15/-0), validation/expand/constant-init-nested-struct.c (+23/-0), validation/expand/constant-init-string.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[2a6c80fdd061] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add test for dereference cost of symbol with complex type
+
+Currently, in expand_dereference(), the dereference of a symbol with
+a complex type is considered as costing as high as a non-symbol
+because it's not recognised it's a symbol.
+
+Add a testcase for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/cost-deref-nested.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[391bd454457e] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add test for union cast
+
+Sparse can't do this yet.
+So, add a testcase for it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/union-cast.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[613a671f31d2] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcase for addressability of 'complex' symbols
+
+Once a symbol has its address taken, a lot of simplifications
+must be avoided because the symbol can now be modified via
+a pointer.
+
+This is currently done but the symbol addressability
+does not take in account the fact that a symbol can be
+accessed via one of its subfields.
+
+Add a testcase to illustrate this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/eval/addressable-complex.c (+24/-0)
+--------------------------------------------------------------------------------
+
+[ae0ec237a888] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcase for addressability of degenerated symbol
+
+An array or a function that degenerates into a pointer
+has its address implicitly taken since the result is
+equivalent to '&array[0]' or '&fun'.
+
+So, the corresponding symbol needs to be marked as
+addressable, like when its address is explicitly taken.
+
+Add a testcase to illustrate this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/eval/addressable-degen.c (+18/-0)
+--------------------------------------------------------------------------------
+
+[aa2235905e9a] 2019-12-10 23:26:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcase for expansion of default initializers
+
+Currently, constant_symbol_value() is doing the expansion
+of a constant initializer when an explicit one is found
+but nothing is done for the default/implicit ones.
+
+Add a testcase to illustrate this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/default-init-array.c (+16/-0), validation/expand/default-init-struct.c (+23/-0)
+--------------------------------------------------------------------------------
+
+[3b9aa9647f5f] 2019-12-10 23:26:15 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: split testcases for type punning & constant initializer expansion
+
+Several issues were covered by the same testcase.
+
+Fix this by splitting the testcases.
+Also, rename these testcases to a more descriptive name.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/constant-union-flt2int.c (+21/-0), validation/expand/constant-union-int2flt.c (+20/-0), validation/{bug-expand-union0.c => expand/constant-union-size.c} (+3/-3), validation/{bug-expand-union1.c => memops/type-punning-flt2int.c} (+2/-2), validation/memops/type-punning-int2flt.c (+20/-0)
+--------------------------------------------------------------------------------
+
+[3243829828c3] 2019-12-09 23:35:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'premature-examine' into next
+
+* fix premature examination of dereferenced object
+
+Files: evaluate.c (+1/-1), validation/eval/premature-examination.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[82d8c05866c8] 2019-12-09 23:29:10 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix premature examination of dereferenced object
+
+in the fixes 696b243a5ae0 ("fix: evaluate_dereference() unexamined base type"),
+the pointer's examination was done prematurely, before the undereferenceable
+types are filtered out. This allows to examine the base abstract types when
+the expression was in fact not dereferenceable.
+
+Fix that by moving the examination to the top of the SYM_PTR's case
+since only pointers are concerned.
+
+Fixes: 696b243a5ae0 ("fix: evaluate_dereference() unexamined base type")
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/eval/premature-examination.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[82dee2e25887] 2019-12-09 21:45:35 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'bitfield-size'
+
+* improve diagnostic messages concerning bitfields
+
+Files: parse.c (+4/-6), symbol.c (+6/-4), validation/bitfield-sizes.c (+30/-0)
+--------------------------------------------------------------------------------
+
+[faa80ad61505] 2019-12-09 00:24:56 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'no-std-includes'
+
+* testsuite: avoid standard includes in the tests
+
+Files: validation/backend/hello.c (+1/-1), validation/backend/sum.c (+1/-2)
+--------------------------------------------------------------------------------
+
+[dadcc19ccdcb] 2019-12-09 00:24:34 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'cleanups'
+
+* remove redundant to degenerate()
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[817270f9e1de] 2019-12-04 02:53:05 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'stdc-version'
+
+* add support for '-std=c17/c18'
+
+This is mainly an excuse for cleaning the associated
+code and to easily test 'strict' vs. 'gnu'.
+
+Files: lib.c (+24/-35), lib.h (+16/-0)
+--------------------------------------------------------------------------------
+
+[4dbb32518e47] 2019-12-04 02:52:25 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: cgcc: only define __CYGWIN32__ for -m32 builds
+
+'__CYGWIN32__' is wrongly defined on 64-bit Cygwin.
+
+Fix this by only defining it when $m32 is set and set $m32
+when i386 is selected.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-1)
+--------------------------------------------------------------------------------
+
+[8d87c56817a3] 2019-12-01 21:34:32 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: teach sparse about C17
+
+No real support is done here (or is needed) but the __STDC_VERSION__
+will return the correct value.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+13/-0), lib.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[9307a65efd19] 2019-12-01 21:34:32 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: separate definition of __STDC_NO_ATOMICS__ and friends from C11
+
+The definition of __STDC_NO_ATOMICS__ and friends will also
+be needed for C17.
+
+Move these definitions outside of the switch statement.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+5/-3)
+--------------------------------------------------------------------------------
+
+[073711199faa] 2019-12-01 21:34:00 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify definition of __STRICT_ANSI__
+
+Currently, the definition of __STRICT_ANSI__ is done in the same
+switch statement used for __STDC_VERSION__. However, this lead to
+some repetions that can be avoided if moved outside of the switch.
+
+Move the definition of __STRICT_ANSI__ out of the switch statement
+and guard it by testing the absence of STANDARD_GNU.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+2/-8)
+--------------------------------------------------------------------------------
+
+[252027fac5e2] 2019-12-01 21:30:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: reorganize the __STDC_VERSION__/__STRICT_ANSI__ switch statement
+
+Move some of the cases so that each STANDARD_GNU* is just
+under the its corresponding STANDARD_C*.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+5/-8)
+--------------------------------------------------------------------------------
+
+[38dfaa85aef4] 2019-11-30 14:05:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitfield: display the bitfield name in error messages
+
+Diagnostics related to a bitfield and issued after parsing
+didn't display the bitfield name because it was not available.
+
+Now that that the name is available, use it in error messages
+since it helps to find the origin of the problem.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+3/-6), symbol.c (+2/-1), validation/bitfield-sizes.c (+5/-5)
+--------------------------------------------------------------------------------
+
+[b187d1bbd61f] 2019-11-30 14:05:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitfield: keep the bitfield ident
+
+While issuing a diagnostic related to a bitfield, it's useful
+to display the bitfield's name. Unfortunately, this name is not
+stored in the symbol and thus is only available during parsing.
+
+Fix this by adding the ident to the symbol initialization.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[63d2c3d5f7c6] 2019-11-30 14:05:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitfield: oversized bitfields are errors
+
+Till now, a bitfield with a width bigger than its base type
+only caused a warning but this should be considered as an error
+since it's generally impossible to emit correct IR code for it.
+
+Fix this by issuing an error instead and marking the width
+as invalid.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+4/-2), validation/bitfield-sizes.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[4ce42ee56d92] 2019-11-30 14:05:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitfield: don't warn twice on invalid width
+
+At parsing time, bitfields with invalid width have their size
+set to -1 but at examination time this size is interpreted as
+an unsigned value, causing a second warning.
+
+Fix this by avoiding to cast the size to an unsigned variable.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+2/-3)
+--------------------------------------------------------------------------------
+
+[600bc3b599fe] 2019-11-30 14:05:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitfield: add testcases for invalid bitfield width
+
+Add some testcases before making related changes.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/bitfield-sizes.c (+31/-0)
+--------------------------------------------------------------------------------
+
+[502199039614] 2019-11-28 23:28:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove redundant degenerate() in compatible_assignment_types()
+
+In compatible_assignment_types(), the source expression is
+first degenerated before calling check_assignment_types().
+
+But this is not needed since check_assignment_types() must
+anyway do the call to degenerate().
+
+So, remove the redundant call to degenerate().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[74aa8ab9d6e1] 2019-11-28 23:26:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testsuite: avoid standard includes in the tests
+
+These headers are often complex and full of implementation
+specificities. They have no place in the testsuite.
+
+So, remove these includes and replace them by the prototype
+of the function being used.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/backend/hello.c (+1/-1), validation/backend/sum.c (+1/-2)
+--------------------------------------------------------------------------------
+
+[68ac1bb244bb] 2019-11-28 18:13:39 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: cgcc: fix definition of 'linux' macro
+
+During a call to add_specs('linux'), cgcc adds several macro definitions
+to the sparse command line. In particular, it provides the incorrect
+definition: '-Dlinux=linux'.
+
+This bug was introduced in commit 807f74466b (<no title>, 2004-08-13), while
+moving some calls to add_pre_buffer() around in lib.c. This was then moved
+out of sparse, into cgcc, by commit cf2bde63a6 (<no title>, 2004-10-05),
+where the definition was copied verbatum.
+
+Fix this macro definition to read '-Dlinux=1' instead.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[42c0e6472186] 2019-11-28 17:53:38 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: alt definition for STANDARD_GNU89 & friends
+
+It may be useful to known the base standard and if we're using
+the gnu extensions but as these are defined it can only be done
+on a case-by-case basis.
+
+Change these defines so that:
+* the GNU extensions is the least significant bit
+* the versions can be easily compared with <, >, <= and >=
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.h (+6/-3)
+--------------------------------------------------------------------------------
+
+[95a2a27f2c46] 2019-11-28 17:53:38 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: allow to test the standard version outside of lib.c
+
+Since semantics and supported features can differ between
+standard version we may need the supported version.
+
+Allow this by moving the variable 'standard' and the corresponding
+enum definition to lib.h
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-7), lib.h (+11/-0)
+--------------------------------------------------------------------------------
+
+[97667031b17b] 2019-11-28 17:53:38 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify initialization of Wdeclarationafterstatement
+
+In preparation for supporting C17 flags, remove unneeded
+STANDARD_... cases and remove the impossible default assert(0).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+3/-14)
+--------------------------------------------------------------------------------
+
+[9b2efc158c5c] 2019-11-28 01:12:12 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: add support for riscv64
+
+Sparse itself already add support for it, so add
+support for it in the wrapper too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-0)
+--------------------------------------------------------------------------------
+
+[c989ef7d0ad9] 2019-11-28 01:12:12 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: fix wchar_t & wint_t for openbsd
+
+These are only for native build and I don't know
+if anyone is using sparse on openbsd, but for completeness
+and ease of testing let's get them right for sparse too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[9bcecc01f17c] 2019-11-28 01:11:52 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add missing predefines for PPC
+
+The macros __PPC, _ARCH_PPC & _ARCH_PPC64 are predefined by
+GCC for powperpc (well, it seems __PPC isn't anymore but
+it was, at least on my old toolchain for ppc32).
+
+So, do the same here too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[e2c049b94656] 2019-11-28 01:10:49 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add missing predfines: __amd64 & __amd64__
+
+These seem to be defined whenever the __x86_64 and
+__x86_64__ macros are defined.
+
+So, do the same here too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[adb83c8bacad] 2019-11-28 01:09:41 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: filter-out -msize-long & -msize-llp64
+
+These options are sparse-specific and shouldn't be passed to GCC.
+
+Reported-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-0)
+--------------------------------------------------------------------------------
+
+[39e46662c2f6] 2019-11-28 01:09:41 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: replace lllong_ctype by int128_ctype
+
+Sparse knows about __int128_t, __uint128_t & __int128.
+
+However, internally, these types are treated as a kind of 128-bit
+'long long long' type. It's mainly a question of variable naming,
+but these types are also displayed by show_typename() as
+'long long long' which can't be parsed back, neither by GCC,
+nor even  by sparse itself.
+
+So, rename the variables to use 'int128' and let show_typename()
+display these types as '[signed|unsigned] __int128'.
+
+Reported-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+7/-7), show-parse.c (+3/-3), symbol.c (+4/-4), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[b7dd40f5f8ea] 2019-11-28 01:08:32 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'arch-cleanup' into master
+
+[Auto-summary] Modifies 2 source files: lib.c, target.c. Updates 2 headers. Adds/updates 1 test(s). Changes: +76/-47 in 5 file(s)
+
+Files: lib.c (+23/-18), lib.h (+2/-1), machine.h (+26/-0), target.c (+23/-28), validation/preprocessor/predef.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[3b7e1cffefb3] 2019-11-28 01:06:34 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add note for 128-bit long double on mips64
+
+On mips64, the 'new' ABIS have 128-bit long doubles while
+the 'old' and the embedded ABIs use 64-bit.
+
+Add a note for this, since currently the -mabi flag is not handled.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[c5a34b42943d] 2019-11-28 01:06:32 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: sparc32 on SunOS/Solaris uses 128-bit long doubles
+
+On 32-bit sparc running SunOS or Solaris, long doubles
+are 128-bit, not 64-bit.
+
+Add a special case to handle this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[d4d231f9aed5] 2019-11-28 01:06:32 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: fix wchar_t & wint_t on SunOS/Solaris
+
+On 32-bit sparc running SunOS or Solaris, wchar_t and wint_t
+are long, not uint or int.
+
+Add a special case to handle this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+6/-1)
+--------------------------------------------------------------------------------
+
+[6bca188679d2] 2019-11-28 00:52:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: use a variable for the OS
+
+There are a few OS-specific settings and handling them
+with #ifdef is 1) ugly, 2) can only work with when specifically
+built for this OS (either a native or cross-build).
+
+So, use a variable to hold the OS and initialize it to the one
+used to compile sparse. This avoid the ugly #ifdef and allow
+simpler transition if if the future sparse would take the OS
+in parameter (maybe as triple).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-0), lib.h (+1/-0), machine.h (+26/-0), target.c (+13/-11)
+--------------------------------------------------------------------------------
+
+[61b8e17e1456] 2019-11-28 00:52:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add predefines for INT128 only on supported archs
+
+The predefines for INT128 were added unconditionally for
+all archs but only the 64-bit ones support them.
+
+Fix this by issuing the the predefines only on 64-bit archs.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+11/-2), validation/preprocessor/predef.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[defd519ca2de] 2019-11-28 00:52:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: (almost) all platforms simply use int for int32
+
+The known execptions are:
+* ARM with the bare-metal eabi
+* MIPS64 with the n32 ABI
+
+But these two are not really supported yet.
+So, for now, int32 & uint32 can siply be set to int & uint.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+0/-13)
+--------------------------------------------------------------------------------
+
+[2d952595f485] 2019-11-28 00:46:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: char32_t should be the same as uint32_t, not uint
+
+When the predefine for char32_t was added, it was made to
+correspond 'unsigned int' with the commit message saying
+some archs use 'unsigned long'. In fact, it appears that
+char32_t is always uint32_t (on the archs & OSes I'm using
+to look at this).
+
+So, simply predefine __CHAR32_TYPE__ like uint32_t is.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[dbcc589f4577] 2019-11-27 00:25:14 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'arm-hf' into master
+
+[Auto-summary] Modifies lib.c. Updates 2 headers. Adds/updates 5 test(s). Changes: +328/-215 in 9 file(s)
+
+Files: cgcc (+1/-1), lib.c (+271/-214), lib.h (+1/-0), machine.h (+15/-0), validation/arch/arm-predef-float-abi-hard.c (+8/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[fd59a5e8d5ac] 2019-11-27 00:19:24 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: use -mfloat-abi=hard for armhf
+
+Now that sparse understands -mfloat-abi and set the related
+predefines (__ARM_PCS_VFP, __ARM_PCS & __SOFTFP) it's not
+cgcc can make good use of it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[7729ee4a86e1] 2019-11-27 00:19:13 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fp-abi: teach sparse about -m{hard,soft}-float
+
+Teach Sparse about these options.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+2/-0), validation/arch/arm-predef-hard-float.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[532f662121d7] 2019-11-27 00:18:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fp-abi: teach sparse about -mfloat-abi on ARM
+
+Teach sparse about the -mfloat-abi option and set the
+related predefines for ARM accordingly.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+23/-0), lib.h (+1/-0), machine.h (+15/-0), validation/arch/arm-predef-float-abi-hard.c (+0/-1), validation/arch/arm-predef-float-abi-mixed.c (+0/-1), ... and 2 more
+--------------------------------------------------------------------------------
+
+[16df5da6daa8] 2019-11-27 00:15:24 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fp-abi: add tests for ARM's -mfloat-abi=... & -msoft-float
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/arch/arm-predef-float-abi-hard.c (+9/-0), validation/arch/arm-predef-float-abi-mixed.c (+9/-0), validation/arch/arm-predef-float-abi-soft.c (+9/-0), validation/arch/arm-predef-hard-float.c (+9/-0), validation/arch/arm-predef-soft-float.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[50438f45934d] 2019-11-26 23:59:30 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'arch-cygwin' into master
+
+[Auto-summary] Modifies 2 source files: lib.c, target.c. Updates 2 headers. Adds/updates 4 test(s). Changes: +66/-23 in 9 file(s)
+
+Files: cgcc (+1/-0), lib.c (+3/-1), lib.h (+1/-0), machine.h (+0/-6), target.c (+34/-15), ... and 4 more
+--------------------------------------------------------------------------------
+
+[467d8d026c8b] 2019-11-26 23:59:17 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'parse-spec' into master
+
+[Auto-summary] Modifies 5 source files: evaluate.c, expand.c, parse.c and 2 more. Updates header symbol.h. Changes: +124/-126 in 7 file(s)
+
+Files: evaluate.c (+8/-11), expand.c (+5/-6), gdbhelpers (+0/-15), parse.c (+24/-21), show-parse.c (+0/-5), ... and 2 more
+--------------------------------------------------------------------------------
+
+[d06e1d291f58] 2019-11-26 23:09:21 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'static-forward' into master
+
+[Auto-summary] Modifies symbol.c. Adds/updates 1 test(s). Changes: +33/-9 in 2 file(s)
+
+Files: symbol.c (+23/-0), validation/static-forward-decl.c (+10/-9)
+--------------------------------------------------------------------------------
+
+[10b89d60b671] 2019-11-25 21:38:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: get rid of all specifier MOD_XXX
+
+Modifiers like MOD_CHAR, MOD_LONG, ... are used to keep track
+of the size/rank of integers and floats. But this is problematic:
+* they use 5 of the precious modifiers bits
+* they're not really modifiers but the base of the primitive types
+* a 'long double' has MOD_LONGLONG set
+
+Change this by using instead the explicit notion of 'rank'.
+The advanatges are:
+* using only 3 bits (in struct symbol)
+* free 5 modifier bits
+* follow closely the definition & rules of the standard
+* things like integer promotion are slightly simpler.
+
+Note: this is somewhat experimental as I'm not yet convinced
+      that everything is correct (but the testsuite is OK
+      and gives the same result for a defconfig + allyesconfig
+      build of the kernel).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+8/-11), expand.c (+5/-6), gdbhelpers (+0/-15), parse.c (+5/-7), show-parse.c (+0/-5), ... and 2 more
+--------------------------------------------------------------------------------
+
+[3d5151318d14] 2019-11-25 21:35:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: make ctype_declare[] more readable
+
+The table ctype_declare[] is used to initialize the builtin types.
+It contains quite a bit information and is thus quite large and
+is difficult to read.
+
+Fix this by using some macros to abstract the specificities of
+the different kind of types, making the table narrower and much
+more readable.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+71/-51)
+--------------------------------------------------------------------------------
+
+[1546f48809a4] 2019-11-21 14:49:06 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: allow 'static' forward declaration
+
+A function or an object can be forward-declared as
+'static' and then defining with the keyword 'static'
+omitted. This is perfectly legal and relatively common.
+
+However, Sparse complains that the definition is not
+declared and asks to the dev if should not be static.
+This is weird because the function or object *is*
+declared and *is* static (or at least should be following
+the standard or GCC's rules).
+
+Fix this by letting a new declaration or definition
+'inherit' the 'static-ness' of the previous declarations.
+This is a bit more complicated than simply copying
+MOD_STATIC and must be done when binding the new symbol
+because static or extern objects have different scopes.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+23/-0), validation/static-forward-decl.c (+10/-9)
+--------------------------------------------------------------------------------
+
+[172f6a98702d] 2019-11-21 14:37:39 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let function definition inherit prototype attributes
+
+It's common to declare a function with the attribute
+'pure' or 'noreturn' and to omit the attribute in the
+function definition. It makes somehow sense since the
+information conveyed by these attributes are destined
+to the function users not the function itself.
+
+So, when checking declaration/definition, let the
+current symbol inherit any function attributes present
+in previous declarations.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+9/-0), validation/{function-attribute-omitted.c => function-redecl-funattr.c} (+1/-2), validation/function-redecl2.c (+0/-3)
+--------------------------------------------------------------------------------
+
+[9305d48da089] 2019-11-20 21:36:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: propagate function modifiers only to functions
+
+Function attributes need to be parsed differently
+than the usual specifiers: For example, in code like:
+	#define __noreturn __attribute__((noreturn))
+	__noreturn void foo(int a);
+the __noreturn attribute should apply to the function type
+while a specifier like 'const' would apply to its return type.
+
+The situation is quite similar to how storage specifiers
+must not be handled by alloc_indirect_symbol().
+However, the solution used for storage specifiers (apply the
+modifier bits only after the declarator is reached: cfr.commit
+233d4e17c ("function attributes apply to the function declaration"))
+can't be used here (because the storage modifiers can be applied
+to the outermost declarator and function attributes may be
+applied more deeply if function pointers are present).
+
+Fix this by:
+1) reverting the previous storage-specifier-like solution
+2) collect function specifiers MODs in a new separate
+   field in the declaration context (f_modifiers)
+3) apply these modifiers when the declarator for the
+   function type is reached (note: it must not be
+   applied to the SYM_FN itself since this correspond
+   to the function's return type; it must be applied to
+   the parent node which can be a SYM_NODE or a SYM_PTR).
+4) also apply these modifiers to the declared symbol,
+   if this symbol is a function declaration, to take
+   into account attributes which are placed at the end
+   of the declaration and not in front.
+
+Reported-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Fixes: 233d4e17c544e1de252aed8f409630599104dbc7
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+26/-23), symbol.h (+2/-1), validation/function-attribute-inner.c (+0/-1), validation/function-attribute-pointer.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[009181de300b] 2019-11-19 21:05:56 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix assignment check with function attribute
+
+It's OK to assign a non-qualified type to the corresponding
+const- or -volatile-qualified type (same for 'restrict').
+For modifiers like __pure or __noreturn, it's the opposite:
+it's OK to assign the qualified version to the corresponding
+non-qualified type.
+
+Allow this by using type_difference() with the appropriate mask
+when checking assignments.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+6/-2), symbol.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[2c5eeff0f174] 2019-11-19 21:05:06 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix assignment: pointer to __pure/__noreturn function to void *
+
+It's fine for a pointer to a __pure or a __noreturn function
+to be assigned to a void pointer (since this pointer can't
+be used to make an indirect function call without another cast).
+
+Ensure this by ignoring the corresponding modifiers when checking
+such assignments.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[64003b0b9741] 2019-11-19 20:50:38 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add tests for function attributes
+
+Function attributes need to be parsed differently than
+the usual specifiers. For example, in code like:
+	#define __noreturn __attribute__((noreturn))
+	__noreturn void foo(int a);
+the __noreturn attribute should apply to the function type,
+while a specifier like 'const' would apply to its return type.
+It's even more clear when function pointers are involved:
+	__noreturn void (*fptr)(void);
+here too, the attribute should be applied to the function type,
+not the its return type, nor to the declared pointer type.
+
+Add some testcases to cover some of the situations concerning
+the parsing of these function pointers.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/attr-visible.c (+13/-0), validation/attr-visible2.c (+10/-0), validation/bitwise-function-pointer.c (+17/-0), validation/function-attribute-inner.c (+10/-0), validation/function-attribute-omitted.c (+14/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[ec743e7f666b] 2019-11-15 02:31:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: option: simpler handling of key-value for suboptions
+
+Currently handling a set of suboptions is done by a series of
+if (strcmp()) but it's neater to have this in a table.
+
+Add an helper to doing this easily and convert the handling
+of '-mcmodel' options.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+40/-20)
+--------------------------------------------------------------------------------
+
+[95620eed2332] 2019-11-15 02:31:09 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: option: use handle_switches() for -m flags
+
+The function handle_switch_m(), parsing the -m flags,
+consists in a series of strcmp(), each setting a specific
+value in one of the internal flag variable.
+
+This can now be simplified by using a table to specify these
+variables & values in a compact form.
+
+So, convert the current code to use, if possible,  a table &
+handle_switches().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+17/-17)
+--------------------------------------------------------------------------------
+
+[13391893fd91] 2019-11-15 02:25:59 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: option: allow handle_switches() to set non-boolean values
+
+The function handle_switches() was designated to set or clear
+simple boolean flags but some options, internally, are
+non-boolean.
+
+So, extend the function so that it can be used to set non-boolean
+values.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[16a575e1758b] 2019-11-15 02:24:31 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: let cygwin use -fshort-wchar
+
+Cygwin uses 'unsigned short' for its wchar_t.
+
+So, use -fshort-wchar for it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-0)
+--------------------------------------------------------------------------------
+
+[0789c9a3eb45] 2019-11-15 02:24:31 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: teach sparse about -fshort-wchar
+
+This is useful in cgcc for supporting Cygwin which doesn't
+use a 32-bit type for wchar_t.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+2/-0), lib.h (+1/-0), target.c (+2/-0), validation/arch/short-wchar.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[47628528e22c] 2019-11-15 02:24:24 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: keep cygwin specifics with i386/x86-64 specifics
+
+No functional changes but it will help to reorganize
+this code into arch-specific sections.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+3/-4)
+--------------------------------------------------------------------------------
+
+[ed7b9191f7a5] 2019-11-15 02:19:35 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: option: move all option parsing helpers before their potential uses
+
+The helpers for option parsing are spread all over the functions
+doing the effective parsing. This doesn't help to reuse these
+helpers because new potential uses sometimes arise before the
+helpers itself.
+
+Fix this by moving all these helpers above any function which
+may use them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+188/-180)
+--------------------------------------------------------------------------------
+
+[233d4e17c544] 2019-11-15 01:42:54 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: function attributes apply to the function declaration
+
+Function attributes relate to the function declaration they
+appear in. Sparse ignore most these attributes but a few ones
+have a semantic value: 'pure', 'noreturn' & 'externally_visible'.
+
+Due to how Sparse parse attributes and how these attributes
+are stored for functions, the attributes 'pure' & 'noreturn'
+are applied not to the function itself but its return type
+if the function returns a pointer.
+
+Fix this by extracting these attributes from the declaration
+context and ensure they're applied to the declarator.
+
+Reported-by: John Levon <john.levon@joyent.com>
+Reported-by: Alex Kogan <alex.kogan@oracle.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+16/-1), symbol.h (+2/-0), validation/function-attribute.c (+19/-0)
+--------------------------------------------------------------------------------
+
+[c67fc56d34f0] 2019-11-14 01:40:57 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: keep BSD & Darwin specifics with i386/x86-64 specifics
+
+Without more testing, the specific types for wint_t & int64_t
+on FreeBSD & Darwin are only valid for i386/x86-64.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+7/-7)
+--------------------------------------------------------------------------------
+
+[832d7a765b4f] 2019-11-14 01:40:21 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: remove impossible cases with 64-bit arch not being lp64
+
+The code at the start of init_target() already take care
+of making the arch variants match their bitness. It's thus
+not possible, when setting the type of [u]int32, to have
+mips64, ppc64, riscv64 or sparc64 with arch_m64 different
+than ARCH_LP64.
+
+So, remove the unneeded checks.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+9/-14), target.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[6096ede6c8dd] 2019-11-14 01:40:21 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: do not needlessly set bitness on 32-bit archs
+
+The code at the start of init_target() already take care
+of making the arch variants match their bitness. There is
+no need to redo that while setting the type of [u]int32.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[ecf398614bac] 2019-11-14 01:04:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: simplify i386/x86-64 specifics
+
+The current test for setting wchar on i386 uses a
+conditional break and a fallthrough on the x86-64 case.
+
+This is not needed and can be simplified by reversing the
+order of the i386 & x86-64 cases.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[ebe086222f89] 2019-11-14 01:03:41 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: fix the signedness of plain chars
+
+Some architectures, like ARM or PPC, use 'unsigned' for
+plain chars while others, like the Intel's, use signed ones.
+
+Sparse understands -funsigned-char but by default uses the
+native signedness.
+
+Fix this by setting the proper signedness of plain chars
+for the archs that Sparse know about.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-1), machine.h (+0/-6), target.c (+18/-0), validation/char-signed-native.c (+9/-0), validation/char-unsigned-native.c (+11/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[fd3528aa0409] 2019-11-12 21:51:31 +0100
+Author: John Levon <john.levon@joyent.com>
+Subject: Add -Wexternal-function-has-definition
+
+Some older codebases hit this warning all the time, so it's useful
+to be able to disable it.
+
+Signed-off-by: John Levon <john.levon@joyent.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1), lib.c (+2/-0), lib.h (+1/-0), parse.c (+2/-2), sparse.1 (+7/-0)
+--------------------------------------------------------------------------------
+
+[cb75739a5e07] 2019-11-12 21:42:46 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: lib.c: fix spelling of _BIG_ENDIAN
+
+Commit 3c3881cf1c ("cgcc: let sparse define _BIG_ENDIAN", 2019-11-08)
+moved the definition of the _BIG_ENDIAN macro from cgcc to sparse (for
+the powerpc platforms). Unfortunately, the macro was inadvertently spelt
+incorrectly (as _BIG_DEBIAN). Correct the spelling.
+
+Fixes: 3c3881cf1c68f1b4ec4e5a68fa0aa92e88eb275c
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[570e295bfad6] 2019-11-11 14:27:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: s/size/rank/
+
+In declaration_specifiers() the variable 'size' is used to
+make the distinction between char/short/int/long/long long/...
+but this correspond more closely to the notion of 'rank' since
+some of these types can have the same bit-size.
+
+Rename the variable 'size' to 'rank'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+6/-6)
+--------------------------------------------------------------------------------
+
+[c2d67bb08bba] 2019-11-11 14:23:47 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: KW_LONG is not needed
+
+To determine the rank of shorts & floats, the keyword type
+KW_LONG is used but there is no need for a specific keyword
+since testing for 'Set_Long' has the same effect.
+
+So, remove this keyword and test for 'Set_Long' instead
+as this somehow clarify the processing of specifiers.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+2/-2), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[be1c60ca43fc] 2019-11-11 14:23:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: KW_SHORT is not needed
+
+To determine the rank of shorts & floats, the keyword type
+KW_SHORT is used but there is no need for a specific keyword
+since testing for 'Set_Short' or 'Set_Float' has the same
+effect.
+
+So, remove this keyword and test the Set_... flags instead
+as this somehow clarify the processing of specifiers.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+3/-3), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[c04f113be723] 2019-11-11 13:53:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: improve parsing of __int128
+
+__int128 is processed as-if 'long' is applied to a
+'long long'-like type. But this is not necessary or
+desirable: better to be more direct and process it
+as a kind of 'long long long' type.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[4c3567c2a7bf] 2019-11-11 13:49:16 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: add '.class = CInt'
+
+Add it for the specifier that implies an integer type.
+Since Cint is (and must be) zero, it changes nothing
+but it helps a little for as documentation.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[30ca8e0bc217] 2019-11-11 13:49:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: types[] is indexed by the specifier class
+
+The array types[] is initialized without using 'designators'
+but the entries are in fact indexed by the 'class'.
+
+Make this clear by using the 'class' constant (CInt, CUInt, CSInt
+& CReal) as designator in the table initializer.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+4/-2)
+--------------------------------------------------------------------------------
+
+[91c4ac100b05] 2019-11-11 13:45:33 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: spec: process chars like other integer types
+
+When parsing specifiers, Sparse process chars independently
+of other integers. But this is not necessary (as long as the
+proper see/test/set flags are correct).
+
+Change this by processing chars the same as other integers
+but 'below' shorts.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+9/-9)
+--------------------------------------------------------------------------------
+
+[781bc5d9369b] 2019-11-10 21:55:51 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'eval-typeof' into next
+
+* clarify lazy evaluation & conversion of SYM_TYPEOF
+
+Files: .gitignore (+1/-0), Makefile (+1/-0), show-parse.c (+1/-0), symbol.c (+5/-4), test-show-type.c (+28/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[efe42efcc1c7] 2019-11-10 13:54:56 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: examine it at show-time
+
+Unless an explicit call to examine_pointer_target() or
+get_base_type() is made, the base type of pointers are
+*not* examined via the usual recursive examine_symbol_type().
+That means that it is possible to call show_typename()
+on a non-fully examined type which is wrong (for example,
+because SYM_TYPEOFs may not be converted).
+
+So, call examine_pointer_target() on pointers when trying
+to display them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: show-parse.c (+1/-0), validation/eval/typeof0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[0544ea39ce67] 2019-11-10 13:54:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: add a test for unexamined typeof
+
+The base type of pointers are not examined when the pointer is.
+It needs to be done later when looked at.
+
+This may be a problem when show_typename() is used on a pointer
+which has not yet been 'deep-examined' and, for example, has a
+SYM_TYPEOF as its base type.
+
+Add a test case showing the problem.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/eval/typeof0.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[c2bf4dc16bec] 2019-11-10 13:53:57 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: typeof: fix up comment in examine_pointer_type()
+
+The comment was added in commit c72032ad3 ("Add comment on what ...")
+and explain why the size is set before recursing into the object
+pointed to. But since commit 017034ed4 ("Fix up type examination.")
+the object is no more examined.
+
+Adjust the comment to remove posible confusion.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+5/-4)
+--------------------------------------------------------------------------------
+
+[dd95ee8cbfeb] 2019-11-09 14:51:34 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'cgcc-cleanup' into next
+
+* more cgcc simplifications
+
+Files: cgcc (+2/-3), lib.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[3c3881cf1c68] 2019-11-09 14:02:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: let sparse define _BIG_ENDIAN
+
+In addition of __BIG_ENDIAN__, gcc defines _BIG_ENDIAN on
+powerpc (32 & 64-bit). cgcc does that too but this may also
+beeneeded when using sparse itself.
+
+So, move this define the the sparse code.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-2), lib.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[2ec21ceee59e] 2019-11-08 02:43:51 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: remove _STRING_ARCH_unaligned
+
+As far as I can see, the macro '_STRING_ARCH_unaligned' may
+be defined by glibc, not gcc. So, there is no reason for
+cgcc to define it.
+
+Worse, cgcc defines it to '1' while on some platorms (at least the
+few ppc64 I've access to) the installed glibc defines it to '0'.
+
+So, do not let cgcc define this macro.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+2/-2)
+--------------------------------------------------------------------------------
+
+[b31adacc241f] 2019-11-06 23:17:47 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: fix setting the endianness
+
+The new --arch flag set arch_big_endian for big endian archs
+but didn't clear it for little endian ones.
+
+Fix it by simply copying the endianness from the arch table.
+
+Fixes: 2c06f143fa63394dbdfa07f3f9d00b24b7c902c5
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-3)
+--------------------------------------------------------------------------------
+
+[b5e4b66490d5] 2019-11-05 02:09:19 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: show-type: add a test program to test do_show_type() & friends
+
+Add another small client doing nothing but display the type
+of the toplevel symbols.
+
+This will help to test further changes in do_show_type().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .gitignore (+1/-0), Makefile (+1/-0), test-show-type.c (+28/-0)
+--------------------------------------------------------------------------------
+
+[fdc1539d3c42] 2019-11-05 00:09:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'option-arch'
+
+* add new option, --arch=ARCH, allowing to specify the target arch.
+
+Files: cgcc (+15/-52), lib.c (+72/-0), machine.h (+9/-13), sparse.1 (+8/-0), target.c (+22/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[41a1e45b6e91] 2019-11-03 23:53:15 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'rem-unused'
+
+[Auto-summary] Modifies 3 source files: ast-inspect.c, show-parse.c, symbol.c. Updates header symbol.h. Changes: +4/-16 in 5 file(s)
+
+Files: ast-inspect.c (+0/-2), gdbhelpers (+0/-3), show-parse.c (+0/-3), symbol.c (+1/-3), symbol.h (+3/-5)
+--------------------------------------------------------------------------------
+
+[63510eb0acb3] 2019-11-03 21:54:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove unneeded MOD_TYPE
+
+MOD_TYPE is used for the sparse extension which allow
+to directly compare types with each others.
+
+Expressions for direct type are EXPR_TYPE with the type in
+expr->symbol and the expression itself having it's type
+(expr->ctype) set to &type_ctype. This is one of the few
+base/builtin types and is the only one which can have MOD_TYPE.
+
+However, a specific modifier is not needed, the address of
+the symbol can simple be used (like it is done for 'bad_ctype'
+or 'incomplete_ctype'). Also, there is only a single place where
+MOD_TYPE is tested: is_type_ctype(), itself used a single time.
+
+So:
+* rewrite the unique test using is_type_ctype() by directly
+  comparing with &type_ctype instead;
+* remove the now unused is_type_ctype();
+* remove MOD_TYPE from type_ctype's definition;
+* remove MOD_TYPE's definition;
+and spare one precious bit for other modifiers.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: gdbhelpers (+0/-3), show-parse.c (+0/-1), symbol.c (+1/-1), symbol.h (+2/-2)
+--------------------------------------------------------------------------------
+
+[1e6f6c0efc0f] 2019-11-03 21:54:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove unused SYM_TYPEDEF
+
+SYM_TYPEDEF is not used anymore since the SYM -> MOD conversion.
+
+So, remove it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ast-inspect.c (+0/-1), show-parse.c (+0/-1), symbol.c (+0/-1), symbol.h (+0/-1)
+--------------------------------------------------------------------------------
+
+[b8916941e20e] 2019-11-03 21:54:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove unused SYM_MEMBER
+
+SYM_MEMBER has never been set.
+
+Remove since it's unused.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ast-inspect.c (+0/-1), show-parse.c (+0/-1), symbol.c (+0/-1), symbol.h (+0/-1)
+--------------------------------------------------------------------------------
+
+[18675097cad5] 2019-11-03 21:53:54 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove unused KW_STATEMENT
+
+KW_STATEMENT has never been used.
+
+Remove it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[9a5a8639d8cb] 2019-11-03 17:45:20 +0100
+Author: Xi Wang <xi.wang@gmail.com>
+Subject: fix pointer casts in evaluate_compare()
+
+The results of cast_to() seem unused.  Assign them to expr->left and
+expr->right.
+
+Signed-off-by: Xi Wang <xi.wang@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[57f861160762] 2019-11-01 10:05:12 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'double-underscore'
+
+Support '__<attribute-name>__' for all attributes.
+
+Files: parse.c (+7/-1)
+--------------------------------------------------------------------------------
+
+[9b36f4154135] 2019-11-01 09:32:23 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'cmodel'
+
+Add support for -mcmodel & -f{pic,PIC,pie,PIE}.
+
+This is motivated by the kernel using the predefine macros
+__riscv_cmodel_medlow & __riscv_cmodel_medany.
+
+Files: lib.c (+110/-0), lib.h (+15/-0)
+--------------------------------------------------------------------------------
+
+[8d04453e5d34] 2019-10-30 12:06:05 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: .gitignore: alphasort the patterns
+
+The patterns have most probably been added in a queue-like way
+but it makes harder to see what's in and what's not.
+
+So, alphasort them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .gitignore (+12/-12)
+--------------------------------------------------------------------------------
+
+[f82caa52ae28] 2019-10-30 11:16:01 +0100
+Author: Joe Perches <joe@perches.com>
+Subject: Add '__' prefix and suffix to all __attribute__ #defines
+
+To avoid macro name collisions and improve portability
+the kernel want to use a double underscore prefix and
+suffix on all attributes.
+
+However, for some of them (mainly sparse's extensions),
+Sparse know only about the plain name.
+
+Teach Sparse about the double underscore for all
+attributes.
+
+Link: https://lore.kernel.org/r/7a15bc8ad7437dc3a044a4f9cd283500bd0b5f36.camel@perches.com
+Link: https://lore.kernel.org/r/19fd23e98bab65a1ee624445193bd2ed86108881.camel@perches.com
+Originally-by: Joe Perches <joe@perches.com>
+Reported-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+7/-1)
+--------------------------------------------------------------------------------
+
+[fba1931d2c27] 2019-10-30 09:52:35 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: removed unneeded predefines for integers
+
+Now that the arch is passed to sparse via '--arch=ARCH',
+all predefines for integers and pointers are defined in sparse
+itself. So, integer_types() & define_size_t() are now unneeded.
+
+Remove these functions and -D__SIZEOF_POINTER__.
+
+Note: sparc64 had also an entry for 128-bit integers (with
+      name 'LONG_LONG_LONG' and suffix 'LLL'); GCC only
+      predefines the SIZEOF macros which sparse also does
+      (but for all archs). So, it's fine to remove these also.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+4/-48)
+--------------------------------------------------------------------------------
+
+[92907fce1391] 2019-10-30 09:52:35 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: specify the arch via --arch
+
+Now that it's possible to specify the architecture via
+the --arch=ARCH option, let cgcc make use of it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+11/-4)
+--------------------------------------------------------------------------------
+
+[2c06f143fa63] 2019-10-30 09:52:14 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add an option to specify the desired arch: --arch=<arch>
+
+Sparse is universal in the sense that the same executable can
+be used for all architectures. For this, most arch-specific
+setting can be set with an option and the default values
+are taken from the host machine.
+
+This is working nicely for native targets. However, for cross-
+compilation, while seeming to work relatively well (thanks to
+the kernel build system using -m32/-m64 for all archs, for example)
+things can never work 100% correctly. For example, in the case
+an X86-64 host machine is used for an ARM target, the kernel
+build system will call sparse with -m32, Sparse will 'autodetect'
+the target arch as i386 (x86-64 + -m32) and will then predefine
+the macro __i386__. Most of the time this is not a problem (at
+least for the kernel) unless, of course, if the code contains
+something like:
+	#ifdef __i386__
+	...
+	#elif  __arm__
+	...
+
+So, add an option --arch=<arch> to specify the target architecture.
+The native arch is still used if no such flag is given.
+
+Reported-by: Ben Dooks <ben.dooks@codethink.co.uk>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+68/-0), sparse.1 (+8/-0), validation/arch/arm.c (+27/-0), validation/arch/arm64.c (+23/-0), validation/arch/mips32.c (+29/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[0a35fa5b1ce9] 2019-10-30 09:51:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: change the arch when changing -m32/64
+
+If the flag -m32 or -m64 is given in argument, we must insure
+that the corresponding architecture is changed as well.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[34f4fefd6b97] 2019-10-30 09:50:12 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add support for s390 (ILP32)
+
+On s390x, the flag -m31 is needed to enable this mode.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+3/-0), machine.h (+3/-1), target.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[ad71777d2cd8] 2019-10-30 09:27:28 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: reorder MACH_XXX defines
+
+Some architectures have a 32- and a 64-bit variant which can
+be exchanged via the -m32/-m64 flags.
+
+Make clear the correspondance between these variant when
+defining the MACH_XXX.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: machine.h (+6/-12)
+--------------------------------------------------------------------------------
+
+[49626f82c7c8] 2019-10-30 09:27:05 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: arch: add predefine for __mips__
+
+This define was missing for MIPS, add it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[c8a963b2450d] 2019-10-28 22:30:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: options: add support for -mcmodel
+
+Do the parsing of all models used in the kernel and
+output the predefines for arm64 & riscv.
+
+Reported-by: Paul Walmsley <paul.walmsley@sifive.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+86/-0), lib.h (+13/-0)
+--------------------------------------------------------------------------------
+
+[2db11f1f818b] 2019-10-28 22:29:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: options: add support for -fpic, -fPIC, -fpie & -fPIE
+
+Do the parsing and output the corresponding predefines.
+Follow the same rules as GCC: pic/pie -> 1, PIC/PIE -> 2
+and pie/PIE implies pic/PIC.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+24/-0), lib.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[8ab81af89852] 2019-10-14 01:27:22 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Sparse v0.6.1
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[644f5981d2a6] 2019-10-13 10:51:59 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: doc: fix typo in binops' description
+
+Both operands of integer & floating-point binops are described as
+being '.src1' but, of course, the second one should be '.scr2'.
+
+Fix the typo.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/IR.rst (+2/-2)
+--------------------------------------------------------------------------------
+
+[6837969854ad] 2019-10-09 23:29:41 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: "graph" segfaults on top-level asm
+
+The "graph" binary segfaults on this input:
+	asm("");
+with gdb saying (edited for clarity):
+	Program received signal SIGSEGV, Segmentation fault.
+		in graph_ep (ep=0x7ffff7f62010) at graph.c:52
+	(gdb) p ep->entry
+	$1 = (struct instruction *) 0x0
+
+Sadly, the commit that introduced this crash:
+	15fa4d60e ("topasm: top-level asm is special")
+was (part of a bigger series) meant to fix crashes because
+of such toplevel asm statements.
+
+Toplevel ASM statements are quite abnormal:
+* they are toplevel but anonymous symbols
+* they should be limited to basic ASM syntax but are not
+* they are given the type SYM_FN but are not functions
+* there is nothing to evaluate or expand about it.
+These cause quite a few problems including crashes, even
+before the above commit.
+
+So, before handling them more correctly and instead of
+adding a bunch of special cases here and there, temporarily
+take the more radical approach of stopping to add them to
+the list of toplevel symbols.
+
+Fixes: 15fa4d60ebba3025495bb34f0718764336d3dfe0
+Reported-by: Vegard Nossum <vegard.nossum@gmail.com>
+Analyzed-by: Vegard Nossum <vegard.nossum@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+1/-1), validation/linear/asm-toplevel.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[84bf658e2bed] 2019-10-09 22:20:06 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: llvm: fix sparsec breakage on recent cygwin version
+
+On recent version of cygwin, sparsec fails because, apparently,
+ lcc is using the wrong triple. This is because:
+1) sparse-llvm doesn't use an explicit triple for cygwin;
+2) by default, llc use triple of the host machine at
+   build-time as the the default for the target machine.
+Why/how it was working with previous versions is unknown.
+
+Fix this by using, on cygwin, the triple given by llvm-config.
+
+Reported-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Investigated-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: sparsec (+1/-0)
+--------------------------------------------------------------------------------
+
+[0ccb3b4f7380] 2019-10-07 09:46:35 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Sparse v0.6.1-rc2 is now out.
+
+The source code can be found at its usual repository:
+  git://git.kernel.org/pub/scm/devel/sparse/sparse.git v0.6.1-rc2
+
+The tarballs are found at:
+    https://www.kernel.org/pub/software/devel/sparse/dist/
+
+Many thanks to people who have contributed to this release:
+Ben Dooks, Dan Carpenter, Jann Horn, Randy Dunlap, Thomas Weißschuh,
+Ramsay Jones, Linus Torvalds, Oliver Hartkopp and Ilya Maximets,
+
+Most changes since the previous release (v0.6.1-rc1) belong in 2 categories:
+1) small fixes and iprovements
+2) do the evaluation & expansion of ASM operands
+
+The complete list of patches are:
+  Ben Dooks (1):
+      .gitignore: add temporary *~ files
+
+  Dan Carpenter (1):
+      fix sign extension in casting enums
+
+  Jann Horn (1):
+      evaluate: externally_visible functions don't need a declaration
+
+  Luc Van Oostenryck (32):
+      expand: add explanation to 'conservative'
+      add test for evaluation of invalid assignments
+      also accept casts of AS pointers to uintptr_t
+      man: explain role of uintptr_t & unsigned long in casts from AS pointers
+      fix allowing casts of AS pointers to uintptr_t
+      cgcc: fix wrong processing of -MD & -MMD
+      constexpr: relax constexprness of constant conditionals
+      more consistent type info in error messages
+      shorter message for non-scalar in conditionals
+      expand: add test for expansion of compound literals
+      expand: add missing expansion of compound literals
+      dissect: fix processing of ASM statements
+      string: add helper string_expression()
+      string: use string_expression() in parse_static_assert()
+      asm: add test evaluation, expansion & linearization of ASM operands
+      asm: check earlier that body & constraints are strings
+      asm: use a specific struct for asm operands
+      asm: keep using struct asm_operand during linearization
+      asm: parse constraints
+      asm: use parse_asm_constraint() to verify constraints
+      asm: missing evaluation of asm statements
+      asm: linearization of output memory operands is different
+      asm: fix liveness memory operand
+      asm: fix missing expansion of asm statements
+      asm: arrays & functions in non-memory operand degenerate into pointers
+      do not linearize invalid expression
+      add test for enum sign extension
+      remove useless optimization in cast_enum_list()
+      asm: warn on invalid empty constraints
+      make 'directive in argument list' clearer
+      expand more builtins like __builtin_ffs()
+      cleanup: make arch_msize_long static
+
+  Randy Dunlap (1):
+      problem building sparse 0.6.0 (sparse-llvm)
+
+  Thomas Weißschuh (1):
+      expand: 'conservative' must not bypass valid simplifications
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[38eda538ece3] 2019-10-03 21:10:36 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cleanup: make arch_msize_long static
+
+This variable is used to set 'size_t_ctype' with the option
+'-msize-long'. Code that cares should directly use size_t_ctype,
+not 'arch_msize_long'.
+
+To be sure that some random code doesn't use 'arch_msize_long',
+make it local to "lib.c".
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+1/-1), lib.h (+0/-1)
+--------------------------------------------------------------------------------
+
+[f10aa66a2779] 2019-10-03 20:44:48 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'asm-warn-invalid', 'directive-arg' and 'expand-ffs'
+
+* asm: warn on invalid empty constraints
+* make 'directive in argument list' clearer
+* expand more builtins like __builtin_ffs()
+
+Files: builtin.c (+56/-0), pre-process.c (+1/-1), validation/preprocessor/preprocessor22.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[3df9233e87de] 2019-10-03 20:44:06 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: expand more builtins like __builtin_ffs()
+
+GCC expands at compile time builtins like __builtin_ffs()
+when their argument is constant.
+
+A driver in the kernel uses such a builtin in a case statement,
+causing sparse to report:
+	error: Expected constant expression in case statement
+
+So, let sparse also expand such builtins, somehow like it was
+done for bswap16/32/64 but now for ffs/ffsl/ffsll, clz, ctz,
+clrsb, popcount & parity.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Files: builtin.c (+56/-0)
+--------------------------------------------------------------------------------
+
+[205d00bae166] 2019-10-01 00:56:00 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: make 'directive in argument list' clearer
+
+The warning 'directive in argument list' is about macros'
+arguments, not functions' ones.
+
+Make this clearer in the warning message.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: pre-process.c (+1/-1), validation/preprocessor/preprocessor22.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[642ca91d13f8] 2019-09-30 15:15:35 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: warn on invalid empty constraints
+
+Empty ASM constraints are invalid. So, catch them
+at parsing time and issue a warning.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[d466a02815b8] 2019-09-30 03:45:53 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-expand-asm' into tip
+
+Currently, ASM operands aren't expanded or even evaluated.
+This causes Sparse to emit warnings about 'unknown expression'
+during the linearization of these operands if they contains,
+for example, calls to __builtin_compatible_types_p().
+
+Note: the correct handling of ASM operands needs to make
+      the distinction between 'memory' operands and 'normal'
+      operands. For this, it is needed to look at the constraints
+      and these are architecture specific. The patches in this
+      series only consider the constraints m, v, o & Q as
+      being for memory operands and, happily, these seems
+      to cover most usage for the most common architectures.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: allocate.c (+1/-0), allocate.h (+1/-0), dissect.c (+2/-6), evaluate.c (+118/-40), expand.c (+25/-4), ... and 24 more
+--------------------------------------------------------------------------------
+
+[fded889cd4b3] 2019-09-30 03:45:27 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'relax-constexpr' into tip
+
+[Auto-summary] Modifies evaluate.c. Adds/updates 2 test(s). Changes: +25/-17 in 3 file(s)
+
+Files: evaluate.c (+15/-13), validation/constexpr-constcond.c (+10/-0), validation/ioc-typecheck.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[0ca5ee15e983] 2019-09-30 03:44:50 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-bad-linear' into tip
+
+Expressions without a valid type should never be linearized
+since they have no (valid) type and haven't been expanded.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+6/-2), validation/eval-bad-assign1.c (+14/-0), validation/eval-bad-assign2.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[f4a90f9a6f56] 2019-09-30 03:43:24 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-enum-sign-extend' into tip
+
+In a declaration like:
+	enum {
+		a = 0x80000000,
+		b = -1,
+	}
+the underlying type should be long and b's value should be
+0xffffffffffffffff (on a 64-bit machine) but is 0xffffffff.
+
+The fix is in cast_enum_list() to change the the type of the
+enumeration after casting its value and not before since
+the original type is needed for the cast.
+
+Fixes: 604a148a73af ("enum: fix cast_enum_list()")
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+1/-3), validation/enum-sign-extend.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[1a38b82ebc4f] 2019-09-30 03:39:05 +0200
+Author: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: fix sign extension in casting enums
+
+The function cast_value() needs the exact type of the old expression
+but when called via cast_enum_list() this type is incorrect because:
+- the same struct is used for the new and the old expression
+- the type of the new expression is adjusted before cast_value()
+  is called.
+
+Fix this by adjusting the type of the new expression only after
+cast_value() has been called.
+
+Fixes: 604a148a73af ("enum: fix cast_enum_list()")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+1/-1), validation/enum-sign-extend.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[959e165a34d5] 2019-09-30 03:38:50 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove useless optimization in cast_enum_list()
+
+The function cast_enum_list() is used to give the same type to
+all elements of an enum declaration. The base case for doing this
+is to call cast_value() on the element, but this call is not done
+is the size of the element already match the size of the common type.
+
+This special case is an optimization but not an interesting one since
+cast_value() is not a costly function. OTOH, it somehow complicates
+the flow inside cast_enum_list().
+
+So, remove the optimisation by letting cast_value() to handle
+all cases.
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+0/-2)
+--------------------------------------------------------------------------------
+
+[6d37de7ad980] 2019-09-30 03:38:41 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add test for enum sign extension
+
+In a declaration like:
+	enum {
+	        a = 0x80000000,
+	        b = -1,
+	}
+the underlying type should be long and b's value should be
+0xffffffffffffffff (on a 64-bit machine) but is 0xffffffff.
+
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/enum-sign-extend.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[2c80708a7c05] 2019-09-30 02:09:45 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: do not linearize invalid expression
+
+Code like:
+	int *r;
+	r = ({ __builtin_types_compatible_p(long, long); });
+
+triggers the following diagnostics:
+	warning: incorrect type in assignment (different base types)
+	   expected int *r
+	   got long
+	warning: unknown expression (4 0)
+	warning: unknown expression (4 0)
+
+The first warning is expected but the other two are bogus.
+
+The origin of the problem could be considered as being how
+type incompabilities are handled in assignment:
+   If an incompatibility is found by compatible_assignment_types()
+   - a warning is issued (not an error),
+   - the source expression is casted to the destination type,
+   - the returned value indicates a problem was detected.
+   In the other uses of this function the returned value is simply
+   ignored and normal processing continue. This seems logical since
+   only a warning is issued and so (thanks to the cast) the
+   resulting expression is at least type-coherent.
+   However, in evaluate_assignment() the returned value is not
+   ignored and the calling function directly returns. This leaves
+   the resulting expression without a valid type, as if an error
+   occured, unable to be correctly processed further.
+
+However, the real problem is that an expression without a valid
+type should never be linearized.
+
+So, in linearize_expression(), refuse to linearize an expression
+without a valid type.
+
+Note: if one is interested in doing a maximum of processing,
+      including expansion and linearization, check_assignment_types()
+      should be modified to distinguish between recoverable and
+      non-recoverable type error (those for which the forced
+      cast make sense and those for which it doesn't) and
+      compatible_assignment_types() modified accordingly (maybe
+      issuing a warning in the first case and an error otherwise).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+6/-2), validation/eval-bad-assign1.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[5d0c4d96bdf4] 2019-09-28 19:02:47 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: arrays & functions in non-memory operand degenerate into pointers
+
+Non-memory asm operands are very much like function's arguments.
+As such, any array (or function designator) used as an asm operand
+need to degenerate into the corresponding pointer.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+3/-0), validation/eval/asm-degen.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[ad1e7dc055a1] 2019-09-27 03:29:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: fix missing expansion of asm statements
+
+The operands of extended ASM need to be expanded, exactly
+like any other expression. For example, without this expansion
+expressions with __builtin_compatible_types_p() can't be
+linearized and will issue a 'warning unknown expression".
+
+So, add the missing expansion of ASM operands.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+17/-1), validation/expand/asm0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[75bcc7dc0fe1] 2019-09-27 03:29:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: fix liveness memory operand
+
+Since memory operands are only some kind of reference, the pseudo
+in an output operand is not defined by the statement, the reference
+is only used.
+
+Fix the liveness processing accordingly.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-0), linearize.h (+1/-0), liveness.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[2112249916c1] 2019-09-27 03:15:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: linearization of output memory operands is different
+
+ASM memory operands are considered by GCC as some kind of implicit
+reference. Their linearization should thus not create any storage
+statement: the storage is done by the ASM code itself.
+
+Adjust the linearization of such operands accordingly.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+9/-4), validation/linear/asm-memop.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[aa510823d308] 2019-09-27 02:51:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: missing evaluation of asm statements
+
+The operands of extended ASM need to have their type evaluated,
+exactly like any other expression.
+
+So, add the missing evaluation of ASM operands.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+18/-0), validation/eval/asm-memop.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[4bee9b6dcb6d] 2019-09-27 02:17:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: use parse_asm_constraint() to verify constraints
+
+In extended ASM statements, output constraints need to be
+prefixed with "=" or "+" and input constraints must not. This
+is checked in verify_{output,input}_constraint() where the
+constraint string is analyzed to look after these two chars.
+
+However, the needed information is now already available thanks
+to parse_asm_constraint().
+
+So, use the result of the parsing of the constraint strings to
+avoid to analyze again these strings during their verification.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+15/-20)
+--------------------------------------------------------------------------------
+
+[46471e079070] 2019-09-27 02:17:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: parse constraints
+
+The details of the ASM constraint strings are needed for
+their validation but also for the proper evaluation of the
+operands.
+
+So, parse these strings and store the significant properties
+in struct asm_operand where they can be used for the next steps.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+74/-2), expression.h (+6/-0)
+--------------------------------------------------------------------------------
+
+[92116940a9b1] 2019-09-27 02:17:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: keep using struct asm_operand during linearization
+
+In linearize_asm_statement(), the functions asm_add_{input,output}()
+are given the ASM operand 'name', 'constraint' & 'expression'
+as argument. However, it's much simpler to simply give the whole
+struct asm_operad.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+10/-15)
+--------------------------------------------------------------------------------
+
+[279a25bad3a6] 2019-09-27 02:17:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: use a specific struct for asm operands
+
+Before commit 756731e9 ("use a specific struct for asm operands")
+ASM operands where stored as a list of n times 3 expressions.
+After this commit, the triplets where stored inside a single
+expression of type EXPR_ASM_OPERAND.
+
+However, while this improved the parsing and use of ASM operands
+it needlessly reuse 'struct expression' for something that is not
+an expression at all.
+
+Fix this by really using a specific struct for ASM operands.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: allocate.c (+1/-0), allocate.h (+1/-0), dissect.c (+1/-1), evaluate.c (+1/-4), expand.c (+0/-3), ... and 7 more
+--------------------------------------------------------------------------------
+
+[7aeb06b4bff7] 2019-09-27 02:17:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: check earlier that body & constraints are strings
+
+The syntax of extended ASM statements requires that the
+bodies & constraints are given via a literal string.
+
+However, at parsing time more general expressions are accepted
+and it's checked only at evaluation time if these are effectively
+string literals. This has at least two drawbacks:
+*) evaluate_asm_statement() is slightly more complicated than
+   needed, mixing these checks with the real evaluation code
+*) in case of error, the diagnostic is issued later than
+   other syntaxic warnings.
+
+Fix this by checking at parse-time that ASM bodies & constraints
+are string literals and not some arbitrary expressions.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+3/-11), parse.c (+4/-3), validation/asm-bad0.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[62308ab6a602] 2019-09-27 02:17:31 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: add test evaluation, expansion & linearization of ASM operands
+
+ASM statements are quite complex.
+Add some tests to catch some potential errors.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/asm-bad0.c (+41/-0), validation/eval/asm-degen.c (+37/-0), validation/eval/asm-memop.c (+48/-0), validation/expand/asm0.c (+24/-0), validation/linear/asm-memop.c (+24/-0)
+--------------------------------------------------------------------------------
+
+[d765800ade9c] 2019-09-26 18:11:32 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: string: use string_expression() in parse_static_assert()
+
+The error handling during the parsing of _Static_assert()'s
+message string is relatively complex.
+
+Simplify this by using the new helper string_expression().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+2/-7), validation/static_assert.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[ddebbc1dff57] 2019-09-26 18:11:16 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: string: add helper string_expression()
+
+This will help to detect earlier syntax errors concerning
+string constants.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expression.c (+11/-0), expression.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[e6d4cd7933a0] 2019-09-26 18:11:00 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: dissect: fix processing of ASM statements
+
+Before commit 756731e9 ("use a specific struct for asm operands"),
+ASM operands ('name', 'constraint, 'expression') were stored as a
+sequence of 3 expressions. After, they had their own expression
+type: EXPR_ASM_OPERAND.
+
+However, dissect.c:do_asm_xputs() was not adapated for this change.
+
+Fix this in do_asm_xputs() by processing the 'expression' of
+every entries (instead of only processing every third entries).
+
+CC: Oleg Nesterov <oleg@redhat.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: dissect.c (+1/-5)
+--------------------------------------------------------------------------------
+
+[233e61d2cfe5] 2019-09-26 18:10:44 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: expand: add missing expansion of compound literals
+
+Compound literals, like all other expressions, need to be be
+expanded before linearization, but this is currently not done.
+As consequence, some builtins are unexpectedly still present,
+same for EXPR_TYPEs, ... with error messages like:
+	warning: unknown expression
+at linearization.
+
+Fix this by adding the missing expansion of compound literals.
+
+Note: as explained in the code itself, it's not totally clear
+      how compound literals can be identified after evaluation.
+      The code here consider all anonymous symbols with an
+      initializer as being a compound literal.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-0), expand.c (+8/-0), validation/expand/compound-literal.c (+0/-1), validation/linear/compound-literal02.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[7a3cc9608ed2] 2019-09-26 18:10:29 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: expand: add test for expansion of compound literals
+
+Compound literals are currently not expanded.
+Add a test for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/expand/compound-literal.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[686de6f296f2] 2019-09-26 18:10:09 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: shorter message for non-scalar in conditionals
+
+The diagnostic message is a bit long with the non-really-informative
+part 'incorrect type' first and the explanation later in parentheses.
+
+Change this by using a shorter message "non-scalar type in ...".
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/bad-type-twice0.c (+1/-1), validation/conditional-type.c (+8/-8)
+--------------------------------------------------------------------------------
+
+[f60446f2ea3a] 2019-09-26 18:08:56 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: more consistent type info in error messages
+
+Some error messages are displayed with auxillary information
+about the concerned type(s).
+
+However, this type information is displayed in various way:
+just the type, "[left/right] side has type ...", "got ...", ...
+
+Make these more consistent and simpler by just displaying
+types when the error message is unambigous about the fact
+that the problem is a type problem (and/or make the message
+unambiguous when possible).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+10/-10), validation/bad-type-twice0.c (+2/-2), validation/bad-type-twice1.c (+3/-3), validation/compare-null-to-int.c (+3/-3), validation/cond_expr.c (+2/-2), ... and 2 more
+--------------------------------------------------------------------------------
+
+[b8c706f3d011] 2019-09-02 17:34:00 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: constexpr: relax constexprness of constant conditionals
+
+Currently, sparse emits a warning when a conditional expression with a
+constant condition is used where an "Integer Constant Expression" is
+expected and only the false-side operand (which is not evaluated) is
+not constant. The standard are especially unclear about this situation.
+
+However, GCC silently accept those as ICEs when they evaluate to a compile-time
+known value (in other words, when the conditional and the corresponding
+true/false sub-expression are themselves constant). The standard are
+especially unclear about the situation when the unevaluated side is non-constant.
+
+So, relax sparse to match GCC's behaviour.
+
+Reported-by: Oliver Hartkopp <socketcan@hartkopp.net>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+15/-13), validation/constexpr-constcond.c (+10/-0), validation/ioc-typecheck.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[3c748099b5a7] 2019-09-02 17:34:00 +0200
+Author: Randy Dunlap <rdunlap@infradead.org>
+Subject: problem building sparse 0.6.0 (sparse-llvm)
+
+Certain macros have to be defined in order to use the llvm
+DataTypes.h header file.  Fixes these build errors when building
+sparse-llvm:
+
+  CC      sparse-llvm.o
+In file included from /usr/include/llvm-c/Types.h:17:0,
+                 from /usr/include/llvm-c/ErrorHandling.h:17,
+                 from /usr/include/llvm-c/Core.h:18,
+                 from sparse-llvm.c:6:
+/usr/include/llvm/Support/DataTypes.h:57:3: error: #error "Must #define __STDC_LIMIT_MACROS before #including Support/DataTypes.h"
+ # error "Must #define __STDC_LIMIT_MACROS before #including Support/DataTypes.h"
+   ^
+/usr/include/llvm/Support/DataTypes.h:61:3: error: #error "Must #define __STDC_CONSTANT_MACROS before " "#including Support/DataTypes.h"
+ # error "Must #define __STDC_CONSTANT_MACROS before " \
+   ^
+
+This is from using llvm 3.8.0.
+
+Suggested-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[d90c0838c101] 2019-09-02 17:33:51 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: fix wrong processing of -MD & -MMD
+
+In commit bb1bf7485 ("cgcc: gendeps for -MM, -MD & -MMD too"),
+the flags -MD & -MMD were treated as -M (and -MM):
+	inhibit calling the checker/sparse because the command is
+	only used to generate dependencies.
+But while this behaviour is correct for -MM, it's not for -MD & -MMD
+since these flags are only used to generate the dependencies
+*in addition* to the normal processing.
+
+Fixes: bb1bf748580d1794f8da7200ba83ccfc2f2f3a8a
+Reported-by: Ilya Maximets <i.maximets@samsung.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[2b96cd804dc7] 2019-04-04 22:50:29 +0200
+Author: Ben Dooks <ben.dooks@codethink.co.uk>
+Subject: .gitignore: add temporary *~ files
+
+Ignore any ~ files left in the repository.
+
+Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .gitignore (+1/-0)
+--------------------------------------------------------------------------------
+
+[3f359ea14423] 2019-04-01 01:46:44 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix allowing casts of AS pointers to uintptr_t
+
+The patch b3daa62b5 ("also accept casts of AS pointers to uintptr_t")
+is bogus and allows uintptr_t as the *source type* instead of the
+*target type*. This was helped by a previous bug, in patch
+d96da358c ("stricter warning for explicit cast to ulong"), where
+a test for Wcast_from_as was wrongly added for the source type.
+
+Fix this by:
+* adding the test for uintptr_t to the target type;
+* removing the test for Wcast_from_as from the source type,
+  replacing it by a test of Wcast_to_as;
+* clarify and extend the tge testcases.
+So, now, casts from uintptr_t to AS pointers are also allowed.
+
+Fixes: b3daa62b53109dba78c7937b3a6a0cd7d67865d5
+Fixes: d96da358cfa0432f067a4e66940765883b80ee62
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+2/-2), sparse.1 (+2/-0), validation/Waddress-space-all-attr.c (+9/-5), validation/{cast-from-as.c => Waddress-space-from.c} (+12/-9), validation/Waddress-space-strict.c (+0/-1), ... and 1 more
+--------------------------------------------------------------------------------
+
+[c4c9935b129f] 2019-03-30 17:35:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: man: explain role of uintptr_t & unsigned long in casts from AS pointers
+
+Sparse will warn on casts removing the address space of a pointer
+if the destination type is not uintptr_t or unsigned long. But the
+special role of these 2 types is not explained in the man page.
+
+So, add an explanation for them in the description of -Waddress-space.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: sparse.1 (+10/-3)
+--------------------------------------------------------------------------------
+
+[b3daa62b5310] 2019-03-30 17:35:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: also accept casts of AS pointers to uintptr_t
+
+Sparse will warn on casts removing the address space of a pointer
+if the destination type is not unsigned long. But the type
+'uintptr_t' should be more suited for this.
+
+So, also accept casts of address-space qualified pointers to uintptr_t.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/cast-from-as.c (+60/-0)
+--------------------------------------------------------------------------------
+
+[1ed095591991] 2019-03-27 22:12:24 +0100
+Author: Jann Horn <jannh@google.com>
+Subject: evaluate: externally_visible functions don't need a declaration
+
+sparse warns for non-static functions that don't have a separate
+declaration. The kernel contains several such functions that are marked
+as __attribute__((externally_visible)) to mark that they are called from
+assembly code. Assembly code doesn't need a header with a declaration to
+call a function. Therefore, suppress the warning for functions with
+__attribute__((externally_visible)).
+
+Signed-off-by: Jann Horn <jannh@google.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), gcc-attr-list.h (+0/-1), parse.c (+15/-1), symbol.h (+3/-1)
+--------------------------------------------------------------------------------
+
+[c1d5521fcd02] 2019-03-05 22:44:34 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add test for evaluation of invalid assignments
+
+Due to the way compatible_assignment_types()'s handle type
+incompatibilities and how expression with an invalid type
+are nevertheless processed by linearize_expression(), some
+invalid assignments retunr unwanted error messages (and
+working around them can create some others).
+
+Here are 2 relatively simple tests triggering the situation.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/eval-bad-assign1.c (+15/-0), validation/eval-bad-assign2.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[7fd3778e2d3a] 2019-03-03 11:17:47 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: expand: add explanation to 'conservative'
+
+The variable 'conservative' is used to allow testing some
+characteristics of an expression while inhibiting any possible
+side-efects like issuing a warning or marking the expression
+as erroneous. But this role is not immedialtely apparent.
+
+So, add a comment to the variable declaration.
+
+Suggested-by: Thomas Weißschuh <thomas@t-8ch.de>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+5/-0)
+--------------------------------------------------------------------------------
+
+[5374221b943f] 2019-03-03 10:59:01 +0100
+Author: Thomas Weißschuh <thomas@t-8ch.de>
+Subject: expand: 'conservative' must not bypass valid simplifications
+
+During the expansion of shifts, the variable 'conservative' is used
+to inhibit any possible diagnostics (for example, because the needed
+information is if the expression is a constant or not).
+
+However, this must not inhibit the simplification of valid shift
+expressions. Unfortunately, by moving the validation inside
+check_shift_count(), this what was done by commit
+	0b73dee01 ("big-shift: move the check into check_shift_count()").
+
+Found through a false positive VLA detected in the Linux kernel.
+The array size was computed through min() on a shifted constant value
+and sparse complained about it.
+
+Fix this by changing the logic of check_shift_count():
+1) moving the test of 'conservative' inside check_shift_count()
+   and only issuing warnings if set.
+2) moving the warning part in a separate function: warn_shift_count()
+3) let check_shift_count() return if the shift count is valid
+   so that the simplication can be eluded if not.
+
+Fixes: 0b73dee0171a15800d0a4ae6225b602bf8961599
+Signed-off-by: Thomas Weißschuh <thomas@t-8ch.de>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+15/-8), validation/constexpr-shift.c (+12/-0), validation/expand/bad-shift.c (+64/-0)
+--------------------------------------------------------------------------------
+
+[d002f9f9c2c4] 2019-03-01 18:27:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Sparse v0.6.1-rc1
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[53179dd438d6] 2019-02-28 21:08:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove confusing intermediate 'where' in evaluate_assignment()
+
+In evaluate_assignment(), a local variable (named 'where') contains
+the input expression (named 'expr', like in most other functions).
+This is doubly confusing because:
+*) both variables hold the same pointer.
+*) the name 'where' is normally used for a string with extra
+   information for error messages.
+
+So, remove this intermediate var and use the original 'expr' instead.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-2)
+--------------------------------------------------------------------------------
+
+[7f1ea3b67e7f] 2019-02-28 21:04:20 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: display extra info for type errors in compare & conditional
+
+For "incompatible types in comparison expression" errors, only the
+kind of type difference is displayed. Displaying the types would
+make easier to find the cause of the problem. The same is true
+for ternary conditionals.
+
+So, also display the left & right types.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+6/-2), validation/cond-err-expand.c (+6/-2)
+--------------------------------------------------------------------------------
+
+[8095f18a5f9e] 2019-02-25 23:34:26 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: use strict & warnings
+
+Better to declare undeclared or unintialized vars early,
+so use the 'strict' & 'warnings' pragmas.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-0)
+--------------------------------------------------------------------------------
+
+[4b6e02c17bcf] 2019-02-25 23:02:30 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'cgcc-dumpmachine' into tip
+
+* cgcc: add support for x86-x32
+* cgcc: favor using 'gcc -dumpmachine' to determine specifics
+* cgcc: simpler handling of hard-float ARM
+* cgcc: add pseudo-archs for ppc64be/ppc64le
+* cgcc: -dumpmachine should be fetched with '$ccom'
+
+Files: cgcc (+39/-11)
+--------------------------------------------------------------------------------
+
+[70d043e5c784] 2019-02-25 23:01:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: add support for x86-x32
+
+Detect when the target is x86-x32 and pass the appropriate flag '-mx32'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-1)
+--------------------------------------------------------------------------------
+
+[5b6d9e9cdd55] 2019-02-25 23:01:04 +0100
+Author: Uwe Kleine-König <uwe@kleine-koenig.org>
+Subject: cgcc: favor using 'gcc -dumpmachine' to determine specifics
+
+`uname -m` returns information about the host machine but this
+information is useless when cgcc is used with a non-native compiler
+since it's information about the target machine that is needed.
+
+So, first try to determine the target machine via `gcc -dumpmachine`
+and default to `uname -m`.
+
+Note: this should fix problems with Debian build when armhf builder
+   is run on a arm64 environment.
+
+Originally-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+28/-5)
+--------------------------------------------------------------------------------
+
+[9e7712272fea] 2019-02-25 23:01:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: simpler handling of hard-float ARM
+
+There is an ABI for ARM with hard floats and one for soft floats
+(as well as one for a sort of mix between hard & soft).
+For hard floats, the preprocessor symbol '__ARM_PCS_VFP' needs to
+be defined. This is added as an additional check in the code
+returning the 'specs' for ARM.
+
+To facilitate some upcoming changes and code reuse here, create
+a pseudo-arch 'arm+hf' using '-D__ARM_PCS_VFP=1' in addition to
+the usual options for ARM.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+7/-8)
+--------------------------------------------------------------------------------
+
+[a451db31db58] 2019-02-25 23:01:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: add pseudo-archs for ppc64be/ppc64le
+
+Platforms having an uname's machine 'ppc64' or 'ppc64le' need to
+have their endianness set (as well as the 'ELF' version).
+
+To facilitate some future changes and code reuse here, create
+entries for 2 pseudo-archs 'ppc64+be' & 'ppc64+le'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+6/-2)
+--------------------------------------------------------------------------------
+
+[95ac0b035281] 2019-02-25 23:00:59 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: -dumpmachine should be fetched with '$ccom'
+
+The variable '$ccom' is used to hold the compiler command only
+while '$cc' hold the compiler and it's options.
+
+So, use '$ccom' to fetch '-dumpmachine' instead of '$cc'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[4f21b05f3c28] 2019-02-25 21:17:42 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-cgcc-gendeps' into tip
+
+* cgcc: -MF, -MQ & -MT need an argument
+* cgcc: gendeps for -MM, -MD & -MMD too
+
+Files: cgcc (+5/-5)
+--------------------------------------------------------------------------------
+
+[4dcaf5388d53] 2019-02-25 21:02:48 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: define __APPLE_CC__ on OSX
+
+It seems that some header files somehow need this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[40dbb3922562] 2019-02-25 21:02:14 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: evaluate: sizeof(bool) could be larger than sizeof(char)
+
+The C standard doesn't require that the size of a _Bool is 1,
+its size is implementation defined.
+
+However, in evaluate_sizeof() the assumption is made that
+a bool is the same size as a char.
+
+Fix this wrong assumption by using the existing bits_in_bool.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[2fe3af233473] 2019-02-20 14:28:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: -MF, -MQ & -MT need an argument
+
+These flags expect an argument. So, the following element in
+'@ARGV' must then not be considered as an option or an input file,
+exactly like done for '-o FILE'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+4/-4)
+--------------------------------------------------------------------------------
+
+[bb1bf748580d] 2019-02-20 14:27:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: gendeps for -MM, -MD & -MMD too
+
+These flags must set '$gendeps', just like a plain '-M' do,
+since they implies '-M'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[441c2847ad4b] 2019-02-18 23:07:59 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testsuite: fix bad escaping of '[' & ']'
+
+Fix escaping of square brackets in some test patterns.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/c11-noreturn.c (+1/-1), validation/c11-thread-local.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[ec4bac31cf9f] 2019-02-17 18:18:52 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'branch-v0.6'
+
+* explain cause of 'incorrect type in conditional'
+* manpage: fix doc of '-Wcast-from-as'
+
+Files: evaluate.c (+1/-1), sparse.1 (+1/-1), validation/bad-type-twice0.c (+1/-1), validation/conditional-type.c (+8/-8)
+--------------------------------------------------------------------------------
+
+[f21358ee7ee7] 2019-02-17 17:54:46 +0100
+Author: Uwe Kleine-König <uwe@kleine-koenig.org>
+Subject: build: honor CFLAGS & friends from environment
+
+Debian build scripts pass CFLAGS in the environment.
+However, this is ignored by Sparse's Makefile since 'CFLAGS'
+is unconditionaly initialized.
+
+Fix this by initializing CFLAGS to its default value using '?='.
+Do the same for PKG_CONFIG, DESTDIR, BINDIR, MANDIR and
+CHECKER_FLAGS.
+
+Note: It's useless to try to do the same for CC, LD & AR since
+      they're builtin variables so '?= ...' is a no-op for them
+      (unless make is called with -R).
+
+Note: This makes sparse native builds reproducible for Debian.
+
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+9/-6)
+--------------------------------------------------------------------------------
+
+[582ec2e3c220] 2019-02-17 17:52:26 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: build: get rid of MAN1DIR
+
+MAN1DIR is one of the configurable build option but it
+seems to have few, if any, reasons to have such an option
+in addition of MANDIR.
+
+So, remove this variable and simplify the install rules
+by using an internal-only "$(bindir)" & "$(man1dir)" to
+replace "$(DESTDIR)$(BINDIR)" & "$(DESTDIR)$(MANDIR)/man1".
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+8/-5)
+--------------------------------------------------------------------------------
+
+[90190ad2a9fe] 2019-02-17 17:51:58 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: build: always use '-Wall -Wwrite-strings'
+
+Currently, these options are in the configurable part of CFLAGS,
+like '-O2' or '-g', but since they're just warnings they can
+be moved to the non-optional flags.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[d40c161566ba] 2019-02-17 17:48:17 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: build: CHECKER is not needed, remove it
+
+This variable is only used for selfcheck and there is no reasons
+to be configurable from the command line or the environment.
+
+So, get rid of 'CHECKER' by inlining it in the check command.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-2)
+--------------------------------------------------------------------------------
+
+[b40a6cb5d68b] 2019-02-08 15:17:05 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix parallel install
+
+The current make rules for 'install' were mixing pure declarative
+and procedural style. As consequence, the binaries or the manpages
+could be installed before their target directory was created.
+
+Fix this by removing the rule to create these dirs and use install
+with the '-D' option to create them.
+Also remove the first prerequisites '$(INST_PROGRAMS) $(INST_MAN1)'
+since these are not needed (the effective install rules already depend
+them) and somehow misleading (it's not because they're first in
+the dependencies list that they will be created before the next ones).
+
+Spotted-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+3/-6)
+--------------------------------------------------------------------------------
+
+[ec2c615d630b] 2019-02-07 22:49:32 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: redecl: add test for attribute placement in function declarators
+
+Add a new test file which demonstrates some problems which can be
+seen on the git codebase. gcc does not complain about this file:
+
+  $ gcc -Wall -c validation/function-redecl2.c
+  $
+
+... but sparse does:
+
+  $ sparse validation/function-redecl2.c
+  validation/function-redecl2.c:6:5: error: symbol 'func0' redeclared with different type (originally declared at validation/function-redecl2.c:3) - different modifiers
+  validation/function-redecl2.c:13:6: error: symbol 'func1' redeclared with different type (originally declared at validation/function-redecl2.c:11) - different modifiers
+  validation/function-redecl2.c:21:6: error: symbol 'func2' redeclared with different type (originally declared at validation/function-redecl2.c:18) - different modifiers
+  $
+
+Note that func0 and func2 are essentially the same example, apart from
+the attribute used, to demonstrate that the issue isn't caused by the
+'pure' attribute. Also, examples like func1 have occurred several times
+in git and, although they can be worked around (eg. See [1]), it would
+be preferable if this were not necessary.
+
+[1] (git) commit 3d7dd2d3b6 ("usage: add NORETURN to BUG() function
+definitions", 2017-05-21).
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/function-redecl2.c (+31/-0)
+--------------------------------------------------------------------------------
+
+[4ba10f29f542] 2019-02-07 21:56:50 +0100
+Author: Uwe Kleine-König <uwe@kleine-koenig.org>
+Subject: validation: Add patterns FAIL, PASS, XPASS and XFAIL to test
+
+This simplifies finding the offending test when the build ended with
+
+	KO: out of 584 tests, 527 passed, 57 failed
+		56 of them are known to fail
+
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/test-suite (+9/-6)
+--------------------------------------------------------------------------------
+
+[950e23d1a5af] 2019-02-07 21:56:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: teach cgcc about Hurd/GNU
+
+cgcc fails if it doesn't know about the system/OS as
+returned by `uname -s`. This creates a build failure for
+Debian since Hurd is one of their non-official 'ports'
+but unknown to cgcc.
+
+So, teach cgcc about 'GNU' (the OS/system name returned
+on Hurd) and add the few predefines used to identify it.
+
+Reported-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+3/-0)
+--------------------------------------------------------------------------------
+
+[949a29adb9f4] 2019-02-07 21:49:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: predefs: add arch-specific predefines
+
+Predefined macros like '__x86_64__', '__arm__', ... are used
+in systems headers (and surely at other places too).
+
+So, when appropriate, define the following symbols which seems
+to be somehow needed by glibc:
+m68k:	__m68k__
+mips:	__mpis64, __mips
+ppc:	__ppc64__, __powerpc, __ppc__
+riscv:	__riscv__, __riscv_xlen__
+s390:	__zarch__
+sparc:	__sparc_v9__, __sparcv9
+x86-64:	__x86_64__, __x86_64
+
+Also, the following symbols, which were previously only defined
+in cgcc, are now defined in Sparse itself:
+i386	__i386, __i386__
+sparc	__sparc, __sparc__, __arch64__, __sparc64__, __sparcv9__
+s390	__s390__, __s390x__
+ppc	__PPC__, __powerpc__, __PPC64__, __powerpc64__
+arm	__arm__
+arm64	__aarch64__
+
+Note: these  are only tested on i386, x86-64, arm, arm64,
+      mips64 (ABI O32), ppc, ppc64 (power7), ppc64el (power8)
+      and sparc64, most of them on a not-so-new OS version.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+8/-10), lib.c (+60/-7)
+--------------------------------------------------------------------------------
+
+[e6e60e370f43] 2019-02-04 00:37:18 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: predefs: fix for MIPS system headers needing _MIPS_SZ{INT,LONG,PTR}
+
+System headers (at least glibc's ones) define and use __WORDSIZE
+which, on most archs, is defined depending on __LP64 or __ILP32.
+But on MIPS, __WORDISZE is defined depending on the value of the
+builtin macro _MIPS_SZPTR.
+
+So, add the predefine for _MIPS_SZPTR on MIPS.
+
+Reported-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: lib.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[3b246718ea33] 2019-02-04 00:35:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: target.c: ignore -m64 on archs where int32_t is a long
+
+If the flag '-m64' is used on a 32-bit architecture/machine having
+int32_t set to 'long', then these int32_t are forced to 64-bit ...
+
+So, ignore the effect of -m64 on these archs and ignore
+'64-bit only' tests on them.
+
+Reported-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Tested-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+
+Files: target.c (+1/-0), validation/call-inlined.c (+1/-0), validation/cast-kinds-check.c (+1/-0), validation/cast-weirds.c (+1/-0), validation/compound-assign-type.c (+2/-0), ... and 14 more
+--------------------------------------------------------------------------------
+
+[2889393c78c5] 2019-02-04 00:35:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: lib.c: move handle_arch_m64_finalize() to init_target()
+
+It must be done after init_target because of some archs (PPC32,
+mips32, ...) have int32_t set to long. These 32-bit ints would
+then become 64-bit.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Tested-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+
+Files: lib.c (+1/-41), target.c (+35/-0)
+--------------------------------------------------------------------------------
+
+[e7a833f32307] 2019-02-04 00:34:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: lib.c: move predefines out of handle_arch_m64_finalize()
+
+In handle_arch_m64_finalize(), some types (like size_t_ctype)
+are set to support the flag '-m64' and native 64-bit archs.
+But some predefines are also issued.
+
+As a preparatory step to fix a bug related to a inconstency
+between this function and init_target(), move the predefines
+to predefined_macros().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Tested-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+
+Files: lib.c (+24/-12)
+--------------------------------------------------------------------------------
+
+[a14a1c32f10e] 2019-02-04 00:17:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testsuite: remove unneeded -m64 from command-line
+
+The test was called with the flag '-m64' but doesn't need it.
+So, remove it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Tested-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+
+Files: validation/call-variadic.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[36a74d33c664] 2019-02-01 00:57:38 +0100
+Author: Uwe Kleine-König <uwe@kleine-koenig.org>
+Subject: Makefile: default to LD = CC
+
+Usually the compiler is used as linker. Assuming that if someone wants
+to change the compiler the linker should be changed, too, simplify that
+use case by using "$(CC)" as linker instead of the hard coded "gcc".
+This also matches the behaviour of make when using the built-in rules
+of GNU Make which include:
+
+	LINK.o = $(CC) $(LDFLAGS) $(TARGET_ARCH)
+	%: %.o
+		$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[dd98d9f9bbca] 2019-02-01 00:57:38 +0100
+Author: Uwe Kleine-König <uwe@kleine-koenig.org>
+Subject: machine.h: Fix MACH_NATIVE on m68k
+
+This fixes a failure to compile on m68k as MACH_68K is undefined.
+
+Fixes: ce50c885b8b0 ("add detection of native platform")
+Signed-off-by: Uwe Kleine-König <uwe@kleine-koenig.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: machine.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[f601a2e7945c] 2019-01-10 00:22:01 +0100
+Author: Aurelien Aptel <aaptel@suse.com>
+Subject: is_null_pointer_constant(): replace magic constant by enum
+
+Replace the constants 0, 1 & 2 returned by is_null_pointer_constant()
+with self-describing enums.
+
+Signed-off-by: Aurelien Aptel <aaptel@suse.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+14/-8)
+--------------------------------------------------------------------------------
+

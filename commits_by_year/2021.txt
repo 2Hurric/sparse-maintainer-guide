@@ -1,0 +1,2140 @@
+================================================================================
+Year: 2021 | Commits: 146 | Contributors: 4
+Insertions: +4882 | Deletions: -1320
+================================================================================
+
+[c4706aa764f3] 2021-09-06 05:51:46 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Sparse v0.6.4
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/release-notes/v0.6.4.rst (+2/-2), Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[7165d0d744e1] 2021-09-01 06:07:51 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Sparse v0.6.4-rc1
+
+[Auto-summary] Modifies build system. Changes: +1/-1 in 1 file(s)
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[cf144c911292] 2021-09-01 06:06:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Add release notes for incoming v0.6.4
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/release-notes/index.rst (+1/-0), Documentation/release-notes/v0.6.4.rst (+105/-0)
+--------------------------------------------------------------------------------
+
+[f0e6938bffe0] 2021-08-02 18:41:03 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'schecker-fixes'
+
+* small fixes for the symbolic checker
+
+Files: scheck.c (+31/-17)
+--------------------------------------------------------------------------------
+
+[72d04aab864f] 2021-07-29 23:15:31 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: fix type of operands in casts
+
+Casts were using the target type for their operands.
+
+Fix this by using the new helper mkivar() for them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+8/-10)
+--------------------------------------------------------------------------------
+
+[732bc04e6123] 2021-07-27 00:52:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: mkvar() with target or input type
+
+Most instructions have one associated type, the 'target type'.
+Some, like compares, have another one too, the 'input type'.
+
+So, when creating a bitvector from an instruction, we need to specify
+the type in some way.
+
+So, create an helper for both cases: mktvar() and mkivar().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[918e9a4cface] 2021-07-27 00:52:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: constants are untyped
+
+in sparse, constants (PSEUDO_VALs) are not typed, so the same pseudo
+can be used to represent 1-bit 0, 8-bit 0, 16-bit 0, ...
+
+That's incompatible with the bit vectors used here, so we can't associate
+a PSEUDO_VAL with its own bitvector like it's done for PSEUDO_REGs.
+A fresh one is needed for each occurrence (we could use a small table
+but won't bother).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+2/-3)
+--------------------------------------------------------------------------------
+
+[a8ebc7229abe] 2021-07-27 00:52:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: ignore OP_NOP & friends
+
+Some instructions have no effects and so can just be ignored here.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+5/-0)
+--------------------------------------------------------------------------------
+
+[0b0d8b197f1e] 2021-07-27 00:52:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: better diagnostic for unsupported instructions
+
+When reporting an unsupported instruction, display the instruction
+together with the diagnostic message.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[9980026aa50c] 2021-07-27 00:23:32 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix missing itype in SEL(x, 0/1, 1/0) --> (x ==/!= 0)
+
+Since commit 226b62bc2ee4 ("eval_insn: give an explicit type to compare's operands")
+it's needed to set the operands' type of every compare instructions but
+it was missing in this case where a select is transformed into a compare.
+
+So, add the missing type.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[8af243292348] 2021-04-20 05:35:39 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches misc, cmp-pow2, optim-and-cmp, cmp-and-or and optim-cast-eval into next
+
+* no needs to use MARK_CURRENT_DELETED() for multi-jumps
+* canonicalize ((x & M) == M) --> ((x & M) != 0) when M is a power-of-2
+* simplify AND(x >= 0, x < C) --> (unsigned)x < C
+* simplify TRUNC(x) {==,!=} C --> AND(x,M) {==,!=} C
+* remove early simplification of casts during evaluation
+* but this back as simplificaion of TRUNC(NOT(x)) --> NOT(TRUNC(x))
+
+Files: evaluate.c (+1/-43), linearize.h (+5/-0), simplify.c (+73/-7), validation/eval/not-cast-bool.c (+14/-0), validation/eval/not-cast-float.c (+14/-0), ... and 6 more
+--------------------------------------------------------------------------------
+
+[94750498b1d3] 2021-04-19 00:56:42 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove early simplification of casts during evaluation
+
+The current code will simplify away some casts at evaluation time
+but doesn't take in account some special cases:
+* (bool)~<int>  is not equivalent to ~(bool)<int> (anything not all 0 or 1)
+* (float)~<int> is not equivalent to ~(float)<int> which doesn't make sense.
+* (int)(float)<int> is not a no-op if the (float) overflows
+
+This kind of simplification is better done on the IR where the different
+kind of casts correspond to distinct instructions.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-43), validation/eval/not-cast-bool.c (+0/-1), validation/eval/not-cast-float.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[98075702ca78] 2021-04-19 00:56:36 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify TRUNC(NOT(x)) --> NOT(TRUNC(x))
+
+The goal is double:
+1) be able to do the NOT operation on the smaller type
+2) more importantly, give the opportunity to the TRUNC to
+   cancel with a previous ZEXT if there is one.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+15/-0), validation/optim/trunc-not0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[99bf609861c3] 2021-04-18 23:45:41 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: TRUNC(x) {==,!=} C --> AND(x,M) {==,!=} C
+
+It's not 100% clear than this is indeed a simplification but:
+1) from a pure instruction count point of view, it doesn't make
+   things worst
+2) in most place where it applies, the masking is made redundant
+   and is thus eliminated
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[df7767c6c572] 2021-04-18 17:21:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify AND(x >= 0, x < C) --> (unsigned)x < C
+
+Such compares with a signed value are relatively common and can be
+easily be simplified into a single unsigned compare. So, do it.
+
+Note: This simplification triggers only 27 times in a x86-64 defconfig
+      kernel. I expected more but I suppose it's because most checks
+      aren't done against a constant or are done with unsigned values.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+11/-0), validation/optim/range-check1.c (+0/-1), validation/optim/range-check2.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[28cd6d609ea4] 2021-04-18 17:21:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add helper is_positive()
+
+Add a small helper to test if a pseudo is a positive (= non-negative)
+constant (for a given bitsize).
+
+It's meant to make some conditions more readable.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.h (+5/-0)
+--------------------------------------------------------------------------------
+
+[7ae82c3a41c7] 2021-04-18 17:21:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcases for AND(x > 0, x <= C) --> x u<= C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/range-check1.c (+17/-0), validation/optim/range-check2.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[48eb2ca449b7] 2021-04-18 17:18:57 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: canonicalize constant signed compares toward zero
+
+Currently, signed compares against a constant are canonicalized
+toward the smallest possible constant. So, the following
+canonicalization are done:
+	x < 256		--> x <= 255
+	x < -2047	--> x <= -2048
+
+This has two advantages:
+1) it maximalizes the number of constants possible for a given bit size.
+2) it allows to remove all < and all >=
+
+But it has also a serious disadvantages: a simple comparison against
+zero, like:
+	x >= 0
+is canonicalized into:
+	x > -1
+
+Which can be more costly for some architectures if translated as such ,
+is also less readable than the version using 0 and is also sometimes
+quite more complicated to match in some simplification patterns.
+
+So, canonicalize it using 'towards 0' / using the smallest constant
+in absolute value.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+28/-6), validation/optim/canonical-cmp-zero.c (+74/-0)
+--------------------------------------------------------------------------------
+
+[09ec74f6acaf] 2021-04-18 14:37:35 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'fix-phisrc' and 'insert-last-insn' into memops-prep
+
+* fix and improve the check that protects try_to_simplify_bb()
+* fix remove_merging_phisrc() with duplicated CFG edges.
+
+Files: cse.c (+1/-9), flow.c (+133/-111), flow.h (+3/-0), linearize.c (+4/-46), linearize.h (+8/-1), ... and 9 more
+--------------------------------------------------------------------------------
+
+[e1f6c18b602e] 2021-04-18 13:11:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcases for simplification of casts.
+
+and remove one that didn't made much sense.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/eval/not-cast-bool.c (+15/-0), validation/eval/not-cast-float.c (+15/-0), validation/optim/and-extendx.c (+0/-24), validation/optim/trunc-not0.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[ee17130837d9] 2021-04-17 20:43:15 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: we can kill addresses unconditionally
+
+In rewrite_load_instruction(), if the load instruction is converted
+into a phi-node, its address is then no more used and must be removed.
+
+However, this is only done when this address is not a symbol.
+This was explicitly done in the following commit because of the problem
+of removing an element from the usage list while walking this list:
+   602f6b6c0d41 ("Leave symbol pseudo usage intact when doing phi-node conversion.")
+
+But currently rewrite_load_instruction() is only used during memops
+simplification where the usage list is not walked.
+
+So, kill the address' usage unconditionally.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+1/-3)
+--------------------------------------------------------------------------------
+
+[b91ba64904a6] 2021-04-17 20:43:15 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: avoid using first_pseudo()
+
+The loop in rewrite_load_instruction() uses first_pseudo() to not have
+to special case the first element.
+
+But this slightly complicates further changes.
+
+So, simply use a null-or-no-null test inside the loop to identify
+this first element.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+5/-3)
+--------------------------------------------------------------------------------
+
+[3de14a1edba8] 2021-04-17 20:43:15 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: do not mess up with phisource's source ident
+
+In rewrite_load_instruction(), when testing if all phi-sources are
+the same, the candidate is given an identifier if it hasn't one already.
+But doing this inside this loop is strange:
+* the pseudo may, at the end, not be selected but is changed anyway
+* the identifier should be given either when the phi-source is created
+  or at the end of the loop if selected.
+
+So, do not change the identifier inside the selection loop.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[e016f0beb9bd] 2021-04-17 20:43:15 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: remove obsolete comment
+
+The comment above rewrite_load_instruction(), about comparing phi-lists
+for equality, was (most probably) written when there was some intention
+to do CSE on phi-nodes or phi-sources.
+
+However, such CSE is currently not an objective at all.
+
+So, remove this comment.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[015aad879799] 2021-04-17 20:43:07 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: find_dominating_parents()'s generation is redundant
+
+find_dominating_parents() has an argument 'generation' used
+to check if a BB has already been visited.
+But this argument is not needed since this generation is also
+stored in the field ::generation of the current BB.
+
+So, remove this argument.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+6/-8)
+--------------------------------------------------------------------------------
+
+[0dd7ffba2e72] 2021-04-17 20:43:01 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: memops: dominates()'s first arg is redundant
+
+The first argument of dominates(), 'pseudo', is simply the 'src'
+pseudo of it's second argument, the load or store instruction.
+
+It's thus not needed to give it in a separate argument.
+
+So, remove this redundant argument, since it makes things
+slightly clearer.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+2/-2), flow.h (+1/-1), memops.c (+9/-9)
+--------------------------------------------------------------------------------
+
+[e19144ebc795] 2021-04-17 16:05:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'deadstore'
+
+* memops: kill more dead stores
+
+Files: memops.c (+42/-11), validation/memops/kill-dead-store-parent0.c (+14/-0), validation/memops/kill-dead-store-parent2.c (+25/-0), validation/memops/kill-redundant-store0.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[038c1f95e46b] 2021-04-17 16:03:02 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'linear'
+
+* linear: only allocate call instructions when needed
+
+Files: linearize.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[e70440a4d126] 2021-04-17 15:53:03 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'untyped'
+
+* TODO: add some notes about pseudos being typeless
+
+Files: Documentation/TODO.md (+11/-0)
+--------------------------------------------------------------------------------
+
+[787435784e69] 2021-04-17 15:52:10 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: TODO: add some notes about pseudos being typeless
+
+Pseudos are untyped. It's usually OK because their type can nevertheless
+be retrieved in a simple way. But it also complicates things and
+worse in some cases the type is completely lost.
+
+Tell a bit more about it in the TODO file.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/TODO.md (+11/-0)
+--------------------------------------------------------------------------------
+
+[bb4239aafe31] 2021-04-17 15:14:26 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'schecker'
+
+* add a symbolic checker
+
+Files: .gitignore (+18/-17), Makefile (+7/-0), builtin.c (+64/-1), builtin.h (+4/-0), ident-list.h (+6/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[15806a1f6817] 2021-04-17 14:50:51 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: predefine __SYMBOLIC_CHECKER__
+
+It can be useful to use the same testcase for the symbolic checker
+and normal sparse (or test-linearize) processing.
+
+So, there must be a mean to somehow ignore the assertions used
+for the symbolic checker when it's not used (since these are otherwise
+not known to sparse).
+
+Resolve this by adding a predefine, __SYMBOLIC_CHECKER__, to the
+symbolic checker.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[2e3c2464ca35] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: support pre-conditions via __assume()
+
+A lot of simplifications are only valid when their variables
+satisfy to some conditions (like "is within a given range" or
+"is a power of two").
+
+So, allow to add such pre-conditions via new _assume() statements.
+Internally, all such preconditions are ANDed together and what is
+checked is they imply the assertions:
+	AND(pre-condition) implies assertion 1
+	...
+
+Note: IIUC, it seems that boolector has a native mechanism for such
+      things but I'm not sure if t can be used here.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ident-list.h (+1/-0), scheck.c (+24/-9), validation/scheck/ok.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[0b0805cf17ae] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: assert_const()
+
+Since, the symbolic checker check expressions at the ... symbolic
+level, this can be used to check if two expressions are equivalent
+but not if this equivalence is effectively used.
+
+So, add a new assertion (this time not at the symbolic level) to
+check if an expression which is expected to simplify to a constant
+is effectively simplified to this constant.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ident-list.h (+1/-0), scheck.c (+19/-0), validation/scheck/ok.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[75e72f82c864] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: allow multiple assertions
+
+With the SMT solver used here, by default, once an expression is
+checked it's kinda consumed by the process and can't be reused
+anymore for another check.
+
+So, enable the incremental mode: it allows to call boolecter_sat()
+several times.
+
+Note: Another would be, of course, to just AND together all assertions
+      and just check this but then we would lost the finer grained
+      diagnostic in case of failure.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: scheck.c (+3/-2), validation/scheck/ok.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[d1ab4c40982f] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: assert_eq()
+
+Testing the equivalence of two sub-expressions can be done with
+with a single assertion like __assert(A == B).
+
+However, in some cases, Sparse can use the equality to simplify
+the whole expression although it's unable to simplify one of
+the two sub-expressions into the other.
+
+So, add a new assertion, __assert_eq(), testing the equality of
+the two expressions given in argument independently of each other.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ident-list.h (+1/-0), scheck.c (+11/-0), validation/scheck/ok.c (+5/-0)
+--------------------------------------------------------------------------------
+
+[7a9fab6984f7] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: scheck: add a symbolic checker
+
+Some instruction simplifications can be quite tricky and thus easy to
+get wrong. Often, they also are hard to test (for example, you can
+test it with a few input values but of course not all combinations).
+
+I'm used to validate some of these with an independent tool
+(Alive cfr. [1], [2]) which is quite neat but has some issues:
+1) This tool doesn't work with Sparse's IR or C source but it needs to
+   have the tests written in its own language (very close to LLVM's IR).
+   So it can be used to test if the logic of a simplification but
+   not if implemented correctly.
+2) This tool isn't maintained anymore (has some bugs too) and it's
+   successor (Alive2 [3]) is not quite as handy to me (I miss the
+   pre-conditions a lot).
+
+So, this patch implement the same idea but fully integrated with
+Sparse. This mean that you can write a test in C, let Sparse process
+and simplify it and then directly validate it and not only for
+a few values but symbolically, for all possible values.
+
+Note: Of course, this is not totally stand-alone and depends on
+      an external library for the solver (Boolector, see [4], [5]).
+
+Note: Currently, it's just a proof of concept and, except the
+      included tests, it's only very slightly tested (and untested
+      with anything more complex than a few instructions).
+
+[1] https://blog.regehr.org/archives/1170
+[2] https://www.cs.utah.edu/~regehr/papers/pldi15.pdf
+[3] https://blog.regehr.org/archives/1722
+[4] https://boolector.github.io/
+[5] https://boolector.github.io/papers/BrummayerBiere-TACAS09.pdf
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .gitignore (+1/-0), Makefile (+7/-0), ident-list.h (+3/-0), scheck.c (+315/-0), validation/scheck/ko.c (+10/-0), ... and 2 more
+--------------------------------------------------------------------------------
+
+[4806f30a473c] 2021-04-13 18:25:43 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: .gitignore is a bit too greedy
+
+The current .gitignore specifies that the generated programs
+must be ignored. Good.
+
+However, this is done by just specifying the name of the program
+which has the effect of having any files or directories with the
+same name to be ignored too. This is not intended.
+
+Fix this using the pattern '/<name>' instead so that they match
+in the root folder.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .gitignore (+17/-17)
+--------------------------------------------------------------------------------
+
+[f7eb2ea83b2b] 2021-04-13 18:25:38 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: builtin: define a symbol_op for a generic op acting on integer
+
+This can be used to define some generic (polymorphic) builtin
+with a signature like:
+	<name>(int)
+	<name>(T, T)
+	<name>(int, T)
+	<name>(int, T, long, T, ... T)
+where T is some integer type which will be instantiated at each call.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: builtin.c (+63/-0), builtin.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[75c5952aece6] 2021-04-10 15:51:11 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: linear: only allocate call instructions when needed
+
+When linearizing a call expression, the corresponding instruction is
+allocated very early:
+- before the valdity are done
+- before the linearization is handled to one of the specific methods
+In both case it means that the allocated instruction is not used.
+
+Fix this by doing the allocation only once it's needed.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[8fd2c0b489d3] 2021-04-10 01:13:36 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: export declare_builtins()
+
+Make declare_builtins() extern so that it can be used from other files.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: builtin.c (+1/-1), builtin.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[2cd6d34e815a] 2021-04-04 21:36:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix null-pointer crash with with ident same as one of the attributes
+
+match_attribute() will crash when the token has the same identifier
+as one of the attributes but is not an attribute. In this case,
+the corresponding symbol_op will be null but this is not checked.
+This seems to happen only with old-style declarations.
+
+Fix this by adding the missing null-check.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+1/-1), validation/knr-attr-crash.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[8b89204e0d7e] 2021-04-02 20:50:34 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix remove_merging_phisrc()
+
+The current implementation of remove_merging_phisrc() can't work correctly
+when these phi-sources belong to a basic block with several children
+to the same target basic block (this happens commonly with OP_SWITCH).
+
+Fix this by directly scanning the source basic block for the presence
+of any phi-source. Once identified, the processing is kept unchanged:
+remove these phi-sources if a sibling phi-source will 'overwrite' them
+in the target block.
+
+Fixes: 2fdaca9e7175e62f08d259f5cb3ec7c9725bba68
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+20/-10), validation/optim/multi-phisrc.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[6d5d9b420b2f] 2021-03-30 01:15:48 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'testsuite-extra' (early part)
+
+* testsuite: add option '-r' to 'test-suite format'
+
+Files: validation/test-suite (+11/-0)
+--------------------------------------------------------------------------------
+
+[78183a155b83] 2021-03-28 16:07:29 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: better check validity of phi-sources
+
+Transformations made by try_to_simplify_bb() are invalid if
+there isn't a one-to-one correspondence between the BB's parents
+and the phi-sources of the phi-node(s) in the BB.
+
+This correspondence is currently checked by checking if the number
+of phi-sources and the number of parent are equal, but this is
+only an approximation.
+
+Change this check into an exact one, using the fact that BBs in
+the parent list and phi-sources in the phi_list are in the same order.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+13/-8)
+--------------------------------------------------------------------------------
+
+[dcb199646134] 2021-03-28 16:07:29 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: correctly count phi arguments
+
+In a phi-node,pseudo_list_size() can't be used for counting its arguments
+because VOIDs must be ignored.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+17/-1), validation/optim/phi-count00.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[b204ead75fc6] 2021-03-26 00:41:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: additional testcase for remove_merging_phisrc()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/multi-phisrc.c (+24/-0)
+--------------------------------------------------------------------------------
+
+[23109ddefaad] 2021-03-25 00:11:53 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: kill redundant stores (local)
+
+A store is called 'redundant' when the corresponding location
+already contains the value that will be stored.
+
+This patch removes such stores in the case where the memops
+which make them redundant is in the same basic block.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+5/-0), validation/memops/kill-redundant-store0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[e0c12f39daec] 2021-03-25 00:11:53 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: kill parent's dead stores too
+
+kill_dominated_stores() identify and remove dead stores
+(stores unneeded because the same location is overwritten later
+by another store) only when both stores are in the same basic block.
+
+Slightly improve this by also handling the case when the dead store
+is in a parent BB of the "live" store.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+16/-0), validation/memops/kill-dead-store-parent0.c (+0/-1), validation/memops/kill-dead-store-parent2.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[fece51c37252] 2021-03-25 00:10:49 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: volatile stores are never dead
+
+so they shouldn't be killed.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[74d910d66998] 2021-03-24 22:15:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: extract try_to_kill_store() from kill_dominated_stores()
+
+Move the test/replace part of the store simplification in a
+separate function so that it can be reused.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+19/-11)
+--------------------------------------------------------------------------------
+
+[92169b2aecd4] 2021-03-24 22:14:17 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcases for stores simplifications
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/memops/kill-dead-store-parent0.c (+15/-0), validation/memops/kill-dead-store-parent2.c (+26/-0), validation/memops/kill-redundant-store0.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[190172adee54] 2021-03-21 16:08:19 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let ssa_rename_phi() use insert_last_instruction()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ssa.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[4c6929edf09a] 2021-03-21 16:08:03 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let find_dominating_parents() use insert_last_instruction()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: memops.c (+5/-5)
+--------------------------------------------------------------------------------
+
+[d1011daff5ab] 2021-03-21 16:07:31 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let insert_phis() use insert_last_instruction()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+3/-4)
+--------------------------------------------------------------------------------
+
+[f5d1205420aa] 2021-03-21 16:07:05 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let insert_select() use insert_last_instruction()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-6)
+--------------------------------------------------------------------------------
+
+[438393f490d6] 2021-03-21 16:05:22 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: replace add_instruction_to_end() by insert_last_instruction()
+
+add_instruction_to_end() and insert_last_instruction() do exactly
+the same thing but with the arguments in the opposite order.
+
+So, replace add_instruction_to_end() by insert_last_instruction().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cse.c (+1/-9)
+--------------------------------------------------------------------------------
+
+[9794908e1ad5] 2021-03-21 15:58:14 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add insert_last_instruction()
+
+It's relatively common to have to add an instruction at the end of a BB.
+More exactly, at the end but just before the terminator instruction.
+What is done for this is:
+1) remove the terminator
+2) add the new instruction
+3) add the terminator back
+
+This is a bit tedious, need to declare a temporary variable for the
+terminator and, more generally, it's low-level details.
+
+So, add an helper for doing this: insert_last_instruction().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.h (+8/-0)
+--------------------------------------------------------------------------------
+
+[8862279754b9] 2021-03-21 13:45:39 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testsuite: add option '-r' to 'test-suite format'
+
+Because laziness is a virtue, add an option '-r' to the 'format'
+subcommand of the testsuite to quickly create a test template for
+linearized code which should just return 1.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/test-suite (+11/-0)
+--------------------------------------------------------------------------------
+
+[7b5cc7b61357] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix phisources during SWITCH-BR conversion
+
+Like for CBR-BR conversion, when a target BB containing one or several
+phi-nodes is removed from an OP_SWITCH, the corresponding phi-source
+must be removed from the phi-node.
+
+However this is not done yet.
+
+Changing this by adding some code to convert_to_jump() to remove all
+phi-sources from the discarded targets if the converted instruction
+is an OP_SWITCH.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+20/-0), validation/optim/bad-phisrc3.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[a45f9140a0c2] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: use convert_to_jump() when converting a CBR with same targets
+
+If a conditional branch has identical targets, it should be
+converted to a simple jump.
+
+This is done but using its own code.
+Change this by using the existing convert_to_jump() instead.
+This also allows any redundant phi-sources to be removed.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-11), validation/optim/bad-phisrc2.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[c59ba8c0b5d6] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix phisources during CBR-BR conversion
+
+When a parent is removed from a BB containing one or several phi-nodes,
+the corresponding phi-sources must be removed from the phi-node.
+
+However this is not done and consequentially:
+* it becomes impossibly to correctly reason about the flow of values
+  through these phi-nodes.
+* simplifications are missed (e.g. if-conversion).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+5/-0), validation/optim/bad-phisrc1.c (+0/-1), validation/optim/bad-phisrc1a.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[752914c764b6] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add remove_phisources()
+
+When a parent is removed from a BB containing one or several phi-nodes,
+the corresponding phi-sources become irrelevant and need to be removed
+from the phi-nodes.
+
+Add an helper for doing this: remove_phisources().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+43/-0), flow.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[4ac342d1efdb] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: rename insert_branch() to convert_to_jump()
+
+Since the existing branch is now reused, nothing is inserted anymore.
+
+So, rename this function to the more explanatory: convert_to_jump().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+2/-2), flow.h (+1/-1), simplify.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[ffa92f53257d] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let insert_branch() return a status
+
+insert_branch() modifies the CFG and the usage of pseudos so these
+changes must be, in a way or another, notify to the upper layers.
+Currently this is done by setting 'repeat_phase' in the function
+itself.
+
+Let this function to also report the changes via its return value
+since this is usually useful for the caller to know and tend to
+leaner code too.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+5/-2), flow.h (+1/-1), simplify.c (+7/-14)
+--------------------------------------------------------------------------------
+
+[1331214c0030] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: move insert_branch() to flow.c
+
+Now that insert_branch() doesn't need to allocate a new instruction,
+there is no more reasons to have it defined in linearize.c
+
+So move it to flow.c which is more concerned with CFG changes.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+26/-0), flow.h (+1/-0), linearize.c (+0/-26), linearize.h (+0/-1)
+--------------------------------------------------------------------------------
+
+[b2dc8031654a] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: let insert_branch() reuse the terminating instruction
+
+insert_branch() changes a switch or a conditional branch into a jump.
+This is implemented by deleting the old instruction and allocating
+the new one. This is not needed here since no reference to the
+old instruction is kept.
+
+So, simply reuse the terminating instruction and change it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+6/-10)
+--------------------------------------------------------------------------------
+
+[701775cdf99d] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fold remove_parent() into insert_branch()
+
+Fold remove_parent() into its only user, insert_branch(), since it's
+now just a wrapper around remove_bb_from_list().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-6)
+--------------------------------------------------------------------------------
+
+[f18c25998946] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify remove_parent()
+
+remove_parent() is a simple wrapper around remove_bb_from_list()
+which also set REPEAT_CFG_CLEANUP if the list becomes empty.
+But its only user, insert_branch(), doesn't need REPEAT_CFG_CLEANUP
+to be set.
+
+So, simplify this wrapper by keeping only the call to remove_bb_from_list().
+
+Files: linearize.c (+0/-2)
+--------------------------------------------------------------------------------
+
+[26353a45ce03] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: remove insert_branch() redundant arg
+
+insert_branch()'s first argument must be the BB of the instruction
+given in the second argument.
+
+So, remove it from the argument and simply use insn->bb instead.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+1/-1), linearize.c (+2/-1), linearize.h (+1/-1), simplify.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[52f02114bad0] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcases to check if phi-sources from removed targets are removed too
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/bad-phisrc1.c (+16/-0), validation/optim/bad-phisrc1a.c (+24/-0), validation/optim/bad-phisrc2.c (+17/-0), validation/optim/bad-phisrc3.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[1bd9ba3272b2] 2021-03-19 23:56:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Revert "simplify CBR-CBR on the same condition"
+
+The commit 7cd2ce022575 ("simplify CBR-CBR on the same condition")
+added a generalization of the existing CBR-CBR simplification
+using the dominance tree.
+
+The problem is that as soon as a change is made to the CFG, the
+dominance tree become invalid and should be rebuilt (which is costly
+to do for each CFG changes) or updated (which is quite complex).
+
+So, for now, revert this commit.
+
+Reverts: 7cd2ce022575fbd383bb39b54f1e0fa402919da2.
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+0/-106)
+--------------------------------------------------------------------------------
+
+[32f1c1c24386] 2021-03-13 11:26:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: canonicalize ((x & M) == M) --> ((x & M) != 0) when M is a power-of-2
+
+and same for its dual: ((x & M) != M) --> ((x & M) == 0)
+
+Beside the canonicalization itself, these simplifications are
+useful because the compare against 0 can often be further
+simplified (for example when it is used by OP_CBR or OP_SELECT).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+4/-0), validation/optim/cmp-and-pow2.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[c089cd2dc771] 2021-03-12 01:09:54 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'fix-ssa' and 'cmp-and-or' into next
+
+* fix SSA conversion of mismatched memops
+* simplify CMP(AND(x,M), C) and CMP(OR(x,M), C)
+
+Files: simplify.c (+98/-0), validation/optim/cmpe-and0.c (+10/-0), validation/optim/cmpe-or0.c (+10/-0), validation/optim/cmps-and0.c (+21/-0), validation/optim/cmps-minmax.c (+4/-4), ... and 4 more
+--------------------------------------------------------------------------------
+
+[929b10d66002] 2021-03-10 22:42:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: no needs to use MARK_CURRENT_DELETED() for multi-jumps
+
+MARK_CURRENT_DELETED() was added for the case(s) where an element
+must be removed from the list but the address of the other elements
+must not be changed. In this case of effectively removing the
+element from it list, the element is 'marked' as deleted in the list
+and the list walking macros will later take this in account.
+
+However, this is never needed for multi-jumps.
+
+So, use the usual DELETE_CURRENT_PTR() for them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[eb4cdd21b7d0] 2021-03-10 22:42:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x | M) cmpu C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+16/-0), validation/optim/cmpu-or0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[a0709118c62c] 2021-03-10 22:42:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x | M) cmps C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+14/-0), validation/optim/cmps-or0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[2bfb96f92595] 2021-03-10 22:42:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x | M) {==,!=} C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+15/-0), validation/optim/cmpe-or0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[cbafd33d81b3] 2021-03-10 22:42:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x & M) {==,!=} C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+8/-0), validation/optim/cmpe-and0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[e5ac481d6686] 2021-03-10 22:42:42 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x & M) cmps 0
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+4/-0), validation/optim/cmps0-and0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[3289d1c73b10] 2021-03-10 22:40:19 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x & M) cmpu C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+16/-0), validation/optim/cmpu-and0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[6f00b4edb2fb] 2021-03-10 22:40:18 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify (x & M) cmps C
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+25/-0), validation/optim/cmps-and0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[b9429057955e] 2021-03-10 15:27:19 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add testcases for constant compares against AND/OR
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/cmpe-and0.c (+11/-0), validation/optim/cmpe-or0.c (+11/-0), validation/optim/cmps-and0.c (+22/-0), validation/optim/cmps-or0.c (+22/-0), validation/optim/cmps0-and0.c (+13/-0), ... and 2 more
+--------------------------------------------------------------------------------
+
+[520454ec595c] 2021-03-10 11:28:20 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: change testing of signed compares against SMIN or SMAX
+
+These tests are written by testing if the comparisons are equal
+to their expected value: 0 or 1. So, a compare of a compare
+but such compares of compare have their own simplification
+which defeats what's tested here.
+
+So, rewrite the test to avoid such compares of compare.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/cmps-minmax.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[d549d4d55eec] 2021-03-09 22:17:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ssa: remove single store optimization
+
+It's not clear if this is an optimization or not.
+So, remove it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ssa.c (+0/-64)
+--------------------------------------------------------------------------------
+
+[9713796abe30] 2021-03-09 22:17:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ssa: fix conversion with mismatched size or offset
+
+The SSA conversion works under the assumption that all the memory
+operations on a given symbol always refer to the same object.
+
+So, exclude the conversion of variables where:
+* memory operations do not always match in size or offset
+* there is an implicit integer/float conversion.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.h (+1/-1), ssa.c (+79/-18), validation/mem2reg/not-same-memop0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[d1239bab5bc9] 2021-03-09 22:17:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ssa: avoid SSA conversion of packed bitfields
+
+Packed bitfields are incompatible with the SSA conversion
+which works on the assumption that memory operations are done
+on the whole symbol.
+
+So, directly exclude packed bitfields from the SSA conversion.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ssa.c (+3/-0), validation/mem2reg/packed-bitfield.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[e528e0755d46] 2021-03-09 22:17:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ssa: the sparse set is not needed
+
+The implementation of a 'sparse set without initialization' was
+somehow needed during the initial design but it's not needed anymore.
+
+So, remove the implementation and replace its use by the usual
+bb->generation mechanism.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+0/-1), ssa.c (+4/-7), sset.c (+0/-28), sset.h (+0/-56)
+--------------------------------------------------------------------------------
+
+[0603c7e28e80] 2021-03-09 22:16:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ssa: add some testcases for mismatched memops
+
+The SSA conversion is incorrect when the size or offset of the
+memory operations doesn't match. It shouldn't be done at all.
+
+So, add a few testcases for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/mem2reg/not-same-memop0.c (+49/-0), validation/mem2reg/packed-bitfield.c (+36/-0)
+--------------------------------------------------------------------------------
+
+[5e674421d5f1] 2021-03-08 08:56:58 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'uniq-phinode'
+
+* phi-sources can only have a single user (or none)
+
+Files: Documentation/IR.rst (+1/-1), flow.c (+1/-20), linearize.c (+5/-9), linearize.h (+7/-1), liveness.c (+0/-1), ... and 4 more
+--------------------------------------------------------------------------------
+
+[1749410ac473] 2021-03-08 01:32:25 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'ptrlist-generic'
+
+* ptrlist: small API improvements
+
+These improvements will be used by various incoming series.
+Thanks to Ramsay Jones for finding a bunch of typos and
+suggesting some improved phrasing.
+
+-- Luc
+
+Files: ptrlist.c (+5/-5), ptrlist.h (+17/-5), simplify.c (+3/-3), sparse.c (+1/-12)
+--------------------------------------------------------------------------------
+
+[3caeefd911a5] 2021-03-08 01:30:54 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: phi-sources can only have a single user (or none)
+
+Currently, OP_PHISOURCES have a list as member, 'phi_users',
+that should link to all phi-nodes using them but:
+*) phi-sources are never shared between phi-nodes
+*) this list is useless because it's only created during liveness
+   and not used after.
+
+So, replace the list by a simple pointer to hold the unique phi-node
+using it and keep this link updated during all its lifetime.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+Files: Documentation/IR.rst (+1/-1), flow.c (+1/-20), linearize.c (+5/-9), linearize.h (+7/-1), liveness.c (+0/-1), ... and 4 more
+--------------------------------------------------------------------------------
+
+[f94f4a89ff6f] 2021-03-08 01:19:14 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: change return value of linearize_ptr_list()/ptr_list_to_array()
+
+The function linearize_ptr_list() is annoying to use because it
+returns the number of elements put in the array. So, if you need
+to know if the list contained the expected number of entries,
+you need to allocate an array with one extra entry and check
+that the return value is one less than this size.
+
+So, change the function to return the total number of entries
+in the list. In other words, the return value corresponds now to
+the number of entries that could be copied if the size would be
+unlimited, much like it's done for snprintf().
+The number of entries effectively copied stays, of course,
+limited by the size specified for the array.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.c (+5/-5), simplify.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[c50f5272ea42] 2021-03-06 23:00:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: make linearize_ptr_list() generic
+
+The ptrlist API has a function to copy the elements of a ptrlist
+into an array but it's not typed and thus needs a wrapper (or casts)
+for each type it's used for. Also, 'linearize' is confusing since
+this is unrelated to Sparse's linearization.
+
+Simplify this by adding a generic (but type-safe) macro for this
+with a more descriptive name: ptr_list_to_array()
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.h (+6/-0), simplify.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[a69f8d70d497] 2021-03-06 22:57:53 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: use ptr_list_nth() instead of linearize_ptr_list()
+
+Sparse has a few extra checkers for some functions.
+The one for memset has its own helper to retrieve its 3rd arguments.
+
+Remove this helper and use the generic ptr_list_nth() instead.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: sparse.c (+1/-12)
+--------------------------------------------------------------------------------
+
+[6bd31037f468] 2021-03-06 22:57:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: add pop_ptr_list()
+
+Some algorithms need a stack or a working list from which the
+last element can be removed. The ptrlist API has a function to do
+this but it's not typed and thus needs a wrapper for each type
+it's used for.
+
+Simplify this by adding a generic (but type-safe) macro for this
+while also giving it a nicer name: pop_ptr_list().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.h (+6/-0)
+--------------------------------------------------------------------------------
+
+[f909765ac1e8] 2021-03-06 22:57:10 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: change TYPEOF() into PTRLIST_TYPE()
+
+The name of the macro TYPEOF() is too generic and doesn't explain
+that it only returns the type of the pointers stored in ptrlists.
+
+So, change the name to something more explicit: PTRLIST_TYPE().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.h (+5/-5)
+--------------------------------------------------------------------------------
+
+[c20e29a930e0] 2021-03-06 22:56:41 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: remove one pointer level from TYPEOF()
+
+The macro TYPEOF() return the type of the addresses of the pointers
+stored in the list. That's one level too much in general.
+
+Change it to simply return the type of the stored pointers.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.h (+4/-4)
+--------------------------------------------------------------------------------
+
+[e0f904856b3d] 2021-03-05 17:36:37 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'slice'
+
+* slice: small reorg of OP_SLICE in preparation for some incoming changes
+
+Files: Documentation/IR.rst (+1/-1), evaluate.c (+0/-1), expression.h (+1/-1), linearize.c (+3/-3), linearize.h (+1/-4), ... and 2 more
+--------------------------------------------------------------------------------
+
+[41222364c4a6] 2021-03-04 00:25:59 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'path-norm'
+
+* pre-processing: strip leading "./" from include paths
+
+Files: pre-process.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[acc5c29877ef] 2021-03-01 18:15:08 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-restrict' into next
+
+* fix the type in the assignment of 0 to a restricted variable
+
+Files: evaluate.c (+1/-1), validation/eval/assign-restricted-ok.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[ebda8ec1c004] 2021-03-01 01:41:15 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: pre-proc: do some path normalization
+
+An header file like 'header.h':
+	#pragma once
+	#include "./header.h"
+
+doesn't work because:
+1) both filenames are different, so it will be be included anyway
+2) after that it will be included again under the name "././header.h"
+   and so on until it eventually fails with ENAMETOOLONG.
+
+Prevent this by stripping leading "./"s in the paths.
+This is not good enough for testing file equivalence by is enough to
+avoid the loop.
+
+Link: https://lore.kernel.org/r/CAHk-=wjFWZMVWTbvUMVxQqGKvGMC_BNrahCtTkpEjxoC0k-T=A@mail.gmail.com
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: pre-process.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[778de2bf52a2] 2021-02-28 22:43:24 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: liveness: use 'src' for unops instead of 'src1'
+
+[Auto-summary] Modifies liveness.c. Changes: +1/-1 in 1 file(s)
+
+Files: liveness.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[b2cbc0ff1397] 2021-02-28 22:41:40 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: slice: display the source's size, like for unops
+
+When displaying an OP_SLICE, the width is shown but the size
+of the source pseudo is useful too. So, display this size in
+a similar manner to the unops.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[04c02822a075] 2021-02-28 22:41:40 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: slice: OP_SLICE needs the source's type: make it a kind of unop
+
+OP_SLICE's source's type is needed for some simplifications.
+For example, in some cases it can be simplified into OP_TRUNC.
+
+So, merge its representation with the one for unops which also
+need the source's type.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+3/-2), linearize.h (+1/-4), liveness.c (+1/-4)
+--------------------------------------------------------------------------------
+
+[fc5213b3f004] 2021-02-28 22:41:40 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: slice: remove unneeded nr_nrbits from EXPR_SLICE
+
+EXPR_SLICE::r_nrbits is necessarily equal to its type's bit size.
+So remove this redundancy.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+0/-1), expression.h (+1/-1), show-parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[c2d25e6aad7d] 2021-02-28 22:14:41 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: slice: remove unneeded len from OP_SLICE
+
+OP_SLICE::len is necessarily equal to the result size.
+So remove this redundancy.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/IR.rst (+1/-1), linearize.c (+1/-2), linearize.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[ba404d63c70f] 2021-02-28 22:05:52 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: asm-out0: fix a test failure on 32-bit systems
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/linear/asm-out0.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[a5485e637222] 2021-02-28 22:03:54 +0100
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: linearize.h: fix some 'selfcheck' warnings
+
+Commits 34c57a7f ("asm-mem: does it clobber memory?", 2021-02-20) and
+d6721b38 ("asm-mem: does it output to memory?", 2021-02-20) both add
+a single bit bitfield to the 'struct asm' part of the union contained
+within the 'struct instruction'. This causes the 'selfcheck' target
+to issue several 'dubious one-bit signed bitfield' errors.
+
+In order to suppress these errors, change the type of the bitfields to
+an unsigned type.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.h (+2/-2)
+--------------------------------------------------------------------------------
+
+[eaceeafad39a] 2021-02-25 23:11:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'objsize'
+
+* expand __builtin_object_size()
+
+Files: builtin.c (+72/-1), ptrlist.h (+4/-0), validation/builtin-objsize-dyn.c (+22/-0), validation/builtin-objsize0.c (+25/-0), validation/builtin-objsize1.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[3d617353dda6] 2021-02-25 23:10:31 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'asm-dom'
+
+* asm: output *memory* operands need their address as *input*
+* asm: teach dominates() about OP_ASM
+
+Files: flow.c (+13/-4), linearize.c (+43/-20), linearize.h (+2/-0), validation/linear/asm-out0.c (+25/-0), validation/mem2reg/asm-reload0.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[eb55532d516c] 2021-02-25 00:18:26 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: expand __builtin_object_size()
+
+__builtin_object_size() is one of these builtins that must be
+somehow expanded because it can't possibly be implemented at
+runtime. It's used by the kernel's copy_{to,from}_user() and
+the 'fortified' string functions, as well as by userspace's
+'checked string/memory functions' like __builtin___memcpy_chk().
+
+So, use the normal builtin expansion interface for this one too.
+This gets rid of 2/3 of them when used on the kernel and shaves
+~0.5% of the total IR code (with x86's defconfig).
+
+Notes:
+1) What is covered is an object symbol, with an optional designator
+   of arbitrary complexity, ignoring casts and accessed via
+   an optional chain of simple dereferences. Maybe some access
+   path need to be added.
+2) Anything with dynamic value is currently considered either as
+   unknown (VLAs, variables or parameters) or left for a later
+   stage (any function calls, including functions known to allocate
+   memory given that attribute alloc_size() is not yet supported).
+3) It's not totally clear to me when to give up (and thus return
+   'size unknown') and when things can or must be left to the
+   simplification phase. This matters because __builtin_object_size()
+   is relatively often used with __builtin_constant_p().
+4) Currently, only type 0 is really supported. Given the way
+   designators are evaluated and expanded (information is lost because
+   the expressions are overwritten), to support the other types, the
+   expansion of __builtin_object_size() should be done during
+   evaluation itself, much like it's done for sizeof() and
+   offsetof().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: builtin.c (+72/-1), validation/builtin-objsize-dyn.c (+22/-0), validation/builtin-objsize0.c (+25/-0), validation/builtin-objsize1.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[567dfd4f41d7] 2021-02-24 22:50:16 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix eval of the assignment of a non-restricted value to a restricted variable
+
+Assignment to restricted variables are severely ... restricted.
+Nevertheless, one value is always fine because it has always
+the same bit representation: 0.
+
+So, 0 is accepted unconditionally but this creates a problem
+because the type of this 0 needs to be adjusted. Otherwise
+0 (int) is assigned as-is even on restricted variable with a
+different bit-length.
+
+Fix this by casting the value to the target type before accepting it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/eval/assign-restricted-ok.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[2f92df710ef7] 2021-02-21 14:57:29 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm-mem: teach dominates() about OP_ASM
+
+The function dominates() needs to know if an OP_ASM instruction
+may modify.
+
+Use the information now available in the instruction to return
+the answer.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+6/-0), validation/mem2reg/asm-reload0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[d6721b38b376] 2021-02-21 14:45:08 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm-mem: does it output to memory?
+
+If an asm statement have a memory output operand, it modifies memory.
+
+Since this information is needed during memops simplification,
+add this info directly in the corresponding instruction,
+avoiding the need to scan the output operands list each time.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-0), linearize.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[34c57a7f73e1] 2021-02-21 14:43:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm-mem: does it clobber memory?
+
+An asm statement can specify that it clobbers memory.
+Add this info directly in the corresponding instruction, avoiding
+the need to scan the clobber list each time.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+7/-1), linearize.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[d7361313e11c] 2021-02-21 14:07:26 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm-mem: add testcase for missing reload after asm memops
+
+Memory simplification is done with the help of the function
+dominates() which determine when memory instructions interfere.
+
+This function handles OP_CALLs, OP_LOADs and OP_STOREs but
+memory can also be changed via OP_ASMs.
+
+Add a testcase showing this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/mem2reg/asm-reload0.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[8af0e8a2ebcf] 2021-02-21 14:05:12 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: reorg dominates()
+
+To prepare the handling of OP_ASM instructions, reorganize the
+opcode tests to use a switch.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: flow.c (+7/-4)
+--------------------------------------------------------------------------------
+
+[2494587e8237] 2021-02-21 12:44:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: output *memory* operands need their address as *input*
+
+The addresses needed by memory output operands are linearized
+(and placed) after the ASM instruction needing them.
+
+So, split add_asm_output() in 2 parts: one generating only the
+addresses for memory operands and called before issuing the body,
+and another one doing the usual copy of (non-memory) output operands
+back into their corresponding variables.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+23/-8), validation/linear/asm-out0.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[efcf0db9d27e] 2021-02-21 12:39:36 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: factor out add_asm_rule() from add_asm_{in,out}put()
+
+The functions add_asm_input() and add_asm_output() are very similar.
+So, factorize out the common part.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+12/-11)
+--------------------------------------------------------------------------------
+
+[a7318222f5fa] 2021-02-21 12:37:08 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: asm: add testcase for problem with output addresses
+
+The addresses needed by memory output operands are linearized
+(and placed) after the ASM instruction needing them.
+
+So, add a test case for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/linear/asm-out0.c (+26/-0)
+--------------------------------------------------------------------------------
+
+[89a73382b149] 2021-02-08 00:46:01 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: ptrlist: make ptr_list_nth_entry() generic with ptr_list_nth()
+
+The library operation on pointer list necessarily act on the untyped
+version of the list. To use them with type checking, they must either
+be wrapped in inline function using the desired type or be used via
+some macro doing the type checking.
+
+Do this later solution for ptr_list_nth_entry().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: ptrlist.h (+4/-0)
+--------------------------------------------------------------------------------
+
+[60c1f2706e30] 2021-01-31 16:28:09 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-join-cond'
+
+* fix add_join_conditional() when one of the alternative is VOID
+
+Files: linearize.c (+2/-2), validation/linear/join-cond-discard.c (+19/-0)
+--------------------------------------------------------------------------------
+
+[47336d48e322] 2021-01-31 16:27:42 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix add_join_conditional() when one of the alternative is VOID
+
+add_join_conditional()'s job is to take the 2 alternatives
+of the conditional, make a phi-node from them and return
+the corresponding pseudo but if one of the alternatives
+is not available it's useless to create a phi-node and
+the other alternative can then directly be returned.
+
+The problem is that in this later case, the pseudo directly
+returned is the PSEUDO_PHI of the corresponding phi-source.
+This gives erroneous code like, for example:
+	phisrc.32	%phi1 <- $0
+	ret.32		%phi1
+instead of:
+	ret.32		$0
+since the %ph1 should only be used by a phi-node instruction.
+
+Fix this by returning phi-source's operand instead.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+2/-2), validation/linear/join-cond-discard.c (+19/-0)
+--------------------------------------------------------------------------------
+
+[455f7992c4c0] 2021-01-28 22:01:50 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'optim-cmps'
+
+* simplify and canonicalize signed compares
+
+Files: simplify.c (+65/-8), validation/optim/canonical-abs.c (+11/-0), validation/optim/canonical-cmpe-minmax.c (+16/-0), validation/optim/canonical-cmps-minmax.c (+16/-0), validation/optim/canonical-cmps-sel.c (+25/-0), ... and 3 more
+--------------------------------------------------------------------------------
+
+[a8183270c91b] 2021-01-27 21:30:26 +0100
+Author: Kyle Russell <bkylerussell@gmail.com>
+Subject: Makefile: fix version.h dependencies
+
+This guarantees the generated version.h will exist before attempting
+to compile any c files that include it.
+
+Several source files include the generated version.h, but not all
+declare a proper make dependency.
+
+$ grep -r 'version\.h' *.c
+compile-i386.c:#include "version.h"
+lib.c:#include "version.h"
+options.c:#include "version.h"
+
+This allows a sufficiently parallelized make invocation to encounter
+ENOENT.
+
+  CC      compile-i386.o
+compile-i386.c:60:21: fatal error: version.h: No such file or directory
+compilation terminated.
+Makefile:253: recipe for target 'compile-i386.o' failed
+make: *** [compile-i386.o] Error 1
+
+Signed-off-by: Kyle Russell <bkylerussell@gmail.com>
+[luc.vanoostenryck@gmail.com: modified so that only version.c depends on version.h]
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Makefile (+2/-1), compile-i386.c (+1/-2), lib.c (+0/-1), lib.h (+1/-0), options.c (+1/-2), ... and 1 more
+--------------------------------------------------------------------------------
+
+[95827edfcb2d] 2021-01-26 22:51:30 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: canonicalize SEL(x > 0, a, -a) --> SEL(x >= 0, a, -a)
+
+When computing the absolute value using an expression like:
+	(a > 0) ? a : -a
+it's irrelevant to use '>' or '>=', both will give the same
+result since 0 is its own negation.
+
+Canonicalize these equivalent expressions, such that OP_GE
+is always used.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+14/-0), validation/optim/canonical-abs.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[a5a61b2e345b] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: canonicalize SEL(x {<,<=} y, a, b) --> SEL(x {>=,>} y, b, a)
+
+Both compares and OP_SELECT are anti-symmetrical: swapping
+the arguments is equivalent to inversing the condition.
+As consequence, when combined, they're symmetrical:
+swapping the arguments of the compare (or equivalently reversing
+the direction of the compare) and swapping the operand of the
+OP_SELECT is a no-op, both forms are equivalent.
+
+So, canonicalize these to always use OP_GT or OP_GE.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+7/-0), validation/optim/canonical-cmps-sel.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[54b6c78979c2] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: canonicalize signed compares with constant
+
+Modify the constants to canonicalize (x < C) to (x <= (C-1)) and
+(x <= C) to (x > (C-1)). This choice is partially arbitrary but
+1) it's the one with the smallest positive constants,
+2) it eliminates all OP_SET_LT & OP_SET_GE with a constant.
+A disadvantage of this choice is that we lost some compares with 0:
+(x < 0) is now canonicalized into (x <= -1).
+
+Note: Another good choice would be to canonicalize using the
+      smallest absolute constants. This would keep compares with 0
+      but would also keep the 4 kinds of comparison.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-0), validation/optim/canonical-cmps.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[7b1d4ca6b5ad] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: canonicalize SMIN/SMAX +- 1 --> EQ/NE
+
+Compares with SMIN  + 1 or SMAX - 1 are equivalent to an equality
+testing. For example, (x < SMIN + 1) is the same as (x == SMIN).
+
+Canonicalize these to the equality testing since these are usually
+simpler to handle.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+8/-0), validation/optim/canonical-cmpe-minmax.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[61010b15b607] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: canonicalize signed compares with SMIN/SMAX
+
+The remaining compares with SMIN or SMAX are equivalent to an
+equality testing. For example, (x < SMAX) is the same as (x != SMAX).
+
+Canonicalize these to the equality testing since these are usually
+simpler to handle.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+8/-0), validation/optim/canonical-cmps-minmax.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[b5a4f039a159] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: simplify signed compares with SMIN or SMAX
+
+Simplify away signed compares with SMIN or SMAX which can be
+statically be determined to be always true or always false.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+17/-0), validation/optim/cmps-minmax.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[5db6d62e8362] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: add testcases for simplification of signed compares
+
+Signed compares miss some simplifications/canonicalizations.
+Add some testcases for them.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/optim/canonical-abs.c (+12/-0), validation/optim/canonical-cmpe-minmax.c (+17/-0), validation/optim/canonical-cmps-minmax.c (+17/-0), validation/optim/canonical-cmps-sel.c (+26/-0), validation/optim/canonical-cmps.c (+17/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[d7af8d6cc223] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmpu: fix canonicalization of unsigned (x {<,>=} C) --> (x {<=,>} C-1)
+
+In Sparse, the PSEUDO_VALUEs are required to be truncated at their
+effective size. For example, for a 32-bit instruction and Sparse using
+64-bit integers, a pseudo of -1 must contain the value 0x00000000ffffffff,
+not 0xffffffffffffffff.
+
+Add the missing truncation in the canonicalization here.
+
+Fixes: c355e5ac5dce35f3d95c30cd5e2e9a5074c38437
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[33fda43cf26c] 2021-01-26 22:49:11 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: fix simplification of sext(x) + signed compare of {SMAX,SMIN}
+
+Commit a1c1b9236d5d ("cmp: simplify sext(x) cmps {SMAX,SMIN}")
+had a double error (wrong size and wrong compare direction) which
+was hidden because of too narrow testcases.
+
+So, fix the simplification and extend the testcases.
+
+Fixes: a1c1b9236d5d4af1681a45ced26f8350bd7721c2
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-2), validation/optim/cmp-sext-simm.c (+35/-11)
+--------------------------------------------------------------------------------
+
+[1cac46932aa2] 2021-01-26 22:49:08 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cmps: make clearer we're using the operands' size
+
+When handling compares of an {zero,sign}-extended value, the
+size of these extended values are used but this size is just
+the operands' size of the compares.
+
+Make this clearer by using a single variable 'size' for it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+5/-4)
+--------------------------------------------------------------------------------
+
+[0fb77bb6e542] 2021-01-25 00:37:55 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'fix-can-move-to' and 'asr-synth' into next
+
+[Auto-summary] Modifies simplify.c. Adds/updates 1 test(s). Changes: +39/-1 in 2 file(s)
+
+Files: simplify.c (+12/-1), validation/optim/lsr-to-asr.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[36df56f0a4f8] 2021-01-24 22:22:30 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: simplify LSR + SEXT into ASR
+
+A logical shift right followed by a sign extension is equivalent
+to an arithmetic shift. Teach this to sparse.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+12/-1), validation/optim/lsr-to-asr.c (+27/-0)
+--------------------------------------------------------------------------------
+
+[879b11da4ef9] 2021-01-24 17:22:45 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix possible circular definition with can_move_to()
+
+can_move_to() is used to test if it is safe for a given pseudo to
+be used by some instruction. This is done by checking that the
+pseudo is defined 'before' the instruction.
+
+This should, of course, reject the cases where the pseudo is defined
+by the instruction itself because it would create a circular definition.
+However, this special case was not checked.
+
+Fix this by adding the missing check.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[56dbccf50c21] 2021-01-23 21:24:02 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'unnamed-qual'
+
+* handle qualified anonymous structures
+
+Files: symbol.c (+28/-0)
+--------------------------------------------------------------------------------
+
+[98d8b65e122b] 2021-01-23 18:38:55 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fix-sext-cmps'
+
+[Auto-summary] Modifies simplify.c. Changes: +2/-0 in 1 file(s)
+
+Files: simplify.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[817412f75790] 2021-01-22 22:04:07 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: handle qualified anonymous structures
+
+The kernel is trying to use a unnamed struct to mark a group of
+fields as being 'const' and get a warning if one of its member is
+assigned. GCC gives indeed a warning but Sparse and clang don't.
+
+So, the type qualifiers of the anonymous struct need to be propagate
+to the members.
+
+An easy, one-liner, solution is to handle this inside find_identifier(),
+where access to the members are recursively searched inside sub-structures.
+It's very easy but it feels wrong to do semantics inside this function.
+Worse, it's only working for members that are effectively accessed,
+doing a type evaluation on the anonymous struct (or its parent)
+would, by itself, not handle this.
+
+So, the solution chosen here is to handle this during type examination,
+more precisely, inside examine_struct_union_type(), where things are
+a bit more complicated (it can't be done when examining the members
+themselves because only the parent SYM_STRUCT is accessible and the
+qualifiers are in the SYM_NODE, so it needs to be done when examining
+the anonymous struct itself) but can be done for all members.
+
+Note: It would seem logical to also handle at least all qualifier-like
+      attributes but GCC seems to only bother with the true qualifiers
+      and ignore things like attributes and alignment specifiers.
+
+Link: lore.kernel.org/r/CAHk-=wj4Kviw8q2Sx9vrrvyn3uWK-zNi4uGRx=5bzde0Cio8uQ@mail.gmail.com
+Link: lore.kernel.org/r/CAHk-=wjdJmL22+zk3_rWAfEJJCf=oDxiJ530qk-WNk_Ji0qhxw@mail.gmail.com
+Thanks-to: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: symbol.c (+28/-0)
+--------------------------------------------------------------------------------
+
+[23756db02e8d] 2021-01-17 16:09:04 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix type of canonicalization of sext + unsigned compare
+
+In commit 4a5f616407e2 ("cmp: canonicalize sext(x) cmpu C (with C >= SMAX)"),
+the operand is replaced to avoid a sign extension but the corresponding
+type was not updated. Fix this now.
+
+Fixes: 4a5f616407e26efb67013f8267adef2d6e093bf1
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[46a52ca446cc] 2021-01-02 09:51:27 +0100
+Author: Bernd Petrovitsch <bernd@sysprog.at>
+Subject: removed an unused parameter for show_symbol_list()
+
+A trivial patch to remove an unused parameter.
+
+Link: https://lore.kernel.org/linux-sparse/1282818698.12802.23.camel@thorin
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: show-parse.c (+1/-1), symbol.h (+1/-1), test-parsing.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[4cad79e44501] 2021-01-02 09:51:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: shut up a silly -Wmaybe-uninitialized warning
+
+I understand why the compiler would complain about this
+'maybe-uninitialized' variable (it's always initialized when used)
+but I don't understand why the warning suddenly occurs while the
+variable have already been dereferenced several times; But well ...
+
+Initialize it with NULL to shut up the warning.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[fe455dd6b9fb] 2021-01-01 22:21:46 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'packed'
+
+* packed: add support for __packed struct
+
+Files: Documentation/TODO.md (+0/-3), linearize.c (+11/-2), parse.c (+41/-37), symbol.c (+9/-3), symbol.h (+2/-0), ... and 15 more
+--------------------------------------------------------------------------------
+

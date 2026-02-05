@@ -1,0 +1,163 @@
+================================================================================
+Year: 2016 | Commits: 7 | Contributors: 6
+Insertions: +309 | Deletions: -6
+================================================================================
+
+[1db3b627dfff] 2016-11-17 00:17:16 +0800
+Author: Jeff Layton <jlayton@redhat.com>
+Subject: Handle SForced in storage_modifiers
+
+We have been seeing errors like this for a while now in the sparse
+Fedora package, when doing kernel builds:
+
+    ./include/linux/err.h:53:25: warning: dereference of noderef expression
+    ./include/linux/err.h:35:16: warning: dereference of noderef expression
+
+This spews all over the build because this comes from IS_ERR(), which
+is called everywhere. Even odder, it turns out that if we build the
+package with -fpic turned off, then it works fine.
+
+With some brute-force debugging, I think I've finally found the cause.
+This array is missing the SForced element. When this is added then the
+problem goes away.
+
+As to why this goes away when -fpic is removed, I can only assume that
+we get lucky with the memory layout and have a zeroed out region just
+beyond the end of the array.
+
+Fixes: 3829c4d8b097776e6b3472290a9fae08a705ab7a
+Cc: Al Viro <viro@ftp.linux.org.uk>
+Signed-off-by: Jeff Layton <jlayton@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[6c283a05175c] 2016-10-26 17:52:52 -0700
+Author: Rui Teng <rui.teng@linux.vnet.ibm.com>
+Subject: sparse: add no_sanitize_address as an ignored attribute
+
+Add attribute "no_sanitize_address" or "__no_sanitize_address__" as an ignored
+attribute. Fixes this sparse warning:
+
+include/linux/compiler.h:232:8: error: attribute 'no_sanitize_address': unknown attribute
+
+Also add test case for 'no_sanitize_address': validation/attr-no_sanitize_address.c.
+'make check' says for this test case:
+    TEST     attribute no_sanitize_address (attr-no_sanitize_address.c)
+
+Signed-off-by: Rui Teng <rui.teng@linux.vnet.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/attr-no_sanitize_address.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[ffc860be9193] 2016-10-13 04:13:15 -0700
+Author: Lance Richardson <lrichard@redhat.com>
+Subject: sparse: ignore __assume_aligned__ attribute
+
+The __assume_aligned__ attribute can be safely ignored, add it
+to the list of ignored attributes and add a test to verify that
+this attribute is ignored.
+
+Signed-off-by: Lance Richardson <lrichard@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/attr_aligned.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[65f90e770576] 2016-10-13 03:57:00 -0700
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: sparse: add 'alloc_align' to the ignored attributes
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/alloc-align.c (+38/-0)
+--------------------------------------------------------------------------------
+
+[153fbd0bbbfd] 2016-10-13 03:55:59 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix warning compiling sparse-llvm
+
+-pedantic in the llvm-config --cflags cause a lot of warning.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1), token.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[7647c775497f] 2016-02-23 02:26:42 +0800
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Do not drop 'nocast' modifier when taking the address.
+
+With the following code:
+	typedef unsigned long __nocast cputime_t;
+
+	void task_cputime_adjusted(cputime_t *);
+
+	void current_task_runtime_100ns(void)
+	{
+	        cputime_t utime;
+
+	        task_cputime_adjusted(&utime);
+	}
+
+sparse emits the following message:
+	x.c:16:32: warning: incorrect type in argument 1 (different modifiers)
+	x.c:16:32:    expected unsigned long [nocast] [usertype] *<noident>
+	x.c:16:32:    got unsigned long *<noident>
+	x.c:16:32: warning: implicit cast to nocast type
+
+In other words, when taking the address of 'utime', sparse drops the 'nocast'
+modifier and then complains that task_cputime_adjusted() is not given a
+'nocast' pointer as expected ...
+
+This feels wrong to me.
+
+The proposed fix is to simply not dropping the 'nocast' modifier when
+taking the address, like done for a normal type qualifier.
+This gives very reasonable behaviour for all the test cases I could
+think of:
+	- taking the address or dereferencing doesn't drop the nocast
+	- arithmetic operations on nocast give a nocast result.
+	- implicit to/from cast is OK only if the base type are the same
+	- implicit to/from pointer cast is OK only if the base type are the same
+
+This still gives a "leaky" semantic: the nocast modifier can be lost via
+an implicit cast to a non-qualified value.
+
+Explicit cast to or from nocast values doesn't give any warning, maybe
+it's OK, maybe it's not but it's orthogonal to the current issue.
+
+Is this the wanted semantic for the nocast modifier?
+
+Reported-by: Roman Kagan <rkagan@virtuozzo.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.h (+1/-1), validation/nocast.c (+197/-0)
+--------------------------------------------------------------------------------
+
+[8efbac18a251] 2016-02-04 23:47:49 +0800
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Fix size calculation of unsized bool array
+
+This stops sparse from issuing the error message
+	"error: cannot size expression"
+for code like:
+	static _Bool boolarray[] = {
+		0,
+		1,
+	};
+	static int n = sizeof(boolarray);
+
+The fix consists of using array_element_offset() for calculating
+the size of unsized arrays, like it is done elsewhere for sized ones.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.c (+1/-1), validation/bool-array.c (+47/-0)
+--------------------------------------------------------------------------------
+

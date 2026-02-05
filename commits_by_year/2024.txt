@@ -1,0 +1,232 @@
+================================================================================
+Year: 2024 | Commits: 19 | Contributors: 3
+Insertions: +176 | Deletions: -52
+================================================================================
+
+[0196afe16a50] 2024-02-03 17:12:35 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: Merge branch 'riscv'
+
+[Auto-summary] Modifies target-riscv.c. Changes: +9/-1 in 1 file(s)
+
+Files: target-riscv.c (+9/-1)
+--------------------------------------------------------------------------------
+
+[09411a7a5127] 2024-01-29 18:14:05 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: Merge branch 'llvm-next'
+
+* llvm: avoid trivial recursion in symbol_type()
+* llvm: enable LLVM on arm64
+
+Files: Makefile (+1/-1), sparse-llvm.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[2925599897b1] 2024-01-29 18:13:43 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: allow arm64
+
+Currently, all architectures but the i386/x86 ones are excluded
+from the LLVM backend, mainly because the lack of testing.
+
+Since I can test it now, allow arm64/aarch64 too.
+
+Note: this patch is somehow incomplete because the layout is not set
+      but it's not clear what exactly the layout is needed for and at
+      least it allows to run the testsuite on this architecture.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[c991e5c68b48] 2024-01-29 18:11:38 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: Merge branch 'llvm-15'
+
+* Support LLVM-15 and later
+
+Files: Makefile (+3/-0), sparse-llvm.c (+41/-4), validation/backend/call-variadic.c (+4/-12), validation/backend/cast.c (+10/-1)
+--------------------------------------------------------------------------------
+
+[bf6ea1c69791] 2024-01-29 18:10:48 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: avoid trivial recursion in symbol_type()
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: sparse-llvm.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[0544c547682b] 2024-01-29 18:07:23 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: fix LLVM 15 deprecation warnings
+
+LLVM 15 switched to opaque pointers by default and no longer supports typed pointers.
+Remove deprecated LLVM calls and update test.
+
+Original-patch-by: Vladimir Petko <vladimir.petko@canonical.com>
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: sparse-llvm.c (+34/-1), validation/backend/call-variadic.c (+4/-12)
+--------------------------------------------------------------------------------
+
+[77b30af89aa0] 2024-01-23 21:51:07 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: riscv: G extension implies Zicsr & Zifencei
+
+So, add the corresponding flags.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: target-riscv.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[3500cba405b7] 2024-01-23 21:49:25 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: riscv: V extension implies F & D
+
+So, add the corresponding flags.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: target-riscv.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[8264c2019f75] 2024-01-23 21:48:09 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: riscv: add predefines for v_min_vlen, v_elen & v_elen_fp
+
+These may be needed once the V extension is enabled.
+So add them.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: target-riscv.c (+5/-1)
+--------------------------------------------------------------------------------
+
+[3a41dd055be9] 2024-01-21 14:43:56 +0100
+Author: Conor Dooley <conor.dooley@microchip.com>
+Subject: RISC-V: Add basic support for the vector extension
+
+I've started hitting this in CI while testing Andy's vector enablement
+series. I'm not entirely sure if there is more to do here, other than
+squeezing in the duplicate of what has been done for other extensions.
+
+Signed-off-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: target-riscv.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[b753d383f731] 2024-01-20 01:25:38 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: ensure SYM_NODE is stripped before accessing the return type
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: sparse-llvm.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[d5a73d316e38] 2024-01-20 01:25:33 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: do not duplicate strings and use their length in struct string
+
+In 2 places, we duplicate the storage for a string (with strdup) and we
+also calculate its length via strlen(). Both operation are unneeded
+as the length is already calculated in the struct string and the pointer
+to the string data can be safely reused since Sparse will not modify or free it.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: sparse-llvm.c (+5/-3)
+--------------------------------------------------------------------------------
+
+[d7edb6c7b7c6] 2024-01-20 01:25:28 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: add a few testcases for integer/pointer conversion
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: validation/backend/cast.c (+10/-1)
+--------------------------------------------------------------------------------
+
+[453d7af76aba] 2024-01-20 01:25:23 +0100
+Author: Luc Van Oostenryck <lucvoo@kernel.org>
+Subject: llvm: suppress warnings about deprecated API
+
+LLVM-14 still support LLVMBuildCall() and friends but deprecated them via
+the attribute, so warnings are issued when compiling.
+
+Suppress these warnings to keep builds clean.
+
+Signed-off-by: Luc Van Oostenryck <lucvoo@kernel.org>
+
+Files: Makefile (+3/-0)
+--------------------------------------------------------------------------------
+
+[1cf3d98cf171] 2024-01-07 14:41:31 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'doc' and 'stray-t'
+
+* make doc generation OK again on readthedocs
+* suppress a warning in the testsuite
+
+Files: validation/linear/call-inline.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[5ec6e21b35d4] 2024-01-07 13:40:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: testsuite: avoid "warning: stray \ before t" message
+
+Grep (or maybe only some recent versions) complains when using the (wrong)
+'\\t' pattern.
+
+This pattern was used only once to check if the following pattern was at
+the beginning of an instruction.
+
+Prefer to use the more explicit '^.' pattern, already used in other tests.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/linear/call-inline.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[04558f85973c] 2024-01-07 13:28:43 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: add .readthedocs.yaml
+
+Read the Docs now requires a config file in the project top directory.
+So, here it is.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: .readthedocs.yaml (+31/-0), Documentation/requirements.txt (+1/-0)
+--------------------------------------------------------------------------------
+
+[550130d252e7] 2024-01-07 13:27:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: doc: set 'en' as language in Sphinx's config file
+
+Newer versions of Sphinx don't support 'None' for 'language'.
+
+So, set 'en' as language'.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/conf.py (+1/-1)
+--------------------------------------------------------------------------------
+
+[3f9b43dcf497] 2024-01-07 13:26:44 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: doc: update conf.py for more recent version of sphinx
+
+Sphinx versions older than 1.7 don't need and don't support 'html_context'.
+
+So, set 1.8 as the minimal version and remove 'html_context' from the config.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/conf.py (+1/-7)
+--------------------------------------------------------------------------------
+

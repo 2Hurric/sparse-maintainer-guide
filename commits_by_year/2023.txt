@@ -1,0 +1,114 @@
+================================================================================
+Year: 2023 | Commits: 8 | Contributors: 5
+Insertions: +162 | Deletions: -9
+================================================================================
+
+[3ddf02ddcb9f] 2023-12-28 14:12:27 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: reassoc: fix infinite loop during reassociation
+
+The infinite loop is triggered by some fairly simple code on Zephyr and is
+caused by some exchange of pseudos done without checking the canonical order.
+
+Fix this by adding the check for the canonical order.
+Also use can_move_to() instead of the simpler one_use() to check the dominance
+of the moved pseudos.
+
+Link: https://github.com/zephyrproject-rtos/zephyr/issues/63417
+Link: https://lore.kernel.org/linux-sparse/AD16C022-C5F3-4DA2-A1A0-775E4C95A7A1@intel.com/
+Reported-by: Marc Herbert <marc.herbert@intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: simplify.c (+6/-4), validation/reassoc/bug-zephyr-63417.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[adceff0ab6e3] 2023-12-18 14:04:46 +0100
+Author: Jeff Layton <jlayton@kernel.org>
+Subject: linearize.c: fix buffer overrun warning from fortify
+
+The resulting string from snprintf, won't be nearly 64 bytes, but "buf"
+is only 16 bytes long here. This causes FORTIFY_SOURCE to complain when
+given the right options.
+
+Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: linearize.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[98b203419679] 2023-12-18 14:04:23 +0100
+Author: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Subject: xtensa: switch to little endianness
+
+Current gcc options only support the little endian mode on Xtensa,
+switch over to it.
+
+Signed-off-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-xtensa.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[40c42530d7d3] 2023-12-18 13:42:39 +0100
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Add support for the zihintpause extension
+
+This was recently added to binutils and with any luck will soon be in
+Linux, without it sparse will fail when trying to build new kernels on
+systems with new toolchains.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Tested-by: Conor Dooley <conor.dooley@microchip.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[7058eaf5677f] 2023-12-18 13:38:50 +0100
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Add support for the zicbom extension
+
+This was recently added to binutils and with any luck will soon be in
+Linux, without it sparse will fail when trying to build new kernels on
+systems with new toolchains.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Tested-by: Conor Dooley <conor.dooley@microchip.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[eac793a4ec5e] 2023-12-16 12:12:28 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'handle-cleanup-attr'
+
+* teach Sparse about 'cleanup' attribute so that Smatch can handle it
+
+Files: gcc-attr-list.h (+0/-1), parse.c (+31/-0), symbol.h (+2/-0), validation/parsing/attr-cleanup.c (+33/-0)
+--------------------------------------------------------------------------------
+
+[25e96501f249] 2023-12-16 12:09:35 +0100
+Author: Dan Carpenter <dan.carpenter@linaro.org>
+Subject: parse: handle __cleanup__ attribute
+
+The kernel has recently started using the __cleanup__ attribute.  Save
+a pointer to cleanup function.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: gcc-attr-list.h (+0/-1), parse.c (+31/-0), symbol.h (+2/-0), validation/parsing/attr-cleanup.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[dc581e62b74d] 2023-12-16 12:06:28 +0100
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: parse: add testcases for __cleanup__ attribute
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/parsing/attr-cleanup.c (+34/-0)
+--------------------------------------------------------------------------------
+

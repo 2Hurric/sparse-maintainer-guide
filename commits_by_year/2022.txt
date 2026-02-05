@@ -1,0 +1,786 @@
+================================================================================
+Year: 2022 | Commits: 44 | Contributors: 6
+Insertions: +763 | Deletions: -98
+================================================================================
+
+[d33c81e7b6f3] 2022-06-27 15:30:26 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitwise: early expansion of simple constants
+
+C has only positive constants: -1 is really an expression,
+the unary '-' operator applied to the constant 1. '-1' as
+a constant value only exists after the expansion of constant
+expressions.
+
+This is rather unfortunate since it inhibits easy testing
+of such constants in the evaluation phase, like here for
+restricted_value().
+
+So, expand expressions like +CTE, -CTE or ~CTE before
+calling restricted_value().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+47/-1), validation/bitwise-cast.c (+13/-0), validation/bitwise-is-signed.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[346ad756651e] 2022-06-27 14:15:55 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitwise: do not remove the signedness of bitwise types
+
+When bitwise types were added [1] the signedness modifiers
+were removed from them. More exactly, it was MOD_SPECIFIER
+which was removed. I suppose this was done because then
+MOD_SPECIFIER contained the signedness bits but also MOD_CHAR,
+MOD_LONG, ...  and those had to be removed.
+
+But currently MOD_SPECIFIER contains only MOD_SIGNEDNESS
+and the signedness info can be useful for bitwise types too.
+
+So, do not removed anymore MOD_SPECIFIER from the bitwise
+types' modifiers.
+
+[1] commit 032f492af0ac ("[PATCH] __attribute__((bitwise))")
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+0/-1), show-parse.c (+1/-1), validation/linear/bitwise-cmpu.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[a20ea60c1a18] 2022-06-27 14:03:49 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitwise: allow compares for bitwise types
+
+Currently, bitwise types are restricted to bitwise operations
+(&, |, ^ and ~) as well as equality comparisons.
+
+This patch makes the others comparisons valid for bitwise types
+too.
+
+Warning: This change make sense in the context of [1] but
+         doesn't make sense for the 'main' bitwise types:
+         __be32 and friends.
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+4/-0), validation/bitwise-cmp.c (+0/-1), validation/linear/bitwise-cmps.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[f8f08b3336e3] 2022-06-27 13:57:02 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitwise: accept all ones as non-restricted value
+
+Currently, the only value bitwise types can act on is 0
+because the this value is anyway invariant for all bitwise
+operations and endianness conversions.
+
+But, a bit-pattern of all ones has the same properties and
+is also very often used.
+
+So, accept all ones as a valid value for bitwise operations.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/bitwise-cast.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[bad12ea34132] 2022-06-27 13:51:15 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: bitwise: add testcases
+
+Currently bitwise types only support bitwise operations
+(&, |, ^ and ~) and the constant 0 (since this value is
+invariant for all bitwise operations and endianness conversion).
+
+But the incoming series will relax this a little bit.
+So, add a few testcases for it.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/bitwise-cmp.c (+32/-0), validation/bitwise-is-signed.c (+22/-0), validation/linear/bitwise-cmps.c (+18/-0), validation/linear/bitwise-cmpu.c (+18/-0)
+--------------------------------------------------------------------------------
+
+[ce1a6720f69e] 2022-06-27 12:16:17 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'unreplaced' and 'inline'
+
+* fix "unreplaced" warnings caused by using typeof() on inline functions
+* cleanup related to inlining of variadic functions
+
+Files: inline.c (+13/-10), validation/inline-early/variadic0.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[d42df42ec5a5] 2022-06-27 12:13:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: free symbol list after use
+
+We usually don't free allocated memory because it's not known
+when the allocated objects aren't used anymore.
+
+But here it's pretty obvious, so free this symbol list.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[1777fe6b3ce8] 2022-06-27 12:13:20 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: allocate statement after guards
+
+In inline_function(), the statement that will correspond to the
+inlined code is allocated in the function declaration but then
+it's checked if the function can be allocated or not.
+
+This is not much memory and the checks should succeed most of the time
+but it's clearer if the statement is allocated after the checks.
+
+So, move the allocation after the checks.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[b6b0d32a94a7] 2022-06-27 12:13:07 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: avoid needless intermediate vars
+
+In inline_function(), we need to iterate over the parameters
+and the (effective) arguments. An itermediate variable is used for
+each: "name_list" and "arg_list".
+
+These confuse me a lot (especially "name_list", "param_list" would
+be much more OK) and are just used once.
+
+So, avoid using an intermediate variable for these.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+3/-6)
+--------------------------------------------------------------------------------
+
+[ec2e9b554d47] 2022-06-27 12:12:49 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: declaration of the variadic vars is useless
+
+When inlining a function call, the arguments of this call must
+somehow be assigned to the names used in the function definition.
+This is done via a STMT_DECLARATION associated to the top
+STMT_COMPOUND which now correspond to the inlined code.
+
+This is perfectly fine for the normal case of non-variadic function
+but when inlining a variadic function there is no corresponding name
+to assign the non-fixed arguments to (such arguments must either be
+not used at all or copied via __builtin_va_arg_pack()). What's then
+happening is essentially that these variables are self-assigned.
+Not Good.
+
+This seems to be relatively harmless but is confusing.
+So only put the fixed/named arguments in the declaration list.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[fd3f7de6113a] 2022-06-27 12:09:55 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: comment about creating node of node on variadics
+
+When inlining a variadic function the extra arguments are
+added in the declaration list as SYM_NODE but these arguments
+can already be SYM_NODEs.
+
+Sparse doesn't support everywhere such nested nodes (they must
+be merged) but in this case it's fine as the node will be merged
+when evaluated.
+
+Add a comment telling the situation is fine.
+Also, move the code to where the variadic arguments are handled
+since the fixed one will be anyway directly overwritten.
+
+Note: Sparse doesn't really support inlining of variadic functions
+      but is fine when the arguments are not used (and such cases
+      occur in the kernel).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+5/-1)
+--------------------------------------------------------------------------------
+
+[102baa11391d] 2022-06-26 14:52:26 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: inline: add testcases for inlining of variadics
+
+Inlining of variadic functions needs some special cases.
+Add some testcases for this.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: validation/inline-early/variadic0.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[0e1aae55e49c] 2022-06-24 18:45:42 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix "unreplaced" warnings caused by using typeof() on inline functions
+
+Currently, sparse do all its inlining at the tree level, during
+constant expansion. To not mix-up the evaluation of the original
+function body in case the address of an inline function is taken or
+when the function can't otherwise be inlined, the statements and
+symbols lists of inline functions are kept in separated fields.
+Then, if the original body must be evaluated it must first be
+'uninlined' to have a copy in the usual fields.
+
+This make sense when dealing with the definition of the function.
+But, when using typeof() on functions, the resulting type doesn't
+refer to this definition, it's just a copy of the type and only
+of the type. There shouldn't be any reasons to uninline anything.
+However, the distinction between 'full function' and 'type only'
+is not made during evaluation and the uninlining attempt produce
+a lot of "warning: unreplaced symbol '...'" because of the lack
+of a corresponding definition.
+
+Fix this by not doing the uninlining if the symbol lack a definition.
+
+Note: It would maybe be more appropriate for EXPR_TYPE to use
+      a stripped-own version of evaluate_symbol() doing only the
+      examination of the return and argument types, bypassing the
+      attempt to uninline the body and evaluate the initializer and
+      the statements since there is none of those for an EXPR_TYPE.
+
+Link: https://lore.kernel.org/all/202206191726.wq70mbMK-lkp@intel.com
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: evaluate.c (+1/-1), validation/inline-early/unreplaced-abstract.c (+28/-0), validation/optim/devirtualize0.c (+17/-0)
+--------------------------------------------------------------------------------
+
+[4880bd1999fe] 2022-06-14 02:08:25 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: predefine __ATOMIC_ACQUIRE & friends as weak
+
+In kernel's arch/mips/Makefile the whole content of gcc's -dM is used
+for CHECKFLAGS. This conflict with some macros also defined internally:
+	builtin:1:9: warning: preprocessor token __ATOMIC_ACQUIRE redefined
+	builtin:0:0: this was the original definition
+
+Fix this by using a weak define for these macros.
+
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: predefine.c (+6/-6)
+--------------------------------------------------------------------------------
+
+[9212270048c3] 2022-06-09 11:11:09 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branches 'cgcc-dash-x' and 'fixes'
+
+* cgcc: do not die on '-x assembler'
+* fix crash when inlining casts of erroneous expressions
+- allow show_token() on TOKEN_ZERO_IDENT
+
+Files: inline.c (+2/-0), tokenize.c (+2/-0), validation/inline-early/bug-bad-token.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[53e04b3b780b] 2022-06-09 11:06:53 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: allow show_token() on TOKEN_ZERO_IDENT
+
+TOKEN_ZERO_IDENTs are created during the evaluation of pre-processor
+expressions but which otherwise are normal idents and  were first tokenized
+as TOKEN_IDENTs.
+
+As such, they could perfectly be displayed by show_token() but are not.
+So, in error messages they are displayed as "unhandled token type '4'",
+which is not at all informative.
+
+Fix this by letting show_token() process them like usual TOKEN_IDENTs.
+Idem for quote_token().
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+
+Files: tokenize.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[e44f724a5ce0] 2022-06-07 14:52:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix crash when inlining casts of erroneous expressions
+
+Sparse do inlining very early, during expansion, just after (type)
+evaluation and before IR linearization, and is done even if some
+errors have been found. This means that the inlining must be robust
+against erroneous code.
+
+However, during inlining, a cast expression is always dereferenced and
+a crash will occur if not valid (in which case it should be null).
+
+Fix this by checking for null cast expressions and directly returning
+NULL, like done for the inlining of the other invalid expressions.
+
+Link: https://lore.kernel.org/r/e42698a9-494c-619f-ac16-8ffe2c87e04e@intel.com
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Yafang Shao <laoar.shao@gmail.com>
+Reported-by: Yujie Liu <yujie.liu@intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: inline.c (+2/-0), validation/inline-early/bug-bad-token.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[29083a76efa6] 2022-06-06 22:40:23 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cgcc: do not die on '-x assembler'
+
+Currently cgcc will die if the option '-x' is used with any argument
+other than 'c'.
+
+It makes sense since sparse can only handle C files but it can be
+useful in a project to simply use something like:
+	make CC=cgcc
+
+So, instead of die()ing, avoid calling sparse if such '-x' option
+is used, like already done by default for non .c files.
+
+Original-patch-by: Tom Rix <trix@redhat.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+2/-3)
+--------------------------------------------------------------------------------
+
+[b3cf30ba5b47] 2022-06-05 22:19:28 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'riscv'
+
+* riscv: small improvements of '-march' parsing
+
+Files: target-riscv.c (+9/-13)
+--------------------------------------------------------------------------------
+
+[b29653955421] 2022-06-05 22:07:23 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Remove "g" from the extension list
+
+"g" goes along with the base ISA, but it was being treated as an
+extension.  This allows for all sorts of odd ISA strings to be accepted
+by sparse, things like "rv32ig" or "rv32gg".  We're still allowing
+some oddities, like "rv32ga", but this one was easy to catch.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[dcb3887d85c1] 2022-06-05 22:07:23 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Remove the unimplemented ISA extensions
+
+This made sense when we die()d on unknown ISA extensions, but now that
+we're just warning it's actually a bit detrimental: users won't see that
+their unimplemented ISA extensions are silently having the wrong
+definitions set, which may cause hard to debug failures.
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+0/-10)
+--------------------------------------------------------------------------------
+
+[90feaaa96722] 2022-06-05 22:07:23 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Match GCC's semantics for multiple -march instances
+
+GCC's semantics for "-march=X -march=Y" are that Y entirely overrides X,
+but sparse takes the union of these two ISA strings.  This fixes the
+behavior by setting, instead of oring, the flags whenever a base ISA is
+encountered.  RISC-V ISA strings can only have a single base ISA, it's
+not like x86 where the 64-bit ISA is an extension of the 32-bit ISA.
+
+[Luc Van Oostenryck: reset the flags at the start of the parsing loop]
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[e31e645f5c29] 2022-06-05 22:07:14 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: don't die() on -march errors, just warn
+
+Parsing RISC-V ISA strings is extremely complicated: there are many
+extensions, versions of extensions, versions of the ISA string rules,
+and a bunch of unwritten rules to deal with all the bugs that fell out
+of that complexity.
+
+Rather than die()ing when the ISA string parsing fails, just stop parsing
+where we get lost and emit a warning. Changes tend to end up at
+the end of the ISA string, so that's probably going to work (and if
+it doesn't there's a warning to true and clue folks in).
+
+This does have the oddity in that "-Wsparse-error" is ignored for this
+warning but this option was never meant to be used at this stage of
+the processing..
+
+[Luc Van Oostenryck: drop handling of "-Wsparse-error"]
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Based-on-patch-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+6/-2)
+--------------------------------------------------------------------------------
+
+[d9c17b4dc21e] 2022-06-05 18:30:32 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'cast-value'
+
+* small improvements to cast_value()
+
+Files: expand.c (+7/-3), expression.c (+1/-2), expression.h (+1/-2), parse.c (+1/-2)
+--------------------------------------------------------------------------------
+
+[187285b32ea7] 2022-05-31 15:52:42 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cast_value: remove error-prone redundant argument
+
+The last two arguments of cast_value() are the old expression and
+the oldtype which suggest that this oldtype can be distinct from the
+type of the old expression.
+
+But this is not the case because internally the type used to retrieve
+the value of the expression is the type of the expression itself (old->ctype)
+the type which is used and the two types must be the same (or at least
+be equivalent).
+
+So, remove the error-prone last argument and always us the type of the
+expression itself.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+3/-3), expression.c (+1/-1), expression.h (+1/-2), parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[698360ca020e] 2022-05-31 15:49:05 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: cast_value: assign the new type
+
+The first two arguments of cast_value() are the new expression and the
+type wanted for it. This type is then used to calculate the new value.
+
+But the type of the expression must be assigned separately (usually
+after the cast because the old and the new expression can refer to
+the same object).
+
+To avoid any possible inconsistencies, assign the new type during the
+casting itself.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expand.c (+4/-0), expression.c (+0/-1), parse.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[56afb504c0b9] 2022-05-31 13:53:18 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'fixes' into master
+
+* fix zero/sign extension of integer character constants
+* handle clang's option "-meabi gnu"
+* fix infinite loop when expanding __builtin_object_size() with self-init vars
+
+Files: builtin.c (+8/-0), expression.c (+9/-1), options.c (+13/-0), validation/builtin-objsize-self-init.c (+11/-0), validation/char-constant-signed.c (+9/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[3d1d65bfe6da] 2022-05-31 13:49:29 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix zero/sign extension of integer character constants
+
+An integer character constant has type 'int' but, subtly enough,
+its value is the one of a 'char' converted to an 'int'.
+
+So, do this conversion.
+Also set the type of wide character constants from 'long' to 'wchar_t'.
+
+Link: https://lore.kernel.org/r/20210927130253.GH2083@kadam
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: expression.c (+9/-1), validation/char-constant-signed.c (+9/-0), validation/char-constant-unsigned.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[5a0004b591e3] 2022-05-22 11:46:26 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'xtensa'
+
+* cgcc: add Xtensa support
+
+Files: cgcc (+7/-0)
+--------------------------------------------------------------------------------
+
+[df76096c6379] 2022-05-22 11:45:10 +0200
+Author: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Subject: cgcc: add Xtensa support
+
+Add support for the Xtensa architecture.
+
+Signed-off-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: cgcc (+7/-0)
+--------------------------------------------------------------------------------
+
+[99a5645a0edb] 2022-05-22 11:39:27 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: handle clang's option "-meabi gnu"
+
+Clang has an option "-meabi <arg>" which is used by the kernel for ARMv7.
+This kind of option, taking a argument without a separating '=', can't
+be ignored like most other options and must this be special-cased.
+
+So, add the special case for this option and consume the argument if it's
+one of the valid one.
+
+Link: https://lore.kernel.org/r/20220331110118.vr4miyyytqlssjoi@pengutronix.de
+Reported-by: Marc Kleine-Budde <mkl@pengutronix.de>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: options.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[b4fb2fd8eefb] 2022-05-21 22:45:29 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'riscv-zicsr'
+
+* riscv: add the Zicsr extension
+* riscv: add the Zifencei extension
+
+Files: target-riscv.c (+10/-2)
+--------------------------------------------------------------------------------
+
+[76d40fa9e54f] 2022-05-21 21:10:05 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Add the Zifencei extension
+
+Recent versions of binutils default to an ISA spec version that doesn't
+include Zifencei as part of I, so Linux has recently started passing
+this in -march.
+
+[ Luc Van Oostenryck: move this patch at the start of the series ]
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[54cb689f2b66] 2022-05-21 21:09:30 +0200
+Author: Palmer Dabbelt <palmer@rivosinc.com>
+Subject: RISC-V: Add the Zicsr extension
+
+Recent versions of binutils default to an ISA spec version that doesn't
+include Zicsr as part of I, so Linux has recently started passing this
+in -march.
+
+[ Luc Van Oostenryck: move this patch at the start of the series ]
+
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: target-riscv.c (+6/-2)
+--------------------------------------------------------------------------------
+
+[fbdc046e9561] 2022-05-21 15:05:46 +0200
+Author: Richard Palethorpe <rpalethorpe@suse.com>
+Subject: Use offsetof macro to silence null ptr subtraction warning
+
+Subtracting (char *)0 is undefined behavior. Newer compilers warn
+about this unless it is done in system headers.
+
+Signed-off-by: Richard Palethorpe <rpalethorpe@suse.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: token.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[618f92e7ad15] 2022-05-21 14:47:39 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix one year off in v0.6.4's release notes
+
+Bernhard Voelker noticed that the date in the release notes
+is one year off. Fix this.
+
+Reported-by: Bernhard Voelker <mail@bernhard-voelker.de>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: Documentation/release-notes/v0.6.4.rst (+1/-1)
+--------------------------------------------------------------------------------
+
+[b22b01e5c1c6] 2022-05-21 11:21:33 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'semid'
+
+* semind: Index more symbols
+  For indexing purposes, macros definitions and typedefs are added to the
+  semind database. Functions that are not used in the code are also indexed.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: dissect.c (+60/-1), options.c (+5/-0), options.h (+2/-0), semind.c (+1/-0), test-dissect.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[7d990b119a62] 2022-05-21 11:18:40 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Merge branch 'next-ramsay'
+
+* fix regression disabling the 'memcpy-max-count' check.
+* warn about a 'case label' on empty statement
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+5/-0), sparse.c (+1/-1), validation/byte-count-max.c (+28/-0), validation/label-positioning.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[62dafeef8ba8] 2022-05-21 10:59:45 +0200
+Author: Alexey Gladkov <gladkov.alexey@gmail.com>
+Subject: dissect: Show typedefs
+
+For indexing purposes, it is useful to see type definitions.
+
+$ semind search __kernel_ulong_t
+(def) include/uapi/asm-generic/posix_types.h 16 23 typedef unsigned long   __kernel_ulong_t;
+
+Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: dissect.c (+12/-1), test-dissect.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[99fe3982ff45] 2022-05-21 10:59:45 +0200
+Author: Alexey Gladkov <gladkov.alexey@gmail.com>
+Subject: dissect: Show macro definitions
+
+Add the ability to dissect to see macro definitions. The patch does not
+add full support for the usage of macros, but only their definitions.
+
+Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: dissect.c (+12/-1), test-dissect.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[2a5afb6eafe9] 2022-05-21 10:59:45 +0200
+Author: Alexey Gladkov <gladkov.alexey@gmail.com>
+Subject: dissect: Allow to show all symbols
+
+Currently dissect sees only used symbols. For indexing purposes, it is
+useful to see all declared symbols.
+
+$ nl -s\  -w2 ./z.c
+ 1 struct foo {
+ 2         int member;
+ 3 };
+ 4 #ifdef OPT
+ 5 static void func1(void) {
+ 6         struct foo *x;
+ 7         return 0;
+ 8 }
+ 9 #endif
+10 static inline void func2(void) { return; }
+11 void func(void) { return; }
+
+$ ./test-dissect ./z.c
+
+FILE: ./z.c
+
+  11:6                    def   f func                             void ( ... )
+
+$ ./test-dissect --param=dissect-show-all-symbols ./z.c
+
+FILE: ./z.c
+
+   1:8                    def   s foo                              struct foo
+   2:13                   def   m foo.member                       int
+  10:20                   def   f func2                            void ( ... )
+  11:6                    def   f func                             void ( ... )
+
+Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: dissect.c (+38/-1), options.c (+5/-0), options.h (+2/-0), semind.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[b3d7fb1bac88] 2022-05-21 10:58:37 +0200
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: fix infinite loop when expanding __builtin_object_size() with self-init vars
+
+expand_object_size(), used to expand __builtin_object_size(),
+recursively try to get the parent initializer. This fails miserably
+by looping endlessly when the object is a self-initialized variable.
+
+For the moment, fix this in the most obvious way: stop the recursion
+and do not expand such variables.
+
+Note: I wouldn't be surprised if these self-initialized variables create
+      other problems elsewhere. Maybe we should remove their initializer
+      and somehow mark them as "do not warn about -Wuninitialized"
+      (well, there is no such warnings *yet*).
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: builtin.c (+8/-0), validation/builtin-objsize-self-init.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[d08822184fe1] 2022-05-20 10:55:05 +0200
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: parse: warn about a 'case label' on empty statement
+
+Commit 0d6bb7e1 ("handle more graciously labels with no statement",
+2020-10-26) allowed a label to appear just before the closing brace
+of a compound statement. This is not valid C (which would require
+at least a null statement). Similarly, a case label is also not
+allowed to appear just before a closing brace.
+
+So, extend the solution of commit 0d6bb7e1 to issue a warning for
+case labels and 'insert' a null statement.
+
+Note that the next C standard (C23 ?) will allow even more freedom
+in the placement of labels (see N2508 [1]) and make this placement
+(along with others) legal C.
+
+[1] https://www9.open-std.org/JTC1/SC22/WG14/www/docs/n2508.pdf
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: parse.c (+5/-0), validation/label-positioning.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[4cd76bd9eeb3] 2022-05-20 10:54:33 +0200
+Author: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Subject: sparse: fix broken 'memcpy-max-count' check
+
+commit a69f8d70 ("ptrlist: use ptr_list_nth() instead of linearize_ptr_\
+list()", 2021-02-14) replaced a call to a local helper with a more generic
+ptr_list function. The local function, argument(), was used to retrieve
+the 'argno' argument to a function call, counting the arguments from one.
+This call was replaced by the generic ptr_list_nth() function, which
+accessed the ptr_list counting from zero. The 'argno' passed to the call to
+argument() was 3 (the byte count), which when passed to ptr_list_nth()
+was attempting to access the 4th (non-existent) argument. (The resulting
+null pointer was then passed to check_byte_count() function, which had
+an null-pointer check and so did not dereference the null pointer). This
+effectively disabled the memcpy-max-count check.
+
+In order to fix the check, change the 'argno' of 3 to the 'index' of 2.
+Also, add a simple regression test.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+
+Files: sparse.c (+1/-1), validation/byte-count-max.c (+28/-0)
+--------------------------------------------------------------------------------
+

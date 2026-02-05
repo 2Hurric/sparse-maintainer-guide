@@ -1,0 +1,627 @@
+================================================================================
+Year: 2012 | Commits: 30 | Contributors: 13
+Insertions: +2400 | Deletions: -144
+================================================================================
+
+[7a1da692083c] 2012-10-11 19:45:21 -0700
+Author: Mauro Dreissig <mukadr@gmail.com>
+Subject: Fix wrong array size expression
+
+Signed-off-by: Mauro Dreissig <mukadr@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[122820872558] 2012-10-11 19:40:45 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Merge branch 'llvm/core' of github.com:penberg/sparse-llvm
+
+Please pull the latest Sparse/LLVM tree from:
+
+  git@github.com:penberg/sparse-llvm.git llvm/core
+
+It contains few LLVM backend fixes from myself and Jonathan Neuschäfer.
+
+Files: sparse-llvm.c (+33/-5), validation/backend/extern.c (+11/-0), validation/backend/int-cond.c (+30/-0), validation/backend/load-type.c (+12/-0), validation/backend/void-return-type.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[d5bd3662e073] 2012-10-10 09:33:41 +0300
+Author: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Subject: sparse, llvm: Fix type of loaded values
+
+Instead of making the computed address a pointer to an int type
+large enough to hold a pointer, make it a pointer to the memory
+object being loaded.  This fixes another LLVM warning.
+
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Acked-by: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+1/-1), validation/backend/load-type.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[e03a53b13e76] 2012-08-19 18:10:34 +0300
+Author: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Subject: sparse, llvm: convert the condition of branch/select to bool
+
+LLVM expects the first argument of "br" and "select" to be of type i1,
+so add an "icmp ne <srcty> %src, 0" for other types.
+
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Jeff Garzik <jgarzik@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+11/-2), validation/backend/int-cond.c (+30/-0)
+--------------------------------------------------------------------------------
+
+[33844e787a0e] 2012-08-19 12:25:11 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Fix 'void' return type code generation
+
+Jonathan Neuschäfer reports:
+
+  A simple function like this will compile to the following llvm
+  bitcode:
+
+        /* C */
+        void func(void) {
+                return;
+        }
+
+        /* LLVM */
+        define i8 @func() {
+        L0:
+          ret void
+        }
+
+  The return type of the function and the type in the return instruction
+  don't match.
+
+  I found this inconsistency by running LLVM's bitcode validation on the
+  bitcode produced by sparse-llvm.
+
+Move 'void *' special-casing from sym_basetype_type() to sym_ptr_type()
+to fix the issue.
+
+Reported by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Jeff Garzik <jgarzik@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+10/-2), validation/backend/void-return-type.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[e49d1f0f310b] 2012-08-19 12:13:40 +0300
+Author: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Subject: sparse, llvm: 'Verify' the LLVM module before writing it
+
+In later versions sparse-llvm should stop on wrong llvm code, instead
+of outputting it, but for now there are too many warnings being produced
+for this to be feasible (I think).
+
+Cc: Pekka Enberg <penberg@kernel.org>
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[14d9355b4a2c] 2012-08-05 22:48:32 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Fix SIGSEGV for extern symbols
+
+Jonathan Neuschäfer writes:
+
+  compiling a little real-world program with sparse-llvm, it segfaulted.
+  Using a tool called "delta"[1] and some bash scripting, I managed to
+  reduce the code to this test case:
+
+    extern struct foo *foop;
+    extern void func(struct foo *f);
+    int main(int argc, char **argv) {
+        func(foop);
+    }
+
+The problem is that pseudo_to_value() does not know abou the extern
+symbol because Sparse never calls output_data() on it which registers
+globals with LLVMAddGlobal().
+
+As explained by Linus, 'extern' symbols are just names with types. They
+don't have any value associated with them, they just have the type and
+the name. Therefore we need to explicitly call LLVMAddGlobal() for
+symbols we have not encountered in pseudo_to_value().
+
+Reported by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Jeff Garzik <jgarzik@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+8/-0), validation/backend/extern.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[063236fd3f46] 2012-06-26 00:54:24 -0700
+Author: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Subject: ptrlist.c: fix a typo in a comment
+
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ptrlist.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[aba673f49e8b] 2012-06-26 00:54:08 -0700
+Author: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Subject: FAQ: update the website address and call it Wiki
+
+Signed-off-by: Jonathan Neuschäfer <j.neuschaefer@gmx.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: FAQ (+1/-1)
+--------------------------------------------------------------------------------
+
+[0a04210cc856] 2012-06-25 02:47:20 -0700
+Author: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
+Subject: sparse: Add 'error' to ignored attributes
+
+Add some more ignored attributes which are used in glibc header files.  It
+silences the warnings such as the following:
+
+/usr/include/bits/fcntl2.h:36:1: error: attribute '__error__': unknown attribute
+
+Signed-off-by: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[2313167a83c3] 2012-06-25 02:46:20 -0700
+Author: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
+Subject: sparse: Add '__vector_size__' to ignored attributes
+
+We already had "vector_size" but we also need __vector_size__ to silence
+some warnings in glibc:
+
+/usr/include/bits/link.h:67:45: error: attribute '__vector_size__': unknown attribute
+
+Signed-off-by: KOSAKI Motohiro <kosaki.motohiro@gmail.com>
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[70c5b9619f9f] 2012-06-21 02:46:53 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Merge branch 'for-chris' of git://github.com/penberg/sparse-llvm
+
+Pull 'for-chris' tree from Pekka Enberg:
+
+"Please pull the latest sparse-llvm tree from:
+ git@github.com:penberg/sparse-llvm.git for-chris
+
+ It has one new validation test case and fixes to handle strings properly
+ in the LLVM backend."
+
+Pekka Enberg (4):
+      sparse, llvm: Add _Bool to cast validation test
+      sparse, llvm: Simplify output_data() type logic
+      sparse, llvm: Fix string initializer code generation
+      sparse, llvm: Fix global string access code generation
+
+Files: sparse-llvm.c (+14/-2), validation/backend/cast.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[ccf42dc22ef4] 2012-06-09 14:04:28 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Fix global string access code generation
+
+This patch attempts to fix code generation for global string access:
+
+  static char *foo = "Foo !\n";
+
+  extern int puts(const char *s);
+
+  int main(int argc, char *argv[])
+  {
+          puts(foo);
+
+          return 0;
+  }
+
+The generated executable causes a SIGSEGV:
+
+  [penberg@tux sparse]$ ./sparsec foo.c && ./a.out
+  Segmentation fault
+
+But as pointed out by Xi Wang, the problem is in "output_load()":
+
+  I guess the problem is that sparse-llvm generates an incorrect type `load i64*'
+  in llvm from the sparse instruction load.64.
+
+         load.64     %r2 <- 0[foo]
+         call.32     %r1 <- puts, %r2
+         ret.32      $0
+
+  With the new ->ctype in pseudo sparse-llvm should be able to generate the
+  correct type.  I am playing with an LLVM backend with typed pseudos; it
+  generates the following code, which seems okay.
+
+  @0 = internal global [7 x i8] c"Foo !\0A\00", align 1
+  @foo = internal global i8* getelementptr inbounds ([7 x i8]* @0, i64 0, i64 0), align 8
+
+  define i32 @main(i32 %argc, i8** %argv) {
+  entry:
+   %0 = load i8** @foo
+   %1 = call i32 @puts(i8* %0)
+   ret i32 0
+  }
+
+So I'll leave the output_load() fix to a separate patch for now.
+
+Cc: Xi Wang <xi.wang@gmail.com>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Acked-by: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+7/-1)
+--------------------------------------------------------------------------------
+
+[9084e55561e9] 2012-06-08 23:31:40 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Fix string initializer code generation
+
+This fixes code generation for string initializer such as:
+
+  static char *foo = "Foo !\n";
+
+It's the same fix Ben proposed earlier with the small difference that we now
+use LLVMTypeOf() instead of symbol_type() to resolve the type.
+
+The generated LLVM IR looks as follows:
+
+  [penberg@tux sparse]$ ./sparse-llvm foo.c |llvm-dis
+  ; ModuleID = '<stdin>'
+
+  @"<noident>" = private global [7 x i8] c"Foo !\0A\00"
+  @foo = private global [7 x i8]* @"<noident>"
+
+Reported-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Acked-by: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[ee2ca87d9bd1] 2012-06-08 23:31:35 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Simplify output_data() type logic
+
+Use LLVMTypeOf() in output_data() to simplify type handling logic.
+
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Acked-by: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[0bf990ff7f1f] 2012-06-08 23:30:38 +0300
+Author: Pekka Enberg <penberg@kernel.org>
+Subject: sparse, llvm: Add _Bool to cast validation test
+
+This patch adds casting backend validation test cases for the _Bool data type.
+
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: validation/backend/cast.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[64a6b4c61faa] 2012-06-04 16:06:33 -0700
+Author: Xi Wang <xi.wang@gmail.com>
+Subject: check missing or duplicate goto labels
+
+This patch sets ->stmt of a SYM_LABEL to the corresponding label
+statement.  If ->stmt was already set, it is a duplicate label.
+
+On the other hand, if ->stmt of a goto label is not set during
+evaluation, the label was never declared.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+11/-1), parse.c (+5/-1), validation/goto-label.c (+29/-0)
+--------------------------------------------------------------------------------
+
+[4c982e9d3c68] 2012-06-04 15:36:31 -0700
+Author: Xi Wang <xi.wang@gmail.com>
+Subject: compile-i386: fix use-after-free in func_cleanup()
+
+compile-i386 sometimes crashes due a use-after-free error.  Since
+f->pseudo_list is freed first, which invalidates some atom->op* in
+f->atom_list.  Further checks like `atom->op1->flags & STOR_WANTS_FREE'
+will read garbage, which may lead to a double free.
+
+This patch switches the cleanup order and frees f->atom_list first.
+Those marked as STOR_WANTS_FREE won't appear in f->pseudo_list.
+
+Signed-off-by: Xi Wang <xi.wang@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+Reviewed-by: Pekka Enberg <penberg@kernel.org>
+
+Files: compile-i386.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[970d7169d750] 2012-05-19 23:42:36 -0700
+Author: Shakthi Kannan <shakthimaan@gmail.com>
+Subject: I have updated the sparse.1 man page including the __bitwise relevant content, and created Documentation/sparse.txt with the complete comparison between __nocast vs __bitwise.
+
+Signed-off-by: Shakthi Kannan <shakthimaan@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Documentation/sparse.txt (+45/-0), sparse.1 (+13/-1)
+--------------------------------------------------------------------------------
+
+[955cd225d2e3] 2012-05-10 03:07:47 -0700
+Author: Jan Pokorný <pokorny_jan@seznam.cz>
+Subject: simplify: conservative handling of casts with pointers
+
+On 05/08/2012 04:13 PM, Jan Pokorný wrote:
+> When the cast is optimized out/target pointer type information lost,
+> it may be impossible for backend to recover it (think of
+> "struct foo *my_new_foo = malloc(sizeof(*my_new_foo))").
+>
+> Losing such pointer type information can be wider issue (structs and
+> unions maybe), but this is the most exposed one and the patch tries
+> to be minimal in this regard and the impact seems to be minimal
+> too as usually type-correctness is followed.
+
+I expected that if both operands of the cast appear to be pointers, it is
+always OP_PTRCAST case, which is not true.
+
+So this version exchanges inequality test for "or".  Beside being
+shorter, it covers such previously missed cases.
+
+Based on asserts I experimented with, OP_PTRCASTs are always captured
+by the condition implicitly (beside OP_CASTs with pointer-like operands).
+
+Signed-off-by: Jan Pokorný <pokorny_jan@seznam.cz>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: simplify.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[695dd9d068dd] 2012-05-04 02:48:27 -0700
+Author: Jan Pokorný <pokorny_jan@seznam.cz>
+Subject: unssa: track use of newly added pseudo
+
+Currently, it is a completely "isolated island" from backend
+point of view as it also lacks pseudo->def information.
+
+Signed-off-by: Jan Pokorný <pokorny_jan@seznam.cz>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: unssa.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[519a65d26c4c] 2012-04-13 20:55:34 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: Fix ,##__VA_ARGS__ kludge
+
+a) it actually allows any number of ##<arg>##... in between, as long as all
+those args are empty.
+b) it does *not* allow ## after __VA_ARGS__ - if it's there magic disappears
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: pre-process.c (+120/-37), validation/preprocessor/preprocessor14.c (+0/-1), validation/preprocessor/preprocessor23.c (+47/-0)
+--------------------------------------------------------------------------------
+
+[d6b8d38f0ef1] 2012-04-13 20:54:48 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: Fix tab handling in nextchar_slow()
+
+... and streamline it a bit more, now that we get all \t hitting
+the damn thing.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: tokenize.c (+26/-23)
+--------------------------------------------------------------------------------
+
+[ef2e777c1bda] 2012-04-13 20:54:38 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: Fix handling of __func__
+
+It's not a string literal, it's a static array
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expression.c (+45/-53), validation/__func__.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[7aa79f8401f0] 2012-03-23 10:50:54 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Adding default for m64/m32 handle
+
+This is improved version of Pekka Enberg's patch
+"Fix including glibc headers on x86-64".
+
+To avoid setting 64 bit define in the -m32 case,
+the 64 bit initialization needs to delay until all
+arguments are handled.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+41/-2)
+--------------------------------------------------------------------------------
+
+[8ab3b11aa5cf] 2012-03-23 10:48:58 -0700
+Author: Frederic Crozat <fcrozat@suse.com>
+Subject: Add __builtin_stpcpy, __sync_synchronize, __sync_bool_compare_and_swap to declare_builtin_functions
+
+Signed-off-by: Frederic Crozat <fcrozat@suse.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[9c2ffd7b21e8] 2012-02-04 17:33:05 +0200
+Author: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Subject: sparse, llvm: Fix varargs functions
+
+We need to tell llvm about it or it won't generate the proper
+stack frame & argument list on some architectures.
+
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Jeff Garzik <jgarzik@redhat.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+[ penberg@kernel.org: Fix function pointer calls ]
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: sparse-llvm.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[ff527e2c72f7] 2012-02-04 17:33:05 +0200
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: sparse, llvm: Make function declaration accessible to backend
+
+On Tue, Aug 30, 2011 at 10:43 AM, Jeff Garzik <jeff@garzik.org> wrote:
+> * if someone knows how to access a function declaration, I can solve the
+> varargs problem
+
+Hmm. Right now we do not have access to the function declaration at
+linearize time. We've checked that the arguments match, and we've cast
+the arguments to the right types (evaluate.c), so the thinking was
+that you just use the arguments as-is.
+
+But if llvm needs the declaration of a function, we'd need to squirrel it away.
+
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Christopher Li <sparse@chrisli.org>
+Cc: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+[ penberg@kernel.org: Fix validation/context.c breakage. ]
+Signed-off-by: Pekka Enberg <penberg@kernel.org>
+
+Files: linearize.c (+8/-0), linearize.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b0b4886be5f6] 2012-01-18 17:44:36 -0800
+Author: Ethan Jackson <ethan@nicira.com>
+Subject: sparse: Add 'leaf' to ignored attributes.
+
+This patch adds the 'leaf' GCC attribute to the list of ignored
+attributes.  Glibc uses this attribute causing the following
+warnings in userspace projects:
+
+  /usr/include/stdlib.h:514:26: error: attribute '__leaf__': unknown attribute
+
+Signed-off-by: Ethan Jackson <ethan@nicira.com>
+Acked-by: Pekka Enberg <penberg@kernel.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+2/-0), parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[e68f464686c2] 2012-01-02 14:01:37 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Merge branch 'sparse-llvm' of git://github.com/penberg/sparse-llvm.git
+
+'master' branch of git://github.com/penberg/sparse-llvm.git
+
+	Revert "sparse: Bump up sizeof(_Bool) to 8 bits"
+	sparse, llvm: Add test case for <stdbool.h> type
+	sparse, llvm: Use LLVMInt1Type() in sym_basetype_type()
+	sparse, llvm: Don't fail the build if LLVM is too old
+	Merge pull request #6 from jgarzik/hacks
+	sparse, llvm: add loop testcase
+	sparse, llvm: Fix loops, by properly handling OP_PHI forward references
+	sparse, llvm: FP comparison op code generation
+	sparse, llvm: Simplify comparison op code generation
+	sparse, llvm: More comparison ops code generation
+	sparse, llvm: OP_SET_B and OP_SET_A code generation
+	sparse, llvm: Pointer cast code generation
+	sparse, llvm: Make llc output to stdout in sparsec
+	sparse, llvm: Fix 'extern' symbol code generation
+	sparse, llvm: Fix symbol initializer code generation
+	sparse, llvm: Function pointer code generation
+	sparse, llvm: Make 'sparsec' error handling more robust
+	sparse, llvm: Add support for union types
+	sparse, llvm: Add support for array types
+	sparse, llvm: Fix symbol_type() for bitfields and enums
+	sparse, llvm: Fix struct code generation
+	sparse, llvm: Use new LLVM type system API for structs
+	sparse, llvm: Fix 'void *' pointer code generation
+	sparse, llvm: Add support for logical ops
+	sparse: Bump up sizeof(_Bool) to 8 bits
+	sparse, llvm: Add support for symbol initializers
+	sparse, llvm: Add support for struct types
+	sparse, llvm: Fix code generation for 'long double' data type
+	Merge pull request #4 from jgarzik/hacks
+	sparse, llvm: support OP_STORE
+	sparse, llvm: move OP_COPY support to separate function.  Add FP support.
+	sparse, llvm: store module-local functions on function reference list
+	llvm, sparse: Fix symbol_is_fp_type() goof
+	Merge branch 'master' of github.com:penberg/sparse-llvm
+	Merge pull request #3 from jgarzik/hacks
+	sparse, llvm: Fix pseudo_type() for PSEUDO_ARG
+	sparse, llvm: create helper for obtaining instruction's type
+	sparse, llvm: Fix code generation for casts
+	Revert "sparse, llvm: Don't redefine module local functions"
+	sparse, llvm: Don't redefine module local functions
+	sparse, llvm: Fix PSEUDO_OP code generation
+	sparse, llvm: Improve sparsec front-end
+	sparse, llvm: Fix OP_CAST to use zero-extend
+	sparse, llvm: Cleanup output_data()
+	sparse, llvm: Code generation for string constants
+	sparse, llvm: Warn the user when we fall back to GCC
+	Limit usage of g++ to llvm related programs.
+	Merge pull request #2 from jgarzik/hacks
+	sparse, llvm: move OP_CAST code to separate func.  support FP casts.
+	cse: update PHI users when throwing away an instruction
+	cse: treat PHI-nodes as other instructions
+	Merge pull request #1 from jgarzik/hacks
+	sparse, llvm: move OP_PHI code from switch statement to separate function
+	sparse, llvm: implement OP_CALL
+	sparse, llvm: replace FIXME comment with assert(), following existing style
+	sparse-llvm OP_PHISOURCE: replace copy with target=src pointer operation
+	sparse, llvm: Kill debugging code
+	sparse, llvm: Kill ifdef'd unssa() call
+	sparse, llvm: Bitwise not operator codegen
+	sparse, llvm: Reorganize code generation tests
+	sparse, llvm: Floating point support for binops
+	sparse-llvm: OP_LOAD
+	sparse-llvm: OP_SWITCH
+	sparse-llvm: OP_SEL
+	sparse, llvm: if-else code generation
+	sparse, llvm: Implement OP_CAST
+	sparse, llvm: Move binop tests to validation/backend
+	sparse, llvm: Implement some binary comparison ops
+	sparse, llvm: Add support for more binary ops
+	sparse, llvm: Implement OP_ADD
+	sparse, llvm: Add output_op_binary() stub
+	sparse, llvm: Introduce 'struct function' to clean up code
+	sparse, llvm: Add support for OP_RET/PSEUDO_ARG
+	sparse, llvm: OP_RET/PSEUDO_VAL code generation
+	sparse, llvm: Add switch statement to output_insn()
+	llvm, sparse: Separate entry and exit basic blocks
+	sparse, llvm: Fix 'sparsec' when it's not in PATH
+	sparse, llvm: Fix global variable initialization
+	sparse, llvm: Fix assert() in sparse code
+	sparse, llvm: Initial commit
+
+Files: .gitignore (+1/-0), Makefile (+25/-1), linearize.h (+2/-0), sparse-llvm.c (+1241/-0), sparsec (+52/-0), ... and 13 more
+--------------------------------------------------------------------------------
+

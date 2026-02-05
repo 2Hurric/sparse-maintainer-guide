@@ -1,0 +1,1179 @@
+================================================================================
+Year: 2006 | Commits: 79 | Contributors: 13
+Insertions: +2134 | Deletions: -812
+================================================================================
+
+[88b52a96bb28] 2006-12-05 03:22:44 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove old SCCS target from Makefile.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+0/-2)
+--------------------------------------------------------------------------------
+
+[2ad3562dd874] 2006-12-05 03:11:12 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: implement #strong_undef
+
+Example
+
+	// pre-buffer
+	#strong_undef CONFIG_SMP
+
+	// include/linux/autoconf.h
+	#define CONFIG_SMP 1		// silently ignored
+
+	#ifdef CONFIG_SMP
+		...			// not taken
+	#endif
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+24/-6)
+--------------------------------------------------------------------------------
+
+[3c083484a359] 2006-12-05 03:08:58 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: implement #strong_define
+
+Example
+
+	#strong_define FOO 1
+
+	#undef	FOO	// silently ignored
+	#define	FOO 2	// silently ignored
+
+This allows (for example) to override CONFIG_XXX values without
+editing include/linux/autoconf.h
+
+I think this is useful. If you think differently, I will appreciate
+your comments on this patch correctness.
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+17/-11), symbol.h (+4/-3)
+--------------------------------------------------------------------------------
+
+[07ad7987620f] 2006-12-05 03:06:16 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: prepare for #strong_{define,undef}
+
+This patch renames symbol->weak to symbol->attr and adds
+symbolic names for it's values.
+
+I don't like the new name, and will be happy to rename if
+you suggest me something different.
+
+Probably it is also better to move ->attr into the NS_MACRO
+part of the union and make it integer.
+
+No changes in pre-process.o
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+8/-7), symbol.h (+4/-1)
+--------------------------------------------------------------------------------
+
+[7207be8d9e4d] 2006-12-05 03:04:36 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: fix 'weak' attribute loss
+
+When NS_MACRO symbol is used, sparse clears it's 'weak' flag.
+This is bad for multifile parsing, and wrong:
+
+	#weak_define FOO 1
+	FOO
+	#weak_define FOO 2	// silently ignored
+
+After this patch sparse never writes to NS_MACRO symbols from
+another scope (except ->used_in).
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+5/-3), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[506395425113] 2006-12-05 03:03:32 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: fix redefine of #weak_define
+
+This patch fixes 2 bugs in do_handle_define()
+
+1.	if (sym->weak)
+		goto replace_it;
+
+	This is wrong, we should allocate a new symbol if
+	sym->scope != file_scope, example:
+
+	inc.h:
+		#weak_define FOO default
+
+	redefine.c:
+		#define FOO redefine
+		FOO
+
+	default.c:
+		FOO
+
+	$ ./test-lexing -include inc.h redefine.c default.c
+	redefine
+	Segmentation fault
+
+2.	if (token_list_different(...)) {
+		...
+	}
+	return 1;
+
+	This is wrong too:
+
+		#weak_define	FOO	1
+		#define		FOO	1	// has no effect
+		#define		FOO	2	// redefined without warning
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+32/-23)
+--------------------------------------------------------------------------------
+
+[75142e066305] 2006-12-05 03:02:15 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: kill NS_INVISIBLEMACRO, introduce NS_UNDEF
+
+With this patch handle_undef() doesn't corrupt the builtin macros.
+
+This (imho) cleanups the code and is used in the next patches.
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+10/-3), scope.c (+0/-7), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[e85b7a205a14] 2006-12-05 03:01:15 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: use lookup_macro() in handle_undef()
+
+Current code looks strange, I think it used to remove the symbol
+from ->symbols list some time ago.
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: pre-process.c (+5/-10)
+--------------------------------------------------------------------------------
+
+[5e7a92300a34] 2006-12-05 02:51:26 -0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Support -Wall flag
+
+If -Wall is specified, enable all warnings except those explicitly
+disabled by -Wno-* switches.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: lib.c (+27/-3)
+--------------------------------------------------------------------------------
+
+[29578cb0d74a] 2006-12-05 02:18:19 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Generate and install a pkg-config file.  Add DESTDIR support to Makefile.
+
+The Makefile now generates and installs a pkg-config file, sparse.pc, to
+provide information about the installed Sparse library and header files.  Use
+`pkg-config --cflags sparse` to get the include path, and `pkg-config --libs
+sparse` to get the library path and library.
+
+To help packagers of Sparse, also add support for the DESTDIR variable to the
+Makefile.  DESTDIR allows you to target a particular prefix (such as /usr),
+but install to another directory (such as debian/tmp), usually for the
+purposes of subsequently constructing a package from that directory.
+Previously, just setting PREFIX would work for that, but with the new
+pkg-config file, the Makefile needs to know the real prefix.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+1/-0), Makefile (+19/-10), sparse.pc.in (+9/-0)
+--------------------------------------------------------------------------------
+
+[01bd4dbe25c5] 2006-12-05 01:48:33 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Install static library and header files
+
+Modify Makefile to install the static library and all of the library header
+files.  Add dissect.h to LIB_H.  Remove redundant headers from dependency
+lines.  Remove rpath suggestion.
+
+The header files get installed to a "sparse" subdirectory of the include
+directory; please reference the sparse headers as sparse/${HEADER}.h.  The
+various sparse test programs can all now compile successfully outside the
+sparse tree, given that modification to their #include lines.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+17/-20)
+--------------------------------------------------------------------------------
+
+[ab5399000739] 2006-12-04 23:54:34 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Rename "check.c" to "sparse.c" to match program name; update .gitignore
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+1/-1), Makefile (+2/-2), check.c => sparse.c (+0/-0)
+--------------------------------------------------------------------------------
+
+[8a08b7886fa8] 2006-12-04 23:39:34 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Update the FAQ: add sparse website and gitweb, update git URL, remove old BK url
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: FAQ (+5/-4)
+--------------------------------------------------------------------------------
+
+[4ad8ad708f80] 2006-12-04 23:27:58 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: cleanup write to argument array hack
+
+The sparse interface is a kind of snaky that it change the input argument
+array. The function sparse() does the same hack just to skip the files.
+
+This patch add the ptr list for string. So sparse_initialize will
+return list of file to compile. The string pointer is not aligned
+at word boundary. This patch introduce non taged version of the ptr
+list iteration function.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: check.c (+7/-3), compile.c (+10/-9), example.c (+7/-3), graph.c (+8/-3), lib.c (+6/-22), ... and 8 more
+--------------------------------------------------------------------------------
+
+[9c1b0a2fd434] 2006-12-04 18:02:12 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: delay removing file scope
+
+Sparse only returns the used symbol. By the time it return
+the symbol, it already destroyed the file scope.
+
+This patch preserve the file scope. The caller can
+examine the unused symbols. e.g. If I want to generate
+ctags base on sparse, it need those unused symbols.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+1/-2), scope.c (+7/-0), scope.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[fe288c4a0484] 2006-11-28 12:38:07 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix warning on self check.
+
+Sparse complain about the using do while without
+compound statment in pre-process.c. This trivial patch
+fixes that.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: pre-process.c (+16/-12)
+--------------------------------------------------------------------------------
+
+[4e50a7288053] 2006-11-28 12:30:51 -0800
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: trivial: more .gitignore stuff
+
+Ignore tags and git frontends' files.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: .gitignore (+12/-0)
+--------------------------------------------------------------------------------
+
+[e549e6051086] 2006-11-28 12:26:22 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: trivial fix for seg fault.
+
+Trivial fix for some seg fault.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: token.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[b16b911d8dbf] 2006-11-21 08:53:07 -0800
+Author: Nicolas Kaiser <nikai@nikai.net>
+Subject: double inclusions
+
+Remove two double inclusions.
+
+Signed-off-by: Nicolas Kaiser <nikai@nikai.net>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expression.c (+0/-1), symbol.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[dfcec6b42102] 2006-11-06 11:26:11 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Stop building and installing libsparse.so
+
+Since none of the header files get installed, making it difficult or
+impossible for anything external to use libsparse.so, and libsparse.so doesn't
+provide a stable API/ABI or a SONAME, and the backends all build with the
+static libsparse.a, stop building and installing libsparse.so.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+3/-3)
+--------------------------------------------------------------------------------
+
+[619a40719708] 2006-11-06 10:37:59 -0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Install cgcc on "make install", refactor installation code
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+5/-2)
+--------------------------------------------------------------------------------
+
+[595e510572ae] 2006-11-06 04:04:19 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Rename test case bad-assignement.c to bad-assignment.c, fixing the typo.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/{bad-assignement.c => bad-assignment.c} (+0/-0)
+--------------------------------------------------------------------------------
+
+[1b3d7607212c] 2006-11-06 03:59:37 -0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Typo fixes
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: evaluate.c (+1/-1), example.c (+2/-2), expand.c (+1/-1), inline.c (+1/-1), memops.c (+1/-1), ... and 4 more
+--------------------------------------------------------------------------------
+
+[93a2093dc9b6] 2006-11-06 03:56:16 -0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Add support for __builtin_strpbrk()
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[fe0e3aef4666] 2006-11-06 03:56:06 -0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Compile sparse executable under it's own name, not as "check"
+
+No need to confuse everyone.  Besides, it allows to use "make check" for
+some something meaningful in the future.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+3/-8)
+--------------------------------------------------------------------------------
+
+[89e5b02c6b36] 2006-10-24 12:50:55 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Merge branch 'context-test-cases-for-cond-lock' into josh
+
+[Auto-summary] Adds/updates 1 test(s). Changes: +20/-0 in 1 file(s)
+
+Files: validation/context.c (+20/-0)
+--------------------------------------------------------------------------------
+
+[d730502c200e] 2006-10-24 12:50:01 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test cases to validation/context.c for the Linux __cond_lock macro
+
+Linux uses a macro __cond_lock with an embedded ternary operator and a
+__context__ expression down one branch in order to allow for conditional
+locking, where a function might or might not have actually locked, depending
+on its return value.  Add test cases for this macro.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/context.c (+20/-0)
+--------------------------------------------------------------------------------
+
+[758c8a83cebb] 2006-10-24 05:23:24 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: switch to hash-based get_one_special()
+
+Weird, but true: the set of C two-character punctuators and
+two-symbol prefixes of three-character punctuators is
+distinguishable by 5-bit hash function (27 out of 32).
+Application is obvious - we get much faster get_one_special()
+out of that...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: token.h (+9/-9), tokenize.c (+66/-12)
+--------------------------------------------------------------------------------
+
+[70ada4fad4c4] 2006-10-24 05:05:10 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: added a bunch of gcc builtins
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[8bcd6b41a5f0] 2006-10-17 00:53:54 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Recognize and ignore __alias__ and __visibility__
+
+They are equivalent to "alias" and "visibility" except that gcc won't
+complain about them in ANSI programs.
+
+Original patch from Pavel Roskin, modified by Josh Triplett.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: ident-list.h (+2/-2), parse.c (+4/-2)
+--------------------------------------------------------------------------------
+
+[8ea2cc615de7] 2006-10-17 00:31:48 -0700
+Author: Adam DiCarlo <bikko@us.ibm.com>
+Subject: Add type information to enum mismatch warning
+
+Signed-off-by: Adam DiCarlo <adam.dicarlo@gmail.com>
+
+Files: evaluate.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[bd001207c2f3] 2006-10-16 22:05:19 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Merge branch 'Wcontext-default' into staging
+
+[Auto-summary] Modifies lib.c. Changes: +1/-1 in 1 file(s)
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[bb252dbfd9dc] 2006-10-16 21:57:01 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: merge branch 'no-semantic-h' into staging and fix conflicts
+
+[Auto-summary] Updates header symbol.h. Changes: +1/-1 in 1 file(s)
+
+Files: symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[c81e400f7ffc] 2006-10-16 21:54:08 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: merge branch 'more-warning-flags' into staging and fix conflicts
+
+[Auto-summary] Modifies 2 source files: check.c, lib.c. Updates header lib.h. Changes: +4/-1 in 3 file(s)
+
+Files: check.c (+1/-1), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b0c064e7c7c1] 2006-10-16 21:48:50 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Merge branch 'graph' into staging
+
+[Auto-summary] Modifies graph.c. Updates header linearize.h. Changes: +4/-2 in 2 file(s)
+
+Files: graph.c (+2/-1), linearize.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[c30df9be7877] 2006-10-16 21:46:15 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Merge branch 'fix-defined-twice-error-on-empty-struct' into staging
+
+[Auto-summary] Modifies expand.c. Adds/updates 1 test(s). Changes: +47/-6 in 2 file(s)
+
+Files: expand.c (+4/-6), validation/initializer-entry-defined-twice.c (+43/-0)
+--------------------------------------------------------------------------------
+
+[7fdd2a497b89] 2006-10-01 10:59:00 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Merge branch 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse
+
+[Auto-summary] Modifies 4 source files: evaluate.c, parse.c, show-parse.c and 1 more. Updates header symbol.h. Adds/updates 1 test(s). Changes: +324/-190 in 6 file(s)
+
+Files: evaluate.c (+252/-190), parse.c (+1/-0), show-parse.c (+8/-0), symbol.c (+38/-0), symbol.h (+5/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[abbdcdd9060c] 2006-10-01 10:01:03 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Add warning message for naked do-while
+
+Does it necessarily make sense? Dunno, but it does tend to be bad
+practice, or at least result in code that can be hard to mentally parse.
+
+Maybe that mental parsing is just me.  Or maybe it should be warned
+about.  You decide.
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: lib.c (+2/-0), lib.h (+1/-0), parse.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[d24967cb847b] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] handle fouled-bitwise
+
+This stuff comes from handling smaller-than-int bitwise types (e.g. __le16).
+The problem is in handling things like
+	__be16 x, y;
+	...
+	if (x == (x & ~y))
+The code is bitwise-clean, but current sparse can't deduce that.  Operations
+allowed on bitwise types have the following property: (type)(x <op> y) can
+be substituted for x <op> y in any expression other than sizeof.  That allows
+us to ignore usual arithmetical conversions for those types and treat e.g.
+| as __be16 x __be16 -> __be16, despite the promotion rules; resulting
+semantics will be the same.  However, ~ on smaller-than-int does not have
+such property; indeed, ~y is guaranteed to _not_ fit into range of __be16
+in the example above.
+
+That causes a lot of unpleasant problems when dealing with e.g. networking
+code - IP checksums are 16bit and ~ is often used in their (re)calculations.
+The way to deal with that is based on the observation that even though we do
+get junk in upper bits, it normally ends up being discarded and sparse can
+be taught to prove that.  To do that we need "fouled" conterparts for short
+bitwise types.  They will be assigned to (sub)expressions that might carry
+junk in upper bits, but trimming those bits would result in the value we'd
+get if all operations had been done within the bitwise type.  E.g. in the
+example above y would be __be16, ~y - fouled __be16, x & ~y - __be16 again
+and x == (x & ~y) - boolean.
+
+Basically, we delay reporting an error on ~<short bitwise> for as long as
+possible in hope that taint will be cleansed later.  Exact rules follow:
+
+        * ~short_bitwise => corresponding fouled
+        * any arithmetics that would be banned for bitwise => same warning
+as if we would have bitwise
+        * if t1 is bitwise type and t2 - its fouled analog, then
+t1 & t2 => t1, t1 | t2 => t2, t1 ^ t2 => t2.
+        * conversion of t2 to t1 is silent (be it passing as argument
+or assignment).  Other conversions are banned.
+        * x ? t1 : t2 => t2
+        * ~t2 => t2 (_not_ t1; something like ~(x ? y : ~y) is still fouled)
+        * x ? t2 : t2 => t2, t2 {&,|,^} t2 => t2 (yes, even ^ - same as before).
+        * x ? t2 : constant_valid_for_t1 => t2
+        * !t2 => warning, ditto for comparisons involving t2 in any way.
+        * wrt casts t2 acts exactly as t1 would.
+        * for sizeof, typeof and alignof t2 acts as promoted t1.  Note that
+fouled can never be an lvalue or have types derived from it - can't happen.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+62/-15), parse.c (+1/-0), show-parse.c (+8/-0), symbol.c (+38/-0), symbol.h (+5/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[6ca174d56bda] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] saner recovery from endianness errors, part 1.
+
+[Auto-summary] Modifies evaluate.c. Changes: +17/-9 in 1 file(s)
+
+Files: evaluate.c (+17/-9)
+--------------------------------------------------------------------------------
+
+[4f7a0e2b4021] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] merged compatible_..._binop() into single function
+
+All these guys are really pieces of usual arithmetic conversions;
+doesn't make sense to handle them separately, especially if we
+want to recover from mismatches in __bitwise__, etc. by letting
+them degrade to corresponding integer types.
+
+Files: evaluate.c (+61/-79)
+--------------------------------------------------------------------------------
+
+[b875bb08b437] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] beginning of SYM_RESTRICT rewrite: restricted_binop_type()
+
+* new helper - restricted_binop_type(); gives resulting type of binary
+operation when at least one of arguments is SYM_RESTRICT.  NULL is
+returned in case of error.  Arguments will make sense when we get
+to consolidation of compatible_binop_...() (next patch), switching
+to better recovery from type errors for these guys (next after that)
+and smarter handling of ~ on small restricted types.
+
+* compatible_restricted_binop() and check_case_type() switched to
+using that puppy
+
+Files: evaluate.c (+62/-42)
+--------------------------------------------------------------------------------
+
+[6aeb66b37eb3] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] evaluate_compare() can just use evaluate_arith() for non-pointer cases
+
+[Auto-summary] Modifies evaluate.c. Changes: +1/-16 in 1 file(s)
+
+Files: evaluate.c (+1/-16)
+--------------------------------------------------------------------------------
+
+[082c1463740c] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] introduce classify_type(), use it in obvious places
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+58/-49)
+--------------------------------------------------------------------------------
+
+[7acd2a76ae75] 2006-10-01 09:40:18 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] casting null pointer constant to non-zero address space is always OK
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+12/-1)
+--------------------------------------------------------------------------------
+
+[3425388b0c9f] 2006-09-30 16:27:02 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] add support for __builtin_choose_expr()
+
+that bugger is weird; _no_ type modifications are
+done to arguments (no promotions, no degeration,
+void accepted, etc.).  Implemented, testcase added.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+23/-11), symbol.c (+45/-0), symbol.h (+1/-0), validation/choose_expr.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[02a7055f7284] 2006-09-30 13:45:33 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix duplicate initializer detection
+
+bit_offset() doesn't deal with nested designators.
+Fixed, testcase added.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expand.c (+2/-2), validation/field-overlap.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[304b6f7746b7] 2006-09-30 06:47:04 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix for switch(bad_type) {...} segfault
+
+fixed, testcase added
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+8/-8), validation/badtype4.c (+7/-0)
+--------------------------------------------------------------------------------
+
+[f7cf688a826d] 2006-09-14 13:21:02 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Turn on -Wcontext by default
+
+Context checking currently requires explicitly passing the -Wcontext option.
+In a Linux build, this requires passing CF=-Wcontext.  Thus, running people
+running sparse over Linux or other software in the default way will not see
+context warnings.  Change this by enabling -Wcontext.
+
+While context checking does generate false positives, due to both missing
+annotations on kernel functions and insufficiently clever checking in sparse,
+the context warnings still do provide useful information and help track down
+real bugs.  Furthermore, showing these warnings by default may incite more
+people to add annotations or enhance sparse.  As a last resort, -Wno-context
+will still work.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[2c5d4b3a3798] 2006-09-14 13:20:56 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: bb_terminated: Use boundary values rather than specific opcodes
+
+The opcode enum defines the boundary values OP_TERMINATOR and
+OP_TERMINATOR_END for terminator instructions; use those in bb_terminated
+rather than the specific values they currently equal.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[a8594de2db28] 2006-09-14 13:20:56 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: graph: Show position in basic block nodes
+
+Change the label for basic block nodes from the basic block address to the
+position (file, line, column) of the basic block.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: graph.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[6ab5eb55d19b] 2006-09-14 13:20:53 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add -Wno-uninitialized
+
+Add the ability to turn off warnings for possibly uninitialized variables
+using -Wno-uninitialized, helpful when attempting to track down a particular
+class of warnings only without losing them amongst others.  Warnings for
+possibly uninitialized variables default to on, so this does not change the
+default behavior of sparse.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: check.c (+1/-1), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b0a5a16ae4d1] 2006-09-14 13:20:42 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix incorrect symbol in comment on #endif for multiple-inclusion guard
+
+symbol.h uses the standard multiple-inclusion guard, with the symbol SYMBOL_H,
+but the comment on the final #endif says /* SEMANTIC_H */.  Change this to the
+correct symbol.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[8aed19aea597] 2006-09-13 15:14:00 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: "Initializer entry defined twice" should not trigger with zero-size fields
+
+If a field of a structure has size 0 (which happens with an empty struct), the
+subsequent field will have the same offset.  Assigning to both thus triggers
+the "Initializer entry defined twice" error, which should not happen.  Change
+verify_nonoverlapping to not warn about overlaps where the first field has
+size 0.
+
+Add a validation file (validation/initializer-entry-defined-twice.c) for this
+warning, which covers two cases where it should trigger (same struct field
+twice; two fields of a union) and this case where it should not.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expand.c (+4/-6), validation/initializer-entry-defined-twice.c (+43/-0)
+--------------------------------------------------------------------------------
+
+[27ff96a96c95] 2006-09-03 12:32:31 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Make sparse warn about initializers that initialize the same member twice
+
+Surprisingly, gcc apparently doesn't warn/notice.  And yes, we had at
+least one such error in the kernel due to some over-eager cut-and-paste
+happening.
+
+[ Side note: this should also fix a problem with bitfields at byte
+  offset zero not necessarily getting sorted right.  Not that that would
+  have likely affected any current usage of sparse.  ]
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: expand.c (+34/-20)
+--------------------------------------------------------------------------------
+
+[37475a6c1c3e] 2006-08-30 16:07:55 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Parse and track multiple contexts by expression
+
+sparse currently only tracks one global context for __context__ and
+__attribute__((context)).
+
+This adds support for parsing an additional argument to each of these
+which gives a context expression.  For __attribute__((context)), store
+each context attribute as a separate context structure containing the
+expression, the entry context, and the exit context, and keep a list of
+these structures in the ctype.  For __context__, store the context
+expression in the context instruction.  Modify the various frontends to
+adapt to this change, without changing functionality.
+
+This change should not affect parsing of programs which worked with
+previous versions of sparse, unless those programs use comma expressions
+as arguments to __context__ or __attribute__((context)), which seems
+highly dubious and unlikely.  sparse with -Wcontext generates identical
+output with or without this change on Linux 2.6.18-rc4.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: allocate.c (+1/-0), allocate.h (+1/-0), check.c (+7/-1), linearize.c (+28/-21), linearize.h (+1/-0), ... and 5 more
+--------------------------------------------------------------------------------
+
+[c974e38bfdf1] 2006-08-29 19:11:52 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add -Wno-cast-truncate
+
+Add the ability to turn off checks for casts that truncate constant values
+using -Wno-cast-truncate, helpful when attempting to track down a particular
+class of warnings only without losing them amongst others.  Checks for
+truncating casts default to on, so this does not change the default behavior
+of sparse.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: expand.c (+4/-0), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[9c76e93d9e2d] 2006-08-29 19:11:52 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add -Wno-enum-mismatch
+
+Add the ability to turn off enum type mismatch warnings using
+-Wno-enum-mismatch, helpful when attempting to track down a particular class
+of warnings only without losing them amongst others.  Enum type mismatch
+checking defaults to on, so this does not change the default behavior of
+sparse.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+2/-0), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b92f3223f4c4] 2006-08-29 19:11:52 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add -Wno-address-space
+
+Add the ability to turn off address-space mismatch warnings using
+-Wno-address-space, helpful when attempting to track down a particular class
+of warnings only without losing them amongst others.  Address space checking
+defaults to on, so this does not change the default behavior of sparse.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+1/-1), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[38766114c76a] 2006-08-29 19:09:31 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add backend to graph basic blocks
+
+Add a new backend program which parses the input files, processes them through
+the linearization pass, and outputs a graphviz graph of the resulting basic
+blocks.  Each entrypoint gets labelled by name, but for now the basic blocks
+just get labelled with the address of the basic_block structure.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: .gitignore (+1/-0), Makefile (+5/-1), graph.c (+63/-0)
+--------------------------------------------------------------------------------
+
+[1ffcd2151b0e] 2006-08-29 19:09:31 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] sparse_error() should not silence info() after sparse_error()s
+
+sparse_error() sets max_warnings = 0 to silence subsequent sparse_warning()s
+or info()s; however, this also silences the info() after that sparse_error()
+and subsequent sparse_errors() which still get shown.  bad_expr_type runs into
+this problem: it reports an error with sparse_error() and then provides
+further information with info(), which the user never sees.  Make info()
+continue to print as long as the immediately preceeding warning or error does.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: lib.c (+10/-3)
+--------------------------------------------------------------------------------
+
+[a0db384dbb4b] 2006-08-29 19:09:31 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Use $(BINDIR) consistently in Makefile rather than $(PREFIX)/bin
+
+The Makefile has variables for both PREFIX (default $(HOME)) and BINDIR
+(default $(PREFIX)/bin); however, it then uses $(PREFIX)/bin in several other
+places, making it difficult to install to an alternate BINDIR.  Fix this by
+using $(BINDIR) consistently throughout the Makefile.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: Makefile (+3/-3)
+--------------------------------------------------------------------------------
+
+[6782538a6506] 2006-08-29 19:09:31 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add support for GCC's __builtin_va_copy
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[b7db62f7230c] 2006-08-29 19:09:31 -0700
+Author: Josh Triplett <josht@us.ibm.com>
+Subject: [PATCH] Add support for GCC's __builtin_extract_return_addr function.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[bcf44fe7402c] 2006-07-31 22:24:56 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: First cut at something that approaches a sane -Wshadow
+
+Let's see if it's useful.  The ones it reported for git seemed
+reasonable, certainly more so than the gcc ones.
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: lib.c (+2/-0), lib.h (+1/-0), symbol.c (+9/-10)
+--------------------------------------------------------------------------------
+
+[3538ff168dd7] 2006-07-13 22:37:49 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: [PATCH] Fix -Wtypesign
+
+Run evaluate_symbol() before check_duplicates() so that the signedness
+of the token is known by the time the token is compared with other
+tokens.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[4ad9f1517041] 2006-07-08 13:35:09 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Avoid bogus gcc warnings about unused results
+
+Our fancy type-safe pointer-list template macros caused gcc to spew out
+incredible numbers of totally bogus warnings, just because most users
+didn't actually care about the result of the "add_ptr_list()" operation.
+
+Not caring about the result is _fine_, and gcc is just totally confused.
+
+However, we can avoid the bogus warning by enclosing the expression in a
+statement expression.  While "(cast)(x)" causes a warning about the
+result not being used, doing it as "({ (cast)(x); })" shuts gcc up about
+it.
+
+Not pretty, but better than the alternative (which is to drop type
+information).
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: ptrlist.h (+8/-1)
+--------------------------------------------------------------------------------
+
+[ad1013d69006] 2006-07-08 13:31:05 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Fix dropped type information in "add_pseudo()".
+
+We return a well-defined type (a pointer to the pseudo_t we added), so
+don't cast it to "void *" unnecessarily.
+
+Type safety is good.
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: linearize.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[26abac629549] 2006-07-05 15:36:31 -0700
+Author: Josh Triplett <josht@vnet.ibm.com>
+Subject: [PATCH] Add test-dissect to .gitignore
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: .gitignore (+1/-0)
+--------------------------------------------------------------------------------
+
+[a68a1da82ee9] 2006-07-05 15:36:31 -0700
+Author: Josh Triplett <josht@vnet.ibm.com>
+Subject: [PATCH] Ignore no_instrument_function attributes
+
+Ignore the GCC attributes no_instrument_function and
+__no_instrument_function__, used to turn off instrumentation for a particular
+function when using GCC's -finstrument-functions option.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: ident-list.h (+1/-0), parse.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[8731bb7b2e62] 2006-07-05 15:36:31 -0700
+Author: Josh Triplett <josht@vnet.ibm.com>
+Subject: [PATCH] Add test cases for __context__ statement and context attribute
+
+Add validation/context.c, which includes various test cases for
+__context__(...)  and __attribute__((context(...))).  These test cases include
+both correct usage, in the functions named good_*, and incorrect usage, in the
+functions named warn_*.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: validation/context.c (+296/-0)
+--------------------------------------------------------------------------------
+
+[796a98361abd] 2006-07-05 15:32:30 -0700
+Author: Josh Triplett <josht@vnet.ibm.com>
+Subject: [PATCH] Handle EXPR_TYPE in copy_expression
+
+With the introduction of __builtin_types_compatible_p, types can now appear as
+expressions (underneath an EXPR_COMPARE), so copy_expression needs to handle
+EXPR_TYPE; just pass type expressions through without copying, since they
+won't change when inlining.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: inline.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[1c294832c10d] 2006-07-05 15:32:30 -0700
+Author: Josh Triplett <josht@vnet.ibm.com>
+Subject: [PATCH] Add support for GCC's __builtin_types_compatible_p extension
+
+Parse and support GCC's __builtin_types_compatible_p extension, which takes
+two types as arguments, and returns 1 for compatible types or 0 for
+incompatible types.  Since sparse already supports comparisons with types as
+the operands, just transform __builtin_types_compatible_p(a, b) into the
+comparison a == b.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: expression.c (+47/-2), ident-list.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b33b14043760] 2006-06-10 11:58:53 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Fix NULL ptr dereference with bad type
+
+Noted by Alexey Dobriyan, who also sent in a small test-case.
+
+When evaluating to a bad type, just use "&bad_ctype" rather than
+returning NULL.  That will also mean that we won't be re-evaluating that
+expression over and over again - we'll just mark the expr->ctype to be
+bad, once and for all.
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[970157685aab] 2006-05-09 09:05:42 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] count_array_initializer() needs to know the type of element
+
+char *s[] = {"123456789"}; gives a single-element array
+char p[] = {"123456789"}; gives a ten-element one
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: symbol.c (+24/-8), validation/init-char-array.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[af5dedd5891a] 2006-05-09 07:43:52 -0700
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Merge branch 'init-braces-fix' of git://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse
+
+[Auto-summary] Modifies symbol.c. Adds/updates 1 test(s). Changes: +39/-8 in 2 file(s)
+
+Files: symbol.c (+24/-8), validation/init-char-array.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[ca1f2e9ebf33] 2006-03-28 12:54:00 -0800
+Author: Morten Welinder <terra@gnome.org>
+Subject: [PATCH] Warning for mixing enums of different types
+
+This adds a warning when enums of different types are mixed.  I found a
+handful of problems with this in my own code -- nothing that testing
+could have revealed at this point, but if someone has added an extra
+flag to an enum, things would have gone "boom!"
+
+  typedef enum { A1, A2 } enumA;
+  typedef enum { B1 = 10, B2 } enumB;
+
+  static void Afunc (enumA a) { }
+
+  int
+  main (int argc, char **argv)
+  {
+      enumA a = A1;
+
+      switch (A1) {
+      case A1: break;
+      case A2: break;
+      case B1: break;  // Warn
+      case B2: break;  // Warn
+      default: break;
+      }
+
+      switch (1) {
+      case A1: break;
+      case A2: break;
+      case B1: break;  // Warn
+      case B2: break;  // Warn
+      default: break;
+      }
+
+      switch (1) {
+      case A1 ... B2: break;  // Warn
+      default: break;
+      }
+
+      (void)(1 ? a : B1);  // Warn
+      (void)(A1 == B1);  // Warn
+
+      (void)(A1 << B1);  // No warning wanted
+
+      a = B1;  // Warn
+
+      Afunc (B1);  // Warn
+
+      return 0;
+  }
+
+Signed-off-by: Morten Welinder <terra@gnome.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+47/-7), symbol.h (+7/-0)
+--------------------------------------------------------------------------------
+
+[2cf1f4bba730] 2006-03-28 12:16:56 -0800
+Author: Morten Welinder <terra@gnome.org>
+Subject: [PATCH] Attribute "sentinel"
+
+This makes sparse ignore the "sentinel" attribute.
+
+Signed-off-by: Morten Welinder <terra@gnome.org>
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: ident-list.h (+1/-0), parse.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[62ac6c16058a] 2006-01-08 12:49:39 -0800
+Author: Linus Torvalds <torvalds@g5.osdl.org>
+Subject: Fix incorrect cast simplification around '~' operation
+
+We can move the cast down only if it's casting to a smaller type,
+obviously.
+
+Problem case found by Al Viro.
+
+Signed-off-by: Linus Torvalds <torvalds@osdl.org>
+
+Files: evaluate.c (+2/-0)
+--------------------------------------------------------------------------------
+

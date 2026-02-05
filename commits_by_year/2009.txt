@@ -1,0 +1,1184 @@
+================================================================================
+Year: 2009 | Commits: 67 | Contributors: 15
+Insertions: +2345 | Deletions: -1005
+================================================================================
+
+[21fe99391931] 2009-10-16 20:27:58 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Make MOD_NORETURN fits into 32 bit
+
+It is causing compiler warning on 32 bit systems.
+Move it to lower bits fix it.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[7fc4304ac3b0] 2009-10-16 20:27:58 +0000
+Author: Kamil Dudka <kdudka@redhat.com>
+Subject: do not ignore attribute 'noreturn'...
+
+Hello,
+
+enclosed is a simple patch adding support for attribute 'noreturn' to the
+parser. The enhancement makes it possible to optimize walk through CFG and
+thus help us to fight with the state explosion. The benefit is demonstrated
+on a simple real-world example.
+
+Generated CFG before patch:
+http://dudka.cz/devel/html/slsparse-before/slplug.c-handle_stmt_assign.svg
+
+Generated CFG after patch:
+http://dudka.cz/devel/html/slsparse-after/slplug.c-handle_stmt_assign.svg
+
+It's one of the key features I am currently missing in SPARSE in contrast
+to gcc used as parser. Thanks in advance for considering it!
+
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-2), symbol.h (+3/-1)
+--------------------------------------------------------------------------------
+
+[c9930cabb2fc] 2009-10-11 11:18:37 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Sparse 0.4.2
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+2/-2)
+--------------------------------------------------------------------------------
+
+[168b627a715b] 2009-08-21 05:38:20 +0000
+Author: Pekka Enberg <penberg@cs.helsinki.fi>
+Subject: sparse: Add GCC pre-defined macros for user-space
+
+Sparse produces a bunch of warnings like this when compiling against
+glibc:
+
+  /usr/lib/gcc/i486-linux-gnu/4.3.2//include-fixed/limits.h:33:22: warning: undefined preprocessor identifier '__INT_MAX__'
+  /usr/lib/gcc/i486-linux-gnu/4.3.2//include-fixed/limits.h:64:5: warning: undefined preprocessor identifier '__SHRT_MAX__'
+  /usr/lib/gcc/i486-linux-gnu/4.3.2//include-fixed/limits.h:64:21: warning: undefined preprocessor identifier '__INT_MAX__'
+  /usr/include/bits/xopen_lim.h:95:6: warning: undefined preprocessor identifier '__INT_MAX__'
+  /usr/include/bits/xopen_lim.h:98:7: warning: undefined preprocessor identifier '__INT_MAX__'
+
+Fix that up by adding some add_pre_buffer() calls to
+create_builtin_define(). For future reference, GCC defines the builtins
+in the c_cpp_builtins() function in gcc/c-cppbuiltin.c.
+
+Signed-off-by: Pekka Enberg <penberg@cs.helsinki.fi>
+Acked-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+8/-0), lib.h (+3/-0)
+--------------------------------------------------------------------------------
+
+[03430d088f64] 2009-08-11 20:57:20 +0000
+Author: Kamil Dudka <kdudka@redhat.com>
+Subject: make sparse headers self-compilable...
+
+... and thus possible to include them in arbitrary order and without any
+external dependencies.
+
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: compile.h (+2/-0), flow.h (+5/-0), ptrlist.h (+2/-0), scope.h (+2/-0), storage.h (+3/-0)
+--------------------------------------------------------------------------------
+
+[c8e20ba6dfab] 2009-08-11 20:36:39 +0000
+Author: Reinhard Tartler <siretart@tauware.de>
+Subject: show_token: handle TOKEN_UNTAINT and TOKEN_ARG_COUNT types
+
+These cases are probably never hit with "regular" codepaths, but are
+useful when called in a gdb session to print token sequences.
+
+Signed-off-by: Reinhard Tartler <siretart@tauware.de>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: tokenize.c (+11/-2)
+--------------------------------------------------------------------------------
+
+[2feeb3562a54] 2009-08-03 20:12:37 +0000
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: Add c{l,t}z{,l,ll}, ffsl{,l}, popcountll and floating point comparison builtins.
+
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+22/-3)
+--------------------------------------------------------------------------------
+
+[0eacbffbd187] 2009-08-03 20:10:21 +0000
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: Ignore attribute __bounded__, used by OpenBSD headers.
+
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[2ceccd7b956b] 2009-08-02 03:06:58 -0700
+Author: Kamil Dudka <kdudka@redhat.com>
+Subject: unssa: track uses when replacing a phi node
+
+Hello,
+
+attached are patch, testing input for test-unssa and its outputs before patch
+and after patch. Thanks in advance for considering the patch!
+
+Kamil
+test:
+.L0x7f9fb2030010
+	<entry-point>
+	phisrc.32   %phi2(ptr) <- %arg1
+	br          .L0x7f9fb2030130
+
+.L0x7f9fb2030130
+	copy.32     %r1(ptr) <- %r5(ptr)
+	br          %r1(ptr), .L0x7f9fb2030058, .L0x7f9fb20300e8
+
+.L0x7f9fb2030058
+	load.32     %r3 <- 0[%r1(ptr)]
+	phisrc.32   %phi3(ptr) <- %r3
+	br          .L0x7f9fb2030130
+
+.L0x7f9fb20300e8
+	ret
+test:
+.L0x7f4a7f7f1010
+	<entry-point>
+	copy.32     %r5(ptr) <- %arg1
+	br          .L0x7f4a7f7f1130
+
+.L0x7f4a7f7f1130
+	copy.32     %r1(ptr) <- %r5(ptr)
+	br          %r1(ptr), .L0x7f4a7f7f1058, .L0x7f4a7f7f10e8
+
+.L0x7f4a7f7f1058
+	load.32     %r3 <- 0[%r1(ptr)]
+	copy.32     %r5(ptr) <- %r3
+	br          .L0x7f4a7f7f1130
+
+.L0x7f4a7f7f10e8
+	ret
+
+>From 66a02fa7cec780fc88d6ef4cce7a1e704928808a Mon Sep 17 00:00:00 2001
+From: Kamil Dudka <kdudka@redhat.com>
+Date: Sun, 9 Aug 2009 10:22:11 +0200
+Subject: [PATCH] unssa: track uses when replacing a phi node
+
+The output of test-unssa is inconsistent for a simple test-case without
+this patch:
+
+static void test(void **ptr)
+{
+    while (ptr) {
+        ptr = *ptr;
+    }
+}
+
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: flow.h (+1/-0), liveness.c (+1/-1), unssa.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[0723054e836e] 2009-08-01 20:30:56 -0700
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: Define __LP64__ for x86_64 unless in 32 bit mode
+
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[94a27dcf4ac8] 2009-08-01 20:30:19 -0700
+Author: Blue Swirl <blauwirbel@gmail.com>
+Subject: Add support for TImode type (__int128_t)
+
+GCC provides a 128 bit type called internally as TImode (__int128_t)on 64 bit
+platforms (at least x86_64 and Sparc64). These types are used by OpenBIOS.
+
+Add support for types "long long long", __mode__(TI) and __(u)int128_t.
+
+Signed-off-by: Blue Swirl <blauwirbel@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+4/-3), evaluate.c (+3/-3), expand.c (+2/-1), gdbhelpers (+3/-0), parse.c (+22/-3), ... and 5 more
+--------------------------------------------------------------------------------
+
+[0be55c9fb219] 2009-07-29 11:13:56 -0700
+Author: Kamil Dudka <kdudka@redhat.com>
+Subject: linearize.h: sanitize header
+
+It's unfortunate to use 'true' and 'false' as identifiers in a system
+header. It clashes with corresponding macros from <stdbool.h> when
+included before <sparse/linearize.h>.
+
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+Acked-by: Hannes Eder <hannes@hanneseder.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: linearize.c (+3/-3), linearize.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[d71f7feacbf2] 2009-07-27 20:47:55 +0000
+Author: Hannes Eder <hannes@hanneseder.net>
+Subject: test-suite: integrate unhandled proprocessor tests
+
+Instrument validate/preprocessor/preproprocessor*.c to be integrated
+into the test-suite where missing and add an additional test case.
+
+Signed-off-by: Hannes Eder <hannes@hanneseder.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/preprocessor/preprocessor11.c (+21/-0), validation/preprocessor/preprocessor12.c (+11/-0), validation/preprocessor/preprocessor13.c (+16/-0), validation/preprocessor/preprocessor14.c (+10/-0), validation/preprocessor/preprocessor15.c (+9/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[f9dc98af0c57] 2009-07-22 18:51:18 +0000
+Author: Kamil Dudka <kdudka@redhat.com>
+Subject: compile-i386: do not generate an infinite loop
+
+I've probably encountered a bug within compile-i386.c. It generates
+an infinite loop for 'while' statement. My testing example and proposed
+patch are enclosed.
+
+Kamil
+
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+Acked-by: Jeff Garzik <jgarzik@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: compile-i386.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[6298fb4d7325] 2009-07-20 18:11:57 +0000
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Makefile: suppress error message from pkg-config
+
+In particular, on systems which do not have 'pkg-config' installed,
+every invocation of make issues the following message:
+
+    /bin/sh: pkg-config: command not found
+
+Suppress the message by redirecting stderr to the bit-bucket.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[175c63f317f7] 2009-07-19 02:17:43 +0000
+Author: Hannes Eder <hannes@hanneseder.net>
+Subject: test-suite: be more verbose on 'unhandled' and 'known to fail' tests
+
+Impact:
+  - On an 'unhandled' test issue a warning, and
+  - in case of a 'known to fail' test a info message.
+
+Signed-off-by: Hannes Eder <hannes@hanneseder.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/test-suite (+5/-1)
+--------------------------------------------------------------------------------
+
+[8cf99394ee4c] 2009-07-19 02:17:32 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: move extern inline function to file scope
+
+In gcc extern inline function has special meaning. The inline
+function will never emit stand alone copy of the function. It also
+allow multiple implementations cross different file. That effectively
+makes the extern inline has file scope.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+0/-5), symbol.c (+5/-1), symbol.h (+12/-0), validation/extern-inline.c (+23/-0)
+--------------------------------------------------------------------------------
+
+[37f041aba632] 2009-07-18 05:30:10 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Add validation for restrict and attribute warning
+
+Some simple test to excise the recent patch.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/attr-warning.c (+8/-0), validation/restrict-array.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[977365deff29] 2009-07-18 05:30:10 +0000
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Avoid "attribute 'warning': unknown attribute" warning
+
+This avoids getting annoying warnings from <curl/typecheck-gcc.h> and from
+<bits/string3.h>, which use the "__attribute__((__warning__ (msg)))" gcc
+attribute.
+
+[ The attribute causes gcc to print out the supplied warning message if
+  the function is used. We should some day support it, but this patch just
+  makes us ignore it. ]
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[59df2fd69755] 2009-07-18 05:30:10 +0000
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Turn off '-Wtransparent-union' by default
+
+It's a very annoying warning, and it's about a sparse limitation rather
+than a real feature, so don't do it by default.
+
+Sure, our lack of transparent union support will then make us warn about
+the magic calling convention hacks (eg you'll see warnings like
+
+	connect.c:240:39: warning: incorrect type in argument 2 (invalid types)
+	connect.c:240:39:    expected union __CONST_SOCKADDR_ARG [usertype] __addr
+	connect.c:240:39:    got struct sockaddr *ai_addr
+
+but it still doesn't mean that we have to be so noisy about just seeing
+those transparent unions.  One annoying warning is not an argument for
+doing _another_ annoying warning too (and the calling convention
+warnings at least only happen if you actually use them, unlike the
+transparent union warning that happens every time we see one, used or
+not).
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[7ffff9cb3d04] 2009-07-18 05:30:10 +0000
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Allow array declarators to have 'restrict' in them
+
+Otherwise sparse is very unhappy about the current glibc header files
+(aio.h, netdb.h. regex.h and spawn.h at a minimum).
+
+It's a hack, and not a proper parsing with saving the information. It just
+ignores any "restrict" keyword at the start of an abstract array
+declaration, but it's better than what we have now.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[8d86d0e51b64] 2009-07-18 05:30:10 +0000
+Author: Samuel Bronson <naesten@gmail.com>
+Subject: Have Makefile import local.mk if it exists.
+
+This will allow users to override build settings without dirtying their
+trees, making life with `git stash' a bit easier.
+
+Signed-off-by: Samuel Bronson <naesten@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: .gitignore (+4/-0), Makefile (+8/-2)
+--------------------------------------------------------------------------------
+
+[5d4c7fc7cc88] 2009-07-18 05:30:10 +0000
+Author: Alberto Bertogli <albertito@blitiri.com.ar>
+Subject: Support the __thread storage class
+
+GCC supports a __thread storage class, used to indicate thread-local
+storage. It may be used alone, or with extern or static.
+
+This patch makes sparse aware of it, and check those restrictions.
+
+Signed-off-by: Alberto Bertogli <albertito@blitiri.com.ar>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+31/-3), symbol.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[78798b4f946a] 2009-07-18 05:30:10 +0000
+Author: Martin Nagy <nagy.martin@gmail.com>
+Subject: Print an error if typeof() lacks an argument
+
+We weren't checking if the initializer isn't NULL, which caused sparse
+to segfault later on when performing lazy evaluation in classify_type().
+
+Signed-off-by: Martin Nagy <nagy.martin@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+5/-1), validation/bad-typeof.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[909d306e74e7] 2009-07-18 05:30:10 +0000
+Author: Martin Nagy <nagy.martin@gmail.com>
+Subject: Add missing checks for Waddress-space
+
+Remove all previous checks for Waddress_space and add one centralized to
+the address_space attribute handler. If user passes the
+-Wno-address-space option, we behave as if every pointer had no address
+space.
+
+Signed-off-by: Martin Nagy <nagy.martin@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+4/-4), parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[f4a530b2be22] 2009-07-18 05:30:10 +0000
+Author: Martin Nagy <nagy.martin@gmail.com>
+Subject: .gitignore: Ignore dependencies and Vim swap files
+
+Signed-off-by: Martin Nagy <nagy.martin@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: .gitignore (+2/-0)
+--------------------------------------------------------------------------------
+
+[48a736d62137] 2009-07-18 05:30:10 +0000
+Author: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: warn directive in argument list
+
+On Sat, Mar 21, 2009 at 04:40:20AM +0000, Al Viro wrote:
+>
+> Well...  patch below would give more or less close approximation to the
+> current set of nasal demons produced by gcc in these situations + error
+> when that crap happens.
+> Warning: it might make things slower, and it needs testing.
+>
+> ---
+
+It needed testing, all right - #elif handling got broken by the initial
+variant...  Hopefully fixed version follows:
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: pre-process.c (+26/-2)
+--------------------------------------------------------------------------------
+
+[f7e7d7cbad5b] 2009-07-18 05:30:10 +0000
+Author: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: Segfault at evaluate.c:341
+
+On Thu, Mar 19, 2009 at 09:52:50PM +0000, Al Viro wrote:
+
+Yeah...  It's an old b0rken handling of calls for K&R + changes that exposed
+that even worse.
+
+Status quo is restored by the patch below, but it's a stopgap - e.g.
+void f();
+void g(void)
+{
+	f(0, 0);
+}
+will warn about extra arguments as if we had void f(void); as sparse had
+been doing all along.  B0rken.
+
+Testcase for the segfault is
+void f(x, y);
+void g(void)
+{
+	f(0, 0);
+}
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[b608ddfe1816] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Sanitize pointer()
+
+There's no need to concat the context list into (empty) one of new node,
+only to free the original one.  Moving the pointer to list instead works
+fine...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <chrisl@hera.kernel.org>
+
+Files: parse.c (+5/-15)
+--------------------------------------------------------------------------------
+
+[3829c4d8b097] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Don't mix storage class bits with ctype->modifiers while parsing type
+
+Keep storage class (and "is it inline") explicitly in decl_state;
+translate to modifiers only when we are done with parsing.  That
+avoids the need to separate MOD_STORAGE bits while constructing
+the type (e.g. in alloc_indirect_symbol(), etc.).  It also allows
+to get rid of MOD_FORCE for good - instead of passing it to typename()
+we pass an int * and let typename() tell whether we'd got a force-cast.
+Indication of force-cast never makes it into the modifier bits at all.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <chrisl@hera.kernel.org>
+
+Files: expression.c (+5/-7), expression.h (+1/-1), gdbhelpers (+0/-3), parse.c (+78/-29), symbol.h (+2/-3)
+--------------------------------------------------------------------------------
+
+[8de386390c20] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Simplify get_number_value() and ctype_integer()
+
+There's no point whatsoever in constructing modifiers for chosen
+type when decoding integer constant only to have them picked
+apart by ctype_integer().  Seeing that the former is the only
+caller of the latter these days, we can bloody well just pass
+the rank and signedness explicitly and save a lot of efforts.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <chrisl@hera.kernel.org>
+
+Files: expression.c (+20/-20), parse.c (+2/-11), parse.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[47567023ae85] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix __label__ handling
+
+a) __label__ in gcc is not a type, it's a statement.  Accepted in the beginning
+of compound-statement, has form __label__ ident-list;
+b) instead of crapping into NS_SYMBOL namespace (and consequent shadowing
+issues), reassign the namespace to NS_LABEL after we'd bound it.  We'll get
+block scope and label namespace, i.e. what we get in gcc.
+c) MOD_LABEL can be dropped now.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: gdbhelpers (+0/-3), ident-list.h (+1/-0), parse.c (+27/-28), symbol.h (+0/-1), validation/label-scope.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[2be16aeb8ccd] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix declaration_specifiers() handling of typedef name shadowed by NS_SYMBOL
+
+Doing lookup_symbol() with NS_TYPEDEF will happily skip the redeclarations
+of the same identifier with NS_SYMBOL.  We need to check that we are not
+dealing with something like
+typedef int T;
+void f(int T)
+{
+	static T a; /* not a valid declaration - T is not a typedef name */
+or similar (e.g. enum member shadowing a typedef, etc.).
+
+While we are at it, microoptimize similar code in lookup_type() - instead
+of sym->namespace == NS_TYPEDEF we can do sym->namespace & NS_TYPEDEF;
+the former will turn into "fetch 32bit value, mask all but 9 bits, compare
+with NS_TYPEDEF", the latter - "check that one bit in 32bit value is set".
+We never mix NS_TYPEDEF with anything in whatever->namespace, so the
+tests are equivalent.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.h (+1/-1), parse.c (+3/-2), validation/typedef_shadow.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[c14911db43a7] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix enumeration constants' scope beginning
+
+It starts after the end of enumerator; i.e. if we have
+enum {
+	...
+	Foo = expression,
+	...
+};
+the scope of Foo starts only after the end of expression.
+Rationale: 6.2.1p7.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+3/-4), validation/enum_scope.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[1aae3184cb1d] 2009-07-18 05:30:09 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Restore __attribute__((mode)) handling
+
+... at least to the extent we used to do it.  It still does _not_
+cover the perversions gcc can do with that, but at least it deals
+with regressions.  Full solution will have to wait for full-blown
+imitation of what gcc people call __attribute__ semantics, the
+bastards...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+97/-21), symbol.h (+3/-1), validation/nested-declarator2.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[e0c5b2f5c4c5] 2009-07-18 05:29:55 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Pass decl_state down to ->attribute()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+19/-18), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[6cae5e1dc6b3] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Pass decl_state down to ->declarator() and handle_attributes()
+
+Other than for attributes of labels (completely ignored, and we can
+simply use skip_attributes() there), all callers of handle_attributes
+actually get ctype == &ctx->ctype for some ctx.  Ditto for ->declarator().
+Switch both to passing ctx instead (has to be done at the same time,
+since we have handle_attributes() called from ->declarator() for struct).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+48/-48), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[ea73434b5cd6] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Clean up and split declaration_specifiers()
+
+At this point there's not much in common between qualifiers-only
+and full cases; easier to split the sucker in two and lose the
+qual argument.  Clean it up, while we are at it...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+29/-30)
+--------------------------------------------------------------------------------
+
+[78f670d2b336] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Have ->declarator() act directly on ctype being affected
+
+... and don't do full-blown apply_ctype() every damn time.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+161/-73), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[319206abe1f2] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Rewrite and fix specifiers handling
+
+Make sure that we accept the right set; kill ad-hackery around checks
+for banned combinations.  Instead of that we keep a bitmap describing
+what we'd already seen (with several extra bits for 'long long' and
+for keeping track of can't-combine-with-anything stuff), check and
+update it using the values in ..._op and keep track of size modifiers
+more or less explicitly.
+
+Testcases added.  A _lot_ of that used to be done wrong.
+
+Note that __attribute__((mode(...))) got more broken by this one;
+the next several changesets will take care of that.
+
+One more thing: we are -><- close to getting rid of MOD_SPECIFIER bits
+for good.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), parse.c (+207/-160), parse.h (+0/-1), symbol.h (+7/-5), validation/specifiers1.c (+101/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[9abb0964fc19] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Saner type for __builtin_va_list
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[143bbdd83cb5] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Take the rest of specifiers to parse.c
+
+... and yes, right now it's ucking fugly.  Will get sanitized shortly.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+26/-2), symbol.c (+6/-42), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[1336f8d679f2] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: preparations to ->declarator() cleanup - separate typedef handling
+
+Take typedef handling in declaration_specifiers() into separate
+branch; kill useless check for qual in case the type we've got
+has non-NULL base_type (we'd have already buggered off in that
+situation before we get to the check in question).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+11/-9)
+--------------------------------------------------------------------------------
+
+[2014558122f1] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix handling of typedefs with several declarators
+
+We set MOD_USERTYPE only on the first one, so declaration_specifiers
+didn't recognize something like
+	unsigned P;
+where P had been such a typedef as redefinition (see the testcase).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+3/-0), validation/multi_typedef.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[82214d8e4807] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Take the rest of storage class keywords to parse.c
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+6/-0), symbol.c (+0/-6)
+--------------------------------------------------------------------------------
+
+[d5c9c2431b41] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix regression created by commit af30c6df74f01db10fa78ac0cbdb5c3c40b5c73f
+
+const and friends are reserved words, TYVM...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/reserved.c (+40/-0)
+--------------------------------------------------------------------------------
+
+[6c5394f09b4f] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Propagate decl_state to declaration_specifiers()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+37/-37)
+--------------------------------------------------------------------------------
+
+[a66ce056a603] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Separating ctype and parser state, part 1
+
+Introduce struct decl_state that will hold the declaration parser
+state.  Pass it to declarator() and direct_declarator().  Note
+that at this stage we are putting more stuff on stack *and* get
+extra copying; that's temporary and we'll deal with that in subsequent
+patches.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+54/-44), symbol.h (+6/-0)
+--------------------------------------------------------------------------------
+
+[09e586741579] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Sanitize direct_declarator logics
+
+a) handling of nested declarator does not belong in the loop, for fsck sake
+b) functions and arrays don't mix (and functions don't mix with functions)
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+65/-75), validation/nested-declarator.c (+9/-7), validation/nested-declarator2.c (+2/-4)
+--------------------------------------------------------------------------------
+
+[e54eee716529] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix braino in which_kind()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[0fef16e9b884] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Don't mess with passing symbol to declarator/direct_declarator
+
+There's no reason to pass symbol to declarator/direct_declarator;
+we only use &sym->ctype, so passing ctype * is fine.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+14/-16)
+--------------------------------------------------------------------------------
+
+[c03ff1cdb266] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Leave applying attributes until we know whether it's a nested declarator
+
+Don't mess with applying attributes in which_kind(); leave that until
+we know whether that's function declarator or a nested one.  We'll need
+that to deal with scopes properly.  Clean parameter_type_list() and
+parameter_declaration(), get rid of a leak.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+63/-23)
+--------------------------------------------------------------------------------
+
+[53c5c08934ef] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Apply attributes after ( to the right place
+
+In int f(__user int *p) __user applies to p, not to f...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+15/-8), validation/attr_in_parameter.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[ef5501aa2a87] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Warn about non-empty identifier list outside of definition
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+10/-2), validation/nested-declarator2.c (+8/-6)
+--------------------------------------------------------------------------------
+
+[f0ae32de03f4] 2009-07-17 23:06:23 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: more direct_declarator() sanitizing
+
+* new helper function - which_kind().  Finds how to parse what
+follows ( in declarator.
+* parameter-type-list and identifier-list handling separated
+and cleaned up.
+* saner recovery from errors
+* int f(__attribute__((....)) x) is prohibited by gcc syntax;
+attributes are not allowed in K&R identifier list, obviously,
+and gcc refused to treat that as "int is implicit if missing"
+kind of case.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+87/-51), validation/nested-declarator2.c (+40/-0)
+--------------------------------------------------------------------------------
+
+[ef6ee0ca6516] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix attribute/asm handling
+
+a) asm aliases are accepted by gcc *only* directly after the top-level
+declarator within external declaration (and they make no sense whatsoever
+elsewhere - field names, function parameter names, casts, etc. simply
+do not reach the assembler).  Anyway, gcc parser will reject those
+anywhere else.
+
+b) post-declarator attributes are *not* accepted in nested declarators.
+In bitfield declarations they must follow the entire thing, _including_
+:<width>.  They are not accepted in typenames either.  Basically, gcc
+has distinction between the attributes of type and attributes of
+declaration; "after the entire declaration" is for the latter and they
+get applied to type only as a fallback.  So that's deliberate on part
+of gcc...
+
+c) no attributes in direct-declarator in front of [.....] or (.....).
+Again, gcc behaviour.
+
+d) in external declarations only attributes are accepted after commas.
+IOW, you can't write int x, const *y, z; and get away with that.
+Replacing const with __attribute__((...)) will get it accepted by
+gcc, so we need to accept that variant.  However, any qualifiers
+in that position will get rejected by anything, including gcc.
+
+Note that there's a damn good reason why such syntax is a bad idea and
+that reason applies to attributes as well.  Think what happens if later
+we remove 'x' from the example above; 'z' will suddenly become const int.
+So I think we want eventually to warn about the use of attributes in
+that position as well.  For now I've got it in sync with gcc behaviour.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+10/-7)
+--------------------------------------------------------------------------------
+
+[dc16c4ea09e2] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: More nested declarator fixes
+
+no nested declarators after [...] or (parameters)
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/nested-declarator.c (+16/-0)
+--------------------------------------------------------------------------------
+
+[9151897c4a25] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Separate parsing of identifier-list (in K&R-style declarations)
+
+Don't mix it with parameter-type-list, add saner checks.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+26/-2), validation/identifier_list.c (+18/-0)
+--------------------------------------------------------------------------------
+
+[65f354637410] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: Fix handling of ident-less declarations
+
+The rule for ident-less declaration is
+	declaration -> declaration-specifiers ;
+not
+	declaration -> declaration-specifiers abstract-declarator;
+
+IOW, struct foo; is OK and so's struct foo {int x; int y;} (and even
+simply int; is allowed by syntax - it's rejected by constraints, but
+that's a separate story), but not struct foo (void); and its ilk.
+
+See C99 6.7p1 for syntax; C90 is the same in that area and gcc also
+behaves the same way.  Unlike gcc I've made it a warning (gcc produces
+a hard error for those).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+9/-1), validation/missing-ident.c (+18/-0)
+--------------------------------------------------------------------------------
+
+[801c6d64cae4] 2009-07-17 23:06:22 +0000
+Author: Thomas Schmid <Thomas.Schmid@br-automation.com>
+Subject: Fix implicit cast to float
+
+Was:Re: Initializing float variables without type suffix)
+
+> cast_to() seems fine.
+>
+> In expanding stage, cast_value() did not cast the constant
+> correctly.
+
+You're right, I also noticed this in the meantime.
+
+The decision, whether newtype is int_type or fp_type is not made
+correctly.
+
+The following patch seems to work:
+
+Fix implicit cast to float
+
+Patch modified by Chris.
+
+Signed-Off-By: Thomas Schmid <Thomas.Schmid@br-automation.com>
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+0/-31), expand.c (+3/-3), symbol.h (+32/-0)
+--------------------------------------------------------------------------------
+
+[c121815ecdce] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: fun with declarations and definitions
+
+On Thu, Feb 05, 2009 at 09:19:21PM +0000, Al Viro wrote:
+> IOW, direct_declarator() (which doubles for direct-abstract-declarator) should
+> have more than one-bit indication of which case we've got.  Right now it's
+> done by "have we passed a non-NULL ident ** to store the identifier being
+> declared"; that's not enough.  What we need is explicit 'is that a part of
+> parameter declaration' flag; then the rule turns into
+> 	if (p && *p)
+> 		fn = 1; /* we'd seen identifier already, can't be nested */
+> 	else if match_op(next, ')')
+> 		fn = 1; /* empty list can't be direct-declarator or
+> 			 * direct-abstract-declarator */
+> 	else
+> 		fn = (in_parameter && lookup_type(next));
+
+Umm...  It's a bit more subtle (p goes NULL after the nested one is
+handled), so we need to keep track of "don't allow nested declarator from
+that point on" explicitly.  Patch follows:
+
+Subject: [PATCH] Handle nested declarators vs. parameter lists correctly
+
+Seeing a typedef name after ( means that we have a parameter-type-list
+only if we are parsing a parameter declaration or a typename; otherwise
+it might very well be a redeclaration (e.g. int (T); when T had been a
+typedef in outer scope).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+15/-11), validation/nested-declarator.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[f7d10fe6c183] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: Fix type_info_expression()
+
+sizeof (typename){initializers}.foo is nice and valid C99 - it's parsed
+as sizeof primary.foo <- sizeof postfix.foo <- sizeof postfix <- sizeof unary
+<- unary.  Current type_info_expression() stops too early.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.c (+10/-2), validation/sizeof-compound-postfix.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[bbba9f8a25b5] 2009-07-17 23:06:22 +0000
+Author: Al Viro <viro@ZenIV.linux.org.uk>
+Subject: fun with declarations and definitions
+
+There are several interesting problems caused by the fact that
+we create a separate symbol for each declaration of given function.
+
+1)
+
+static inline int f(void);
+static int g(void)
+{
+	return f();
+}
+static inline int f(void)
+{
+	return 0;
+}
+gives an error, since the instance of f in g is not associated with anything
+useful.  Needless to say, this is a perfectly valid C.  Moreover,
+static inline int f(void)
+{
+	return 0;
+}
+static inline int f(void);
+static int g(void)
+{
+	return f();
+}
+will step on the same thing.  Currently we get the former case all over the
+place in the kernel, thanks to the way DEFINE_SYSCALLx() is done.
+
+I have a kinda-sorta fix for that (basically, add a reference to external
+definition to struct symbol and update it correctly - it's not hard).
+However, that doesn't cover *another* weirdness in the same area -
+gccisms around extern inline.  There we can have inline and external
+definitions in the same translation unit (and they can be different,
+to make the things even more interesting).  Anyway, that's a separate
+story - as it is, we don't even have a way to tell 'extern inline ...'
+from 'inline ...'
+
+2) More fun in the same area: checks for SYM_FN in external_declaration()
+do not take into account the possibility of
+	void f(int);
+	typeof(f) g;
+Ergo, we get linkage-less function declarations.  Fun, innit?  No patch.
+
+3) Better yet, sparse does _NOT_ reject
+	typeof(f) g
+	{
+		...
+	}
+which is obviously a Bloody Bad Idea(tm) (just think what that does to
+argument list).  Similar crap is triggerable with typedef.  IMO, we really
+ought to reject _that_ - not only 6.9.1(2) explicitly requires that, but
+there's no even remotely sane way to deal with arguments.
+
+4)
+	static void f(void);
+	...
+	void f(void);
+triggers "warning: symbol 'f' was not declared. Should it be static?"
+which is at least very confusing - it *is* declared and it *is* static.
+IOW, we do not collect the linkage information sanely.  (2) will make
+fixing that one very interesting.
+
+Anyway, proposed patch for (1) follows:
+
+Subject: [PATCH] Handle mix of declarations and definitions
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+7/-0), parse.c (+15/-0), symbol.h (+1/-0), validation/definitions.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[ac66df10a8db] 2009-07-17 23:06:04 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Update the validation check for ftabstop=
+
+The ftabstop patch output different position for
+the same error. Update all test case accordingly.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/address_space.c (+3/-3), validation/bad-array-designated-initializer.c (+3/-3), validation/bad-assignment.c (+2/-2), validation/bad-cast.c (+3/-3), validation/bad-ternary-cond.c (+2/-2), ... and 10 more
+--------------------------------------------------------------------------------
+
+[2b287c89f01e] 2009-07-17 23:06:04 +0000
+Author: Hannes Eder <hannes@hanneseder.net>
+Subject: refactor handle_switch_f
+
+This also fixes a possible source of bugs in parsing other
+-f<whatever> options, i.e. -ftabstop=foo would set the option -ffoo.
+
+Signed-off-by: Hannes Eder <hannes@hanneseder.net>
+
+Files: lib.c (+20/-11)
+--------------------------------------------------------------------------------
+
+[23525c14bc26] 2009-04-14 13:07:38 -0700
+Author: Robert Bedichek <rbedichek@novafora.com>
+Subject: Novafora license grant using MIT license.
+
+Novafora licenses IP formerly owned by Transmeta Corporation under the MIT license.  (Novafora purchased Transmeta January of 2009.)
+
+signed-off-by: Robert Bedichek <rbedichek@novafora.com>
+
+Files: LICENSE (+41/-0)
+--------------------------------------------------------------------------------
+
+[507e53fbd957] 2009-01-02 13:40:33 -0800
+Author: Hannes Eder <hannes@hanneseder.net>
+Subject: Add -ftabstop=WIDTH
+
+Make tokenizer aware of tabstops and add the commandline option:
+
+-ftabstop=WIDTH
+    Set the distance between tab stops.  This helps sparse report correct
+    column numbers in warnings or errors.  If the value is less than 1 or
+    greater than 100, the option is ignored.  The default is 8.
+
+With simplifications suggested by Christopher Li and Junio C Hamano.
+
+Signed-off-by: Hannes Eder <hannes@hanneseder.net>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+14/-1), sparse.1 (+7/-0), token.h (+1/-0), tokenize.c (+3/-2)
+--------------------------------------------------------------------------------
+

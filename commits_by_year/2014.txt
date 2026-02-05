@@ -1,0 +1,740 @@
+================================================================================
+Year: 2014 | Commits: 43 | Contributors: 15
+Insertions: +597 | Deletions: -165
+================================================================================
+
+[6c2d743d2f13] 2014-12-12 12:31:35 +0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Ptr list sorting should use memmove instead of memcpy
+
+The target buffer is overlapped with source buffer.
+This cause the duplicate entry warning reported by Hans.
+
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: sort.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[5556d1b61841] 2014-11-10 11:59:36 +0800
+Author: Aaro Koskinen <aaro.koskinen@nsn.com>
+Subject: build: allow use of PKG_CONFIG to override pkg-config
+
+Allow overriding pkg-config e.g. when cross-compiling.
+
+Signed-off-by: Aaro Koskinen <aaro.koskinen@nsn.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+7/-6)
+--------------------------------------------------------------------------------
+
+[78f9e8faafed] 2014-11-10 11:57:43 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: compile-i386.c: don't ignore return value of write(2)
+
+Some versions of gcc (e.g. v4.8.2) complain about ignoring the return
+value of a call to the write(2) system call, since the system header
+files have marked its declaration with the warn_unused_result attribute.
+
+In order to suppress the compiler warning, check the return value from
+'write' and, if it indicates an error (a negative return value), exit
+the process using 'die' to display an error message. Replace a second
+call to 'write', which does not provoke a compiler warning, with similar
+code for consistency.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: compile-i386.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[7f9fbccc06bc] 2014-11-10 11:57:43 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: parse.c: remove duplicate 'may_alias' ignored_attributes
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+0/-2)
+--------------------------------------------------------------------------------
+
+[13a3e97e26f1] 2014-11-10 11:57:43 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: cgcc: avoid passing a sparse-only option to cc
+
+Passing the '-Wsparse-error' to cgcc can cause that option to be
+passed to the C compiler (usually gcc), if the given source file
+does not provoke any sparse warnings, which in turn results in
+a failure to compile that file.
+
+In order to avoid passing this sparse option to the compiler, we
+add the '-Wsparse-error' option to the regular expression check
+in the 'check_only_option' function.
+
+In addition, we replace the plain call to 'die' when sparse exits
+with non-zero status (maybe due to -Wsparse-error), with a simple
+'exit 1'. This suppresses an 'Died at ./cgcc line 86.' message on
+exit from cgcc.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+2/-2)
+--------------------------------------------------------------------------------
+
+[307a9806e9db] 2014-11-10 11:57:43 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: test-suite: remove bashism to avoid test failures
+
+The use of the '==' operator in a test/[ conditional is a non-POSIX
+bash extension. In order to avoid test failures on systems that do
+not have bash as the system shell (/bin/sh), replace the use of the
+'==' operator with the POSIX compatible '=' operator.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/test-suite (+1/-1)
+--------------------------------------------------------------------------------
+
+[c1c3f969fbd0] 2014-10-25 17:10:13 +0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: teach next_designators() use array_element_offset()
+
+I miss a spot when converting array size caculation using
+array_element_offet(). "next_designators()" is still using
+"n*bit_size" to caculate the element offset. It is wrong
+for the case of bool array.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[71e642abf712] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: cgcc: use $ccom to set $multiarch_dir if not specified
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+2/-0)
+--------------------------------------------------------------------------------
+
+[d4029acb1036] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: cgcc: use only the cc command to determine $gcc_base_dir
+
+Capture the c-compiler command, in the $ccom variable, in order to
+later invoke the compiler without extraneous command-line options.
+In particular, use the $ccom variable in order to cleanly invoke the
+compiler when setting the $gcc_base_dir variable.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+2/-1)
+--------------------------------------------------------------------------------
+
+[85e2e2a25266] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Add support for multiarch system header files
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+3/-0), cgcc (+10/-0), lib.c (+17/-1), sparse.1 (+6/-0)
+--------------------------------------------------------------------------------
+
+[e23abfd8844e] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: don't run sparse{c,i} tests when sparse-llvm is disabled
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/test-suite (+24/-2)
+--------------------------------------------------------------------------------
+
+[7885fb7f6b07] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Makefile: suppress error message from shell
+
+In particular, on systems which do not have 'llvm-config' installed,
+every invocation of make issues the following messages:
+
+    /bin/sh: llvm-config: command not found
+    make: llvm-config: Command not found
+
+A simple solution would be to suppress these messages by redirecting
+stderr to the bit-bucket within the definitions of HAVE_LLVM_VERSION
+and LLVM_VERSION.
+
+As an alternative, however, we move the definition of LLVM_VERSION
+down the file within the HAVE_LLVM conditional, which ensures that
+the 'llvm-config' command exists. In addition, the HAVE_LLVM_VERSION
+variable is replaced with an equivalent conditional expression.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+7/-9)
+--------------------------------------------------------------------------------
+
+[d32b2f7c202f] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: don't call isdigit/tolower with a char argument
+
+This suppresses some "array subscript has type 'char'" warnings from
+gcc (version 4.8.3). (see also, commit cf5114a1)
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.c (+1/-1), lib.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[126a785f0e01] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: sparse: add 'gnu_inline' to the ignored attributes
+
+Add some more ignored attributes which are used in glibc header files,
+along with a simple test case which includes all three inline attributes
+(__gnu_inline__, __always_inline__ and __noinline__).
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0), validation/attr-inline.c (+21/-0)
+--------------------------------------------------------------------------------
+
+[b6c1d2fe571a] 2014-10-10 22:43:37 +0800
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Add the __restrict__ keyword
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-1), parse.c (+2/-1), validation/alternate-keywords.c (+46/-0), validation/reserved.c (+1/-0), validation/restrict-array.c (+25/-0)
+--------------------------------------------------------------------------------
+
+[c1763a249aba] 2014-10-10 22:43:02 +0800
+Author: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Subject: sparse: treat function pointers as pointers to const data
+
+This code snippet:
+
+static void bar(void const *arg)
+{
+	int (*foo)(void) = arg;
+}
+
+produces the following warning:
+
+test.c:4:28: warning: incorrect type in initializer (different modifiers)
+test.c:4:28:    expected int ( *foo )( ... )
+test.c:4:28:    got void const *arg
+
+which is caused by the fact that the function pointer 'foo' is not annotated
+as being a pointer to const data. However, dereferencing a function pointer
+does not produce an lvalue, so a function pointer points to const data by
+definition, and we should treat it accordingly.
+
+To avoid producing a warning on the inverse case, i.e.,
+
+static void bar(void)
+{
+	void *foo = bar;
+}
+
+we only address the case where the function pointer is the target of
+an assignment.
+
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[fe57afa0b44a] 2014-10-10 22:43:02 +0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: rename -Werror to -Wsparse-error
+
+Sparse is often share compile flags. So Werror is usually
+mean gcc should treat warning as error. Apply the same
+option to sparse will cause the Linux kernel checking fail
+the build. We don't want that.
+
+Rename the sparse option to -Wsparse-error. It allow caller
+to control gcc and sparse behavior seperately.
+
+It also make sparse return error status only when -Wsparse-error
+is present.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+4/-4), lib.h (+1/-1), sparse.1 (+1/-1), sparse.c (+1/-1), validation/test-suite (+1/-6)
+--------------------------------------------------------------------------------
+
+[4d8811879a1c] 2014-09-28 08:58:55 +0800
+Author: Thomas Graf <tgraf@suug.ch>
+Subject: sparse: Make -Werror turn warnigns into errors
+
+Make sparse fail and return an error code if a warning is encountered
+and -Werror is specified or a hard error is found. This allows to use
+sparse in automated build systems to more easily catch new sparse
+warnings.
+
+The validation script is extended to parse the expected output message
+for an error message and validate the a non zero return value if such
+a error message is found.
+
+Also changes cgcc to die if the checker fails.
+
+Signed-off-by: Thomas Graf <tgraf@suug.ch>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+1/-1), lib.c (+29/-20), lib.h (+1/-0), sparse.1 (+3/-0), sparse.c (+3/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[a5bdeee9e145] 2014-09-25 18:34:36 +0800
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Use LLVM_CONFIG instead of llvm-config in Makefile
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+Reviewed-by: Omar Sandoval <osandov@osandov.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[d92353b4eacb] 2014-09-25 08:15:11 +0800
+Author: Omar Sandoval <osandov@osandov.com>
+Subject: sparse-llvm: Fix LLVM 3.5 linker errors
+
+llvm-config 3.5 no longer lists the non-LLVM libraries needed for linkage when
+passed --libs. The --system-libs flag was added for this purpose. This adds
+these libraries while silently doing nothing for older versions of LLVM.
+
+Signed-off-by: Omar Sandoval <osandov@osandov.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-0)
+--------------------------------------------------------------------------------
+
+[5119a12a0efd] 2014-09-18 10:16:58 +0800
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Fix initializers in anonymous structs and unions
+
+The "trivial fix" is to just save off the offset in check_designators
+(add a new field to the "EXPR_IDENTIFIER" part of "struct expression"
+and then pick up that offset in "convert_ident()"
+
+However, that has exactly the same issue with the whole fake
+EXPR_IDENTIFIER created by "next_designators()". Now we need to
+initialize the offset field there too. And, for the same reason as
+before, the field that "next_designator()" picks may not *have* an
+identifier, because the next designator may in fact be an anonymous
+union.
+
+Anyway, with all that said, maybe this really confusing and hacky
+patch would work. It passes my tests. The magic offset calculation in
+next_designators() has a big comment about what the heck it is doing,
+and otherwise it's a fairly straightforward case of "save offset from
+check_designators() time to be used by convert_ident()".
+
+My stupid test-case is this incredibly hacky thing:
+
+    struct A {
+        int aa;
+        int bb;
+    };
+
+    struct S {
+        int a;
+        union {
+            int b;
+            int c;
+        } u[10];
+        int dummy;
+        union {
+            int d;
+            int e;
+        };
+    };
+
+    int fn(void)
+    {
+        struct S s = {
+            .a = 1,
+            .u[2].b = 2,
+            .dummy = 1,
+             { 3 }
+        };
+        return s.dummy*1000 + s.d*100 + s.u[2].b*10 + s.a; // 1321
+    }
+
+where I use "./test-linearize" to verify that the initializer layout
+matches the code generation layout (so that 'fn' function *should*
+linearize to just a simple "ret.32 $1321", and with this patch it
+does).
+
+But I bet this misses some case. However, the current state wrt
+initializer offsets really is very broken, so maybe it's ok.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+18/-2), expression.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[7abd8a76b4e0] 2014-08-02 10:56:59 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Make same_symbol list share the same scope
+
+Consider the following case, extern inline declare after
+extern declare of the same function.
+
+extern int g(int);
+extern __inline__ int g(int x)
+{
+        return x;
+}
+
+Sparse will give the first function global scope and
+the second one file scope. Also the first one will get the
+function body from the second one. That cause the failure
+of the validation/extern-inlien.c
+
+This change rebind the scope of the same_symbol chain to
+the new scope. It will pass the extern-inline.c test case.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-0), scope.c (+14/-0), scope.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[748b856ed3e7] 2014-08-02 01:22:18 -0700
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Fix scoping of extern symbols in block scope
+
+We'd only match them with other symbols marked 'extern', but really, we
+should match them with any top-level non-static symbol.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.c (+6/-5)
+--------------------------------------------------------------------------------
+
+[09e7a493cf3d] 2014-07-17 08:58:28 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: round up the array element size to byte align
+
+When layout the array element, the element size should
+round up to byte align.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-1), symbol.c (+2/-1), target.h (+8/-0)
+--------------------------------------------------------------------------------
+
+[b3e9d87c6a98] 2014-07-16 14:18:42 -0700
+Author: Jeff Layton <jlayton@primarydata.com>
+Subject: sparse: make bits_to_bytes round up instead of down
+
+Currently, sparse handles arrays of bools incorrectly. If you declare an
+array of bools like this:
+
+    static _Bool boolarray[3] = {
+        [0] = 1,
+        [1] = 1,
+    };
+
+...you get warnings like this (which are bogus):
+
+    ./test.c:2:10: warning: Initializer entry defined twice
+    ./test.c:3:10:   also defined here
+
+The problem is that bits_to_bytes rounds down instead of up, and sparse
+defaults to _Bool being only 1 bit in size. This causes sparse to think
+that they sit within the same byte, when they do not.
+
+Fix bits_to_bytes to round up instead of down, and fix the call in
+init_ctype to no longer correct for it. Also add a validation
+test to ensure that we don't break this in the future.
+
+Signed-off-by: Jeff Layton <jlayton@primarydata.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.c (+1/-1), target.h (+1/-1), validation/initializer-entry-defined-twice.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[1db35d0a95ca] 2014-06-29 08:59:17 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Minor clean up for option handling
+
+Remove the loop for short option.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+24/-20)
+--------------------------------------------------------------------------------
+
+[d917662d54ba] 2014-06-28 23:37:19 -0700
+Author: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: lib.c: skip --param parameters
+
+Very dumb patch to just skip --param allow-store-data-races=0 introduced in
+newer GCC versions.
+
+Without this patch sparse recognizes parameter of the --param option as a file
+name which obviously couldn't be found.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+22/-2)
+--------------------------------------------------------------------------------
+
+[f11dd94ea7ea] 2014-04-17 16:25:35 -0700
+Author: Cody P Schafer <cody@linux.vnet.ibm.com>
+Subject: parse: support c99 [static ...] in abstract array declarators
+
+The n1570 specifies (in 6.7.6.2.3) that either type-qualifiers
+(ie: "restrict") come first and are followed by "static" or the
+opposite ("static" then type-qualifiers).
+
+Also add a test.
+
+Signed-off-by: Cody P Schafer <cody@linux.vnet.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), parse.c (+17/-1), validation/abstract-array-declarator-static.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[fe5eda126b9f] 2014-04-15 15:30:28 -0700
+Author: Cody P Schafer <cody@linux.vnet.ibm.com>
+Subject: sparse{i,c}: use LLVM_CONFIG to find llc and lli
+
+Some systems have multiple llvm versions installed, and have prefixed
+executables ("<exec>-<version>"). While we could require the user to
+specify a variable for each executable (LLC, LLI), using llvm-config
+--bindir to locate them and allowing them to override using LLVM_CONFIG
+makes much less work.
+
+Signed-off-by: Cody P Schafer <cody@linux.vnet.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: sparsec (+3/-1), sparsei (+1/-1)
+--------------------------------------------------------------------------------
+
+[2ea26979e913] 2014-04-15 15:00:01 -0700
+Author: Cody P Schafer <cody@linux.vnet.ibm.com>
+Subject: build: allow use of LLVM_CONFIG to override llvm-config config script
+
+On systems like ubuntu 12.04, llvm-config is llvm 2.9, but
+llvm-config-3.0 and llvm-config-3.3 (for example) are versions 3.0 and
+3.3 respectively. Allow overriding the name/path of the llvm-config
+script so people can use these versioned config scripts
+
+Signed-off-by: Cody P Schafer <cody@linux.vnet.ibm.com>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+7/-6)
+--------------------------------------------------------------------------------
+
+[38d1124ec5cd] 2014-04-03 12:03:52 -0700
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Fix error at anoymous unions
+
+Ok, this fixes the warning, but we seem to still mess up the actual
+initializer. It looks like some later phase gets the offset wrong, so
+when we lay things out in memory, we'll put things at offset zero
+(which is right for your test-case, but not if there was something
+before that anonymous union).
+
+Regardless, that only matters for real code generation, not for using
+sparse as a semantic checker, so this patch is correct and is an
+improvement.
+
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+2/-12)
+--------------------------------------------------------------------------------
+
+[42ebe4166c52] 2014-04-03 11:46:22 -0700
+Author: Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Add test case for the ioc type check
+
+Running sparse over this gives:
+
+error: bad integer constant expression
+
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/ioc-typecheck.c (+17/-0)
+--------------------------------------------------------------------------------
+
+[2c82340a20c1] 2014-04-03 11:29:46 -0700
+Author: Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Add test case for anonymous union initializer
+
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/anon-union.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[488f14955196] 2014-04-03 11:23:22 -0700
+Author: Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Add test case for extern array
+
+Has report this bug which fix by Linus in the previous commit.
+Sparse will report "cannot size expression" on the array size.
+It is cause by the second extern declare with imcompleted size.
+
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/extern-array.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[6e71132697e1] 2014-04-01 00:42:02 -0700
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Use any previous initializer to size a symbol
+
+When we size a symbol, we only have one initializer per symbol, but we
+may have multiple symbol declarations for the same symbol.  So make sure
+to walk the "same_symbol" chain to find the initializer, rather than
+assuming it is attached to the current declaration.
+
+Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: symbol.c (+18/-6)
+--------------------------------------------------------------------------------
+
+[0f25c6a78e08] 2014-04-01 00:39:26 -0700
+Author: Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Add warning about duplicate initializers
+
+Noticed this while looking at an independent bug reported by Hans
+Verkuil.
+
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[7698bae69963] 2014-04-01 00:19:50 -0700
+Author: John Keeping <john@keeping.me.uk>
+Subject: Support GCC's transparent unions
+
+This stops warnings in code using socket operations with a modern glibc,
+which otherwise result in warnings of the form:
+
+	warning: incorrect type in argument 2 (invalid types)
+	   expected union __CONST_SOCKADDR_ARG [usertype] __addr
+	   got struct sockaddr *<noident>
+
+Since transparent unions are only applicable to function arguments, we
+create a new function to check that the types are compatible
+specifically in this context.
+
+Also change the wording of the existing warning slightly since sparse
+does now support them.  The warning is left in case people want to avoid
+using transparent unions.
+
+Signed-off-by: John Keeping <john@keeping.me.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+27/-1), parse.c (+6/-1), symbol.h (+2/-1), validation/transparent-union.c (+25/-0)
+--------------------------------------------------------------------------------
+
+[5798e4cf8fdb] 2014-04-01 00:18:13 -0700
+Author: John Keeping <john@keeping.me.uk>
+Subject: evaluate: split out implementation of compatible_assignment_types
+
+This will allow us to reuse the logic when processing a transparent
+union by checking each member in turn without printing a warning unless
+none of the members match.
+
+Signed-off-by: John Keeping <john@keeping.me.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+34/-23)
+--------------------------------------------------------------------------------
+
+[cb14f76857ea] 2014-04-01 00:11:01 -0700
+Author: John Keeping <john@keeping.me.uk>
+Subject: validation/sizeof-bool: fix broken test case
+
+Since commit 2667c2d (sparse: Allow override of sizeof(bool) warning,
+2014-02-26) the default has been not to warn on sizeof(bool).  This
+means that the sizeof-bool test case now needs an explicit command in
+order to trigger the warning it is testing.
+
+Signed-off-by: John Keeping <john@keeping.me.uk>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/sizeof-bool.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[2667c2d4ab33] 2014-02-27 12:39:44 -0800
+Author: Joe Perches <joe@perches.com>
+Subject: sparse: Allow override of sizeof(bool) warning
+
+Allow an override to emit or not the sizeof(bool) warning.
+Add a "-Wsizeof-bool" description to the manpage.
+
+Signed-off-by: Joe Perches <joe@perches.com>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+2/-1), lib.c (+2/-0), lib.h (+1/-0), sparse.1 (+8/-0)
+--------------------------------------------------------------------------------
+
+[67a7f893b145] 2014-01-29 15:47:44 -0800
+Author: Emilio G. Cota <cota@braap.org>
+Subject: Define __CHAR_BIT__
+
+gcc defines __CHAR_BIT__ as a pre-defined macro.
+
+Define __CHAR_BIT__ in sparse so that code that needs it (e.g. code
+using CHAR_BIT from limits.h) does not generate false warnings.
+
+Signed-off-by: Emilio G. Cota <cota@braap.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+1/-0), validation/builtin_char_bit.c (+7/-0)
+--------------------------------------------------------------------------------
+
+[66b24573e9cb] 2014-01-29 01:08:34 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Sparse 0.5.0
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[0ed81bf7ae8f] 2014-01-29 01:08:34 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix make dist failure
+
+This bug was introduced in commit bcdb5ee5. The SPARSE_VERSION
+already starts with 'v'.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+

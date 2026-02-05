@@ -1,0 +1,191 @@
+================================================================================
+Year: 2025 | Commits: 7 | Contributors: 5
+Insertions: +167 | Deletions: -14
+================================================================================
+
+[fbdde3127b83] 2025-10-16 21:52:33 -0700
+Author: Dan Carpenter <dan.carpenter@linaro.org>
+Subject: builtin: implement __builtin_strlen() for constants
+
+People are adding compile time asserts to check whether strings are
+the expected length.  In GCC and Clang strlen("foo") is expanded at
+compile time so this works, but in Sparse it triggers a "bad constant
+expression" warning.  Implement expand_strlen() to handle string
+literals.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/all/CANiDSCsBAq3Yx4ybarUb_1NkQ-bvfXvWqb-DfqXatkiYJFZWiQ@mail.gmail.com/
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: builtin.c (+24/-1)
+--------------------------------------------------------------------------------
+
+[dc9efe442b89] 2025-10-15 07:32:06 -0700
+Author: Dan Carpenter <dan.carpenter@linaro.org>
+Subject: sparse: implement typeof_unqual()
+
+The typeof_unqual() is a c23 operator which is similar to typeof() except
+it masks away the qualifiers, ie. MOD_CONST, MOD_VOLATILE and
+MOD_RESTRICT.  So the implementation of typeof() and typeof_unqual() is
+basically the same except that in examine_typeof_helper() we have the mask:
+
+        mod &= ~MOD_QUALIFIER;
+
+We will still preserve the MOD_ATOMIC, MOD_NOCAST and MOD_SPECIFIER
+modifiers with both typeof() and typeof_unqual().
+
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: ast-inspect.c (+1/-0), ctags.c (+1/-0), dissect.c (+1/-0), evaluate.c (+2/-1), parse.c (+21/-3), ... and 3 more
+--------------------------------------------------------------------------------
+
+[610d841da021] 2025-09-28 23:14:35 -0700
+Author: Changyuan Lyu <changyuan.lv@gmail.com>
+Subject: doc: update the instructions for mailing list subscription
+
+Majordomo commands are deprecated as per
+https://subspace.kernel.org/vger.kernel.org.html#what-happened-to-majordomo.
+
+Signed-off-by: Changyuan Lyu <changyuan.lv@gmail.com>
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: Documentation/index.rst (+2/-2)
+--------------------------------------------------------------------------------
+
+[67f0a03cee46] 2025-09-27 18:43:09 -0700
+Author: Chris Li <sparse@chrisli.org>
+Subject: doc: update maintainer
+
+Chris Li is back as sparse maintainer.
+
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: Documentation/index.rst (+7/-2), sparse.1 (+1/-1)
+--------------------------------------------------------------------------------
+
+[bb97bcbd4f7e] 2025-09-25 07:28:08 -0700
+Author: wenlunpeng <wenlunpeng@uniontech.com>
+Subject: fix: Skip if symbol have no op when handle_qualifiers
+
+Missing s->op will cause a SIGSEGV when trying to get s->op->type.
+
+I encountered the issue when building with sparse in a linux kernel tree
+containing a vendor network driver. A simple `make` will success but a
+`make C=2` will exit with exit-code 139. The coredump shows that s->op
+here is NULL when dealing with a source code line like:
+	u8 *byte;
+
+Lines like this exist everywhere. I cannot figure out why just this file
+breaks sparse. But I think the NULL judge is needed here.
+
+Signed-off-by: wenlunpeng <wenlunpeng@uniontech.com>
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[366ad4b2fa3e] 2025-09-23 23:43:00 -0700
+Author: Vincent Mailhol <mailhol@kernel.org>
+Subject: Warn about "unsigned value that used to be signed against zero"
+
+Consider this first pattern:
+
+  void error(void);
+  int check(void);
+
+  void foo (void)
+  {
+  	unsigned int ret;
+
+  	ret = check();
+  	if (ret < 0)
+  		error();
+  }
+
+Here, the comparison against zero is a tautology: ret, which is
+unsigned, can never be negative. Thus the compiler will remove the
+error branch causing a bug.
+
+This pattern is caught by clang and gcc's -Wtype-limits. *However*,
+that diagnostic has many lost bullets. It will also complain on some
+legitimate things such as in this second pattern:
+
+  void error(void);
+
+  void bar (unsigned int val)
+  {
+  	if (val < 0 || val > 42)
+  		error();
+  }
+
+Here, the author just want to do a range check. Yes, the
+
+  val < 0
+
+comparison is a tautology, but that time, it does not result in faulty
+code when optimised out by the compiler.
+
+There is thus a need for a check that will catch the first pattern but
+that will let the second one go through. The difference between the
+two patterns is that in the first one the value returned by the
+check() function used to be signed whereas in the second one val was
+always unsigned to begin with.
+
+Add a check in sparse to warn if a value which used to be signed gets
+assigned to an unsigned and then gets compared against zero, either
+val < 0 or val >= 0.
+
+As pointed out by Linus in his original message, a few false positives
+remain, especially when many inline functions and macros get involved,
+but the level of noise is nothing in comparison to the -Wtype-limits.
+
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Link: https://lore.kernel.org/all/CAHk-=wjQCbRA1UEag-1-9yn08KNNqerTj++SCbbW80At=rg5RQ@mail.gmail.com/
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: simplify.c (+39/-2)
+--------------------------------------------------------------------------------
+
+[c47766ce0620] 2025-09-23 23:43:00 -0700
+Author: Vincent Mailhol <mailhol@kernel.org>
+Subject: vadidation: add used-to-be-signed unit tests
+
+Add unit tests for the new used-to-be-signed check as introduced in [1]:
+
+Results before applying [1]:
+
+  $ ./test-suite used-to-be-signed.c
+    TEST    used-to-be-signed (used-to-be-signed.c)
+  error: actual error text does not match expected error text.
+  error: see used-to-be-signed.c.error.* for further investigation.
+  --- used-to-be-signed.c.error.expected	2025-09-23 00:50:07.079654644 +0900
+  +++ used-to-be-signed.c.error.got	2025-09-23 00:50:07.073654719 +0900
+  @@ -1,8 +0,0 @@
+  -used-to-be-signed.c:8:19: warning: unsigned value that used to be signed checked against zero?
+  -used-to-be-signed.c:6:33: signed value source
+  -used-to-be-signed.c:11:17: warning: unsigned value that used to be signed checked against zero?
+  -used-to-be-signed.c:6:33: signed value source
+  -used-to-be-signed.c:14:20: warning: unsigned value that used to be signed checked against zero?
+  -used-to-be-signed.c:6:33: signed value source
+  -used-to-be-signed.c:17:18: warning: unsigned value that used to be signed checked against zero?
+  -used-to-be-signed.c:6:33: signed value source
+  error: FAIL: test 'used-to-be-signed.c' failed
+  KO: out of 1 tests, 0 passed, 1 failed
+
+...and after:
+
+  $ ./test-suite used-to-be-signed.c
+    TEST    used-to-be-signed (used-to-be-signed.c)
+  OK: out of 1 tests, 1 passed, 0 failed
+
+[1] Warn about "unsigned value that used to be signed against zero"
+Link: https://lore.kernel.org/linux-sparse/20250921061337.3047616-1-mailhol@kernel.org/
+
+Signed-off-by: Vincent Mailhol <mailhol@kernel.org>
+Signed-off-by: Chris Li <sparse@chrisli.org>
+
+Files: validation/used-to-be-signed.c (+49/-0)
+--------------------------------------------------------------------------------
+

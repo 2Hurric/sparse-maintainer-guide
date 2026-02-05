@@ -1,0 +1,505 @@
+================================================================================
+Year: 2010 | Commits: 36 | Contributors: 15
+Insertions: +1480 | Deletions: -157
+================================================================================
+
+[0d5aa34be966] 2010-11-08 14:25:13 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: inspect: adding function arugument list
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ast-inspect.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[9e73187d69d1] 2010-10-08 15:25:01 -0700
+Author: Mike Frysinger <vapier@gentoo.org>
+Subject: parser: add Blackfin gcc info
+
+The Blackfin port uses some custom attributes to control memory placement,
+and it has some custom builtins.  So add the ones that the kernel actually
+utilizes to avoid massive build errors with sparse.
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+9/-0), parse.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[90e1270b2d9e] 2010-09-15 15:33:45 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fixup and cleanup modifier_string() function.
+
+The change started from Bernd Petrovitsch's patch but
+get mostly rewritten using accociatived array.
+
+It fix the modifier_string() function and check the string
+length for the string.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+Signed-off-by: Bernd Petrovitsch <bernd@sysprog.at>
+
+Files: show-parse.c (+45/-19)
+--------------------------------------------------------------------------------
+
+[a58b3fdd89d2] 2010-09-02 21:39:48 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: sparse 0.4.3 finial
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[34f3db4caf88] 2010-09-01 00:59:11 -0700
+Author: Dan Carpenter <error27@gmail.com>
+Subject: add test-inspect to .gitignore
+
+Signed-off-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: .gitignore (+1/-0)
+--------------------------------------------------------------------------------
+
+[1588e1a4dbb2] 2010-09-01 00:57:16 -0700
+Author: Bernd Petrovitsch <bernd@sysprog.at>
+Subject: Fix a typo - "typdef" is neither C nor plain English
+
+Signed-off-by: Bernd Petrovitsch <bernd@sysprog.at>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: show-parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[da07704c2037] 2010-07-22 16:17:31 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: inspect: cast expression
+
+Adding cast expression for AST inspecting.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ast-inspect.c (+19/-1)
+--------------------------------------------------------------------------------
+
+[4dd989c7633f] 2010-07-19 16:42:58 -0700
+Author: Morten Welinder <mortenw@gnome.org>
+Subject: skip may_alias and declare builtin_fabs
+
+Signed-off-by: Morten Welinder <terra@gnome.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+1/-0), parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[73f65f2548a3] 2010-07-13 19:01:03 +0000
+Author: Christopher <sparse@chrisli.org>
+Subject: inspect: add some expression inspection
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: ast-inspect.c (+77/-1), ast-inspect.h (+4/-0)
+--------------------------------------------------------------------------------
+
+[7ac4fa3f14ea] 2010-07-13 19:00:56 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: inspect: Add test-inspect program
+
+The test program will launch a gtk treeview windows to
+display the symbol node in the AST.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+14/-3), test-inspect.c (+43/-0)
+--------------------------------------------------------------------------------
+
+[9291116e70fc] 2010-07-13 19:00:46 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: inspect: add some example inspect for symbol and statement
+
+This is far fro complete. It is an example how to write call back
+driven inspect functions.
+
+Inside each inspect call back function. It can add a child node
+with: ast_append_child(), or add text attribute node with
+ast_append_attribute()
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: ast-inspect.c (+114/-0), ast-inspect.h (+13/-0)
+--------------------------------------------------------------------------------
+
+[5e5517211f51] 2010-07-13 19:00:14 +0000
+Author: Christopher Li <sparse@chrisli.org>
+Subject: inspect: add custom ast treeview model
+
+It is custom gtk treeview model to wrap the C data structure
+use by sparse. The ast model does not have any sparse specific
+stuff in it. Instead, it provide a simplier call back based
+API to allow user construct tree view object very easily.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: ast-model.c (+468/-0), ast-model.h (+88/-0), ast-view.c (+48/-0), ast-view.h (+7/-0)
+--------------------------------------------------------------------------------
+
+[8832df8bc4ed] 2010-07-13 01:06:20 -0700
+Author: Jiri Slaby <jslaby@suse.cz>
+Subject: parser: define __builtin_unreachable
+
+Gcc 4.5 defines
+extern void __builtin_unreachable(void);
+so, add it also to sparse.
+
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Signed-off-by: Christopher <sparse@chrisli.org>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[e461ed2a9fab] 2010-07-13 01:06:19 -0700
+Author: Christopher <sparse@chrisli.org>
+Subject: Add test case for builtin_unreachable()
+
+The test case is taken from gcc documents.
+
+Signed-off-by: Christopher <sparse@chrisli.org>
+
+Files: validation/builtin_unreachable.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[c7689a5d9e7d] 2010-07-13 00:34:09 -0700
+Author: Jiri Slaby <jslaby@suse.cz>
+Subject: parser: fix and simplify support of asm goto
+
+1) We now handle only "asm (volatile|goto)?", whereas
+   "asm volatile? goto?" is correct.
+2) We need to match only goto_ident, so do it explicitly against
+   token->ident without match_idents.
+
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Signed-off-by: Christopher <sparse@chrisli.org>
+
+Files: parse.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[7ccc8abebad1] 2010-06-17 17:21:10 -0700
+Author: Jiri Slaby <jslaby@suse.cz>
+Subject: parser: add support for asm goto
+
+As of gcc 4.5, asm goto("jmp %l[label]" : OUT : IN : CLOB : LABELS) is
+supported. Add this support to the parser so that it won't choke on
+the newest Linux kernel when compiling with gcc 4.5.
+
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+8/-0), parse.c (+23/-0), parse.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[a04808f22f9c] 2010-06-17 17:21:10 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Adding asm goto label test case
+
+Provided by Jiri Slaby <jslaby@suse.cz>
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/asm-goto-lables.c (+22/-0)
+--------------------------------------------------------------------------------
+
+[a8b9de7b4211] 2010-06-17 17:21:10 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: Ignore the may_alias GCC attribute
+
+may_alias is used in the wild (glib) and makes sparse spew a lot of
+unhelpful warning messages. Ignore it (for now?).
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[49adf11b99cf] 2010-06-17 17:21:10 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Parsing wide char string
+
+A follow up change to parse the wide char string.
+It currently only parse and store it like normal strings.
+Need more change to reflect the base type and size etc.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.c (+8/-5), expression.h (+4/-1), pre-process.c (+3/-2), token.h (+2/-1), tokenize.c (+11/-6)
+--------------------------------------------------------------------------------
+
+[298c360ab0d1] 2010-04-08 14:39:53 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Allow parsing L'\0'
+
+It is nasty that L'\0' start from an identifier letter. I try my best
+not to slow down the hot path. The test is done inside get_one_identifier()
+after the ident hash is built.  It look a little bit out of palace but
+faster than testing 'L' before hand.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: expression.c (+2/-1), ident-list.h (+3/-0), pre-process.c (+1/-0), token.h (+1/-0), tokenize.c (+8/-4)
+--------------------------------------------------------------------------------
+
+[703499e552b4] 2010-03-29 00:43:33 -0700
+Author: Christopher <sparse@chrisli.org>
+Subject: evaluate: check for NULL type inside typeof
+
+This should fix the segfault report by Randy.
+It still doesn't parse the struct attribute correctly though.
+
+Signed-off-by: Christopher <sparse@chrisli.org>
+
+Files: evaluate.c (+3/-1)
+--------------------------------------------------------------------------------
+
+[b4ef55610696] 2010-03-28 17:51:36 -0700
+Author: Christopher Li <chrisl@heli.(none)>
+Subject: Pointer don't inherent the alignment from base type
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[5ee621024055] 2010-03-28 17:51:36 -0700
+Author: Joel Soete <rubisher@scarlet.be>
+Subject: possible fix to cgcc issue in sparse 0.4.2:
+
+Use of uninitialized value $bits in exists at /usr/bin/cgcc line 139.
+/usr/bin/cgcc: weird number of bits. at /usr/bin/cgcc line 139.
+
+Signed-off-by: Joel Soete <rubisher@scarlet.be>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[b44806626df5] 2010-03-28 17:51:36 -0700
+Author: Michael Buesch <mb@bu3sch.de>
+Subject: Ignore "naked" attribute
+
+The GCC "naked" attribute is used on certain architectures to generate
+functions without a prologue/epilogue.
+
+Ignore it in sparse.
+
+Signed-off-by: Michael Buesch <mb@bu3sch.de>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[f9a4402e19db] 2010-03-28 17:51:36 -0700
+Author: Michael Buesch <mb@bu3sch.de>
+Subject: ignore attributes "externally_visible" and "signal"
+
+This adds more ignored gcc-style attributes.
+
+externally_visible is a standard gcc attribute.
+signal is an AVR8 attribute used to define interrupt service routines.
+
+Ignore these attributes, as they are currently not useful for sparse checking.
+
+Signed-off-by: Michael Buesch <mb@bu3sch.de>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[db9ce95814d5] 2010-03-28 17:51:36 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Adding test case for "x && y && z" .
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/logical.c (+17/-0)
+--------------------------------------------------------------------------------
+
+[c93fb998917a] 2010-03-28 17:51:36 -0700
+Author: Daniel De Graaf <danieldegraaf@gmail.com>
+Subject: Fix incorrect linearization of "x && y && z"
+
+This fixes an incorrect assumption that results in && using shortcut
+logic on the true branch instead of the false branch.
+
+Signed-off-by: Daniel De Graaf <danieldegraaf@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: linearize.c (+3/-1)
+--------------------------------------------------------------------------------
+
+[fb73c74b5c4a] 2010-03-28 17:51:36 -0700
+Author: Dan McGee <dan@archlinux.org>
+Subject: Makefile: fix permissions mixup on install
+
+`install` by default uses 755 permissions; for everything but executables we
+want to use 644 permissions.
+
+Signed-off-by: Dan McGee <dan@archlinux.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+12/-7)
+--------------------------------------------------------------------------------
+
+[f09699fa80b3] 2010-03-28 17:51:36 -0700
+Author: Josh Triplett <josh@joshtriplett.org>
+Subject: New attribute designated_init: mark a struct as requiring designated init
+
+Some structure types provide a set of fields of which most users will
+only initialize the subset they care about.  Users of these types should
+always use designated initializers, to avoid relying on the specific
+structure layout.  Examples of this type of structure include the many
+*_operations structures in Linux, which contain a set of function
+pointers; these structures occasionally gain a new field, lose an
+obsolete field, or change the function signature for a field.
+
+Add a new attribute designated_init; when used on a struct, it tells
+Sparse to warn on any positional initialization of a field in that
+struct.
+
+The new flag -Wdesignated-init controls these warnings.  Since these
+warnings only fire for structures explicitly tagged with the attribute,
+enable the warning by default.
+
+Includes documentation and test case.
+
+Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+1/-1), evaluate.c (+10/-0), lib.c (+2/-0), lib.h (+1/-0), parse.c (+15/-0), ... and 3 more
+--------------------------------------------------------------------------------
+
+[c0d5c5dcb0c6] 2010-03-28 17:51:36 -0700
+Author: Josh Triplett <josh@joshtriplett.org>
+Subject: Rename -Wall to Wsparse-all, so it doesn't get turned on unintentionally
+
+sparse's -Wall option turns on all sparse warnings, including those that
+many projects will not want; for instance, warnings that enforce
+particular stylistic choices, or behavior allowed by a standard but
+considered questionable or error-prone.  Furthermore, using -Wall means
+accepting all future warnings sparse may start issuing, not just those
+intentionally turned on by default.
+
+Other compilers like GCC also use -Wall, and interpret it to mean "turn
+on a sensible set of warnings".  Since sparse exists to emit warnings,
+it already defaults to emitting a sensible set of warnings.  Many
+projects pass the same options to both sparse and the C compiler,
+including warning options like -Wall; this results in turning on
+excessive amounts of sparse warnings.
+
+cgcc already filtered out -Wall, but many projects invoke sparse
+directly rather than using cgcc.  Remove that filter, now that -Wall
+does not change sparse's behavior.
+
+Projects almost certainly don't want to use the new -Wsparse-all option;
+they should choose the specific set of warnings they want, or just go
+with sparse's defaults.
+
+Also update cgcc to know about Wsparse-all and not pass it to GCC, and
+update a test case that unnecessarily used -Wall.
+
+Signed-off-by: Josh Triplett <josh@joshtriplett.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+2/-15), lib.c (+1/-1), sparse.1 (+4/-0), validation/specifiers1.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[008e1c61f411] 2010-03-28 17:51:36 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Handle __builtin_ms_va_list.
+
+For Win64 compiles Wine does
+ #ifndef __ms_va_list
+ # if defined(__x86_64__) && defined (__GNUC__)
+ #  define __ms_va_list __builtin_ms_va_list
+ #  define __ms_va_start(list,arg) __builtin_ms_va_start(list,arg)
+ #  define __ms_va_end(list) __builtin_ms_va_end(list)
+ # else
+
+Wouldn't be as bad if sparse cannot handle those but it trips over
+WINBASEAPI DWORD WINAPI FormatMessageA(DWORD,LPCVOID,DWORD,DWORD,LPSTR,DWORD,__ms_va_list*);
+WINBASEAPI DWORD WINAPI FormatMessageW(DWORD,LPCVOID,DWORD,DWORD,LPWSTR,DWORD,__ms_va_list*);
+producing this errors for basically every file:
+wine/include/winbase.h:1546:96: error: Expected ) in function declarator
+wine/include/winbase.h:1546:96: error: got *
+wine/include/winbase.h:1547:97: error: Expected ) in function declarator
+wine/include/winbase.h:1547:97: error: got *
+
+Signed-off-by: Michael Stefaniuc <mstefaniuc@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+2/-0), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[4ad6779b132e] 2010-03-28 17:51:36 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Simplify Makefile using static pattern rules
+
+I find a way to get rid of the macro and $$ in linking
+executable program.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: Makefile (+3/-8)
+--------------------------------------------------------------------------------
+
+[e16c7c867780] 2010-03-28 17:51:36 -0700
+Author: Michael Stefaniuc <mstefaniuc@gmail.com>
+Subject: Ignore the alloc_size attribute.
+
+Wine has annotated the Win32 alloc functions with the alloc_size
+attribute. This cuts down the noise a lot when running sparse on the
+Wine source code.
+
+Signed-off-by: Michael Stefaniuc <mstefaniuc@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[ba61a9588c9d] 2010-03-28 17:51:36 -0700
+Author: Michael Stefaniuc <mstefaniuc@gmail.com>
+Subject: Ignore the ms_abi/sysv_abi attributes.
+
+This is needed for getting a meaningful sparse run on a Wine 64-bit
+compile. Else the basic Win32 headers will produce tons of
+error: attribute 'ms_abi': unknown attribute
+which end in
+error: too many errors.
+
+The sysv_abi attribute was just added for symmetry.
+
+Signed-off-by: Michael Stefaniuc <mstefaniuc@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[9aeae9479b0f] 2010-03-28 17:51:36 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Declare ignored attributres into a list of string.
+
+Adding ignored attributes is much easier now.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.h (+4/-0), parse.c (+82/-71)
+--------------------------------------------------------------------------------
+
+[ccb8433d5c5c] 2010-03-28 17:51:36 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Move noreturn attribute out of ignore attr area
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-2)
+--------------------------------------------------------------------------------
+

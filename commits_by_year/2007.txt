@@ -1,0 +1,3222 @@
+================================================================================
+Year: 2007 | Commits: 275 | Contributors: 23
+Insertions: +6531 | Deletions: -2512
+================================================================================
+
+[a02aeb329d5a] 2007-11-13 04:15:13 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile: VERSION=0.4.1
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[76d0b813af22] 2007-11-13 04:12:05 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add known-to-fail test case for a static forward declaration
+
+Based on a bug report by Matthew Wilcox.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/static-forward-decl.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[35f463cfcc8e] 2007-11-13 03:12:12 -0800
+Author: Emil Medve <Emilian.Medve@Freescale.com>
+Subject: Handle ignored attribute malloc
+
+This avoids error messages like this:
+
+error: attribute 'malloc': unknown attribute
+
+Signed-off-by: Emil Medve <Emilian.Medve@Freescale.com>
+
+Files: ident-list.h (+1/-0), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[da954be75937] 2007-10-20 19:20:47 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to validation/local-label.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/local-label.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[8d79ef8142b7] 2007-10-20 19:15:00 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Perform local label lookup
+
+This patch fix the sparse breakage triggered by
+rcu_read_lock() lockdep annotations.
+
+Now sparse look up the local label in symbol node
+name space as well, just like looking up a normal
+symbol node. Now a lable symbol can be both
+type SYM_LABEL or SYM_NODE with MOD_LABEL.
+
+Singed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+13/-0), validation/local-label.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[fa7d792f66cf] 2007-10-10 04:47:34 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add comment on taint flags enum referencing expr->taint
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expression.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[c7cdb035e706] 2007-09-19 13:47:54 -0700
+Author: Mike Frysinger <vapier@gentoo.org>
+Subject: fix install perms of manpages
+
+the install step for manpages currently does not use the -m option which means
+perms default to 755 which makes no sense for man pages
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[acc52125bec3] 2007-09-16 15:53:42 -0700
+Author: Tilman Sauerbeck <tilman@code-monkey.de>
+Subject: Added a prototype for mempcpy().
+
+Signed-off-by: Tilman Sauerbeck <tilman@code-monkey.de>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[dac5263b08c4] 2007-09-15 12:55:34 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile: VERSION=0.4
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[4bff55c9bd06] 2007-09-15 12:44:11 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add SEE ALSO for cgcc in sparse manpage
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: sparse.1 (+3/-0)
+--------------------------------------------------------------------------------
+
+[6f0a86bb5250] 2007-09-15 12:42:33 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add a manpage for cgcc
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1), cgcc.1 (+37/-0)
+--------------------------------------------------------------------------------
+
+[652fe5979cc7] 2007-09-15 12:13:16 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to init-char-array.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/init-char-array.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[2224d744eaf1] 2007-09-15 11:35:24 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation: Update comment in type1.c to reflect current state of Sparse
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/type1.c (+5/-6)
+--------------------------------------------------------------------------------
+
+[ec7b686dd75e] 2007-09-15 11:32:24 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to function-pointer-modifier-inheritance.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/function-pointer-modifier-inheritance.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[ded439c8f5dc] 2007-09-15 11:30:22 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to cond_expr.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/cond_expr.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[842160f3e2c7] 2007-09-15 11:27:30 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to integer-promotions.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/integer-promotions.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[3dea305b9568] 2007-09-15 11:26:31 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation: Rename typeconvert.c to integer-promotions.c to match its purpose
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/{typeconvert.c => integer-promotions.c} (+0/-0)
+--------------------------------------------------------------------------------
+
+[e5be26482552] 2007-09-15 09:53:45 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: README: recode from ISO-8859-1 to UTF-8
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: README (+1/-1)
+--------------------------------------------------------------------------------
+
+[8b0fedb16f98] 2007-09-15 09:49:23 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: FAQ: Point to URL on vger for subscription instructions and archives
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: FAQ (+3/-2)
+--------------------------------------------------------------------------------
+
+[401bd51e4494] 2007-09-15 09:44:02 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile: Use ?= to allow overriding OS or AR on the Make command line
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+2/-2)
+--------------------------------------------------------------------------------
+
+[90d39b7a91a6] 2007-09-15 09:32:26 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to noderef.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/noderef.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[e8cd02c0e5f2] 2007-09-15 09:32:19 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to struct-ns1.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/struct-ns1.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[8d1b14b0042c] 2007-09-15 09:32:08 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to non-pointer-null.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/non-pointer-null.c (+7/-0)
+--------------------------------------------------------------------------------
+
+[09fb0c81fcf0] 2007-09-15 01:07:15 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to struct-attribute-placement.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/struct-attribute-placement.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[8e76aa2bf65e] 2007-09-15 01:05:37 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to varargs1.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/varargs1.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[80e1b320d864] 2007-09-15 00:59:58 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to badtype4.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/badtype4.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[559ae36944df] 2007-09-15 00:55:12 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to check_byte_count-ice.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/check_byte_count-ice.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[61e7a8095907] 2007-09-15 00:52:08 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to double-semicolon.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/double-semicolon.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[45c552a02342] 2007-09-15 00:50:08 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite annotations to restricted-typeof.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/restricted-typeof.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[85b276ded00d] 2007-09-06 11:08:16 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Use -fno-strict-aliasing, as the ptrlist code seems to violate C99 strict aliasing rules
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[4c658b6270d4] 2007-08-31 14:40:41 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: cgcc: Sparse accepts -Wundef, not -Wundefined-preprocessor
+
+cgcc's regex of Sparse warning options listed -Wundefined-preprocessor,
+which doesn't exist; change it to -Wundef.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[78bb259f64e5] 2007-08-31 14:39:26 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Rename Wundefined_preprocessor to Wundef to match the command-line argument
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expand.c (+1/-1), lib.c (+2/-2), lib.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[ae66264df616] 2007-08-31 14:36:16 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: cgcc: Sparse accepts -Wcast-to-as, not -Wcast-to-address-space
+
+cgcc's regex of Sparse warning options listed -Wcast-to-address-space,
+which doesn't exist; change it to -Wcast-to-as.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[a3ba81906dc4] 2007-08-31 14:06:47 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Install the Sparse manpage
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+7/-0)
+--------------------------------------------------------------------------------
+
+[969858e1c7a6] 2007-08-31 14:06:47 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add a manpage for sparse
+
+This manpage documents every Sparse warning option and the corresponding
+attributes, except that it does not document -Wuninitialized, which only seems
+to work with -v, and which references internal Sparse register numbers.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: sparse.1 (+264/-0)
+--------------------------------------------------------------------------------
+
+[970e13fba40a] 2007-08-31 14:02:57 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Rename Wcast_to_address_space to Wcast_to_as to match the command-line argument
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: evaluate.c (+1/-1), lib.c (+2/-2), lib.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[81b9e5d1e77f] 2007-08-30 18:00:20 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Sort warning options in lib.c and lib.h
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+26/-26), lib.h (+14/-11)
+--------------------------------------------------------------------------------
+
+[df7ff6e5693f] 2007-08-30 10:32:35 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for -Wtypesign
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/typesign.c (+61/-0)
+--------------------------------------------------------------------------------
+
+[a8a490680098] 2007-08-30 10:31:52 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: is_zero_constant: declare saved const
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expand.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[9bc5a6c798d0] 2007-08-22 19:18:13 -0700
+Author: Randy Dunlap <randy.dunlap@oracle.com>
+Subject: add __builtin_labs()
+
+2.6.23-rc3-mm1 has added a user of __builtin_labs(), so add this function
+to sparse lib.c to avoid the error messages.
+
+  CHECK   kernel/unwind.c
+kernel/unwind.c:1016:31: error: undefined identifier '__builtin_labs'
+kernel/unwind.c:1232:25: error: undefined identifier '__builtin_labs'
+
+Signed-off-by: Randy Dunlap <randy.dunlap@oracle.com>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[f357141666d5] 2007-08-22 19:16:09 -0700
+Author: Yura Pakhuchiy <pakhuchiy@gmail.com>
+Subject: Make cgcc filter out all sparse warning related options
+
+Signed-off-by: Yura Pakhuchiy <pakhuchiy@gmail.com>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[ed450b307983] 2007-08-09 22:52:27 -0700
+Author: Kovarththanan Rajaratnam <krj@rajaratnam.dk>
+Subject: libxml compile fix on Cygwin
+
+Hello,
+
+I needed to re-arrange the libxml-2.0 library order to make sparse
+compile on Cygwin. Patch attached.
+
+Signed-off-by: Kovarththanan Rajaratnam <krj@rajaratnam.dk>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[3624a543e388] 2007-08-06 20:37:25 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: ctags: Handle some new namespaces and symbol types.
+
+ctags didn't handle SYM_KEYWORD, SYM_PROCESSOR, or NS_KEYWORD, and didn't
+handle NS_PREPROCESSOR correctly.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ctags.c (+5/-2)
+--------------------------------------------------------------------------------
+
+[fdd259520bdb] 2007-08-04 13:49:19 -0700
+Author: Mike Frysinger <vapier.adi@gmail.com>
+Subject: Makefile: improve flag handling
+
+Tweak the makefile so that it respects CFLAGS set in the environment and it
+makes sure to link the shared libsparse with $(LDFLAGS).
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+
+Files: Makefile (+5/-4)
+--------------------------------------------------------------------------------
+
+[8ec193a995c2] 2007-08-02 08:55:27 -0700
+Author: Josh Triplett <josh@kernel.org>
+Subject: Add another test case to validation/comma.c
+
+Signed-off-by: Josh Triplett <josh@kernel.org>
+
+Files: validation/comma.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[0d4adf356452] 2007-07-30 00:40:20 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Drop -fpic; it hurts performance and we don't build libsparse.so by default
+
+Sparse doesn't have a stable shared library interface, and doesn't build
+libsparse.so by default.  However, it used -fpic, which incurred a noticeable
+performance hit.  Remove -fpic from the default CFLAGS, and add a comment near
+the definition of LIBS about adding it back if building a shared library.  You
+probably want to build Sparse twice if you want a shared library: once without
+-fpic to build the Sparse tools, and again with -fpic to build the shared
+library.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+7/-1)
+--------------------------------------------------------------------------------
+
+[470804edd6bd] 2007-07-30 00:04:25 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add some missing dependencies in the Makefile
+
+ptrlist.o didn't depend on $(LIB_H); in particular, it didn't depend on
+compat.h, which manifested in "bad allocation size" errors when changing the
+chunk size in compat.h and running "make" without "make clean".
+
+test-unssa.o also didn't depend on $(LIB_H).
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+2/-0)
+--------------------------------------------------------------------------------
+
+[b5a8032aaeaf] 2007-07-29 22:50:42 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: cse: Size insn_hash_table more realistically, speeding up CSE significantly
+
+Profiling showed that Sparse spent much of its time doing CSE, which involved
+traversing every bucket of insn_hash_table repeatedly.  insn_hash_table had
+64K buckets, but never more than a few dozen entries.  Shrink insn_hash_table
+to 256 entries.  This makes Sparse 2-4 times faster for me.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[06bcf19cb8eb] 2007-07-29 20:20:38 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile: Use -O2 -finline-functions, not just -O
+
+This makes debugging more difficult by default, but as usual, developers can
+change CFLAGS if they want to use a debugger; the default CFLAGS should cater
+to users.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[cd4288f195f1] 2007-07-29 01:11:59 -0700
+Author: ricknu-0@student.ltu.se <ricknu-0@student.ltu.se>
+Subject: tokenize.c: Simplify drop_stream_eoln().
+
+Simplifying function drop_stream_eoln().
+
+Signed-off-by: Richard Knutsson <ricknu-0@student.ltu.se>
+
+Files: tokenize.c (+6/-7)
+--------------------------------------------------------------------------------
+
+[3679526ce5f8] 2007-07-29 01:06:11 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] braino in conditional_expression()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expression.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[a68afe749eb2] 2007-07-29 01:05:42 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] saner -Wtypesign
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+25/-22)
+--------------------------------------------------------------------------------
+
+[2522885b0a77] 2007-07-29 01:03:56 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] sanitize evaluate_postop()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+19/-19)
+--------------------------------------------------------------------------------
+
+[c69d0ce9d5d3] 2007-07-29 01:02:49 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for comparing null pointer constant to int.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/compare-null-to-int.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[064053970131] 2007-07-29 00:59:21 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix evaluate_compare()
+
+fix a braino - (void *)0 == 1 is not acceptable, even though one argument
+is a pointer, another is an integer and there's a null pointer constant in
+the mix.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[3440f9062fba] 2007-07-29 00:58:02 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] sanitize evaluate_ptr_add(), start checking for pointers to functions
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+25/-16)
+--------------------------------------------------------------------------------
+
+[1ffab3d2b572] 2007-07-29 00:54:56 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove explicit restatements of defaults in metadata for comma test
+
+validation/comma.c restated some defaults explicitly in its test metadata;
+remove the redundant metadata and rely on the defaults instead.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/comma.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[081785f702de] 2007-07-29 00:54:04 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] ...,array should degenerate
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+3/-1), validation/comma.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[45ac94372fdd] 2007-07-29 00:46:02 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove explicit restatements of defaults in metadata for outer-scope test
+
+validation/outer-scope.c restated some defaults explicitly in its test
+metadata; remove the redundant metadata and rely on the defaults instead.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/outer-scope.c (+0/-3)
+--------------------------------------------------------------------------------
+
+[c716828bf2ba] 2007-07-29 00:44:25 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] file and global scopes are the same for purposes of struct redefining
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: parse.c (+1/-1), scope.c (+10/-0), scope.h (+1/-0), validation/outer-scope.c (+19/-0)
+--------------------------------------------------------------------------------
+
+[321ad07c0d29] 2007-07-29 00:43:06 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove explicit restatements of defaults in metadata for member_of_typeof test
+
+validation/member_of_typeof.c restated the defaults explicitly in its test
+metadata; remove the redundant metadata and rely on the defaults instead.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/member_of_typeof.c (+0/-4)
+--------------------------------------------------------------------------------
+
+[f498ccb5a50d] 2007-07-28 18:34:23 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] handling of typeof in evaluate_member_dereference()
+
+We did examine_symbol_type() too late - after checking that it looks
+like a struct or union.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+1/-1), validation/member_of_typeof.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[6b136e3ea634] 2007-07-28 18:34:22 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] new helper: unfoul()
+
+starting to encapsulate types handling...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+14/-8)
+--------------------------------------------------------------------------------
+
+[6315d5f1db7b] 2007-07-28 18:34:22 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] no such thing as array of functions
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+12/-6)
+--------------------------------------------------------------------------------
+
+[b47634e8aef5] 2007-07-28 18:34:22 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] add __builtin_strlen()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[741232d06c54] 2007-07-27 14:06:39 -0700
+Author: Josh Triplett <josh@kernel.org>
+Subject: Make "Initializer entry defined twice" a warning, not an error
+
+Errors make Sparse stop emitting warnings.  Only parse errors and similar
+"cannot proceed" errors should call sparse_error.
+
+Signed-off-by: Josh Triplett <josh@kernel.org>
+
+Files: expand.c (+1/-1), validation/initializer-entry-defined-twice.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[1457956fe5a9] 2007-07-27 12:35:12 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation/builtin_safe1.c: Show the unsafe macro argument
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/builtin_safe1.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[5a84fad64b78] 2007-07-27 12:18:36 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to label-attr.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/label-attr.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[58af88c40f30] 2007-07-27 10:21:17 -0700
+Author: ricknu-0@student.ltu.se <ricknu-0@student.ltu.se>
+Subject: parse.c: Adding va_end().
+
+Adding va_end().
+
+Signed-off-by: Richard Knutsson <ricknu-0@student.ltu.se>
+
+Files: parse.c (+7/-7)
+--------------------------------------------------------------------------------
+
+[265c5209bd44] 2007-07-27 10:03:45 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Turn off -Wdo-while by default.
+
+-Wdo-while represents a style warning only, not a correctness warning.  Thus,
+turn it off by default.  Projects that want it should use -Wdo-while
+explicitly.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[318447b069ba] 2007-07-24 21:44:12 -0700
+Author: ricknu-0@student.ltu.se <ricknu-0@student.ltu.se>
+Subject: expression.c: Clean up match_oplist() and add missing va_end()
+
+Signed-off-by: Richard Knutsson <ricknu-0@student.ltu.se>
+
+Files: expression.c (+7/-7)
+--------------------------------------------------------------------------------
+
+[5b0858930b6a] 2007-07-24 21:32:46 -0700
+Author: ricknu-0@student.ltu.se <ricknu-0@student.ltu.se>
+Subject: tokenize.c: Replace handwritten strncmp with existing function.
+
+Signed-off-by: Richard Knutsson <ricknu-0@student.ltu.se>
+
+Files: tokenize.c (+3/-10)
+--------------------------------------------------------------------------------
+
+[caa20ff4d9a9] 2007-07-22 21:07:32 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: allocate.h: Stop needlessly returning a void value in __DO_ALLOCATOR
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: allocate.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[10ef6a2b5283] 2007-07-22 20:58:27 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to old-initializer.c; also test with -Wno-initializer
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/old-initializer-nowarn.c (+9/-0), validation/old-initializer.c (+7/-0)
+--------------------------------------------------------------------------------
+
+[86eb97a3c2df] 2007-07-22 20:52:49 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile: stop cleaning files we didn't make and have no business cleaning
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[2a4167db7574] 2007-07-22 20:48:10 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix typos in test-suite documentation
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Documentation/test-suite (+1/-1)
+--------------------------------------------------------------------------------
+
+[114dd2b103c7] 2007-07-22 20:43:59 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to calling-convention-attributes.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/calling-convention-attributes.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[3e60ed2a6044] 2007-07-22 20:41:13 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to escapes.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/escapes.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[3e9b0ca7156b] 2007-07-22 20:39:00 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to context.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/context.c (+20/-0)
+--------------------------------------------------------------------------------
+
+[9c8479ef7fcc] 2007-07-22 20:37:27 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to initializer-entry-defined-twice.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/initializer-entry-defined-twice.c (+10/-0)
+--------------------------------------------------------------------------------
+
+[481fe8aea367] 2007-07-22 20:32:52 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to bad-ternary-cond.c, and remove now-redundant comment
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/bad-ternary-cond.c (+8/-3)
+--------------------------------------------------------------------------------
+
+[3259d842c73d] 2007-07-22 20:29:31 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite metadata to bad-cast.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/bad-cast.c (+9/-0)
+--------------------------------------------------------------------------------
+
+[33683d9fd2b3] 2007-07-22 20:27:57 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix test-suite to handle stdout and stderr separately, and fix up tests
+
+test-suite merged stdout and stderr, which relied on the ordering of data from
+the two streams in the merged stream.  This made test-suite frequently fail on
+tests with both output and errors, when the ordering didn't happen to match
+what the test assumed.  Handle each of the streams separately, and update the
+tests accordingly.
+
+Also clean up the output of "test-suite format" to avoid outputting values
+equal to the defaults.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+7/-2), validation/address_space.c (+2/-3), validation/bad-array-designated-initializer.c (+2/-6), validation/bad-assignment.c (+2/-6), validation/cond_expr2.c (+2/-3), ... and 6 more
+--------------------------------------------------------------------------------
+
+[3a38b8db6d5f] 2007-07-14 13:06:34 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix sparse warnings in c2xml: mark globals static and remove unused globals
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: c2xml.c (+3/-5)
+--------------------------------------------------------------------------------
+
+[7f033045bd21] 2007-07-14 13:01:48 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix GCC warnings in c2xml
+
+Deal with xmlChar versus char issues by using BAD_CAST and helper functions.
+Remove unused variables.  Include expression.h for struct position.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: c2xml.c (+22/-26)
+--------------------------------------------------------------------------------
+
+[c8d633e1b79b] 2007-07-14 12:57:03 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: expression.h needs lib.h for struct position and symbol.h for int_ctype
+
+expression.h didn't work if included alone, before any other headers; fix that
+by having it include the headers it needs.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expression.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[fa8fd13f0b27] 2007-07-14 12:28:56 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Split c2xml build rule into compile and link stages, and add the quiet prefixes
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+5/-5)
+--------------------------------------------------------------------------------
+
+[984b7b66457c] 2007-07-14 12:16:53 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] deal correctly with qualifiers on arrays
+
+* new helper: examine_pointer_target().  Examine target, find address_space
+et.al.  If the target is SYM_NODE - merge it, etc.
+* new helper: target_qualifiers().  Pointers to any array are considered
+as pointers to unqualified type as far as implicit conversions are
+concerned; handle that right.
+* SYM_TYPEOF can be handled sanely now: don't copy the node, just convert
+SYM_TYPEOF to SYM_NODE and examine that.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+37/-34), symbol.c (+19/-18), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[2d709c36c9d0] 2007-07-14 12:16:53 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] rewrite type_difference()
+
+a) qualifiers should not be ignored beyond the top layer
+b) qualifiers *should* be ignored in top layer of function arguments
+c) change prototype - pass ctype * instead of symbol * and pass
+"what to add to modifiers in that ctype" instead of "what to ignore".
+
+We are still not quite done (there are incomplete types, there
+are array size comparisons, there is lifting of signedness logics
+into compatible_assignment_types()), but it's a much better approximation.
+
+BTW, it's already good enough for kernel ARRAY_SIZE(), which
+has become a major source of noise lately...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+[Josh: prototype fix]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: evaluate.c (+152/-120), expand.c (+4/-2), symbol.h (+2/-2)
+--------------------------------------------------------------------------------
+
+[d8a87b633cf1] 2007-07-14 12:16:52 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix the sanity check in evaluate_ptr_sub()
+
+We are checking the wrong thing - the arguments have already
+degenerated, so we won't see SYM_FN there (or SYM_ARRAY, for
+that matter).  That check should be done to the target of
+pointer, not to the pointer itself and it should simply check
+for SYM_FN - that's what we'll get there both from decayed
+functions _and_ pointers to functions.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+7/-6)
+--------------------------------------------------------------------------------
+
+[b1bb92a1b276] 2007-07-14 12:16:52 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] get compatible_assignment_types() deal with all cases
+
+a) pointer to _Bool is OK
+b) struct to same struct or union to same union is OK; void to void etc. are not
+c) to/from void * with loss of qualifiers or with different address space
+   should give the right warning itself instead of "different base types"
+   it would get from fallback to type_difference()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+43/-14)
+--------------------------------------------------------------------------------
+
+[f59350699685] 2007-07-14 12:16:52 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] start cleaning type_difference()
+
+a) examine_fn_arguments() when comparing SYM_FN nodes; then
+we won't need to try implementing argument adjustment as
+part of the main loop.  SYM_ARRAY->SYM_PTR and SYM_FN/SYM_PTR
+interactions go away (and we stop getting nonsense results
+like "int * and int [1] are the same thing").  All callers
+are already happy with that.
+
+b) different structs or unions are incompatible.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+9/-25)
+--------------------------------------------------------------------------------
+
+[f91d6af29636] 2007-07-14 12:16:52 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] integer_promotions() can't get SYM_NODE or SYM_ENUM
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+2/-7)
+--------------------------------------------------------------------------------
+
+[be1c3d3c9289] 2007-07-14 12:16:52 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] clean up evaluate_sign()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+8/-6)
+--------------------------------------------------------------------------------
+
+[ebc3fbeff7ea] 2007-07-14 12:16:44 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] saner show_type()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+[Josh: update test suite to match output changes.]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: show-parse.c (+44/-18), validation/address_space.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[c18891ce9947] 2007-07-13 23:22:51 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add c2xml to .gitignore
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+1/-0)
+--------------------------------------------------------------------------------
+
+[f744a1419d92] 2007-07-13 23:22:46 -0700
+Author: Rob Taylor <rob.taylor@codethink.co.uk>
+Subject: add c2xml program
+
+Adds new c2xml program which dumps out the parse tree for a given file as
+well-formed xml. A DTD for the format is included as parse.dtd.
+
+Signed-off-by: Rob Taylor <rob.taylor@codethink.co.uk>
+[Josh: DTD fixes]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+15/-0), c2xml.c (+324/-0), parse.dtd (+51/-0)
+--------------------------------------------------------------------------------
+
+[29753cad1490] 2007-07-13 08:34:49 -0700
+Author: Rob Taylor <rob.taylor@codethink.co.uk>
+Subject: new get_type_name function
+
+Adds function get_type_name to symbol.h to get a string representation of a given type.
+
+Signed-off-by: Rob Taylor <rob.taylor@codethink.co.uk>
+
+Files: symbol.c (+29/-0), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[0f7245f57921] 2007-07-13 08:33:54 -0700
+Author: Rob Taylor <rob.taylor@codethink.co.uk>
+Subject: add sparse_keep_tokens api to lib.h
+
+Adds sparse_keep_tokens, which is the same as __sparse, but doesn't free the
+tokens after parsing. Useful fow ehen you want to inspect macro symbols after
+parsing.
+
+Signed-off-by: Rob Taylor <rob.taylor@codethink.co.uk>
+
+Files: lib.c (+12/-1), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[78d2e4b170d7] 2007-07-13 08:33:39 -0700
+Author: Rob Taylor <rob.taylor@codethink.co.uk>
+Subject: add end position to symbols
+
+This adds a field in the symbol struct for the position of the end of the
+symbol and code to parse.c to fill this in for the various symbol types when
+parsing.
+
+Signed-off-by: Rob Taylor <rob.taylor@codethink.co.uk>
+
+Files: parse.c (+20/-1), symbol.c (+1/-0), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[073d2a3ab34f] 2007-07-10 08:39:38 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix handling of pointers in ?:
+
+a) qualifiers are joined (const int * / volatile int * -> const volatile int *)
+b) pointer to void / pointer to T => pointer to void (with all qualifiers)
+
+testcase added
+
+Still missing: T1 * / T2 * => pointer to composite type of T1 and T2
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+49/-33), validation/cond_expr2.c (+23/-0)
+--------------------------------------------------------------------------------
+
+[449a5e3b13e1] 2007-07-10 08:37:20 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix handling of address_space in casts and assignments
+
+Turn FORCE_MOD into storage class specifier (that's how it's
+actually used and that makes for much simpler logics).
+
+Introduce explicit EXPR_FORCE_CAST for forced casts; handle it
+properly.
+
+Kill the idiocy in get_as() (we end up picking the oddest things
+for address space - e.g. if we have int __attribute__((address_space(1))) *p,
+we'll get warnings about removal of address space when we do things like
+(unsigned short)*p.  Fixed.  BTW, that had caught a bunch of very odd
+bogosities in the kernel and eliminated several false positives in there.
+
+As the result, get_as() is gone now and evaluate_cast() got simpler.
+
+Kill the similar idiocy in handling pointer assignments; while we are at it,
+fix the qualifiers check for assignments to/from void * (you can't assign
+const int * to void * - qualifiers on the left side should be no less than
+on the right one; for normal codepath we get that checked, but the special
+case of void * skips these checks).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: compile-i386.c (+1/-0), dissect.c (+1/-1), evaluate.c (+37/-54), expand.c (+1/-0), expression.c (+13/-5), ... and 6 more
+--------------------------------------------------------------------------------
+
+[5061de9a365c] 2007-07-08 19:12:27 -0700
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: make size_t better approximate the reality
+
+Instead of "always unsigned long" go for "unsigned int unless
+-m64 is given, unsigned long otherwise".  Add an option (-msize-long)
+forcing to unsigned long regardless.  Make __SIZE_TYPE__ expansion
+match that.
+
+The thing is, addition of checks on comparisons make for very unhappy
+min() on (kernel) size_t and sizeof(something) on the targets where
+the former is unsigned int.  Which is to say, more than half of them...
+AFAICS, the only place needing explicit -msize-long in CHECK_FLAGS
+is s390 (it's using unsigned long both for 31- and 64-bit).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: lib.c (+9/-1), target.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[c3aac8e1fd7c] 2007-07-08 18:57:32 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: first pass at null pointer constants
+
+AFAICS, that should do null pointer constants right.  We assign
+special instance of void * (&null_ctype) to (void *)<zero integer
+constant expression> and replace it with normal void * when we
+don't want null pointer constant.  is_zero_constant() checks if
+we have an integer constant expression, does conservative expand
+(i.e. instead of generating an error on 1/0, etc. leaves the
+node unreplaced) and checks if we have reduced the sucker to
+EXPR_VALUE[0] without comma taint.
+
+Implemented all (AFAICS) special cases involving null pointer
+constants; most changes in evaluate_compare() and evaluate_conditional().
+Both are still incomplete; handling of qualifiers is still missing,
+but that's a separate story.
+
+Note that we get two new sets of warnings on the kernel build; one is
+due to wrong size_t (handled in the next patch; didn't show up until
+now since we didn't warn on comparison of pointers to incompatible
+types) and another is a pile of warnings about integer 0 used as NULL
+on
+	if (p == 0)
+where p is a pointer.  Additionally, there's an idiotic
+	(p>0)
+in one place (again, p is a pointer).  Bugger if I know how gcc doesn't
+warn on that one, it's certainly a standard violation and bloody pointless
+even as extension...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+145/-71), expand.c (+27/-11), expression.h (+1/-0), symbol.c (+3/-1), symbol.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[a722bf205788] 2007-07-08 18:44:09 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix the comma handling in integer constant expressions
+
+Treat it as normal binary operation, taint the value, check the taint.
+We can do other kind of value tainting with the same infrastructure
+as well...
+
+Review and testing would be welcome; AFAICS, it works, but...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+6/-0), expand.c (+38/-3), expression.c (+3/-11), expression.h (+8/-1), symbol.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[d8d87ca8f0fa] 2007-07-08 18:36:53 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite comment to bad-array-designated-initializer.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/bad-array-designated-initializer.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[7d31a9319899] 2007-07-08 14:36:07 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove "check-exit-value: 0" and rely on default; remove extra blank line.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/address_space.c (+0/-2), validation/bad-assignment.c (+0/-1), validation/label-asm.c (+0/-1), validation/preprocessor/preprocessor1.c (+0/-1), validation/preprocessor/preprocessor10.c (+0/-2), ... and 11 more
+--------------------------------------------------------------------------------
+
+[56df90180cd5] 2007-07-08 14:36:05 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite comment to label-asm.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/label-asm.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[bb6cc5da9f49] 2007-07-08 14:36:05 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Rename asm-volatile to better describe what it tests
+
+[Auto-summary] Adds/updates 1 test(s). Changes: +0/-0 in 1 file(s)
+
+Files: validation/{asm-volatile.c => label-asm.c} (+0/-0)
+--------------------------------------------------------------------------------
+
+[9071ff739cfd] 2007-07-08 14:36:04 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Make clean depend on clean-check
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[2c781a125d1b] 2007-07-08 14:36:03 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite comment to address_space.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/address_space.c (+12/-0)
+--------------------------------------------------------------------------------
+
+[6a5c659470d1] 2007-07-08 14:36:02 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite comment to preprocessor21.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/preprocessor/preprocessor21.c (+14/-0)
+--------------------------------------------------------------------------------
+
+[fe59b3763d37] 2007-07-08 14:35:59 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Make preprocessor-loop a normal numbered preprocessor test
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/preprocessor/{preprocessor-loop.c => preprocessor21.c} (+0/-0)
+--------------------------------------------------------------------------------
+
+[72e5fbede3bb] 2007-07-08 14:35:42 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test-suite comments to all the obvious preprocessor tests
+
+This only adds comments to tests where current Sparse output seemed obviously
+correct, or matched an existing comment in the test describing the output.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/preprocessor/preprocessor10.c (+12/-4), validation/preprocessor/preprocessor17.c (+10/-0), validation/preprocessor/preprocessor18.c (+15/-0), validation/preprocessor/preprocessor20.c (+12/-0), validation/preprocessor/preprocessor4.c (+11/-5), ... and 3 more
+--------------------------------------------------------------------------------
+
+[87a0b56ae4d2] 2007-07-08 12:55:44 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation: Update comments for current Sparse behavior and test-suite.
+
+Remove information redundant with the test-suite comments, such as expected
+output, and update comments that disagree with current Sparse behavior, such
+as saying that Sparse gets a test wrong when it no longer does.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/preprocessor/preprocessor1.c (+1/-11), validation/preprocessor/preprocessor2.c (+0/-9), validation/preprocessor/preprocessor3.c (+3/-21)
+--------------------------------------------------------------------------------
+
+[ab1ac7453069] 2007-07-08 12:24:41 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: .gitignore: Stop ignoring all dotfiles
+
+.gitignore contained an entry for .*, ignoring all dotfiles.  Among other
+things, that ignores .gitignore, requiring git add -f.  Remove that entry.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+0/-1)
+--------------------------------------------------------------------------------
+
+[9b2f81d2e515] 2007-07-08 12:23:07 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Move test-suite output files to validation/.gitignore
+
+This avoids ignoring .diff outside of the validation directory.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+0/-6), validation/.gitignore (+4/-0)
+--------------------------------------------------------------------------------
+
+[b19090fe82cd] 2007-07-08 12:17:44 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: Sample test-suite test cases
+
+A few examples meant to show the use of test-suite
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: validation/bad-assignment.c (+13/-0), validation/preprocessor/preprocessor1.c (+11/-0), validation/preprocessor/preprocessor19.c (+13/-0), validation/preprocessor/preprocessor2.c (+11/-0), validation/preprocessor/preprocessor3.c (+14/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[f35d921b5777] 2007-07-08 12:14:51 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: test-suite documentation
+
+A quick description of test-suite usage.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: Documentation/test-suite (+112/-0)
+--------------------------------------------------------------------------------
+
+[e99ed37cb3ae] 2007-07-08 11:46:02 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: test-suite: a tiny test automation script
+
+This patch introduces test-suite, a simple script that makes test cases
+verification easier. Test cases in the validation directory are annotated
+and this script parses them to check if the actual result is the one
+expected by the test writer.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: .gitignore (+5/-0), Makefile (+7/-0), validation/test-suite (+252/-0)
+--------------------------------------------------------------------------------
+
+[20492904c535] 2007-06-28 00:04:05 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Move all the preprocessor tests into validation/preprocessor/
+
+The preprocessor tests shouldn't run through the entire Sparse compiler, just
+the preprocessor (sparse -E).
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/{ => preprocessor}/preprocessor-loop.c (+0/-0), validation/{ => preprocessor}/preprocessor1.c (+0/-0), validation/{ => preprocessor}/preprocessor10.c (+0/-0), validation/{ => preprocessor}/preprocessor11.c (+0/-0), validation/{ => preprocessor}/preprocessor12.c (+0/-0), ... and 17 more
+--------------------------------------------------------------------------------
+
+[bb0cc4bf3916] 2007-06-27 23:15:01 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Fix warnings about undeclared globals, they are irrelevant to the test
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: validation/bitfields.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[92a69684bcd5] 2007-06-27 23:13:37 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Avoid use of libc headers in the validation suite
+
+We don't want libc to affect the validation suite.  Compatibility with
+libc headers can be checked by other means, e.g. by compiling some
+significant program (even sparse itself) using cgcc as the compiler.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: validation/check_byte_count-ice.c (+1/-1), validation/double-semicolon.c (+1/-1), validation/test-be.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[ae65a39ead3d] 2007-06-27 23:11:11 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: cgcc: preserve sparse exit code if -no-compile is used
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: cgcc (+5/-2)
+--------------------------------------------------------------------------------
+
+[278865d689f6] 2007-06-27 22:59:36 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Bitfield without explicit sign should be a warning, not an error
+
+The -Wdefault-bitfield-sign is supposed to control a warning, just like
+other -W options.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[a24a3adf3f0e] 2007-06-26 17:31:53 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix handling of integer constant expressions
+
+Hopefully correct handling of integer constant expressions.  Please, review.
+
+Rules:
+        * two new flags for expression: int_const_expr and float_literal.
+        * parser sets them by the following rules:
+                * EXPR_FVALUE gets float_literal
+                * EXPR_VALUE gets int_const_expr
+                * EXPR_PREOP[(] inherits from argument
+                * EXPR_SIZEOF, EXPR_PTRSIZEOF, EXPR_ALIGNOF get int_const_expr
+                * EXPR_BINOP, EXPR_COMPARE, EXPR_LOGICAL, EXPR_CONDITIONAL,
+                  EXPR_PREOP[+,-,!,~]: get marked int_const_expr if all their
+                  arguments are marked that way
+                * EXPR_CAST gets marked int_const_expr if argument is marked
+                  that way; if argument is marked float_literal but not
+                  int_const_expr, we get both flags set.
+                * EXPR_TYPE also gets marked int_const_expr (to make it DTRT
+                  on the builtin_same_type_p() et.al.)
+		* EXPR_OFFSETOF gets marked int_const_expr
+When we get an expression from parser, we know that having int_const_expr on
+it is almost equivalent to "it's an integer constant expression".  Indeed,
+the only checks we still have not done are that all casts present in there
+are to integer types, that expression is correctly typed and that all indices
+in offsetof are integer constant expressions.  That belongs to evaluate_expression()
+and is easily done there.
+        * evaluate_expression() removes int_const_expr from some nodes:
+                * EXPR_BINOP, EXPR_COMPARE, EXPR_LOGICAL, EXPR_CONDITIONAL,
+                  EXPR_PREOP: if the node is marked int_const_expr and some
+                  of its arguments are not marked that way once we have
+                  done evaluate_expression() on them, unmark our node.
+                * EXPR_IMLICIT_CAST: inherit flags from argument.
+                * cannibalizing nodes in *& and &* simplifications: unmark
+                  the result.
+                * EXPR_CAST: unmark if we are casting not to an integer type.
+                  Unmark if argument is not marked with int_const_expr after
+                  evaluate_expression() on it *and* our node is not marked
+                  float_literal (i.e. (int)0.0 is fine with us).
+		* EXPR_BINOP created (or cannibalizing EXPR_OFFSETOF) by
+		  evaluation of evaluate_offsetof() get int_const_expr
+		  if both arguments (already typechecked) have int_const_expr.
+                * unmark node when we declare it mistyped.
+
+That does it - after evaluate_expression() we keep int_const_expr only if
+expression was a valid integer constant expression.
+
+Remaining issue: VLA handling.  Right now sparse doesn't deal with those in
+any sane way, but once we start handling their sizeof, we'll need to check
+that type is constant-sized before marking EXPR_SIZEOF int_const_expr.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+43/-0), expand.c (+15/-1), expression.c (+62/-6), expression.h (+8/-1), parse.c (+5/-5)
+--------------------------------------------------------------------------------
+
+[a194f3e092f7] 2007-06-26 17:31:50 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] implement __builtin_offsetof()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+84/-0), expand.c (+1/-0), expression.c (+67/-0), expression.h (+10/-0), ident-list.h (+1/-0), ... and 3 more
+--------------------------------------------------------------------------------
+
+[36e13ae4117a] 2007-06-26 15:43:08 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Merge commit 'viro/integer-constant'
+
+* commit 'viro/integer-constant':
+  [PATCH] fix handling of integer constant expressions
+  [PATCH] implement __builtin_offsetof()
+
+Files: evaluate.c (+127/-0), expand.c (+16/-1), expression.c (+129/-6), expression.h (+18/-1), ident-list.h (+1/-0), ... and 4 more
+--------------------------------------------------------------------------------
+
+[185d8836c3d6] 2007-06-26 15:32:41 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation/non-pointer-null.c: Make global static to avoid extraneous warning.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/non-pointer-null.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[eeaf38301648] 2007-06-26 15:31:57 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation/escapes.c: Make globals static to avoid extraneous warnings.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/escapes.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[c70d03fa0841] 2007-06-26 15:30:42 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation/restricted-typeof.c: Make globals static to avoid extraneous warnings.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/restricted-typeof.c (+3/-3)
+--------------------------------------------------------------------------------
+
+[7a4f042c80af] 2007-06-26 15:26:43 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: validation/old-initializer.c: Make the_s static to avoid extraneous warning.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/old-initializer.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[361908cf099b] 2007-06-25 15:51:49 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] deal with enum members without excessive PITA
+
+mark symbols for enum members, have primary_expression() copy their
+->initializer instead of dancing through the EXRP_SYMBOL with
+expand_expression() finally getting to the damn thing.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expression.c (+7/-0), parse.c (+1/-0), symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[f78588abceba] 2007-06-25 15:51:43 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] warn on return <void expression>;
+
+conditional on -Wreturn-void
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+2/-0), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b07748919850] 2007-06-25 15:51:35 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] in case of compound literal we want to delay examining type
+
+... until we have initializer.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+6/-5)
+--------------------------------------------------------------------------------
+
+[9e41f14b32eb] 2007-06-25 15:51:35 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] move degenerate() down into compatible_assignment_types()
+
+... and lose useless argument
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+13/-17)
+--------------------------------------------------------------------------------
+
+[971a2af646b9] 2007-06-25 15:50:57 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix default argument promotion
+
+It should do integer_promotion() for integer types, turn float into
+double and degenerate() the functions/arrays.  We do *not* want
+compatible_assignment_type() in any case, though.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+14/-5)
+--------------------------------------------------------------------------------
+
+[fbab5f78de94] 2007-06-25 15:50:41 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix index conversions in evaluate_ptr_add()
+
+index may need to be expanded
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+50/-42)
+--------------------------------------------------------------------------------
+
+[602f992367db] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] clean up usual_conversions(), kill evaluate_shift()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+34/-44)
+--------------------------------------------------------------------------------
+
+[3d3763ab9fd7] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] clean up the typechecking in arithmetics
+
+* evaluate_binop() cleaned up
+* evaluate_add(), evaluate_sub(), evaluate_arith() are gone
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+73/-98)
+--------------------------------------------------------------------------------
+
+[4aac9b50e868] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] cleanup of evaluate_assign_op()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+16/-14)
+--------------------------------------------------------------------------------
+
+[4f85759b7096] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] remove useless argument in evaluate_ptr_sub()
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[0e6ad6175194] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] remove long-dead variable in evaluate_ptr_add()
+
+ptr_type in there is dead since commit 87900e832ac31d3aae63051ee054b01c17170439
+(Nov 2004).
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+1/-4)
+--------------------------------------------------------------------------------
+
+[3caad66e1b1f] 2007-06-25 15:50:17 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] null pointer constants have no special meaning for pointer subtraction
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+2/-17)
+--------------------------------------------------------------------------------
+
+[271af91de670] 2007-06-25 15:49:47 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] mechanically split compatible_assignment_types()
+
+Pure assignment and <op>= cases are different enough to make it easier handling
+them in separate functions.  For now just split compatible_assignment_types()
+in two; the next patches will clean each up.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+47/-16)
+--------------------------------------------------------------------------------
+
+[da26e7d80908] 2007-06-25 15:49:15 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] take cast_to() out of usual_conversions(), do it in callers
+
+At the same time we get to pass expressions by value...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+16/-14)
+--------------------------------------------------------------------------------
+
+[9f1abfd7c44b] 2007-06-25 15:49:06 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] missing NULL checks in initializer handling
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+13/-2)
+--------------------------------------------------------------------------------
+
+[ff6af02ffca5] 2007-06-24 10:20:29 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: ctags: Use const as appropriate in cmp_sym()
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ctags.c (+4/-4)
+--------------------------------------------------------------------------------
+
+[791de79ac347] 2007-06-18 05:25:40 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] fix handling of typeof on structs
+
+We really need it now; having a copy of struct symbol for
+our struct is no good.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: symbol.c (+6/-1)
+--------------------------------------------------------------------------------
+
+[3a46368a9f7d] 2007-06-18 05:24:10 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] rewrite of initializer handling
+
+Remaining known problems:
+	* size of array is still miscalculated in cases with missing braces
+	* expand still mishandles [0 ... 1].a et.al.
+	* expand still doesn't deal with overlaps correctly.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+394/-175), expression.h (+1/-0), lib.c (+2/-0), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[5a3a58e870b7] 2007-06-18 03:01:09 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] tie the fields of struct in simple list
+
+get a linked list through fields of struct, skipping unnamed bitfields.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: parse.c (+19/-1), symbol.h (+5/-1)
+--------------------------------------------------------------------------------
+
+[3174d3627021] 2007-06-18 03:01:09 -0400
+Author: Al Viro <viro@zeniv.linux.org.uk>
+Subject: [PATCH] make copying of EXPR_INDEX non-lazy
+
+preparation to initializer fixes
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: inline.c (+0/-2)
+--------------------------------------------------------------------------------
+
+[0182393bcf7d] 2007-06-13 16:50:05 -0700
+Author: Alexey Dobriyan <adobriyan@gmail.com>
+Subject: Fix -E handling
+
+sparse accepts -E[anything] as directive to preprocess only. On some mips
+targets -EL slips into command line resulting in 400-800M logs with
+preprocessing results :^) Accept '-E' only from now.
+
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+
+Files: lib.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[aad20c6c1fbf] 2007-06-13 13:29:36 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Turn on -Wdecl by default.
+
+-Wdecl warns about global, non-static symbols with no forward declarations.
+Normally, intentionally global functions called by other parts of a program
+will have forward declarations, so global symbols without such declarations
+often have no use outside the current file and should use static.
+
+Note that to avoid false positives, any source file that declares functions
+for export should always include the header file that forward-declares its own
+functions.  This also helps for other reasons, such as obtaining any Sparse
+annotations declared on the function to use when analyzing calls to it from
+within the same source file.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[606e6c47b33b] 2007-06-09 00:24:12 -0700
+Author: Pavel Roskin <proski@gnu.org>
+Subject: Improve error message if using a member of an incomplete struct or union
+
+sparse should distinguish two cases.  One is when the structure or union
+is declared and the member is not found.  Another is when the structure
+or union is not yet declared.  In the later case, the message should
+indicate that the type is incomplete, rather than complain that the
+particular member is not found.
+
+Mention the incomplete type like gcc does, but provide the member name
+too, it may be useful.
+
+Signed-off-by: Pavel Roskin <proski@gnu.org>
+
+Files: evaluate.c (+7/-2)
+--------------------------------------------------------------------------------
+
+[7a822d1021c9] 2007-06-09 00:20:06 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: '\?' is a valid escape character defined by ANSI C. Its value is '?'.
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+
+Files: tokenize.c (+2/-0), validation/escapes.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[16b5625dc382] 2007-06-03 15:27:12 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for infinite loop in free_preprocessor_line()
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/preprocessor-loop.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[3d71d1e095bb] 2007-06-03 15:25:36 -0700
+Author: Alexey Dobriyan <adobriyan@gmail.com>
+Subject: Fix infinite loop in free_preprocessor_line()
+
+While running if-2.c from gcc testsuite sparse goes into infinite loop in
+free_preprocessor_line().
+
+Trimmed down test-case is
+
+	#if 1
+	#if
+
+(two lines)
+
+Signed-off-by: Alexey Dobriyan <adobriyan@gmail.com>
+
+Files: pre-process.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[97557dc9ee31] 2007-06-01 13:16:45 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Makefile prettyprinting: make INSTALL and other output line up correctly
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+4/-4)
+--------------------------------------------------------------------------------
+
+[265b0fa22689] 2007-06-01 13:14:47 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Change "LD" to "LINK" in Makefile prettyprinting.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+14/-14)
+--------------------------------------------------------------------------------
+
+[59501cd6c9e9] 2007-05-26 17:42:51 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: better recovery from bad operations on bitwise
+
+degrade to integer type, generate a warning and move on...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: evaluate.c (+20/-9)
+--------------------------------------------------------------------------------
+
+[4295dbac1f40] 2007-05-26 17:41:46 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix interaction of typeof with bitwise types
+
+typeof(bitwise) should resolve to the same SYM_RESTRICT type node, not just
+to a copy of its contents.  Similar problem exists for struct and union,
+BTW, but that's a separate story.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: symbol.c (+6/-0), validation/restricted-typeof.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[82c77c00f01c] 2007-05-26 17:41:05 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: fix alignment for _Bool
+
+_Bool ends up with 0 for alignment, which means that _Bool member in a struct
+resets the next field offset to 0.  Should be (at least) 1...
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: symbol.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[79c710e888c8] 2007-05-26 17:38:30 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: check for whitespace before object-like macro body
+
+6.10.3(3) requires a whitespace between object-like macro
+and its replacement list.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: pre-process.c (+10/-5)
+--------------------------------------------------------------------------------
+
+[6f85533c740f] 2007-05-26 17:37:49 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: saner reporting of overlaps in initializers
+
+Fix the check for overlapping initializers; the current code tries to
+skip ones with zero ->bit_size, but doesn't get it right.
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expand.c (+3/-1)
+--------------------------------------------------------------------------------
+
+[18f4da454398] 2007-05-26 17:36:26 -0700
+Author: Al Viro <viro@ftp.linux.org.uk>
+Subject: handle __alignof as equivalent of __alignof__
+
+Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+
+Files: expression.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[a19ffc43d215] 2007-05-23 10:41:22 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Canonicalize URL in FAQ: add www., add trailing slash
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: FAQ (+1/-1)
+--------------------------------------------------------------------------------
+
+[ca2756669993] 2007-05-23 10:40:15 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix old typo: s/wierd/weird/
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+2/-2)
+--------------------------------------------------------------------------------
+
+[fc12753f64f8] 2007-05-23 10:36:15 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Sparse always defines __STDC__ 1, so cgcc does not need to do so
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+2/-3)
+--------------------------------------------------------------------------------
+
+[a0cdac0615d6] 2007-05-23 10:34:50 -0700
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Add cygwin support to cgcc
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+
+Files: cgcc (+10/-0)
+--------------------------------------------------------------------------------
+
+[e7a1edc302dd] 2007-05-22 19:23:11 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add explanatory comment about direct use of __IDENT for preprocessor idents.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+3/-1)
+--------------------------------------------------------------------------------
+
+[abe95609fd29] 2007-05-22 19:13:44 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add no-double-underscore variant format_arg.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+1/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[c9b45ad5902e] 2007-05-22 19:10:40 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add double-underscore variant __syscall_linkage__.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+1/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[b7bce4699c77] 2007-05-22 19:07:51 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add no-double-underscore variant "used", ignored like "__used__".
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+1/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[0e1638cdbbc7] 2007-05-22 19:06:07 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add double-underscore variant __noinline__.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+1/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[82fca694a186] 2007-05-22 19:03:38 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add double-underscore variant __always_inline__.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+1/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[4fc68394cd39] 2007-05-22 18:32:19 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Reorganize attribute list for readability.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+32/-31)
+--------------------------------------------------------------------------------
+
+[c975b61043d2] 2007-05-22 18:23:05 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Move the ident for defined() into the preprocessor section.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[0cd14df516f6] 2007-05-22 18:22:26 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove inaccurate comment designating some attributes as windows-specific.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+0/-2)
+--------------------------------------------------------------------------------
+
+[c0cc913c89f7] 2007-05-22 18:18:44 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Ignore the GCC constructor and destructor attributes
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+2/-0), parse.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[c2faf37219b1] 2007-05-22 18:11:48 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add __builtin_strcat and __builtin_strncat.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[b376177890bb] 2007-05-22 16:59:23 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add -Wno-non-pointer-null to turn off warning about using a plain integer as a NULL pointer
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1), evaluate.c (+1/-1), lib.c (+2/-0), lib.h (+1/-0), validation/non-pointer-null.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[12e4c7936209] 2007-05-22 15:59:44 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Expand calling convention test case to cover fastcall
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/calling-convention-attributes.c (+22/-6)
+--------------------------------------------------------------------------------
+
+[5e22cf50b36d] 2007-05-22 15:53:57 -0700
+Author: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+Subject: Add (more) support for WIN32 attribute names
+
+In particular, the following identifiers (along with their __X__ variants)
+are now accepted as attribute names: fastcall, dllimport and dllexport.
+(cdecl and stdcall were added in baf2c5a84e by Michael Stefaniuc).
+For now, at least, these attributes are just ignored.
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+[josh: modified to fix whitespace damage]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+7/-0), parse.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[7efd55ea22b6] 2007-05-22 15:33:58 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Add test for typedef on pointer to function with stdcall attribute.
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+
+Files: validation/calling-convention-attributes.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[cbf8161245f1] 2007-05-22 15:33:26 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix an __attribute__() parsing error
+
+The test case for this was abstracted from an example in the "expat.h" header
+file:
+
+typedef void (__attribute__((__cdecl__)) *FP)(void *u, const char *n);
+
+void set_FP(void *cb, FP f);
+
+Signed-off-by: Ramsay Jones <ramsay@ramsay1.demon.co.uk>
+[josh: modified to apply to current Sparse]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[2328f0570c83] 2007-05-22 15:04:21 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add shebang to gvpr scripts, make them executable, and change usage accordingly
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: gvpr/return-paths (+2/-1), gvpr/subg-fwd (+3/-2), gvpr/subg-rev (+2/-1)
+--------------------------------------------------------------------------------
+
+[fdbc0f5de766] 2007-05-22 14:58:29 -0700
+Author: Dan Sheridan <djs@postman.org.uk>
+Subject: Add gvpr-based post-processing for graphs
+
+Three gvpr scripts for post-processing the dot files generated by
+graph.c:
+
+  return-paths: splits each call site and adds return edges to complete
+the control flow graph
+  subg-fwd: find the subgraph reachable from a given function
+  subg-rev: find the subgraph which can reach a given function
+
+Signed-off-by: Dan Sheridan <djs@adelard.com>
+
+Files: gvpr/return-paths (+106/-0), gvpr/subg-fwd (+78/-0), gvpr/subg-rev (+100/-0)
+--------------------------------------------------------------------------------
+
+[bb7ff206a0a1] 2007-05-22 14:51:30 -0700
+Author: Dan Sheridan <djs@postman.org.uk>
+Subject: Improved graph generation using subgraph clusters for functions
+
+Improve the dot files generated by graph.c to put the basic blocks for
+each function into their own labelled subgraph cluster and to
+distinguish between branches and function calls using different edge
+types. Requires a change to struct symbol to keep track of the
+entrypoint associated with a given function identifier.
+
+Currently, no attempt is made to handle indirect function calls -- they
+are just ignored.
+
+Signed-off-by: Dan Sheridan <djs@adelard.com>
+
+Files: graph.c (+139/-20), linearize.c (+1/-0), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[1906791681c6] 2007-05-22 14:26:20 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove extra space.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[6d06d961bdeb] 2007-05-22 14:21:58 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: Beautify all & install Makefile targets
+
+Beautify make's output like kbuild or git. The install
+target is especially much more readable.
+make V=1 (install) to get back to the old behaviour.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: Makefile (+43/-27)
+--------------------------------------------------------------------------------
+
+[3195f83203cf] 2007-05-22 14:18:28 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Use %td when printing a ptrdiff_t to avoid problems on 64-bit platforms
+
+Thanks to Damien Lespiau for reporting the problem.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[9dfe0eb34b9b] 2007-05-22 14:16:48 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Revert unintentional inclusion of warning fix in previous commit.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[2d7f09907f2d] 2007-05-22 13:42:54 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for -Wno-old-initializer
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.c (+1/-1), validation/old-initializer.c (+5/-0)
+--------------------------------------------------------------------------------
+
+[63eaf03c8323] 2007-05-22 13:30:58 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add -Wno-old-initializer to turn off warnings about non-C99 struct initializers
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1), lib.c (+2/-0), lib.h (+1/-0), parse.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[1cc42170efe8] 2007-05-20 17:37:50 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: __DATE__ & __TIME expansion
+
+Makes __DATE__expand to a character string literal of
+the form "Mmm dd yyyy" where the names of the months
+are the same as those generated by the asctime function,
+and the first character of dd is a space character if the
+value is less than 10.
+Makes __TIME__ expand to a a character string literal of
+the form "hh:mm:ss" as in the time generated by the
+asctime function.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: ident-list.h (+2/-0), lib.c (+0/-2), pre-process.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[61f235f2e463] 2007-05-20 15:25:42 -0700
+Author: Damien Lespiau <damien.lespiau@gmail.com>
+Subject: Change sparse homepage in ctags headers.
+
+Signed-off-by: Damien Lespiau <damien.lespiau@gmail.com>
+
+Files: ctags.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[b5bd30ffc56a] 2007-05-15 23:13:51 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for stdcall and cdecl attributes.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/calling-convention-attributes.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[baf2c5a84e82] 2007-05-15 23:06:08 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Ignore the cdecl and stdcall attributes for now.
+
+Wine uses the __stdcall__ attribute extensively. The effects of the
+patch on a sparse run on the Wine code are:
+- Removes 143000 "attribute '__stdcall__': unknown attribute" errors.
+- Removes 116 "attribute '__cdecl__': unknown attribute" errors.
+- Reduces the amount of "error: too many errors" from 1992 to 1459.
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+
+Files: parse.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[98bc3822609c] 2007-05-02 11:05:38 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Pass a bitmask of keywords to handle_attributes
+
+The reason I use bitmask in the keyword so that it can allow the caller
+to select a sub set of keywords. If we want, we can fine tune exactly
+what keyword is allowed. It also makes the caller of handle_attributes
+show exactly what kind of attribute it takes.
+
+[original patch]
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+[type fix]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+7/-7)
+--------------------------------------------------------------------------------
+
+[6b595d01c196] 2007-05-01 22:36:47 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Parse asm after a label as a statement, not an attribute
+
+Commit aec53c938c34c47cdbdd6824552e0f2a5104b1cb, "handle label attributes",
+caused sparse to parse asm after a label as an attribute, not a statement.
+Fix this by adding a new allow_asm flag to handle_attributes, and passing 0
+when parsing label attributes.  Expand validation/asm-volatile.c to include
+the test case that demonstrated this bug.
+
+Thanks to Randy Dunlap for reporting the problem.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+7/-7), validation/asm-volatile.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[0fcbcbf4cf2e] 2007-05-01 22:06:11 -0700
+Author: Alberto Bertogli <albertito@gmail.com>
+Subject: Implement x86-64 support in cgcc.
+
+This patch makes cgcc run on x86-64 machines by extending add_specs().
+
+[original patch]
+Signed-off-by: Alberto Bertogli <albertito@gmail.com>
+[integer and size_t size fixes, -m32 support]
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+9/-0)
+--------------------------------------------------------------------------------
+
+[15f7405c6e8d] 2007-05-01 20:56:21 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Teach cgcc about -ventry and -vdead
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-0)
+--------------------------------------------------------------------------------
+
+[0a393b6937e0] 2007-05-01 20:54:02 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Teach cgcc about all currently existing sparse warning options
+
+Ideally these wouldn't need to exist in more than one place.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[e18c1014449a] 2007-05-01 20:49:27 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Make cgcc not pass -Wall to sparse even if passing it to cc
+
+-Wall turns on all Sparse warnings, including experimental and noisy ones.
+Don't include it just because a project wants to pass -Wall to cc.  If you
+really want cgcc to run sparse with -Wall, use CHECK="sparse -Wall".
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+14/-1)
+--------------------------------------------------------------------------------
+
+[1e46b4a2e4f9] 2007-05-01 20:15:15 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for __asm__ __volatile__(...)
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/asm-volatile.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[59ac3082f1ee] 2007-05-01 20:03:25 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: combinations string clean up
+
+Fix a -Wshadow warning and a duplicated data structure.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: token.h (+1/-1), tokenize.c (+2/-3)
+--------------------------------------------------------------------------------
+
+[ad425f2810b4] 2007-05-01 20:01:18 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add a "make dist" that requires $(VERSION) to match `git describe`
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+7/-0)
+--------------------------------------------------------------------------------
+
+[0c79dc72c5b0] 2007-05-01 19:41:49 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: gitweb lives at git.kernel.org now.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: FAQ (+1/-1)
+--------------------------------------------------------------------------------
+
+[56f7aa6ae853] 2007-05-01 19:38:45 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove old version note.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+0/-3)
+--------------------------------------------------------------------------------
+
+[9cf688bd69f5] 2007-05-01 17:12:54 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix the version number
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[f53b785b6635] 2007-05-01 16:54:03 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix website and repository references in FAQ
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: FAQ (+3/-3)
+--------------------------------------------------------------------------------
+
+[bda7c7c51549] 2007-05-01 11:30:58 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix most -Wshadow warnings in Sparse.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: compile-i386.c (+0/-2), ctags.c (+5/-4), evaluate.c (+4/-4), example.c (+1/-1), parse.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[aec53c938c34] 2007-04-20 03:13:02 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: handle label attributes
+
+On Fri, Mar 23, 2007 at 03:04:59PM -0700, Randy Dunlap wrote:
+> 1.  net/sched/cls_api.c, lines 593-611:
+>
+> 	return 0;
+> rtattr_failure: __attribute__ ((unused))
+> 	return -1;
+> }
+
+Signed-Off-By: Christopher Li<sparse@chrisli.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+2/-1), validation/label-attr.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[03d8dff35eff] 2007-04-20 03:07:44 -0700
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix the annotated inline call position
+
+Here is some diff comparing output between the sparse 0.2 and the tip of git.
+
+-mm/mmap.c:1631:2: warning: context imbalance in 'expand_stack' - different lock
+ contexts for basic block
++include/linux/rmap.h:55:2: warning: context imbalance in 'expand_stack' - diffe
+
+The change is introduced by the inline annotate instruction,
+which mark the bb->pos to the inline function.
+
+This change make it back to the caller position.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: linearize.c (+4/-0)
+--------------------------------------------------------------------------------
+
+[5ca722cb2092] 2007-04-20 01:55:57 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: linearize: DECLARE_ALLOCATOR for asm_constraint and asm_rules
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.h (+3/-0)
+--------------------------------------------------------------------------------
+
+[2ed924c8c66b] 2007-04-20 01:49:30 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: simplify.c: Declare delete_pseudo_user_list_entry static
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: simplify.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[adfe846aa98d] 2007-04-20 01:47:36 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: compile-i386.c: Declare regs_in_use static
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: compile-i386.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[df5e1970405b] 2007-04-20 01:46:07 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Declare gcc_patchlevel extern in lib.h
+
+lib.h exported gcc_major and gcc_minor, but not gcc_patchlevel.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[042f7d83cf5c] 2007-04-20 01:43:58 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Declare do_error static
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[3911bfc3cc47] 2007-04-20 01:43:30 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove unused variable "include" from lib.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+0/-1)
+--------------------------------------------------------------------------------
+
+[8bd35214e3b3] 2007-04-20 01:37:48 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Declare die_if_error extern in lib.h
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[4e32ff4d89dc] 2007-04-20 01:30:04 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Teach cgcc about -Wtransparent-union and -Wno-transparent-union
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: cgcc (+1/-1)
+--------------------------------------------------------------------------------
+
+[f5a3593d319d] 2007-04-20 01:04:57 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix comment to reference #weak_define rather than #ifndef, matching code
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[7200007ab7e9] 2007-04-20 00:41:32 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Parse and ignore the __regparm__ attribute, just like regparm.
+
+pthreads from glibc 2.5 uses __attribute__ ((__regparm__ (1)) on some
+functions (indirectly through the macro __cleanup_fct_attribute).  Sparse
+already parsed and ignored regparm, but not __regparm__.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ident-list.h (+2/-1), parse.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[686c20f12cf8] 2007-04-20 00:32:01 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Use noreturn on die() and error_die()
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: lib.h (+4/-2)
+--------------------------------------------------------------------------------
+
+[2b568826db1f] 2007-04-16 16:10:54 -0700
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for basic address_space annotations.
+
+struct-as.c covers a particular corner case with address_space annotations,
+but none of the test cases covered the simple case of an address_space
+mismatch.  Add one.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/address_space.c (+8/-0)
+--------------------------------------------------------------------------------
+
+[acc44bf36bdc] 2007-03-10 23:52:15 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Prevent potential NULL pointer dereference in expand_compare
+
+expand_compare could dereference left->ctype without checking that left !=
+NULL.  Fix that, by extending the check for (left && right) around most of the
+function.
+
+Thanks to Florian Krohm of IBM for reporting the problem.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expand.c (+12/-10)
+--------------------------------------------------------------------------------
+
+[2efa8b2c0a19] 2007-03-10 23:45:06 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Remove stray space from expand_compare in expand.c
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: expand.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[9be7e47ef645] 2007-03-10 20:43:12 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Avoid returning an uninitialized pointer from dup_list of an empty list
+
+Thanks to Florian Krohm of IBM for reporting the problem.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: pre-process.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[3a4fdb5865f8] 2007-03-10 11:11:32 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix two potential NULL pointer dereferences in dissect.c
+
+mk_name in dissect.c used ?: to check for NULL pointers in two arguments of an
+snprintf call, but then just dereferenced the pointers in the other two parts
+of the same call.
+
+Thanks to Florian Krohm of IBM for reporting the problem.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: dissect.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[e7680876c48d] 2007-03-09 16:32:16 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Use GCC format and sentinel attributes on appropriate functions
+
+Expose the FORMAT_ATTR portability macro in lib.h, and use it on the various
+printf-like functions in sparse.
+
+Add a new SENTINEL_ATTR portability macro for the GCC sentinel attribute, and
+use it on match_idents in parse.c.
+
+match_oplist in expression.c should use SENTINEL_ATTR, but GCC does not accept
+an integer 0 as a sentinel, only a pointer 0 like NULL.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: compile-i386.c (+1/-1), example.c (+4/-4), lib.h (+3/-2), parse.c (+1/-1), show-parse.c (+2/-2)
+--------------------------------------------------------------------------------
+
+[cef10da343e8] 2007-03-09 15:32:55 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix typos in comments
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: compat-mingw.c (+1/-1), compat.h (+2/-2), cse.c (+4/-4), evaluate.c (+6/-6), example.c (+3/-3), ... and 18 more
+--------------------------------------------------------------------------------
+
+[02a886bfa3d9] 2007-03-09 15:27:37 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Introduce keyword driven attribute parsing
+
+Now we are really parsing the attribute rather than building the
+expression tree first.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+262/-193), symbol.h (+3/-0)
+--------------------------------------------------------------------------------
+
+[309f3805ddec] 2007-03-07 22:31:14 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Fix typo in symbol.h: s/keywrods/keywords/
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: symbol.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[dabb24200942] 2007-03-07 21:50:59 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Introduce top level parsing for asm parsing.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+7/-2), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[b7955d6cb0b6] 2007-03-07 21:45:57 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Introducing statement keywords
+
+This change using keyword lookup for statement parsing
+instead of a order compare.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+90/-38), symbol.h (+9/-0)
+--------------------------------------------------------------------------------
+
+[af30c6df74f0] 2007-03-07 21:40:15 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Free up some special bits in modifiers.
+
+This change using symbol_op to contain the specifier parsing
+function. It is easier to add new specifiers. We don't need
+special bits any more.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+115/-26), parse.h (+1/-0), symbol.c (+1/-34), symbol.h (+16/-8), token.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[ae7e5725417f] 2007-03-07 21:39:18 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Moving statement parsing into smaller functions.
+
+This is the preparation step for the keyword table driven
+parsing. Those statement parsing function will later
+turn into function call back.
+
+The patch should not introduce any functional changes.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: parse.c (+139/-93)
+--------------------------------------------------------------------------------
+
+[dd580753ccf1] 2007-03-02 14:33:54 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Add annotation for inline function call.
+
+For inline functions, Sparse inlines the function body at evaluation. It is
+very hard to find out the original function call. This change preserves the
+original call as an annotation.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-1), expand.c (+3/-3), inline.c (+7/-4), linearize.c (+37/-7), linearize.h (+1/-0), ... and 2 more
+--------------------------------------------------------------------------------
+
+[a4abe00d7a45] 2007-02-28 11:58:18 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add static to declarations in test cases, to remove unrelated warnings.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/builtin_safe1.c (+1/-1), validation/choose_expr.c (+4/-4), validation/cond_expr.c (+2/-2), validation/context.c (+38/-38), validation/field-overlap.c (+2/-2), ... and 11 more
+--------------------------------------------------------------------------------
+
+[fb057c38c687] 2007-02-28 11:44:02 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Disable liveness "dead" instruction by default.
+
+The liveness instruction takes up about 10% of the bytecode bloat file.
+It is not very useful, it is duplicate information that can be obtained
+from the def/user chain.
+
+This change disables the liveness instruction by default.
+The caller can track_pseudo_death() if needed.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: example.c (+1/-0), lib.c (+3/-1), lib.h (+1/-0), linearize.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[6a0b505353fd] 2007-02-27 16:39:56 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Move pkg-config file to lib, rather than share
+
+Thanks to Jeff Garzik for pointing this out.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+1/-1)
+--------------------------------------------------------------------------------
+
+[d4ae1cacb434] 2007-02-27 16:22:48 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Introduce expression_error
+
+Add a new function expression_error, which works just like
+sparse_error but also installs a bad_ctype into the expression.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+41/-41), expand.c (+7/-7), lib.c (+18/-4), lib.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[34ac7df96dd9] 2007-02-27 10:59:17 -0800
+Author: James Westby <jw+debian@jameswestby.net>
+Subject: Update the information in README about using the library.
+
+Changes in the library have left the README giving out of date information
+on how to intialise the library and get the symbols out of it. Update the
+documentation to match the latest functions.
+
+Signed-off-by: James Westby <jw+debian@jameswestby.net>
+
+Files: README (+8/-21)
+--------------------------------------------------------------------------------
+
+[e8eb70dfab02] 2007-02-27 10:35:50 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: dissect: simplify lookup_member()
+
+Change examine_sym_node() to recursively inspect the members of SYM_STRUCT.
+This allows us to simplify lookup_member(): no need to do examine_sym_node(),
+the member was already examined.
+
+This is also good because now ->r_symdef(member) is called on declaration,
+not when dissect detects the first usage of ->member.
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: dissect.c (+9/-12)
+--------------------------------------------------------------------------------
+
+[c4670dfcbe52] 2007-02-26 11:54:30 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Coding style fix: use parentheses with sizeof
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[da0bc15522a4] 2007-02-26 11:53:46 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix core dump on huge switch
+
+Bump up the size of the instruction buffer. vt_ioctl.c has
+a huge switch statement causing sparse to overflow the instruction
+buffer.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: linearize.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[9a3554410fba] 2007-02-25 14:53:11 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Adding debug option for showing the linearized instruction.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+48/-13), lib.h (+2/-0), sparse.c (+5/-1)
+--------------------------------------------------------------------------------
+
+[1ceef2e2de55] 2007-02-25 14:30:02 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix a bug that match_idents forget to end with NULL
+
+Pavel Roskin manage to hit this bug with
+
+struct st {
+       char c;
+} __attribute__ ((aligned(2)));
+struct st s1;
+struct st s2;
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[6983e0f52130] 2007-02-22 21:26:52 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: dissect: fix multidimensional array initializer
+
+dissect can't parse initializers like
+
+	struct T { int i; } a[2][3] = { [0][0] = {123} };
+
+, output is:
+
+	   1:8   s def  T
+	   1:21  g def  a                                struct T [3][2]
+	   1:21  g -w-  a                                struct T [3][2]
+	T.c:1:37: warning: bad expr->type: 25
+
+with this patch applied:
+
+	   1:8   s def  T
+	   1:21  g def  a                                struct T [3][2]
+	   1:21  g -w-  a                                struct T [3][2]
+	   1:43  s -w-  T.i                              int
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: dissect.c (+4/-1)
+--------------------------------------------------------------------------------
+
+[3849151a8fd0] 2007-02-22 20:29:15 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix core dump on anonymous symbol.
+
+Using the following can generate anonymous symbol without
+initializer expression.
+
+	return (struct foo) {};
+
+It would be nice if sparse does not crash on it.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: linearize.c (+10/-8)
+--------------------------------------------------------------------------------
+
+[35fc4ae6e7a7] 2007-02-22 19:57:08 -0800
+Author: Oleg Nesterov <oleg@tv-sign.ru>
+Subject: dissect: cleanup report_implicit()
+
+It doesn't make sense to do report_implicit() for the anonymous structures,
+check "type->ident != NULL".
+
+Signed-off-by: Oleg Nesterov <oleg@tv-sign.ru>
+
+Files: dissect.c (+6/-4)
+--------------------------------------------------------------------------------
+
+[26139b36d009] 2007-02-22 19:51:49 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Make the ptrlist using the sparse allocator.
+
+We can drop the whole allocator without freeing the ptrlist one by one.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: allocate.c (+1/-1), allocate.h (+5/-2), ptrlist.c (+11/-8)
+--------------------------------------------------------------------------------
+
+[b205d97ace2d] 2007-02-22 19:41:57 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for double semicolon in structure declaration.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/double-semicolon.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[e726fe91c1c0] 2007-02-22 19:38:19 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix double semicolon in struct declaration
+
+Pavel discovered this test case:
+void test(void)
+{
+       struct { int foo;; } val;
+       memset(&val, 0, sizeof(val));
+}
+
+That generates this warning:
+test.c:5:8: warning: memset with byte count of 0
+
+Sparse ends up creating a node with empty ctype in the member list.  Avoid
+doing that, which eliminates the warning.
+
+Signed-Off-By: Christopher Li<spase@chrisli.org>
+
+Files: parse.c (+2/-1)
+--------------------------------------------------------------------------------
+
+[9978594f780a] 2007-02-22 18:28:23 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Fix the segfault when initializer has unknown symbol
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: expand.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[a0a4f0a241b5] 2007-02-21 14:05:52 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for structure attribute placement.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/struct-attribute-placement.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[1db467c62638] 2007-02-21 14:02:57 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Handle structure attributes between the structure keyword and the name
+
+struct __attribute__((__aligned__(16))) foo {
+    int a;
+};
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[d550561a0731] 2007-02-13 12:14:12 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add test case for function pointer modifier inheritance
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: validation/function-pointer-modifier-inheritance.c (+15/-0)
+--------------------------------------------------------------------------------
+
+[ef2596162115] 2007-02-13 12:08:51 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Bug fix in pointer modifier inheritance at function degeneration.
+
+The following case causes a warning about different signedness of pointer.
+The pointer should not have signedness at all.
+
+struct sk_buff;
+struct sock;
+
+extern int skb_append_datato_frags(struct sock *sk, struct sk_buff *skb,
+			int getfrag(void *from, char *to, int offset,
+			int len,int odd, struct sk_buff *skb),
+			void *from, int length);
+
+int skb_append_datato_frags(struct sock *sk, struct sk_buff *skb,
+			int (*getfrag)(void *from, char *to, int offset,
+			int len,int odd, struct sk_buff *skb),
+			void *from, int length)
+
+{
+	return 0;
+}
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Acked-By: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: evaluate.c (+3/-5), symbol.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[006eff06c7ad] 2007-01-27 01:38:15 -0800
+Author: James Westby <jw+debian@jameswestby.net>
+Subject: Fix mistaken comparison that becomes a no-op.
+
+Fix a mistake in same_cast_type where the second test became a no-op as it
+compared a value to itself, rather than to the second operand.
+
+Signed-off-by: James Westby <jw+debian@jameswestby.net>
+
+Files: evaluate.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[a12d4528ffc4] 2007-01-27 01:29:30 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Marking anonymous string.
+
+The back end need to generate some storage for anonymous string.
+This simplify testing of anonymous string.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-0), symbol.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[43972b481fb9] 2007-01-27 01:14:53 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Another attempt to fix the attribute parsing.
+
+This patch delay the finalized of the abstract int type so it
+can take the __attribute__ in the end of declaration.
+
+It complicate the bit field parsing because abstract type can
+show up in the base type of bit field.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+56/-29)
+--------------------------------------------------------------------------------
+
+[b775e61481c6] 2007-01-27 01:11:22 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add missing #include "allocate.h" in linearize.h for DECLARE_ALLOCATOR.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: linearize.h (+1/-0)
+--------------------------------------------------------------------------------
+
+[c2f0f35a3fa2] 2007-01-27 01:00:23 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Coding style fix: in a pointer type, * goes with the name, not the type.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: ctags.c (+6/-6), dissect.c (+2/-2), dissect.h (+4/-4), example.c (+1/-1), lib.c (+1/-1), ... and 8 more
+--------------------------------------------------------------------------------
+
+[6a35332d4512] 2007-01-27 00:47:04 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Enhance debug information.
+
+I found it very useful for debug_symbol to show the builtin
+type name.
+
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: show-parse.c (+67/-45), symbol.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[2cf4d199235e] 2007-01-27 00:38:45 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Allow more than one command line include file.
+
+Signed-off-by: Christopher Li<sparse@chrisli.org>
+
+Files: lib.c (+25/-20), lib.h (+9/-0)
+--------------------------------------------------------------------------------
+
+[0b96e6ec62cd] 2007-01-16 21:15:59 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Update usage chain for dead branch instruction.
+
+A branch like this:
+br %c, 0x10, 0x10
+will be simplified and removed, but the usage information was not updated.
+
+Signed-Off-By: Christopher Li<sparse@chrisli.org>
+
+Files: flow.c (+1/-1)
+--------------------------------------------------------------------------------
+
+[5816690643b2] 2007-01-16 20:52:47 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add a return in the last case of a switch; redundant but less error-prone.
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: simplify.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[556dbc8d75b0] 2007-01-16 20:50:38 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Update usage chain for dead instructions
+
+This patch address some of the dead instructions left in the usage chain.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: flow.c (+1/-0), simplify.c (+5/-0)
+--------------------------------------------------------------------------------
+
+[e7fb6e092055] 2007-01-16 20:47:04 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Add instruction to pseudo user tracking.
+
+The current way of tracking pseudo register user is by
+keeping a list of the address of the pseudo_t member.
+This address can be in part of the instruction member, the
+worse case is in the argument list of the call instruction.
+
+As the comment for address_taken() said, using the container
+to get instruction pointer is wrong. It use to work with instruction
+that relate to symbol address. But that is not true any more. Even
+worse, it is very hard to track the pseudo usage other than symbol
+address. The only reason symbol address used to works for call instruction
+is because call instruction did not directly use the symbol address.
+
+I bit the bullet and just add the instruction pointer to pair with
+the pseudo user pointer. So it will work with the case that the
+user instruction is call as well.
+
+Testing:
+
+I compare the linearize result with/without the patch on a few
+sparse source file it self. The linearize generate exactly
+the same result except the symbol address changes. Which is
+predictable different because the pseudo user structure allocate
+memory.
+
+Singed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: flow.c (+26/-25), linearize.c (+37/-35), linearize.h (+25/-3), memops.c (+5/-17), simplify.c (+32/-15)
+--------------------------------------------------------------------------------
+
+[97c576befecb] 2007-01-16 20:40:58 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Change the symbol access list to a pseudo list
+
+A pseudo list contains more information. It can
+get to the symbol as well as the usage information.
+Now it is much easier to answer questions like
+"What functions does this function call?".
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+
+Files: flow.c (+4/-4), linearize.c (+5/-5), linearize.h (+1/-1)
+--------------------------------------------------------------------------------
+
+[1a6673b7dc40] 2007-01-16 20:18:30 -0800
+Author: Josh Triplett <josh@freedesktop.org>
+Subject: Add ctags to .gitignore
+
+Signed-off-by: Josh Triplett <josh@freedesktop.org>
+
+Files: .gitignore (+1/-0)
+--------------------------------------------------------------------------------
+
+[a77a4bce3720] 2007-01-16 20:17:52 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Sparse-based Ctags implementation
+
+Here is my attempt to write a Ctags base on sparse.
+It depends on the result from actually preprocessing the C source file.
+It can handle the tags from macro expansion.
+
+It works well enough for me to locate "int32_t" and "clear_token_alloc".
+
+This is the updated ctags that actually generates output to a tags file.
+
+Signed-Off-By: Christopher Li <sparse@chrisli.org>
+Signed-Off-By: Josh Triplett <josh@freedesktop.org>
+
+Files: Makefile (+6/-1), ctags.c (+207/-0), symbol.h (+4/-0)
+--------------------------------------------------------------------------------
+

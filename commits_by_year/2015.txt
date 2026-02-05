@@ -1,0 +1,209 @@
+================================================================================
+Year: 2015 | Commits: 13 | Contributors: 9
+Insertions: +154 | Deletions: -13
+================================================================================
+
+[38c9e9f3b3fa] 2015-08-15 03:46:21 -0400
+Author: Tony Camuso <tcamuso@redhat.com>
+Subject: Add default case to switches on enum variables
+
+Missing enum members in case statements in c2xml.c and parse.c were
+causing compile time complaints by gcc 5.1.1. Adding a default case
+satisfies the compiler and notifies the reviewer that there are
+cases not explicitly mentioned being handled by the default case.
+
+Signed-off-by: Tony Camuso <tcamuso@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: c2xml.c (+2/-1), parse.c (+3/-0)
+--------------------------------------------------------------------------------
+
+[0dac4783ea57] 2015-08-15 03:44:39 -0400
+Author: Tony Camuso <tcamuso@redhat.com>
+Subject: .gitignore: add cscope and Qt project files
+
+Signed-off-by: Tony Camuso <tcamuso@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: .gitignore (+3/-0)
+--------------------------------------------------------------------------------
+
+[0d2809b500cd] 2015-08-04 13:23:46 -0400
+Author: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: ptrlist: reading deleted items in NEXT_PTR_LIST()
+
+If you call DELETE_CURRENT_PTR(), then you can sometimes end up with a
+__list->nr that is zero.  The FOR_EACH_PTR() macro can handle this but
+the NEXT_PTR_LIST() macro returns ptr = 0xf0f0f0f0 which leads to a
+segfault.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ptrlist.h (+2/-0)
+--------------------------------------------------------------------------------
+
+[a53cea28f0db] 2015-06-14 02:11:48 -0700
+Author: Azat Khuzhin <a3at.mail@gmail.com>
+Subject: validation/prototype: regression for skipping prototypes
+
+Signed-off-by: Azat Khuzhin <a3at.mail@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/prototype.c (+6/-0)
+--------------------------------------------------------------------------------
+
+[c04667e25447] 2015-06-14 02:11:38 -0700
+Author: Azat Khuzhin <a3at.mail@gmail.com>
+Subject: sparse, llvm: compile: skip function prototypes to avoid SIGSEGV
+
+You can't pass function to LLVMConstNull(), according to
+Constant::getNullValue, and sparse-llvm already handle functions differently
+(i.e. there will be no call to LLVMConstNull(), but this is not true for
+function prototypes, because of how linearize_fn() works:
+```
+static struct entrypoint *linearize_fn(...)
+{
+  ...
+  if (!base_type->stmt)
+    return NULL;
+  ...
+}
+```
+
+```
+Constant *Constant::getNullValue(Type *Ty) {
+  switch (Ty->getTypeID()) {
+  ...
+  default:
+    // Function, Label, or Opaque type?
+    llvm_unreachable("Cannot create a null constant of that type!");
+  }
+}
+```
+
+Signed-off-by: Azat Khuzhin <a3at.mail@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: sparse-llvm.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[60432109a5cb] 2015-06-11 17:38:47 -0700
+Author: Heiko Carstens <heiko.carstens@de.ibm.com>
+Subject: sparse/parse.c: ignore hotpatch attribute
+
+gcc knows about a new "hotpatch" attribute which sparse can safely ignore,
+since it modifies only which code will be generated just like the
+"no_instrument_function" attribute.
+
+The gcc hotpatch feature patch:
+https://gcc.gnu.org/git/?p=gcc.git;a=commit;h=11762b8363737591bfb9c66093bc2edf289b917f
+
+Currently the Linux kernel makes use of this attribute:
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=61f552141c9c0e88b3fdc7046265781ffd8fa68a
+
+Without this patch sparse will emit warnings like
+"error: attribute 'hotpatch': unknown attribute"
+
+Signed-off-by: Heiko Carstens <heiko.carstens@de.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: parse.c (+2/-0)
+--------------------------------------------------------------------------------
+
+[efd34fafe5cb] 2015-04-21 16:26:50 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Add tests for the builtin INF and nan() functions.
+
+Test file cross checked with
+gcc -c -Wall -Werror -Wno-unused-variable validation/builtin_inf.c
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: validation/builtin_inf.c (+13/-0)
+--------------------------------------------------------------------------------
+
+[0f71312959ed] 2015-03-13 10:47:55 -0700
+Author: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Subject: Ignore pure attribute in assignement
+
+The pure attribute only take effect in function node.
+There is no way to make a value itself pure.
+
+Reported-by: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: evaluate.c (+1/-1), validation/pure-function.c (+16/-0)
+--------------------------------------------------------------------------------
+
+[76a73716e4fd] 2015-03-13 10:46:18 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Add a define for __builtin_ms_va_copy()
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+1/-0)
+--------------------------------------------------------------------------------
+
+[95940a8d5c7c] 2015-03-13 10:46:11 -0700
+Author: Michael Stefaniuc <mstefani@redhat.com>
+Subject: Add the __builtin functions needed for INFINITY and nan().
+
+Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: lib.c (+11/-0)
+--------------------------------------------------------------------------------
+
+[40791b94c56b] 2015-02-08 16:54:58 -0800
+Author: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Subject: Teach sparse about the __COUNTER__ predefined macro
+
+__COUNTER__ macro is expanded to a sequential number starting from 0.
+This is sometimes used to declare unique variable names.
+
+Implement support for __COUNTER__ in sparse including a set of
+small test programs for the test suite.
+
+Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Reviewed-by: Josh Triplett <josh@joshtriplett.org>
+Tested-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: ident-list.h (+1/-0), pre-process.c (+4/-0), validation/preprocessor/counter1.c (+12/-0), validation/preprocessor/counter2.c (+14/-0), validation/preprocessor/counter2.h (+1/-0), ... and 1 more
+--------------------------------------------------------------------------------
+
+[de1fa7e60d3d] 2015-02-06 05:46:48 -0800
+Author: Christopher Li <sparse@chrisli.org>
+Subject: Make macro expanded string immutable
+
+The string is shared between different macro expand.
+It is wrong to modify the string in place if the string
+is used in a macro. Avoid overwriting the string in that
+case.
+
+Reported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Tested-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: char.c (+10/-5), pre-process.c (+17/-5), token.h (+2/-1)
+--------------------------------------------------------------------------------
+
+[1a900d9f37bb] 2015-01-28 10:33:58 -0800
+Author: Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: s390x: add the proper defines for data types
+
+This patch fixes several issues when compiling code under s390x
+(64bit) with cgcc, e.g.
+/usr/include/gnu/stubs.h:8:12: error: unable to open 'gnu/stubs-32.h'
+by providing the proper defines.
+
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Christopher Li <sparse@chrisli.org>
+
+Files: cgcc (+8/-0)
+--------------------------------------------------------------------------------
+
