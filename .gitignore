@@ -4,3 +4,4 @@ emails/*
 fetch.log
 __pycache__/
 *.pyc
+sparse-repo.git/

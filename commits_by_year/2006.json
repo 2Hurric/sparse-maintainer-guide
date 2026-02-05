@@ -1,0 +1,2416 @@
+{
+  "year": "2006",
+  "stats": {
+    "total_commits": 86,
+    "with_description": 76,
+    "without_description": 10,
+    "total_insertions": 2179,
+    "total_deletions": 865,
+    "contributors": 14
+  },
+  "commits": [
+    {
+      "hash": "34ac7df96dd9609d684b0c949a52bc07ab1fd8b5",
+      "short_hash": "34ac7df96dd9",
+      "author_name": "James Westby",
+      "author_email": "jw+debian@jameswestby.net",
+      "date": "2006-12-18 22:00:21 +0000",
+      "year": "2006",
+      "subject": "Update the information in README about using the library.",
+      "body": "Changes in the library have left the README giving out of date information\non how to intialise the library and get the symbols out of it. Update the\ndocumentation to match the latest functions.\n\nSigned-off-by: James Westby <jw+debian@jameswestby.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "README",
+            "insertions": 8,
+            "deletions": 21
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 8,
+        "total_deletions": 21
+      }
+    },
+    {
+      "hash": "006eff06c7adcfb0d06c6fadf6e9b64f0488b2bf",
+      "short_hash": "006eff06c7ad",
+      "author_name": "James Westby",
+      "author_email": "jw+debian@jameswestby.net",
+      "date": "2006-12-18 20:44:35 +0000",
+      "year": "2006",
+      "subject": "Fix mistaken comparison that becomes a no-op.",
+      "body": "Fix a mistake in same_cast_type where the second test became a no-op as it\ncompared a value to itself, rather than to the second operand.\n\nSigned-off-by: James Westby <jw+debian@jameswestby.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "35fc4ae6e7a789a9a739c3a68af7dd8630c3e10c",
+      "short_hash": "35fc4ae6e7a7",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-12-15 00:37:40 +0300",
+      "year": "2006",
+      "subject": "dissect: cleanup report_implicit()",
+      "body": "It doesn't make sense to do report_implicit() for the anonymous structures,\ncheck \"type->ident != NULL\".\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 6,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "e8eb70dfab02569a8caeeff362da78ca8c2f26ae",
+      "short_hash": "e8eb70dfab02",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-12-15 00:37:15 +0300",
+      "year": "2006",
+      "subject": "dissect: simplify lookup_member()",
+      "body": "Change examine_sym_node() to recursively inspect the members of SYM_STRUCT.\nThis allows us to simplify lookup_member(): no need to do examine_sym_node(),\nthe member was already examined.\n\nThis is also good because now ->r_symdef(member) is called on declaration,\nnot when dissect detects the first usage of ->member.\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 9,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 9,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "6983e0f5213027c271dafd4603d729693bf3139f",
+      "short_hash": "6983e0f52130",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-12-15 00:35:47 +0300",
+      "year": "2006",
+      "subject": "dissect: fix multidimensional array initializer",
+      "body": "dissect can't parse initializers like\n\n\tstruct T { int i; } a[2][3] = { [0][0] = {123} };\n\n, output is:\n\n\t   1:8   s def  T\n\t   1:21  g def  a                                struct T [3][2]\n\t   1:21  g -w-  a                                struct T [3][2]\n\tT.c:1:37: warning: bad expr->type: 25\n\nwith this patch applied:\n\n\t   1:8   s def  T\n\t   1:21  g def  a                                struct T [3][2]\n\t   1:21  g -w-  a                                struct T [3][2]\n\t   1:43  s -w-  T.i                              int\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 4,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "88b52a96bb28a8ba75d50d408900b5e1e5d4e025",
+      "short_hash": "88b52a96bb28",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-12-05 03:22:44 -0800",
+      "year": "2006",
+      "subject": "Remove old SCCS target from Makefile.",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "29578cb0d74a842e871038e97e858baf15b1fecc",
+      "short_hash": "29578cb0d74a",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-12-05 02:15:02 -0800",
+      "year": "2006",
+      "subject": "Generate and install a pkg-config file.  Add DESTDIR support to Makefile.",
+      "body": "The Makefile now generates and installs a pkg-config file, sparse.pc, to\nprovide information about the installed Sparse library and header files.  Use\n`pkg-config --cflags sparse` to get the include path, and `pkg-config --libs\nsparse` to get the library path and library.\n\nTo help packagers of Sparse, also add support for the DESTDIR variable to the\nMakefile.  DESTDIR allows you to target a particular prefix (such as /usr),\nbut install to another directory (such as debian/tmp), usually for the\npurposes of subsequently constructing a package from that directory.\nPreviously, just setting PREFIX would work for that, but with the new\npkg-config file, the Makefile needs to know the real prefix.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "Makefile",
+            "insertions": 19,
+            "deletions": 10
+          },
+          {
+            "file": "sparse.pc.in",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 29,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "01bd4dbe25c545234e19cb5e6453cf96a98b9f99",
+      "short_hash": "01bd4dbe25c5",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-12-05 01:44:03 -0800",
+      "year": "2006",
+      "subject": "Install static library and header files",
+      "body": "Modify Makefile to install the static library and all of the library header\nfiles.  Add dissect.h to LIB_H.  Remove redundant headers from dependency\nlines.  Remove rpath suggestion.\n\nThe header files get installed to a \"sparse\" subdirectory of the include\ndirectory; please reference the sparse headers as sparse/${HEADER}.h.  The\nvarious sparse test programs can all now compile successfully outside the\nsparse tree, given that modification to their #include lines.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 17,
+            "deletions": 20
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 17,
+        "total_deletions": 20
+      }
+    },
+    {
+      "hash": "ab5399000739d32922338f7325a29075eea5e934",
+      "short_hash": "ab5399000739",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-12-04 23:54:34 -0800",
+      "year": "2006",
+      "subject": "Rename \"check.c\" to \"sparse.c\" to match program name; update .gitignore",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "Makefile",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "check.c => sparse.c",
+            "insertions": 0,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 3,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "8a08b7886fa8732e3e9ac0664d31c011bb4668b7",
+      "short_hash": "8a08b7886fa8",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-12-04 23:39:34 -0800",
+      "year": "2006",
+      "subject": "Update the FAQ: add sparse website and gitweb, update git URL, remove old BK url",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "FAQ",
+            "insertions": 5,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "9c1b0a2fd4347f90c5813d5ed130fd814857ee3e",
+      "short_hash": "9c1b0a2fd434",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2006-11-30 02:16:08 -0800",
+      "year": "2006",
+      "subject": "delay removing file scope",
+      "body": "Sparse only returns the used symbol. By the time it return\nthe symbol, it already destroyed the file scope.\n\nThis patch preserve the file scope. The caller can\nexamine the unused symbols. e.g. If I want to generate\nctags base on sparse, it need those unused symbols.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "scope.c",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "file": "scope.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 9,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "4ad8ad708f80c91e70f8491e4d62dccc40358887",
+      "short_hash": "4ad8ad708f80",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2006-11-30 02:11:36 -0800",
+      "year": "2006",
+      "subject": "cleanup write to argument array hack",
+      "body": "The sparse interface is a kind of snaky that it change the input argument\narray. The function sparse() does the same hack just to skip the files.\n\nThis patch add the ptr list for string. So sparse_initialize will\nreturn list of file to compile. The string pointer is not aligned\nat word boundary. This patch introduce non taged version of the ptr\nlist iteration function.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "check.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "compile.c",
+            "insertions": 10,
+            "deletions": 9
+          },
+          {
+            "file": "example.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "graph.c",
+            "insertions": 8,
+            "deletions": 3
+          },
+          {
+            "file": "lib.c",
+            "insertions": 6,
+            "deletions": 22
+          },
+          {
+            "file": "lib.h",
+            "insertions": 4,
+            "deletions": 3
+          },
+          {
+            "file": "obfuscate.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "ptrlist.h",
+            "insertions": 30,
+            "deletions": 14
+          },
+          {
+            "file": "test-dissect.c",
+            "insertions": 6,
+            "deletions": 4
+          },
+          {
+            "file": "test-lexing.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "test-linearize.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "test-parsing.c",
+            "insertions": 6,
+            "deletions": 4
+          },
+          {
+            "file": "test-unssa.c",
+            "insertions": 8,
+            "deletions": 3
+          }
+        ],
+        "total_files": 13,
+        "total_insertions": 113,
+        "total_deletions": 77
+      }
+    },
+    {
+      "hash": "da26e7d8090812e6788980471c0d32eba180f676",
+      "short_hash": "da26e7d80908",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-11-24 00:03:28 -0500",
+      "year": "2006",
+      "subject": "[PATCH] take cast_to() out of usual_conversions(), do it in callers",
+      "body": "At the same time we get to pass expressions by value...\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 16,
+            "deletions": 14
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 16,
+        "total_deletions": 14
+      }
+    },
+    {
+      "hash": "fe288c4a04841e9aefedf75ab036265c8950f7d9",
+      "short_hash": "fe288c4a0484",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2006-11-22 23:47:43 -0800",
+      "year": "2006",
+      "subject": "Fix warning on self check.",
+      "body": "Sparse complain about the using do while without\ncompound statment in pre-process.c. This trivial patch\nfixes that.\n\nSigned-Off-By: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 16,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 16,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "e549e6051086abb717c0d1467f0c5ba3ac0dd8d7",
+      "short_hash": "e549e6051086",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2006-11-22 23:45:53 -0800",
+      "year": "2006",
+      "subject": "trivial fix for seg fault.",
+      "body": "Trivial fix for some seg fault.\n\nSigned-Off-By: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "token.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "4e50a7288053defa62dd97c8d371e7d45b774c20",
+      "short_hash": "4e50a7288053",
+      "author_name": "Damien Lespiau",
+      "author_email": "damien.lespiau@gmail.com",
+      "date": "2006-11-19 00:46:59 +0100",
+      "year": "2006",
+      "subject": "trivial: more .gitignore stuff",
+      "body": "Ignore tags and git frontends' files.\n\nSigned-off-by: Damien Lespiau <damien.lespiau@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 12,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b16b911d8dbf10405ebbcd8f5b54d21e89475478",
+      "short_hash": "b16b911d8dbf",
+      "author_name": "Nicolas Kaiser",
+      "author_email": "nikai@nikai.net",
+      "date": "2006-11-14 10:00:26 +0100",
+      "year": "2006",
+      "subject": "double inclusions",
+      "body": "Remove two double inclusions.\n\nSigned-off-by: Nicolas Kaiser <nikai@nikai.net>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 0,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "dfcec6b4210253da74406c42a383f48bcc2a8f73",
+      "short_hash": "dfcec6b42102",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-11-06 11:26:11 -0800",
+      "year": "2006",
+      "subject": "Stop building and installing libsparse.so",
+      "body": "Since none of the header files get installed, making it difficult or\nimpossible for anything external to use libsparse.so, and libsparse.so doesn't\nprovide a stable API/ABI or a SONAME, and the backends all build with the\nstatic libsparse.a, stop building and installing libsparse.so.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "595e510572aeee3bc1a185c043d5f0a1c9a0023b",
+      "short_hash": "595e510572ae",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-11-06 04:04:19 -0800",
+      "year": "2006",
+      "subject": "Rename test case bad-assignement.c to bad-assignment.c, fixing the typo.",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/{bad-assignement.c => bad-assignment.c}",
+            "insertions": 0,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "1b3d7607212ce7b9f2451d309fddf032bb4241f0",
+      "short_hash": "1b3d7607212c",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-11-03 17:17:17 -0500",
+      "year": "2006",
+      "subject": "Typo fixes",
+      "body": "Signed-off-by: Pavel Roskin <proski@gnu.org>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "example.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "expand.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "inline.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "memops.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "simplify.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/initializer-entry-defined-twice.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 9,
+        "total_insertions": 10,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "93a2093dc9b6eab327500eab83e2b9dd840ccd25",
+      "short_hash": "93a2093dc9b6",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-11-03 17:17:11 -0500",
+      "year": "2006",
+      "subject": "Add support for __builtin_strpbrk()",
+      "body": "Signed-off-by: Pavel Roskin <proski@gnu.org>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "619a407197089ab6110e4fd3a857df04005f2a34",
+      "short_hash": "619a40719708",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-11-03 17:17:04 -0500",
+      "year": "2006",
+      "subject": "Install cgcc on \"make install\", refactor installation code",
+      "body": "Signed-off-by: Pavel Roskin <proski@gnu.org>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 5,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "fe0e3aef4666a8ece04cb1a25d9611bf37dc7ace",
+      "short_hash": "fe0e3aef4666",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-11-03 17:16:59 -0500",
+      "year": "2006",
+      "subject": "Compile sparse executable under it's own name, not as \"check\"",
+      "body": "No need to confuse everyone.  Besides, it allows to use \"make check\" for\nsome something meaningful in the future.\n\nSigned-off-by: Pavel Roskin <proski@gnu.org>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 8
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "89e5b02c6b360d7bd5f10c8edb979c5a7e57947c",
+      "short_hash": "89e5b02c6b36",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-24 12:50:55 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'context-test-cases-for-cond-lock' into josh",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Adds/updates 1 test(s). Changes: +20/-0 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/context.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 20,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "d730502c200ec1e8de13699c51c83313552a4fc3",
+      "short_hash": "d730502c200e",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-17 01:40:46 -0700",
+      "year": "2006",
+      "subject": "Add test cases to validation/context.c for the Linux __cond_lock macro",
+      "body": "Linux uses a macro __cond_lock with an embedded ternary operator and a\n__context__ expression down one branch in order to allow for conditional\nlocking, where a function might or might not have actually locked, depending\non its return value.  Add test cases for this macro.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/context.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 20,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8bcd6b41a5f0d4163c8c1b8c601e5fa4baf10708",
+      "short_hash": "8bcd6b41a5f0",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-17 00:53:54 -0700",
+      "year": "2006",
+      "subject": "Recognize and ignore __alias__ and __visibility__",
+      "body": "They are equivalent to \"alias\" and \"visibility\" except that gcc won't\ncomplain about them in ANSI programs.\n\nOriginal patch from Pavel Roskin, modified by Josh Triplett.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Pavel Roskin <proski@gnu.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "parse.c",
+            "insertions": 4,
+            "deletions": 2
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 6,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "bd001207c2f35d7ef15879a8686028ebea327ce4",
+      "short_hash": "bd001207c2f3",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-16 22:05:19 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'Wcontext-default' into staging",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies lib.c. Changes: +1/-1 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "bb252dbfd9dc77324461356d2c8b9350b38f2b36",
+      "short_hash": "bb252dbfd9dc",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-16 21:57:01 -0700",
+      "year": "2006",
+      "subject": "merge branch 'no-semantic-h' into staging and fix conflicts",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Updates header symbol.h. Changes: +1/-1 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "c81e400f7ffc98231265974da25d12e3c57125ed",
+      "short_hash": "c81e400f7ffc",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-16 21:52:13 -0700",
+      "year": "2006",
+      "subject": "merge branch 'more-warning-flags' into staging and fix conflicts",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies 2 source files: check.c, lib.c. Updates header lib.h. Changes: +4/-1 in 3 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "check.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "b0c064e7c7c1a94640090c00d8028ceafae9fe30",
+      "short_hash": "b0c064e7c7c1",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-16 21:48:50 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'graph' into staging",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies graph.c. Updates header linearize.h. Changes: +4/-2 in 2 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "graph.c",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 4,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "c30df9be78778eacb19b30e7bf903236f6116ee0",
+      "short_hash": "c30df9be7877",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-10-16 21:46:15 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'fix-defined-twice-error-on-empty-struct' into staging",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies expand.c. Adds/updates 1 test(s). Changes: +47/-6 in 2 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 4,
+            "deletions": 6
+          },
+          {
+            "file": "validation/initializer-entry-defined-twice.c",
+            "insertions": 43,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 47,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "b47634e8aef5880528dd50baa53c93cd8e810ec2",
+      "short_hash": "b47634e8aef5",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-10-09 12:59:31 -0400",
+      "year": "2006",
+      "subject": "[PATCH] add __builtin_strlen()",
+      "body": "Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "758c8a83cebba4e7e762792719d26246a8cf8ac2",
+      "short_hash": "758c8a83cebb",
+      "author_name": "Al Viro",
+      "author_email": "viro@ftp.linux.org.uk",
+      "date": "2006-10-01 19:55:02 +0100",
+      "year": "2006",
+      "subject": "switch to hash-based get_one_special()",
+      "body": "Weird, but true: the set of C two-character punctuators and\ntwo-symbol prefixes of three-character punctuators is\ndistinguishable by 5-bit hash function (27 out of 32).\nApplication is obvious - we get much faster get_one_special()\nout of that...\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "token.h",
+            "insertions": 9,
+            "deletions": 9
+          },
+          {
+            "file": "tokenize.c",
+            "insertions": 66,
+            "deletions": 12
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 75,
+        "total_deletions": 21
+      }
+    },
+    {
+      "hash": "70ada4fad4c4a9f59862677dc7f905482c4f4e99",
+      "short_hash": "70ada4fad4c4",
+      "author_name": "Al Viro",
+      "author_email": "viro@ftp.linux.org.uk",
+      "date": "2006-10-01 19:49:13 +0100",
+      "year": "2006",
+      "subject": "added a bunch of gcc builtins",
+      "body": "Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 10,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 10,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "7fdd2a497b8962b15d54b54b412380fb024767ed",
+      "short_hash": "7fdd2a497b89",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-10-01 10:59:00 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies 4 source files: evaluate.c, parse.c, show-parse.c and 1 more. Updates header symbol.h. Adds/updates 1 test(s). Changes: +324/-190 in 6 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 252,
+            "deletions": 190
+          },
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 38,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/foul-bitwise.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 324,
+        "total_deletions": 190
+      }
+    },
+    {
+      "hash": "abbdcdd9060ce6222a0f65c363ccc93b4e973aa7",
+      "short_hash": "abbdcdd9060c",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-10-01 10:01:03 -0700",
+      "year": "2006",
+      "subject": "Add warning message for naked do-while",
+      "body": "Does it necessarily make sense? Dunno, but it does tend to be bad\npractice, or at least result in code that can be hard to mentally parse.\n\nMaybe that mental parsing is just me.  Or maybe it should be warned\nabout.  You decide.\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 6,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "d24967cb847b7a04920698a9053ea8195046a831",
+      "short_hash": "d24967cb847b",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-10-01 09:21:11 -0400",
+      "year": "2006",
+      "subject": "[PATCH] handle fouled-bitwise",
+      "body": "This stuff comes from handling smaller-than-int bitwise types (e.g. __le16).\nThe problem is in handling things like\n\t__be16 x, y;\n\t...\n\tif (x == (x & ~y))\nThe code is bitwise-clean, but current sparse can't deduce that.  Operations\nallowed on bitwise types have the following property: (type)(x <op> y) can\nbe substituted for x <op> y in any expression other than sizeof.  That allows\nus to ignore usual arithmetical conversions for those types and treat e.g.\n| as __be16 x __be16 -> __be16, despite the promotion rules; resulting\nsemantics will be the same.  However, ~ on smaller-than-int does not have\nsuch property; indeed, ~y is guaranteed to _not_ fit into range of __be16\nin the example above.\n\nThat causes a lot of unpleasant problems when dealing with e.g. networking\ncode - IP checksums are 16bit and ~ is often used in their (re)calculations.\nThe way to deal with that is based on the observation that even though we do\nget junk in upper bits, it normally ends up being discarded and sparse can\nbe taught to prove that.  To do that we need \"fouled\" conterparts for short\nbitwise types.  They will be assigned to (sub)expressions that might carry\njunk in upper bits, but trimming those bits would result in the value we'd\nget if all operations had been done within the bitwise type.  E.g. in the\nexample above y would be __be16, ~y - fouled __be16, x & ~y - __be16 again\nand x == (x & ~y) - boolean.\n\nBasically, we delay reporting an error on ~<short bitwise> for as long as\npossible in hope that taint will be cleansed later.  Exact rules follow:\n\n        * ~short_bitwise => corresponding fouled\n        * any arithmetics that would be banned for bitwise => same warning\nas if we would have bitwise\n        * if t1 is bitwise type and t2 - its fouled analog, then\nt1 & t2 => t1, t1 | t2 => t2, t1 ^ t2 => t2.\n        * conversion of t2 to t1 is silent (be it passing as argument\nor assignment).  Other conversions are banned.\n        * x ? t1 : t2 => t2\n        * ~t2 => t2 (_not_ t1; something like ~(x ? y : ~y) is still fouled)\n        * x ? t2 : t2 => t2, t2 {&,|,^} t2 => t2 (yes, even ^ - same as before).\n        * x ? t2 : constant_valid_for_t1 => t2\n        * !t2 => warning, ditto for comparisons involving t2 in any way.\n        * wrt casts t2 acts exactly as t1 would.\n        * for sizeof, typeof and alignof t2 acts as promoted t1.  Note that\nfouled can never be an lvalue or have types derived from it - can't happen.\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 62,
+            "deletions": 15
+          },
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 38,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/foul-bitwise.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 134,
+        "total_deletions": 15
+      }
+    },
+    {
+      "hash": "3425388b0c9f3ec4807bc4f6a61d5083a99fa506",
+      "short_hash": "3425388b0c9f",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-09-30 13:46:53 -0400",
+      "year": "2006",
+      "subject": "[PATCH] add support for __builtin_choose_expr()",
+      "body": "that bugger is weird; _no_ type modifications are\ndone to arguments (no promotions, no degeration,\nvoid accepted, etc.).  Implemented, testcase added.\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 23,
+            "deletions": 11
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 45,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/choose_expr.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 73,
+        "total_deletions": 11
+      }
+    },
+    {
+      "hash": "02a7055f72840f05dbf7530b2c82af46306ec0c2",
+      "short_hash": "02a7055f7284",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-09-30 09:15:45 -0400",
+      "year": "2006",
+      "subject": "[PATCH] fix duplicate initializer detection",
+      "body": "bit_offset() doesn't deal with nested designators.\nFixed, testcase added.\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/field-overlap.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 14,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "304b6f7746b700fd1c553b3552b51d7d97bee206",
+      "short_hash": "304b6f7746b7",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-09-30 06:47:04 -0400",
+      "year": "2006",
+      "subject": "[PATCH] fix for switch(bad_type) {...} segfault",
+      "body": "fixed, testcase added\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 8,
+            "deletions": 8
+          },
+          {
+            "file": "validation/badtype4.c",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "8aed19aea597dd467e0de3402ed7e6feae70394c",
+      "short_hash": "8aed19aea597",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-09-13 15:01:15 -0700",
+      "year": "2006",
+      "subject": "\"Initializer entry defined twice\" should not trigger with zero-size fields",
+      "body": "If a field of a structure has size 0 (which happens with an empty struct), the\nsubsequent field will have the same offset.  Assigning to both thus triggers\nthe \"Initializer entry defined twice\" error, which should not happen.  Change\nverify_nonoverlapping to not warn about overlaps where the first field has\nsize 0.\n\nAdd a validation file (validation/initializer-entry-defined-twice.c) for this\nwarning, which covers two cases where it should trigger (same struct field\ntwice; two fields of a union) and this case where it should not.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 4,
+            "deletions": 6
+          },
+          {
+            "file": "validation/initializer-entry-defined-twice.c",
+            "insertions": 43,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 47,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "b0a5a16ae4d1a3d7eae92ae1b4987f108873bdb3",
+      "short_hash": "b0a5a16ae4d1",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-09-13 13:41:41 -0700",
+      "year": "2006",
+      "subject": "Fix incorrect symbol in comment on #endif for multiple-inclusion guard",
+      "body": "symbol.h uses the standard multiple-inclusion guard, with the symbol SYMBOL_H,\nbut the comment on the final #endif says /* SEMANTIC_H */.  Change this to the\ncorrect symbol.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "8ea2cc615de7546d057fe0ed8ab2f7af278e6b2c",
+      "short_hash": "8ea2cc615de7",
+      "author_name": "Adam DiCarlo",
+      "author_email": "bikko@us.ibm.com",
+      "date": "2006-09-11 14:06:14 -0700",
+      "year": "2006",
+      "subject": "Add type information to enum mismatch warning",
+      "body": "Signed-off-by: Adam DiCarlo <adam.dicarlo@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 4,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "f7cf688a826df128dc14e787f7bd598b9ab09ad5",
+      "short_hash": "f7cf688a826d",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-09-06 11:25:38 -0700",
+      "year": "2006",
+      "subject": "Turn on -Wcontext by default",
+      "body": "Context checking currently requires explicitly passing the -Wcontext option.\nIn a Linux build, this requires passing CF=-Wcontext.  Thus, running people\nrunning sparse over Linux or other software in the default way will not see\ncontext warnings.  Change this by enabling -Wcontext.\n\nWhile context checking does generate false positives, due to both missing\nannotations on kernel functions and insufficiently clever checking in sparse,\nthe context warnings still do provide useful information and help track down\nreal bugs.  Furthermore, showing these warnings by default may incite more\npeople to add annotations or enhance sparse.  As a last resort, -Wno-context\nwill still work.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "27ff96a96c95d0171f3215458dd5a2ebc4bfafbf",
+      "short_hash": "27ff96a96c95",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-09-03 12:32:31 -0700",
+      "year": "2006",
+      "subject": "Make sparse warn about initializers that initialize the same member twice",
+      "body": "Surprisingly, gcc apparently doesn't warn/notice.  And yes, we had at\nleast one such error in the kernel due to some over-eager cut-and-paste\nhappening.\n\n[ Side note: this should also fix a problem with bitfields at byte\n  offset zero not necessarily getting sorted right.  Not that that would\n  have likely affected any current usage of sparse.  ]\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 34,
+            "deletions": 20
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 34,
+        "total_deletions": 20
+      }
+    },
+    {
+      "hash": "2c5d4b3a37982222a05832b0d2d3708c760c388d",
+      "short_hash": "2c5d4b3a3798",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-09-01 14:34:01 -0700",
+      "year": "2006",
+      "subject": "bb_terminated: Use boundary values rather than specific opcodes",
+      "body": "The opcode enum defines the boundary values OP_TERMINATOR and\nOP_TERMINATOR_END for terminator instructions; use those in bb_terminated\nrather than the specific values they currently equal.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "a8594de2db28e4489debd83cdc4cb62f96f339e0",
+      "short_hash": "a8594de2db28",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-09-01 14:01:09 -0700",
+      "year": "2006",
+      "subject": "graph: Show position in basic block nodes",
+      "body": "Change the label for basic block nodes from the basic block address to the\nposition (file, line, column) of the basic block.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "graph.c",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "37475a6c1c3e66219e68d912d5eb833f4098fd72",
+      "short_hash": "37475a6c1c3e",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-30 10:14:53 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Parse and track multiple contexts by expression",
+      "body": "sparse currently only tracks one global context for __context__ and\n__attribute__((context)).\n\nThis adds support for parsing an additional argument to each of these\nwhich gives a context expression.  For __attribute__((context)), store\neach context attribute as a separate context structure containing the\nexpression, the entry context, and the exit context, and keep a list of\nthese structures in the ctype.  For __context__, store the context\nexpression in the context instruction.  Modify the various frontends to\nadapt to this change, without changing functionality.\n\nThis change should not affect parsing of programs which worked with\nprevious versions of sparse, unless those programs use comma expressions\nas arguments to __context__ or __attribute__((context)), which seems\nhighly dubious and unlikely.  sparse with -Wcontext generates identical\noutput with or without this change on Linux 2.6.18-rc4.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "allocate.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "allocate.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "check.c",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 28,
+            "deletions": 21
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 25,
+            "deletions": 11
+          },
+          {
+            "file": "parse.h",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 13,
+            "deletions": 4
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 7,
+            "deletions": 2
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 11,
+            "deletions": 1
+          }
+        ],
+        "total_files": 10,
+        "total_insertions": 98,
+        "total_deletions": 41
+      }
+    },
+    {
+      "hash": "c974e38bfdf1484f39b473577f1dd047706384e4",
+      "short_hash": "c974e38bfdf1",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 18:17:31 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add -Wno-cast-truncate",
+      "body": "Add the ability to turn off checks for casts that truncate constant values\nusing -Wno-cast-truncate, helpful when attempting to track down a particular\nclass of warnings only without losing them amongst others.  Checks for\ntruncating casts default to on, so this does not change the default behavior\nof sparse.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "9c76e93d9e2d8b7273764cdd294f2ace3e96d072",
+      "short_hash": "9c76e93d9e2d",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 18:17:24 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add -Wno-enum-mismatch",
+      "body": "Add the ability to turn off enum type mismatch warnings using\n-Wno-enum-mismatch, helpful when attempting to track down a particular class\nof warnings only without losing them amongst others.  Enum type mismatch\nchecking defaults to on, so this does not change the default behavior of\nsparse.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 5,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b92f3223f4c45ce8a94a1f2c92f90ca55f339b8f",
+      "short_hash": "b92f3223f4c4",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 18:17:16 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add -Wno-address-space",
+      "body": "Add the ability to turn off address-space mismatch warnings using\n-Wno-address-space, helpful when attempting to track down a particular class\nof warnings only without losing them amongst others.  Address space checking\ndefaults to on, so this does not change the default behavior of sparse.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "38766114c76a469f67df77a2684154e2ca7a1a94",
+      "short_hash": "38766114c76a",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 17:45:20 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add backend to graph basic blocks",
+      "body": "Add a new backend program which parses the input files, processes them through\nthe linearization pass, and outputs a graphviz graph of the resulting basic\nblocks.  Each entrypoint gets labelled by name, but for now the basic blocks\njust get labelled with the address of the basic_block structure.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "Makefile",
+            "insertions": 5,
+            "deletions": 1
+          },
+          {
+            "file": "graph.c",
+            "insertions": 63,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 69,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "1ffcd2151b0e30e64105674c1b6cb2dff1e2911c",
+      "short_hash": "1ffcd2151b0e",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 17:41:56 -0700",
+      "year": "2006",
+      "subject": "[PATCH] sparse_error() should not silence info() after sparse_error()s",
+      "body": "sparse_error() sets max_warnings = 0 to silence subsequent sparse_warning()s\nor info()s; however, this also silences the info() after that sparse_error()\nand subsequent sparse_errors() which still get shown.  bad_expr_type runs into\nthis problem: it reports an error with sparse_error() and then provides\nfurther information with info(), which the user never sees.  Make info()\ncontinue to print as long as the immediately preceeding warning or error does.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 10,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 10,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "a0db384dbb4bbb605ccef2c4ed06e0850e75907b",
+      "short_hash": "a0db384dbb4b",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 17:41:46 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Use $(BINDIR) consistently in Makefile rather than $(PREFIX)/bin",
+      "body": "The Makefile has variables for both PREFIX (default $(HOME)) and BINDIR\n(default $(PREFIX)/bin); however, it then uses $(PREFIX)/bin in several other\nplaces, making it difficult to install to an alternate BINDIR.  Fix this by\nusing $(BINDIR) consistently throughout the Makefile.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "6782538a6506448f964441e7e12d03235748c1da",
+      "short_hash": "6782538a6506",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 17:41:19 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add support for GCC's __builtin_va_copy",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b7db62f7230c7ef633f17989fc0a30153faa36d5",
+      "short_hash": "b7db62f7230c",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@us.ibm.com",
+      "date": "2006-08-29 17:40:46 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add support for GCC's __builtin_extract_return_addr function.",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "6ab5eb55d19bb27798c6340215b3c0f039710a18",
+      "short_hash": "6ab5eb55d19b",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2006-08-29 16:21:29 -0700",
+      "year": "2006",
+      "subject": "Add -Wno-uninitialized",
+      "body": "Add the ability to turn off warnings for possibly uninitialized variables\nusing -Wno-uninitialized, helpful when attempting to track down a particular\nclass of warnings only without losing them amongst others.  Warnings for\npossibly uninitialized variables default to on, so this does not change the\ndefault behavior of sparse.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "check.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5e7a92300a348e8a47bb488cd19be626346d6460",
+      "short_hash": "5e7a92300a34",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-08-01 13:50:08 -0400",
+      "year": "2006",
+      "subject": "Support -Wall flag",
+      "body": "If -Wall is specified, enable all warnings except those explicitly\ndisabled by -Wno-* switches.\n\nSigned-off-by: Pavel Roskin <proski@gnu.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 27,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 27,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "bcf44fe7402c3d1a1c9c21226d1ae5e9afefb10a",
+      "short_hash": "bcf44fe7402c",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-07-31 22:24:56 -0700",
+      "year": "2006",
+      "subject": "First cut at something that approaches a sane -Wshadow",
+      "body": "Let's see if it's useful.  The ones it reported for git seemed\nreasonable, certainly more so than the gcc ones.\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 9,
+            "deletions": 10
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 12,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "3538ff168dd7a4792a53a0ed98b0674db360b84a",
+      "short_hash": "3538ff168dd7",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2006-07-13 21:56:18 -0400",
+      "year": "2006",
+      "subject": "[PATCH] Fix -Wtypesign",
+      "body": "Run evaluate_symbol() before check_duplicates() so that the signedness\nof the token is known by the time the token is compared with other\ntokens.\n\nSigned-off-by: Pavel Roskin <proski@gnu.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "4ad9f15170414086331004efc8d5d77ede5e20a0",
+      "short_hash": "4ad9f1517041",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-07-08 13:35:09 -0700",
+      "year": "2006",
+      "subject": "Avoid bogus gcc warnings about unused results",
+      "body": "Our fancy type-safe pointer-list template macros caused gcc to spew out\nincredible numbers of totally bogus warnings, just because most users\ndidn't actually care about the result of the \"add_ptr_list()\" operation.\n\nNot caring about the result is _fine_, and gcc is just totally confused.\n\nHowever, we can avoid the bogus warning by enclosing the expression in a\nstatement expression.  While \"(cast)(x)\" causes a warning about the\nresult not being used, doing it as \"({ (cast)(x); })\" shuts gcc up about\nit.\n\nNot pretty, but better than the alternative (which is to drop type\ninformation).\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ptrlist.h",
+            "insertions": 8,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 8,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "ad1013d690066546ece6077463ac1d4d81bc8a60",
+      "short_hash": "ad1013d69006",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-07-08 13:31:05 -0700",
+      "year": "2006",
+      "subject": "Fix dropped type information in \"add_pseudo()\".",
+      "body": "We return a well-defined type (a pointer to the pseudo_t we added), so\ndon't cast it to \"void *\" unnecessarily.\n\nType safety is good.\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "796a98361abd47d6bf1f2a3868acccc6e0b5ad0f",
+      "short_hash": "796a98361abd",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@vnet.ibm.com",
+      "date": "2006-07-05 15:09:32 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Handle EXPR_TYPE in copy_expression",
+      "body": "With the introduction of __builtin_types_compatible_p, types can now appear as\nexpressions (underneath an EXPR_COMPARE), so copy_expression needs to handle\nEXPR_TYPE; just pass type expressions through without copying, since they\nwon't change when inlining.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "1c294832c10de9842170f1a9518d9fc04c0262f3",
+      "short_hash": "1c294832c10d",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@vnet.ibm.com",
+      "date": "2006-07-05 15:09:21 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add support for GCC's __builtin_types_compatible_p extension",
+      "body": "Parse and support GCC's __builtin_types_compatible_p extension, which takes\ntwo types as arguments, and returns 1 for compatible types or 0 for\nincompatible types.  Since sparse already supports comparisons with types as\nthe operands, just transform __builtin_types_compatible_p(a, b) into the\ncomparison a == b.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 47,
+            "deletions": 2
+          },
+          {
+            "file": "ident-list.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 48,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "26abac629549f809368efbd299745d192ad511b3",
+      "short_hash": "26abac629549",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@vnet.ibm.com",
+      "date": "2006-06-30 11:49:04 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add test-dissect to .gitignore",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a68a1da82ee9eca8ecfa0996ab73b3e7e90f7aac",
+      "short_hash": "a68a1da82ee9",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@vnet.ibm.com",
+      "date": "2006-06-29 17:57:35 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Ignore no_instrument_function attributes",
+      "body": "Ignore the GCC attributes no_instrument_function and\n__no_instrument_function__, used to turn off instrumentation for a particular\nfunction when using GCC's -finstrument-functions option.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8731bb7b2e6229a4fe2234796d0371d01cc22835",
+      "short_hash": "8731bb7b2e62",
+      "author_name": "Josh Triplett",
+      "author_email": "josht@vnet.ibm.com",
+      "date": "2006-06-29 15:31:04 -0700",
+      "year": "2006",
+      "subject": "[PATCH] Add test cases for __context__ statement and context attribute",
+      "body": "Add validation/context.c, which includes various test cases for\n__context__(...)  and __attribute__((context(...))).  These test cases include\nboth correct usage, in the functions named good_*, and incorrect usage, in the\nfunctions named warn_*.\n\nSigned-off-by: Josh Triplett <josh@freedesktop.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/context.c",
+            "insertions": 296,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 296,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b33b1404376051fb2657c65d36f7708c4dd19867",
+      "short_hash": "b33b14043760",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-06-10 11:58:53 -0700",
+      "year": "2006",
+      "subject": "Fix NULL ptr dereference with bad type",
+      "body": "Noted by Alexey Dobriyan, who also sent in a small test-case.\n\nWhen evaluating to a bad type, just use \"&bad_ctype\" rather than\nreturning NULL.  That will also mean that we won't be re-evaluating that\nexpression over and over again - we'll just mark the expr->ctype to be\nbad, once and for all.\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "970157685aabf9b8845319180c539ea58ed86539",
+      "short_hash": "970157685aab",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-05-09 09:05:42 -0400",
+      "year": "2006",
+      "subject": "[PATCH] count_array_initializer() needs to know the type of element",
+      "body": "char *s[] = {\"123456789\"}; gives a single-element array\nchar p[] = {\"123456789\"}; gives a ten-element one\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 24,
+            "deletions": 8
+          },
+          {
+            "file": "validation/init-char-array.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 39,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "af5dedd5891ad6ac297fba2df49fcb7c2c825a35",
+      "short_hash": "af5dedd5891a",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-05-09 07:43:52 -0700",
+      "year": "2006",
+      "subject": "Merge branch 'init-braces-fix' of git://git.kernel.org/pub/scm/linux/kernel/git/viro/sparse",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies symbol.c. Adds/updates 1 test(s). Changes: +39/-8 in 2 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 24,
+            "deletions": 8
+          },
+          {
+            "file": "validation/init-char-array.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 39,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "ca1f2e9ebf33e78c77c79eb695fe88d843b4f978",
+      "short_hash": "ca1f2e9ebf33",
+      "author_name": "Morten Welinder",
+      "author_email": "terra@gnome.org",
+      "date": "2006-03-28 15:10:58 -0500",
+      "year": "2006",
+      "subject": "[PATCH] Warning for mixing enums of different types",
+      "body": "This adds a warning when enums of different types are mixed.  I found a\nhandful of problems with this in my own code -- nothing that testing\ncould have revealed at this point, but if someone has added an extra\nflag to an enum, things would have gone \"boom!\"\n\n  typedef enum { A1, A2 } enumA;\n  typedef enum { B1 = 10, B2 } enumB;\n\n  static void Afunc (enumA a) { }\n\n  int\n  main (int argc, char **argv)\n  {\n      enumA a = A1;\n\n      switch (A1) {\n      case A1: break;\n      case A2: break;\n      case B1: break;  // Warn\n      case B2: break;  // Warn\n      default: break;\n      }\n\n      switch (1) {\n      case A1: break;\n      case A2: break;\n      case B1: break;  // Warn\n      case B2: break;  // Warn\n      default: break;\n      }\n\n      switch (1) {\n      case A1 ... B2: break;  // Warn\n      default: break;\n      }\n\n      (void)(1 ? a : B1);  // Warn\n      (void)(A1 == B1);  // Warn\n\n      (void)(A1 << B1);  // No warning wanted\n\n      a = B1;  // Warn\n\n      Afunc (B1);  // Warn\n\n      return 0;\n  }\n\nSigned-off-by: Morten Welinder <terra@gnome.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 47,
+            "deletions": 7
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 54,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "2cf1f4bba7302d1682fb6c9e4d2b79f88b32df92",
+      "short_hash": "2cf1f4bba730",
+      "author_name": "Morten Welinder",
+      "author_email": "terra@gnome.org",
+      "date": "2006-03-28 15:07:14 -0500",
+      "year": "2006",
+      "subject": "[PATCH] Attribute \"sentinel\"",
+      "body": "This makes sparse ignore the \"sentinel\" attribute.\n\nSigned-off-by: Morten Welinder <terra@gnome.org>\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "6ca174d56bdac762d5f8b205cfcc6c3723b3070e",
+      "short_hash": "6ca174d56bda",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-14 10:46:01 -0500",
+      "year": "2006",
+      "subject": "[PATCH] saner recovery from endianness errors, part 1.",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies evaluate.c. Changes: +17/-9 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 17,
+            "deletions": 9
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 17,
+        "total_deletions": 9
+      }
+    },
+    {
+      "hash": "082c1463740c9116f8301c9f5ca2bbbbf1a2a005",
+      "short_hash": "082c1463740c",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-14 10:38:34 -0500",
+      "year": "2006",
+      "subject": "[PATCH] introduce classify_type(), use it in obvious places",
+      "body": "Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 58,
+            "deletions": 49
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 58,
+        "total_deletions": 49
+      }
+    },
+    {
+      "hash": "7acd2a76ae75b45562ee721ca7bf5f26e8edb605",
+      "short_hash": "7acd2a76ae75",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-14 07:27:58 -0500",
+      "year": "2006",
+      "subject": "[PATCH] casting null pointer constant to non-zero address space is always OK",
+      "body": "Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 12,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 12,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "4f7a0e2b40217d471c7229149d9b14815cacefc4",
+      "short_hash": "4f7a0e2b4021",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-14 06:35:56 -0500",
+      "year": "2006",
+      "subject": "[PATCH] merged compatible_..._binop() into single function",
+      "body": "All these guys are really pieces of usual arithmetic conversions;\ndoesn't make sense to handle them separately, especially if we\nwant to recover from mismatches in __bitwise__, etc. by letting\nthem degrade to corresponding integer types.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 61,
+            "deletions": 79
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 61,
+        "total_deletions": 79
+      }
+    },
+    {
+      "hash": "b875bb08b437cd840ef0de59fd73ea6596bbd0e1",
+      "short_hash": "b875bb08b437",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-13 08:52:20 -0500",
+      "year": "2006",
+      "subject": "[PATCH] beginning of SYM_RESTRICT rewrite: restricted_binop_type()",
+      "body": "* new helper - restricted_binop_type(); gives resulting type of binary\noperation when at least one of arguments is SYM_RESTRICT.  NULL is\nreturned in case of error.  Arguments will make sense when we get\nto consolidation of compatible_binop_...() (next patch), switching\nto better recovery from type errors for these guys (next after that)\nand smarter handling of ~ on small restricted types.\n\n* compatible_restricted_binop() and check_case_type() switched to\nusing that puppy",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 62,
+            "deletions": 42
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 62,
+        "total_deletions": 42
+      }
+    },
+    {
+      "hash": "6aeb66b37eb32f714640cee6bfea0f4bf5e7768a",
+      "short_hash": "6aeb66b37eb3",
+      "author_name": "Al Viro",
+      "author_email": "viro@zeniv.linux.org.uk",
+      "date": "2006-01-13 06:16:25 -0500",
+      "year": "2006",
+      "subject": "[PATCH] evaluate_compare() can just use evaluate_arith() for non-pointer cases",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies evaluate.c. Changes: +1/-16 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 16
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 16
+      }
+    },
+    {
+      "hash": "62ac6c16058aba8693fd5827379debc5f57b60f5",
+      "short_hash": "62ac6c16058a",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@g5.osdl.org",
+      "date": "2006-01-08 12:49:39 -0800",
+      "year": "2006",
+      "subject": "Fix incorrect cast simplification around '~' operation",
+      "body": "We can move the cast down only if it's casting to a smaller type,\nobviously.\n\nProblem case found by Al Viro.\n\nSigned-off-by: Linus Torvalds <torvalds@osdl.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2ad3562dd874f52fbe3a5028ba7c24df716ce10c",
+      "short_hash": "2ad3562dd874",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:20:24 +0300",
+      "year": "2006",
+      "subject": "implement #strong_undef",
+      "body": "Example\n\n\t// pre-buffer\n\t#strong_undef CONFIG_SMP\n\n\t// include/linux/autoconf.h\n\t#define CONFIG_SMP 1\t\t// silently ignored\n\n\t#ifdef CONFIG_SMP\n\t\t...\t\t\t// not taken\n\t#endif\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 24,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 24,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "3c083484a3594f3c4e72fc06c001418a67dfe71a",
+      "short_hash": "3c083484a359",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:20:21 +0300",
+      "year": "2006",
+      "subject": "implement #strong_define",
+      "body": "Example\n\n\t#strong_define FOO 1\n\n\t#undef\tFOO\t// silently ignored\n\t#define\tFOO 2\t// silently ignored\n\nThis allows (for example) to override CONFIG_XXX values without\nediting include/linux/autoconf.h\n\nI think this is useful. If you think differently, I will appreciate\nyour comments on this patch correctness.\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 17,
+            "deletions": 11
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 4,
+            "deletions": 3
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 21,
+        "total_deletions": 14
+      }
+    },
+    {
+      "hash": "07ad7987620f13b96a52c890fcfc609d1de8da5e",
+      "short_hash": "07ad7987620f",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:20:17 +0300",
+      "year": "2006",
+      "subject": "prepare for #strong_{define,undef}",
+      "body": "This patch renames symbol->weak to symbol->attr and adds\nsymbolic names for it's values.\n\nI don't like the new name, and will be happy to rename if\nyou suggest me something different.\n\nProbably it is also better to move ->attr into the NS_MACRO\npart of the union and make it integer.\n\nNo changes in pre-process.o\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 8,
+            "deletions": 7
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 4,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 12,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "7207be8d9e4de12b91e8b7f4a5a82019a5c48744",
+      "short_hash": "7207be8d9e4d",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:20:12 +0300",
+      "year": "2006",
+      "subject": "fix 'weak' attribute loss",
+      "body": "When NS_MACRO symbol is used, sparse clears it's 'weak' flag.\nThis is bad for multifile parsing, and wrong:\n\n\t#weak_define FOO 1\n\tFOO\n\t#weak_define FOO 2\t// silently ignored\n\nAfter this patch sparse never writes to NS_MACRO symbols from\nanother scope (except ->used_in).\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 5,
+            "deletions": 3
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 6,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "506395425113ef60fcbd433cdf4080579d36ba86",
+      "short_hash": "506395425113",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:19:56 +0300",
+      "year": "2006",
+      "subject": "fix redefine of #weak_define",
+      "body": "This patch fixes 2 bugs in do_handle_define()\n\n1.\tif (sym->weak)\n\t\tgoto replace_it;\n\n\tThis is wrong, we should allocate a new symbol if\n\tsym->scope != file_scope, example:\n\n\tinc.h:\n\t\t#weak_define FOO default\n\n\tredefine.c:\n\t\t#define FOO redefine\n\t\tFOO\n\n\tdefault.c:\n\t\tFOO\n\n\t$ ./test-lexing -include inc.h redefine.c default.c\n\tredefine\n\tSegmentation fault\n\n2.\tif (token_list_different(...)) {\n\t\t...\n\t}\n\treturn 1;\n\n\tThis is wrong too:\n\n\t\t#weak_define\tFOO\t1\n\t\t#define\t\tFOO\t1\t// has no effect\n\t\t#define\t\tFOO\t2\t// redefined without warning\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 32,
+            "deletions": 23
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 32,
+        "total_deletions": 23
+      }
+    },
+    {
+      "hash": "75142e066305ec208543afaf878571647bec9eba",
+      "short_hash": "75142e066305",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:19:49 +0300",
+      "year": "2006",
+      "subject": "kill NS_INVISIBLEMACRO, introduce NS_UNDEF",
+      "body": "With this patch handle_undef() doesn't corrupt the builtin macros.\n\nThis (imho) cleanups the code and is used in the next patches.\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 10,
+            "deletions": 3
+          },
+          {
+            "file": "scope.c",
+            "insertions": 0,
+            "deletions": 7
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 11,
+        "total_deletions": 11
+      }
+    },
+    {
+      "hash": "e85b7a205a1496a76fc63079092f62feceab5850",
+      "short_hash": "e85b7a205a14",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@tv-sign.ru",
+      "date": "2006-01-02 22:19:42 +0300",
+      "year": "2006",
+      "subject": "use lookup_macro() in handle_undef()",
+      "body": "Current code looks strange, I think it used to remove the symbol\nfrom ->symbols list some time ago.\n\nSigned-off-by: Oleg Nesterov <oleg@tv-sign.ru>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 5,
+            "deletions": 10
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 10
+      }
+    }
+  ]
+}

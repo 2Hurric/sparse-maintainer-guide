@@ -1,0 +1,133 @@
+{
+  "year": "2025",
+  "stats": {
+    "total_commits": 5,
+    "with_description": 5,
+    "without_description": 0,
+    "total_insertions": 122,
+    "total_deletions": 8,
+    "contributors": 4
+  },
+  "commits": [
+    {
+      "hash": "fbdde3127b83e6d09e0ba808d7925dd84407f3c6",
+      "short_hash": "fbdde3127b83",
+      "author_name": "Dan Carpenter",
+      "author_email": "dan.carpenter@linaro.org",
+      "date": "2025-10-15 16:08:13 +0300",
+      "year": "2025",
+      "subject": "builtin: implement __builtin_strlen() for constants",
+      "body": "People are adding compile time asserts to check whether strings are\nthe expected length.  In GCC and Clang strlen(\"foo\") is expanded at\ncompile time so this works, but in Sparse it triggers a \"bad constant\nexpression\" warning.  Implement expand_strlen() to handle string\nliterals.\n\nSigned-off-by: Dan Carpenter <dan.carpenter@linaro.org>\nLink: https://lore.kernel.org/all/CANiDSCsBAq3Yx4ybarUb_1NkQ-bvfXvWqb-DfqXatkiYJFZWiQ@mail.gmail.com/\nSigned-off-by: Chris Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "builtin.c",
+            "insertions": 24,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 24,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "610d841da021200788d2200d7bc66f08bcc97c23",
+      "short_hash": "610d841da021",
+      "author_name": "Changyuan Lyu",
+      "author_email": "changyuan.lv@gmail.com",
+      "date": "2025-09-28 17:57:27 -0700",
+      "year": "2025",
+      "subject": "doc: update the instructions for mailing list subscription",
+      "body": "Majordomo commands are deprecated as per\nhttps://subspace.kernel.org/vger.kernel.org.html#what-happened-to-majordomo.\n\nSigned-off-by: Changyuan Lyu <changyuan.lv@gmail.com>\nSigned-off-by: Chris Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Documentation/index.rst",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "67f0a03cee4637e495151c48a02be642a158cbbb",
+      "short_hash": "67f0a03cee46",
+      "author_name": "Chris Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2025-09-27 18:43:09 -0700",
+      "year": "2025",
+      "subject": "doc: update maintainer",
+      "body": "Chris Li is back as sparse maintainer.\n\nSigned-off-by: Chris Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Documentation/index.rst",
+            "insertions": 7,
+            "deletions": 2
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 8,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "c47766ce0620001dfaf201674c990cde2e10423e",
+      "short_hash": "c47766ce0620",
+      "author_name": "Vincent Mailhol",
+      "author_email": "mailhol@kernel.org",
+      "date": "2025-09-23 00:53:21 +0900",
+      "year": "2025",
+      "subject": "vadidation: add used-to-be-signed unit tests",
+      "body": "Add unit tests for the new used-to-be-signed check as introduced in [1]:\n\nResults before applying [1]:\n\n  $ ./test-suite used-to-be-signed.c\n    TEST    used-to-be-signed (used-to-be-signed.c)\n  error: actual error text does not match expected error text.\n  error: see used-to-be-signed.c.error.* for further investigation.\n  --- used-to-be-signed.c.error.expected\t2025-09-23 00:50:07.079654644 +0900\n  +++ used-to-be-signed.c.error.got\t2025-09-23 00:50:07.073654719 +0900\n  @@ -1,8 +0,0 @@\n  -used-to-be-signed.c:8:19: warning: unsigned value that used to be signed checked against zero?\n  -used-to-be-signed.c:6:33: signed value source\n  -used-to-be-signed.c:11:17: warning: unsigned value that used to be signed checked against zero?\n  -used-to-be-signed.c:6:33: signed value source\n  -used-to-be-signed.c:14:20: warning: unsigned value that used to be signed checked against zero?\n  -used-to-be-signed.c:6:33: signed value source\n  -used-to-be-signed.c:17:18: warning: unsigned value that used to be signed checked against zero?\n  -used-to-be-signed.c:6:33: signed value source\n  error: FAIL: test 'used-to-be-signed.c' failed\n  KO: out of 1 tests, 0 passed, 1 failed\n\n...and after:\n\n  $ ./test-suite used-to-be-signed.c\n    TEST    used-to-be-signed (used-to-be-signed.c)\n  OK: out of 1 tests, 1 passed, 0 failed\n\n[1] Warn about \"unsigned value that used to be signed against zero\"\nLink: https://lore.kernel.org/linux-sparse/20250921061337.3047616-1-mailhol@kernel.org/\n\nSigned-off-by: Vincent Mailhol <mailhol@kernel.org>\nSigned-off-by: Chris Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/used-to-be-signed.c",
+            "insertions": 49,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 49,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "366ad4b2fa3e8361001a08b3719881b6d7c87e90",
+      "short_hash": "366ad4b2fa3e",
+      "author_name": "Vincent Mailhol",
+      "author_email": "mailhol@kernel.org",
+      "date": "2025-09-21 15:12:30 +0900",
+      "year": "2025",
+      "subject": "Warn about \"unsigned value that used to be signed against zero\"",
+      "body": "Consider this first pattern:\n\n  void error(void);\n  int check(void);\n\n  void foo (void)\n  {\n  \tunsigned int ret;\n\n  \tret = check();\n  \tif (ret < 0)\n  \t\terror();\n  }\n\nHere, the comparison against zero is a tautology: ret, which is\nunsigned, can never be negative. Thus the compiler will remove the\nerror branch causing a bug.\n\nThis pattern is caught by clang and gcc's -Wtype-limits. *However*,\nthat diagnostic has many lost bullets. It will also complain on some\nlegitimate things such as in this second pattern:\n\n  void error(void);\n\n  void bar (unsigned int val)\n  {\n  \tif (val < 0 || val > 42)\n  \t\terror();\n  }\n\nHere, the author just want to do a range check. Yes, the\n\n  val < 0\n\ncomparison is a tautology, but that time, it does not result in faulty\ncode when optimised out by the compiler.\n\nThere is thus a need for a check that will catch the first pattern but\nthat will let the second one go through. The difference between the\ntwo patterns is that in the first one the value returned by the\ncheck() function used to be signed whereas in the second one val was\nalways unsigned to begin with.\n\nAdd a check in sparse to warn if a value which used to be signed gets\nassigned to an unsigned and then gets compared against zero, either\nval < 0 or val >= 0.\n\nAs pointed out by Linus in his original message, a few false positives\nremain, especially when many inline functions and macros get involved,\nbut the level of noise is nothing in comparison to the -Wtype-limits.\n\nSuggested-by: Linus Torvalds <torvalds@linux-foundation.org>\nLink: https://lore.kernel.org/all/CAHk-=wjQCbRA1UEag-1-9yn08KNNqerTj++SCbbW80At=rg5RQ@mail.gmail.com/\nSigned-off-by: Vincent Mailhol <mailhol@kernel.org>\nSigned-off-by: Chris Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 39,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 39,
+        "total_deletions": 2
+      }
+    }
+  ]
+}

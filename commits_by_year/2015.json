@@ -1,0 +1,329 @@
+{
+  "year": "2015",
+  "stats": {
+    "total_commits": 12,
+    "with_description": 12,
+    "without_description": 0,
+    "total_insertions": 137,
+    "total_deletions": 12,
+    "contributors": 8
+  },
+  "commits": [
+    {
+      "hash": "38c9e9f3b3faba3dea7f42c37d565a425867060e",
+      "short_hash": "38c9e9f3b3fa",
+      "author_name": "Tony Camuso",
+      "author_email": "tcamuso@redhat.com",
+      "date": "2015-08-10 08:35:32 -0400",
+      "year": "2015",
+      "subject": "Add default case to switches on enum variables",
+      "body": "Missing enum members in case statements in c2xml.c and parse.c were\ncausing compile time complaints by gcc 5.1.1. Adding a default case\nsatisfies the compiler and notifies the reviewer that there are\ncases not explicitly mentioned being handled by the default case.\n\nSigned-off-by: Tony Camuso <tcamuso@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "c2xml.c",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "parse.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 5,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "0dac4783ea5700dd4dff6a45b849cb3ec9d62372",
+      "short_hash": "0dac4783ea57",
+      "author_name": "Tony Camuso",
+      "author_email": "tcamuso@redhat.com",
+      "date": "2015-08-10 08:33:54 -0400",
+      "year": "2015",
+      "subject": ".gitignore: add cscope and Qt project files",
+      "body": "Signed-off-by: Tony Camuso <tcamuso@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "0d2809b500cd831851d1ac734419165949b0f0ab",
+      "short_hash": "0d2809b500cd",
+      "author_name": "Dan Carpenter",
+      "author_email": "dan.carpenter@oracle.com",
+      "date": "2015-07-23 11:24:14 +0300",
+      "year": "2015",
+      "subject": "ptrlist: reading deleted items in NEXT_PTR_LIST()",
+      "body": "If you call DELETE_CURRENT_PTR(), then you can sometimes end up with a\n__list->nr that is zero.  The FOR_EACH_PTR() macro can handle this but\nthe NEXT_PTR_LIST() macro returns ptr = 0xf0f0f0f0 which leads to a\nsegfault.\n\nSigned-off-by: Dan Carpenter <dan.carpenter@oracle.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ptrlist.h",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a53cea28f0db1c799668476ec7612cf120cddcc0",
+      "short_hash": "a53cea28f0db",
+      "author_name": "Azat Khuzhin",
+      "author_email": "a3at.mail@gmail.com",
+      "date": "2015-06-12 08:20:40 +0300",
+      "year": "2015",
+      "subject": "validation/prototype: regression for skipping prototypes",
+      "body": "Signed-off-by: Azat Khuzhin <a3at.mail@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/prototype.c",
+            "insertions": 6,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "c04667e25447ca068c85c9a74ac3c12bfd79cd5e",
+      "short_hash": "c04667e25447",
+      "author_name": "Azat Khuzhin",
+      "author_email": "a3at.mail@gmail.com",
+      "date": "2015-06-12 08:20:39 +0300",
+      "year": "2015",
+      "subject": "sparse, llvm: compile: skip function prototypes to avoid SIGSEGV",
+      "body": "You can't pass function to LLVMConstNull(), according to\nConstant::getNullValue, and sparse-llvm already handle functions differently\n(i.e. there will be no call to LLVMConstNull(), but this is not true for\nfunction prototypes, because of how linearize_fn() works:\n```\nstatic struct entrypoint *linearize_fn(...)\n{\n  ...\n  if (!base_type->stmt)\n    return NULL;\n  ...\n}\n```\n\n```\nConstant *Constant::getNullValue(Type *Ty) {\n  switch (Ty->getTypeID()) {\n  ...\n  default:\n    // Function, Label, or Opaque type?\n    llvm_unreachable(\"Cannot create a null constant of that type!\");\n  }\n}\n```\n\nSigned-off-by: Azat Khuzhin <a3at.mail@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 11,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 11,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "60432109a5cb0687d255cd0d022ae7711e6340f5",
+      "short_hash": "60432109a5cb",
+      "author_name": "Heiko Carstens",
+      "author_email": "heiko.carstens@de.ibm.com",
+      "date": "2015-04-28 12:48:39 +0200",
+      "year": "2015",
+      "subject": "sparse/parse.c: ignore hotpatch attribute",
+      "body": "gcc knows about a new \"hotpatch\" attribute which sparse can safely ignore,\nsince it modifies only which code will be generated just like the\n\"no_instrument_function\" attribute.\n\nThe gcc hotpatch feature patch:\nhttps://gcc.gnu.org/git/?p=gcc.git;a=commit;h=11762b8363737591bfb9c66093bc2edf289b917f\n\nCurrently the Linux kernel makes use of this attribute:\nhttps://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=61f552141c9c0e88b3fdc7046265781ffd8fa68a\n\nWithout this patch sparse will emit warnings like\n\"error: attribute 'hotpatch': unknown attribute\"\n\nSigned-off-by: Heiko Carstens <heiko.carstens@de.ibm.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "efd34fafe5cba2eedfe889e49698f5eb119547bd",
+      "short_hash": "efd34fafe5cb",
+      "author_name": "Michael Stefaniuc",
+      "author_email": "mstefani@redhat.com",
+      "date": "2015-04-08 23:48:39 +0200",
+      "year": "2015",
+      "subject": "Add tests for the builtin INF and nan() functions.",
+      "body": "Test file cross checked with\ngcc -c -Wall -Werror -Wno-unused-variable validation/builtin_inf.c\n\nSigned-off-by: Michael Stefaniuc <mstefani@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/builtin_inf.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "76a73716e4fd76c81259968a7c7cb2fb73d993d7",
+      "short_hash": "76a73716e4fd",
+      "author_name": "Michael Stefaniuc",
+      "author_email": "mstefani@redhat.com",
+      "date": "2015-03-12 00:22:14 +0100",
+      "year": "2015",
+      "subject": "Add a define for __builtin_ms_va_copy()",
+      "body": "Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "95940a8d5c7cc6ec8f42479cdcaed189957ba09f",
+      "short_hash": "95940a8d5c7c",
+      "author_name": "Michael Stefaniuc",
+      "author_email": "mstefani@redhat.com",
+      "date": "2015-03-12 00:19:19 +0100",
+      "year": "2015",
+      "subject": "Add the __builtin functions needed for INFINITY and nan().",
+      "body": "Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 11,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 11,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "de1fa7e60d3d179a1b67c47a0429b2d0ac4e4842",
+      "short_hash": "de1fa7e60d3d",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2015-02-05 21:45:15 -0800",
+      "year": "2015",
+      "subject": "Make macro expanded string immutable",
+      "body": "The string is shared between different macro expand.\nIt is wrong to modify the string in place if the string\nis used in a macro. Avoid overwriting the string in that\ncase.\n\nReported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>\nTested-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "char.c",
+            "insertions": 10,
+            "deletions": 5
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 17,
+            "deletions": 5
+          },
+          {
+            "file": "token.h",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 29,
+        "total_deletions": 11
+      }
+    },
+    {
+      "hash": "40791b94c56b1a6da2a0ddeb1f9d5c9d64de8f93",
+      "short_hash": "40791b94c56b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2015-01-24 00:59:35 +0100",
+      "year": "2015",
+      "subject": "Teach sparse about the __COUNTER__ predefined macro",
+      "body": "__COUNTER__ macro is expanded to a sequential number starting from 0.\nThis is sometimes used to declare unique variable names.\n\nImplement support for __COUNTER__ in sparse including a set of\nsmall test programs for the test suite.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nAcked-by: Sam Ravnborg <sam@ravnborg.org>\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\nTested-by: Christian Borntraeger <borntraeger@de.ibm.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/preprocessor/counter1.c",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "file": "validation/preprocessor/counter2.c",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "file": "validation/preprocessor/counter2.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/preprocessor/counter3.c",
+            "insertions": 14,
+            "deletions": 0
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 46,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "1a900d9f37bb060329274970b25753181ce14223",
+      "short_hash": "1a900d9f37bb",
+      "author_name": "Christian Borntraeger",
+      "author_email": "borntraeger@de.ibm.com",
+      "date": "2015-01-22 10:51:50 +0100",
+      "year": "2015",
+      "subject": "s390x: add the proper defines for data types",
+      "body": "This patch fixes several issues when compiling code under s390x\n(64bit) with cgcc, e.g.\n/usr/include/gnu/stubs.h:8:12: error: unable to open 'gnu/stubs-32.h'\nby providing the proper defines.\n\nSigned-off-by: Christian Borntraeger <borntraeger@de.ibm.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 8,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 8,
+        "total_deletions": 0
+      }
+    }
+  ]
+}

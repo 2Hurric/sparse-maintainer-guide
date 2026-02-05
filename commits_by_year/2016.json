@@ -1,0 +1,2694 @@
+{
+  "year": "2016",
+  "stats": {
+    "total_commits": 97,
+    "with_description": 97,
+    "without_description": 0,
+    "total_insertions": 2991,
+    "total_deletions": 621,
+    "contributors": 12
+  },
+  "commits": [
+    {
+      "hash": "d329775c212cd1c5dad1d5e0ae226362bcef6992",
+      "short_hash": "d329775c212c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-26 03:46:09 +0100",
+      "year": "2016",
+      "subject": "simplify 'x != 0' or 'x == 1' to 'x'",
+      "body": "These two comparisons are no-ops when the operand is boolean.\nSimplify them away.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/bool-context-fp.c",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "file": "validation/optim/bool-simplify2.c",
+            "insertions": 17,
+            "deletions": 33
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 27,
+        "total_deletions": 37
+      }
+    },
+    {
+      "hash": "1a9d0f6d2269c00f54990205959f5c9a1f7aaa2f",
+      "short_hash": "1a9d0f6d2269",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-22 01:44:33 +0100",
+      "year": "2016",
+      "subject": "cgcc should not define non-reserved identifiers",
+      "body": "Since the original x86-64 support in cgcc\n(commit 0fcbcbf4: \"Implement x86-64 support in cgcc\")\ncgcc define some non-reserved identifiers like i386, x86_64, ...\nIt should not since these are valid identifiers which could be used\nfor some variable names.\n\nCurrent versions of gcc only define those prefixed with a double\nunderscore and cgcc also define those. So ...\n\nRemove the defines of the non-prefixed ones.\n\nReported-by: Joe Lawrence <joe.lawrence@redhat.com>\nInvestigated-by: Joe Lawrence <joe.lawrence@redhat.com>\nOriginally-From: Linus Torvalds <torvalds@linux-foundation.org>\nTested-by: Joe Lawrence <joe.lawrence@redhat.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 4,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "ce5f04a050cbc8bd92f718765616199a7f8c958a",
+      "short_hash": "ce5f04a050cb",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-18 22:18:00 +0100",
+      "year": "2016",
+      "subject": "unop: add helper replace_with_unop()",
+      "body": "Some simplifications reduce to transforming a binop into an unop.\nAdd an helper for making this change easier and more readable.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 14,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 14,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "0c8f2a719d30a42945f4dbcce4b2f906defad2d2",
+      "short_hash": "0c8f2a719d30",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-18 18:26:02 +0100",
+      "year": "2016",
+      "subject": "sub: simplify (x - -y) --> (x + y)",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "file": "validation/optim/simplify-sub-neg.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "623d958c6953631f46612b50c4e8e8319d597a9b",
+      "short_hash": "623d958c6953",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-18 18:13:04 +0100",
+      "year": "2016",
+      "subject": "add: simplify (-x + y) --> (y - x)",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/simplify-neg-add.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 8,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "26a8e420cd5b5e45e0d482fc5455e8d4087f7282",
+      "short_hash": "26a8e420cd5b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-18 18:13:04 +0100",
+      "year": "2016",
+      "subject": "add: simplify (x + -y) --> (x - y)",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 15,
+            "deletions": 1
+          },
+          {
+            "file": "validation/optim/simplify-add-neg.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "047a43fa754c0f82666d5858168bd63fe87d90a7",
+      "short_hash": "047a43fa754c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-18 07:06:32 +0100",
+      "year": "2016",
+      "subject": "extract extract eval_insn() from simplify_constant_binop()",
+      "body": "For some optimizations, it's desirable to be able to\ndirectly evaluate constant operations and not to have\nto wait a whole simplification cycle or to have to\nallocate an new instruction.\n\nSo, extract the part dealing exclusively with the\nevaluation into a separate function.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 128,
+            "deletions": 113
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 128,
+        "total_deletions": 113
+      }
+    },
+    {
+      "hash": "5d80f2005f30f4a55e3c0bc6c6e7b8a432bfc395",
+      "short_hash": "5d80f2005f30",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-17 10:32:48 +0100",
+      "year": "2016",
+      "subject": "new helper: def_opcode()",
+      "body": "Getting the opcode corresponding to the instruction defining\na pseudo *if* the psedudo has such an instruction (PSEUDO_REG)\nis an common operation in the simplification phase.\n\nAdd a helper, def_opcode() to make the code a bit easier to read.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "fd79461f2abe11be0aca467b77982b5c9517c9b0",
+      "short_hash": "fd79461f2abe",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-17 10:29:56 +0100",
+      "year": "2016",
+      "subject": "simplify (x & M) >> S to (x >> S) & (M >> S)",
+      "body": "This is especially usefull when simplifying code\naccessing bitfields.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/and-lsr.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 14,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "90cc2706010c1d2eb8cedf0765c95cbb2d5bd38b",
+      "short_hash": "90cc2706010c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-17 10:29:56 +0100",
+      "year": "2016",
+      "subject": "extract nbr_users() from unssa.c",
+      "body": "This small helper was used in unssa.c but is useful elsewhere too.\n\nMove it as an inline function to linearize.h and rename it to\n'nbr_users()' since it is close to the existing 'has_users()'.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "simplify.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "unssa.c",
+            "insertions": 1,
+            "deletions": 6
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 7,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "9d7af9cf62124b09e0d4cdf8791fc41081959c65",
+      "short_hash": "9d7af9cf6212",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-15 17:26:43 +0100",
+      "year": "2016",
+      "subject": "bool: add testcase for bool simplification",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/optim/bool-simplify2.c",
+            "insertions": 247,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 247,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "395b4de3d5084493d4dea2da74b735cc3bb8e886",
+      "short_hash": "395b4de3d508",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-15 12:00:20 +0100",
+      "year": "2016",
+      "subject": "simplify 'x ^ ~0' to '~x'",
+      "body": "This is yet another simple identity with the potential to trigger\nmore simplifications.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 7,
+            "deletions": 1
+          },
+          {
+            "file": "validation/optim/bits-not-zero.c",
+            "insertions": 8,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "a3e062b5803154e05f127a91b2aba6dcc51eb3d1",
+      "short_hash": "a3e062b58031",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-14 22:57:35 +0100",
+      "year": "2016",
+      "subject": "bool: remove OP_{AND,OR}_BOOL instructions",
+      "body": "Now that these instructions are not generated anymore,\nwe can remove all related code, defines and doc.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Documentation/IR.rst",
+            "insertions": 0,
+            "deletions": 8
+          },
+          {
+            "file": "cse.c",
+            "insertions": 1,
+            "deletions": 3
+          },
+          {
+            "file": "example.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 3
+          },
+          {
+            "file": "simplify.c",
+            "insertions": 0,
+            "deletions": 23
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 0,
+            "deletions": 24
+          }
+        ],
+        "total_files": 7,
+        "total_insertions": 2,
+        "total_deletions": 66
+      }
+    },
+    {
+      "hash": "0b99639411481e56cb0e6bfca01c7944c607f707",
+      "short_hash": "0b9963941148",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-14 22:41:47 +0100",
+      "year": "2016",
+      "subject": "simplify 'x | ~0' to '~0'",
+      "body": "This is a simple identity with the potential to trigger\nmore simplifications.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 8,
+            "deletions": 1
+          },
+          {
+            "file": "validation/optim/bits-not-zero.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 23,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "e124eabaa61618abd9af2b60ecb1646a9db7091b",
+      "short_hash": "e124eabaa616",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-14 09:55:20 +0100",
+      "year": "2016",
+      "subject": "bool: fix missing boolean context for floats",
+      "body": "The function add_convert_to_bool() was added to give a\nboolean context to logical expressions but did this onl\nfor integers.\n\nFix this for floating-point expressions by adding the proper\ncomparison to 0.0.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 7,
+            "deletions": 2
+          },
+          {
+            "file": "validation/optim/bool-context-fp.c",
+            "insertions": 48,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 55,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "6217cd5c130071a65c4d30d8e846f9c9ef0a9bd4",
+      "short_hash": "6217cd5c1300",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-14 09:55:20 +0100",
+      "year": "2016",
+      "subject": "fix boolean context for OP_AND_BOOL & OP_OR_BOOL",
+      "body": "Current simplifications of 'x && 1 --> x' and its dual\n'x || 0 --> x' are wrong because the '||' and '&&' operators\ndemand that their operands are first compared against zero\nwhich then always give a boolean valued result.\nFor example: '3 && 1' is not equal to '3' but to '1' (or 'true').\nThe correct simplification is thus 'x && 1 --> x != 0' and\n'x || 0 --> x != 0'.\n\nFix this by always first doing the comparison against zero\nbefore generating the OP_AND_BOOL and OP_OR_BOOL instructions.\n\nNote: of course, we could decide that the semantic of OP_AND_BOOL\n      and OP_OR_BOOL is that these ops take care themselves of\n      making a boolean context (which was, I think, why these\n      ops were created) but then these simplifications cannot be\n      done (or when they are done, we need to add the comparison\n      against zero).\n\nFixes: b85ec4bb7f5b1c522d7c71782dbd9cf1c4c49b2f\nFixes: a0886db12307d2633b04ec44342099a2955794a5\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 35,
+            "deletions": 2
+          },
+          {
+            "file": "validation/optim/bool-context.c",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/bool-simplify.c",
+            "insertions": 6,
+            "deletions": 2
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 53,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "d8ce303b14f6c7e0c9f0ec37781404d735476d62",
+      "short_hash": "d8ce303b14f6",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-12 16:29:01 +0100",
+      "year": "2016",
+      "subject": "unssa: update comment about the unneeded copies",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "unssa.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "9a492fdd83d7cb09292c0a0950deed9f39eb1a0a",
+      "short_hash": "9a492fdd83d7",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-12 16:29:00 +0100",
+      "year": "2016",
+      "subject": "unssa: eliminate trivial phisrc copies",
+      "body": "A OP_PHISOURCE which is the only user of its operand\ncan be trivially eliminated. For example, in:\n\tadd\t%r6, ...\n\t...\n\tphisrc\t%rt, %r6\nthe phisrc can safely be eliminated if no other instruction use %r6.\nWith this patch it's rewritten as:\n\tadd\t%rt, ...\n\t...\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "unssa.c",
+            "insertions": 22,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 22,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2e6232a27803596dbd1517164b3f3dc2e2aa8ca7",
+      "short_hash": "2e6232a27803",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-12 16:28:59 +0100",
+      "year": "2016",
+      "subject": "unssa: try to avoid some OP_PHI copies",
+      "body": "OP_PHI's target can interfer with it's own source swhen defined\nin the same basic block. Such interference can create problem\nlike the 'swap problem' (which only exist if the phi-node are\n'processed' sequentially if they're processed in parallel such\nproblems don't exist) when phi-nodes are destructed. To avoid\nsuch problems OP_PHI are rewritten as OP_COPY.\n\nif an OP_PHI and it's OP_PHISOURCE are in different basic blocks\nno such interference is possible and the copy is not needed.\n\nThis patch detect such situation and eliminate these unneeded copies.\n\nNote: during unSSA we're removing the OP_PHI & OP_PHISOURCE\n  but we need to use the def-use chains between them. We must\n  thus not use kill_instruction() in OP_PHI (this would break\n  def-use chains and leave stray OP_PHISOURCE), it's enough\n  to set their bb to NULL.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "unssa.c",
+            "insertions": 32,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 32,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "66409e16cd1649d923ad24c26657704848753cbc",
+      "short_hash": "66409e16cd16",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-12 16:28:58 +0100",
+      "year": "2016",
+      "subject": "unssa: simplify rewrite of OP_PHISOURCE",
+      "body": "Using the fact that each OP_PHISOURCE is used by a single OP_PHI,\nit's easier to rewrite OP_PHISOURCE at the same time as their\nassociated OP_PHI (because we have access to the new pseudo just created).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "unssa.c",
+            "insertions": 21,
+            "deletions": 68
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 68
+      }
+    },
+    {
+      "hash": "75c89cd2f73eac22355a186c5356bb814eadf9a6",
+      "short_hash": "75c89cd2f73e",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-12 16:28:57 +0100",
+      "year": "2016",
+      "subject": "unssa: do not try to update liveness",
+      "body": "The unSSA step used to try to maintain the liveness info\nwhile creating the copies but this can't be done so simply\n(what is updated is only the liveness for the current bb\nwhile it needs to be done for all concerned bbs).\n\nIf/when liveness is needed after this step, it need to be\nredone by calling track_pseudo_liveness().\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "unssa.c",
+            "insertions": 0,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "e460239ea1bc22517e1e62dabd24e9e9ddb66c15",
+      "short_hash": "e460239ea1bc",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-11 22:13:28 +0100",
+      "year": "2016",
+      "subject": "simplify '(x || x)' and '(x && x)'",
+      "body": "The operators '||' and '&&' being idempotent, the expressions\n'(x || x)' and '(x && x)' can be simplified to a test against zero.\n\nNote: they could even be replaced by 'x' itself but only if 'x' is\nalready a boolean expression/has already been tested against zero.\nIf it is the case, the redundant test this will be optimized away\nin further steps.\n\nFor example, test-linearize on the following code:\n\tint ior(int a) { return a || a; }\nemitted the following instructions:\n\tor-bool.32  %r3 <- %arg1, %arg1\nafter the patch, it now emits:\n\tsetne.32    %r3 <- %arg1, $0\nwhich is easier to combine with others simplifications.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "file": "validation/optim/bool-same-args.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 16,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "e5f70312b25b77a57a2ca16acb94d726af15f5f9",
+      "short_hash": "e5f70312b25b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-11 22:13:27 +0100",
+      "year": "2016",
+      "subject": "simplify comparisons followed by an equality test against 0 or 1",
+      "body": "Expressions involving equality testing against zero are ubiquitious\nand can often be simplified with previous comparisons.\n\nFor example, when using test-linearize on the following code:\n\t_Bool foo(int a) { return !(a < 3); }\nthe following was emitted:\n\tsetlt.32    %r2 <- %arg1, $3\n\tseteq.32    %r3 <- %r2, $0\n\tsetne.1     %r4 <- %r3, $0\n\tret.1       %r4\n\nbut this can be simplified into:\n\tsetge.1     %r4 <- %arg1, $3\n\tret.1       %r4\n\nImplement this simplification and add associated test cases.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 65,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/setcc-setcc.c",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/setcc-seteq.c",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/setcc-setne.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 110,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "d1d751569d5380cb0609ea47bfac186aa7cad821",
+      "short_hash": "d1d751569d53",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-11 22:13:26 +0100",
+      "year": "2016",
+      "subject": "fix cast to bool",
+      "body": "Section 6.3.1.2 of the C standard requires that cast to bool\nto be done differently than casting to others integer types:\n    The casted value need to be compared against '0',\n    if it compares equal the result is 0, otherwise the result is 1.\n\nBut currently, it's treated as the others integer casts: the value is\ntruncated, keeping only the least significant bit.\n\nFor example, when using test-linearize on the following code:\n\t_Bool foo(int a) { return (_Bool) a; }\n\nthis instruction is emitted:\n\tscast.1     %r2 <- (32) %arg1\nwhile the correct one is:\n\tsetne.1     %r2 <- %arg1, $0\n\nFix this for explicit and implicit casts.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 32,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bool-cast-bad.c",
+            "insertions": 27,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bool-cast-explicit.c",
+            "insertions": 26,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bool-cast-implicit.c",
+            "insertions": 28,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 113,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "0c5c53f5b00fef8226af2d06c72176ff125878dc",
+      "short_hash": "0c5c53f5b00f",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-11 11:17:29 +0100",
+      "year": "2016",
+      "subject": "llvm: remove unneeded OP_COPY support",
+      "body": "OP_COPY instructions are only introduced by the 'unSSA' phase\nwhich is not used by sparse-llvm.\n\nRemove the code which tried to handle this.\n\nCc: Azat Khuzhin <a3at.mail@gmail.com>\nCc: Xi Wang <xi.wang@gmail.com>\nCc: Pekka Enberg <penberg@kernel.org>\nCc: Jeff Garzik <jeff@garzik.org>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 1,
+            "deletions": 29
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 29
+      }
+    },
+    {
+      "hash": "6aedde496271674c5e272c5f2e6271e3860c6f1a",
+      "short_hash": "6aedde496271",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-11 10:49:19 +0100",
+      "year": "2016",
+      "subject": "llvm: fix typing when comparing to a constant",
+      "body": "In translation to LLVM, comparisons are processed like usual binary\noperations. But contrary to, for example, an addition where the\nresult type and the type of both operands are all the same, a\ncomparison always returns an integer result (with boolean values)\nwhich shouldn't depends on the type/size of its operands.\n\nThere is currently a bug regarding this when an operand of a\ncomparison is an integer constant:\n    the type of this constant is assumed to be the type of the result\n    of the comparison (in sparse's IR, the constants are typeless,\n    we thus need to guess/retrieve their type from the context)\n\nFor example, with the following C code:\n\t_Bool foo(int a) { return a != 3; }\n\nAfter linearization we can have the following very straightforward:\n\tsetne.1    %rd <- %arg1, $3\n\nAnd we expect the following LLVM IR:\n\t%rd = icmp ne i32 %0, 3\n\nBut what is built is the illegal:\n\t%rd = icmp ne i32 %0, i1 true\nbecause is constant '3' is translated to 'i1 true' since\n'setne.1' result type is boolean (i1 in LLVM parlance).\n\nFix this by separating the code for comparison from the others\nbinary operations and using the left-hand side type to interpret\nthe type of the constant (which is fine because the usual conversion\ninsure that both types match and there is never a constant on the lhs).\n\nCc: Azat Khuzhin <a3at.mail@gmail.com>\nCc: Xi Wang <xi.wang@gmail.com>\nCc: Pekka Enberg <penberg@kernel.org>\nCc: Jeff Garzik <jeff@garzik.org>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 32,
+            "deletions": 17
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 32,
+        "total_deletions": 17
+      }
+    },
+    {
+      "hash": "398201cc7feaee0f3f777920bc76f9a720aad10c",
+      "short_hash": "398201cc7fea",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-10 23:43:17 +0100",
+      "year": "2016",
+      "subject": "fix typing error in compound assignment",
+      "body": "A compound assignment like, for example:\n\tx /= a;\nshould have the same effect as the operation followed by the\nassignment except that the left side should only be evaluated\nonce. So the statement above (assuming 'x' free of side-effects)\nshould have the same effect as:\n\tx = x / a;\n\nIn particular, the usual conversions should applied. So, if the\ntype of 'x' and 'a' is, respectively, 'unsigned int' (32 bit) and\n'long' (64 bit), the statement above should be equivalent to:\n\tx = (unsigned int) ((long) x / a);\n\nBut what is really done currently is something like:\n\tx = x / (unsigned int) a;\nIn other words, the right-hand side is casted to the same type as the\nlhs and the operation is always done with this type, neglecting the\nusual conversions and thus forcing the operation to always be done\nwith the lhs type, here 'unsigned int' instead of 'long'.\nFor example, with the values:\n        unsigned int x = 1;\n        long a = -1;\n\nWe have:\n\tx = 1 / (unsigned int) (-1L);\n\tx = 1 / 0xffffffff;\n\tx = 0;\ninstead of the expected:\n\tx = (unsigned int) ((long)1 / -1L);\n\tx = (unsigned int) (-1L);\n\tx = 0xffffffff;\n\nThe patch fix this by first calculating the type corresponding to\nthe usual conversion and then casting the right-hand side to this\ntype, which is fine since it's a rvalue anyway.\nLater steps will then use the rhs type when doing the operation.\nOn the example above, the cast will be a no-op and the operation will\nbe done with the correct type:\n\tx = x / (long) a;\nwhich, at linearization, will become:\n\tx = (unsigned int) ((long) x / (long) a);\nand with unneeded casts optimized away:\n\tx = (unsigned int) ((long) x / a);\nWhich will give us the expected result.\n\nIf the types where in the other order, the result will also be done\nwith the correct type:\n\tlong x;\n\tunsigned int a;\n\t...\n\tx /= a;\nwill become:\n\tx = x / (long) a;\nand, at linearization:\n\tx = (long) ((long) x / (long) a);\nand with unneeded casts optimized away:\n\tx = (x / (long) a);\n\nCc: Al Viro <viro@zeniv.linux.org.uk>\nCc: Ramsay Jones <ramsay@ramsayjones.plus.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 6,
+            "deletions": 4
+          },
+          {
+            "file": "validation/compound-assign-type.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 25,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "62cab21fe13b7f9ac2008eae54bebfd45bb7e75a",
+      "short_hash": "62cab21fe13b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-10 00:03:11 +0100",
+      "year": "2016",
+      "subject": "add support for __int128",
+      "body": "There is already support for __int128_t & __uint128_t but not yet\nfor GCC's __int128.\n\nThis patch add support for it and a couple of test cases.\n\nNote: it's slightly more tricky that it look because contrary to\n'__int128_t', '__int128' is not an exact type (it can still receive\nthe 'unsigned' or 'signed' specifier).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "file": "validation/int128.c",
+            "insertions": 58,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 68,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "45bf23a2fee2d14d708ec35e5579219d65f65f6c",
+      "short_hash": "45bf23a2fee2",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-10 00:03:10 +0100",
+      "year": "2016",
+      "subject": "fix missing element in types declaration",
+      "body": "In the code doing the parsing of type declaration there is a few\narrays for the each integer size (short, int, long, long long, ...)\nThe array for the unsigned and explicitely unsigned integer have\nentry for 'slllong' & 'ulllong' last element but the one for plain\ninteger is missing its 'lllong' entry which make sparse crash when\ntrying to use this type.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "6d972b0e49b3ae6e2fd111daedb7b885fcf55439",
+      "short_hash": "6d972b0e49b3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-08 05:48:56 +0100",
+      "year": "2016",
+      "subject": "Update maintainers in the manpage",
+      "body": "The manpage still mentioned Josh Triplett as the maintainer\nwhile Christopher is the maintainer since 2009.\n\nCC: Christopher Li <sparse@chrisli.org>\nCC: Josh Triplett <josh@joshtriplett.org>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse.1",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "62504d579978da2f567992548df6d27dc27a3237",
+      "short_hash": "62504d579978",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-08 04:46:18 +0100",
+      "year": "2016",
+      "subject": "remove unused arg in uses/defs functions",
+      "body": "In the liveness analysis, the use/def methods have a\n'struct instruction *' argument.\nThis arg is never used and it's not clear for what it\ncould be used, what it would represent.\n\nThis patch remove this argument from all the concerned\nfunctions.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "liveness.c",
+            "insertions": 15,
+            "deletions": 15
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 15,
+        "total_deletions": 15
+      }
+    },
+    {
+      "hash": "2f8f949d9f5a8bccee66d78d0a14e4c31ae7cd7f",
+      "short_hash": "2f8f949d9f5a",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-08 04:34:38 +0100",
+      "year": "2016",
+      "subject": "recursive phi_defines cannot happen",
+      "body": "The function phi_defines() does the liveness tracking of phi-pseudos\n(pseudos in OP_PHIs args). While doing this, the function is\nrecursively called when the pseudo would be defined by another phi-node;\nbut this condition is impossible because all phi-pseudos are defined\nby OP_PHISOURCE instructions.\n\nThis patch remove the recursive call and its associated test.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "liveness.c",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "77ec9f360da23218a1d7447540302ff77e933a99",
+      "short_hash": "77ec9f360da2",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-07 17:32:57 +0100",
+      "year": "2016",
+      "subject": "add warning option '-Wtautological-compare'",
+      "body": "Now that we optimize away expressions like 'x == x' or 'x < x',\nalso add a warning for it (but disabled by default).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "simplify.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/tautological-compare.c",
+            "insertions": 35,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 42,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "38bad4d8816cb2aaf4c86a972315dbdbecad2a80",
+      "short_hash": "38bad4d8816c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-07 17:32:56 +0100",
+      "year": "2016",
+      "subject": "simplify '(x op x)' to '0', '1' or 'x'",
+      "body": "Most binops can be simplified when their two operands are\nidentical. For example '(x ^ x)' can be simplified into '0'.\n\nThe cases '(x / x)' and '(x % x)' are not simplified since this\nis correct only when x is not zero.\nThe cases '(x || x)' and '(x && x)' are not simplified because\nit's only correct when the operands are booleans/have already\nbeen compared against zero and the linearization don't enforce that.\n\nThis patch add the code for these simplifications as well as\ntheir corresponding test cases.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 35,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/binops-same-args.c",
+            "insertions": 49,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 84,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a0886db12307d2633b04ec44342099a2955794a5",
+      "short_hash": "a0886db12307",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-07 17:13:24 +0100",
+      "year": "2016",
+      "subject": "simplify '(x || 1)' to '1'",
+      "body": "There is simplifications for:\n\t(x && 0) => 0\n\t(x && 1) => x\n\t(x || 0) => x\nbut the fourth case '(x || 1)' is missing.\n\nThis patch add the missing simplification and a small test case.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 6,
+            "deletions": 1
+          },
+          {
+            "file": "validation/optim/bool-simplify.c",
+            "insertions": 51,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 57,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5425db10d4d35895ba3ca390478c624233ec027d",
+      "short_hash": "5425db10d4d3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-07 17:05:47 +0100",
+      "year": "2016",
+      "subject": "simplify '~(~x)' and '-(-x)' to 'x'",
+      "body": "Currently those double operations are not simplified.\n\nThis patch add those simplifications and some small test cases.\n\nNote: the 'boolean not': '!(!x)' is not handled by this patch\nbecause this operator is processed differently (it doesn't generate\nan unop instruction but directly generates 'seteq' operations).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 17,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/double-unop.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 32,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ee0b647dcda858ea81a505e4c4903078013a3d70",
+      "short_hash": "ee0b647dcda8",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-06 14:04:40 +0100",
+      "year": "2016",
+      "subject": "add test cases for canonicalization of boolean expressions",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/optim/bool-neq0.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 12,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "fac99b8c7132db6e636766b35d662315b37d3b42",
+      "short_hash": "fac99b8c7132",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-06 14:04:40 +0100",
+      "year": "2016",
+      "subject": "add test cases for simplification of equivalent to 'x == 0' or 'x != 0'",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/optim/bool-eq0.c",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/bool-ne0.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 24,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b3dc605badcd4930fa68fa6b5ab031970f54bde3",
+      "short_hash": "b3dc605badcd",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-06 10:25:05 +0100",
+      "year": "2016",
+      "subject": "add test cases for canonicalization of mul chains",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/optim/canonical-mul.c",
+            "insertions": 24,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 24,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "425aca24c35c02aad7e779d5eb7500cba2123238",
+      "short_hash": "425aca24c35c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-12-06 10:24:44 +0100",
+      "year": "2016",
+      "subject": "add test cases for canonicalization of add/sub chains",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/optim/canonical-add.c",
+            "insertions": 55,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 55,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a5b1604864cd4bcf500f45bdf8a126be708feb33",
+      "short_hash": "a5b1604864cd",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-30 04:46:05 +0100",
+      "year": "2016",
+      "subject": "cleanup: remove unused 'struct pseudo_ptr_list'",
+      "body": "'struct pseudo_ptr_list' was used to store pseudo usage\nbut this structure is not used since commit e7fb6e092\n(Add instruction to pseudo user tracking).\n\nRemove the leftovers.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 0,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "e0a5962d74e9add628f012a2eb657e5512a22753",
+      "short_hash": "e0a5962d74e9",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:47 +0100",
+      "year": "2016",
+      "subject": "some modifiers need to be preserved by 'typeof()'",
+      "body": "Currently when we use typeof() all the modifiers from the source\ntype are ignored and thus not present in the resulting type.\n\nThis give all sort of problems. One simple example is:\n\tconst int obj;\n\ttypeof(obj) *ptr;\n\t*ptr = 0;\n\nWe can expect that 'ptr' will have the type 'const int *' and thus\nthat sparse will warn on the assignment in the last line but it's\nnot case because 'ptr' has in fact the type 'int *'.\n\nThe patch fix this by preserving some of the modifiers when using\ntypeof().\n\nWARNING: it may be that the old behaviour was so more or less on\n  purpose as it provide a way to remove some modifiers by casting\n  while still being able to use generic macros. For exmaple, it\n  was possible to write the following macro:\n\t#define noconst(x) (typeof(x))\n  and use 'noconst()' as a cast to remove 'const' from types.\n  Of course, the problem with this macros is that it remove\n  *all* modifiers, not only 'const'.\n  With the patch, it won't be possible anymore to do this sort of\n  things, which maybe is fine for 'const' but it's why MOD_NOREFREF\n  is still dropped as it create problems in the Linew kernel, for example\n  in the macro to convert back a percpu variable into a plain one.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 6,
+            "deletions": 2
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/typeof-mods.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 8,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "548e90093d336d28f4bb00b3267417d145a6b601",
+      "short_hash": "548e90093d33",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:46 +0100",
+      "year": "2016",
+      "subject": "testsuite: test modifiers preserved by 'typeof()'",
+      "body": "Note: address space, 'safe' & 'noderef' have their own test file\nbecause they have others issues or need to be handled differently.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/typeof-addresspace.c",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "file": "validation/typeof-mods.c",
+            "insertions": 109,
+            "deletions": 0
+          },
+          {
+            "file": "validation/typeof-noderef.c",
+            "insertions": 19,
+            "deletions": 0
+          },
+          {
+            "file": "validation/typeof-safe.c",
+            "insertions": 23,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 171,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8c5fa9ab6b0f92a0f1dc91859fba4075371b4eac",
+      "short_hash": "8c5fa9ab6b0f",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:45 +0100",
+      "year": "2016",
+      "subject": "testsuite: test modifiers preserved by '&' operator",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/ptr-inherit.c",
+            "insertions": 80,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 80,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "01f2bb996b81d440d5bb1e8dd8d3b52930314965",
+      "short_hash": "01f2bb996b81",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:44 +0100",
+      "year": "2016",
+      "subject": "use a shorter name for function-pointer-modifier-inheritance.c",
+      "body": "The test file name is a bit longish which is annoying in test reports.\nRename it to simply 'function-pointer-inheritance.c'\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/{function-pointer-modifier-inheritance.c => function-pointer-inheritance.c}",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5e82dd3560534368389b68708ae42d41229711d5",
+      "short_hash": "5e82dd356053",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:43 +0100",
+      "year": "2016",
+      "subject": "testsuite: simplify test function-pointer-inheritance",
+      "body": "The function used had so much args that it was hard\nto see what's the difference between them.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/function-pointer-modifier-inheritance.c",
+            "insertions": 2,
+            "deletions": 11
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 11
+      }
+    },
+    {
+      "hash": "66140b83fec0b43643b15b6b6be79d33839eb21f",
+      "short_hash": "66140b83fec0",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-24 18:09:42 +0100",
+      "year": "2016",
+      "subject": "storage should not be inherited by pointers",
+      "body": "Information about storage is needed for objects but once\nyou take the address of an object, its storage should be\nirrelevant for the resulting pointer.\n\nTrying to keep the storage into the pointer's modifiers\n(while it will be available in the base type anyway) only\ncreate corner cases later.\nAn example of the problem it can create is when the pointer\nis dereferenced in an inlined function.\n\nBetter to simply not put have the storage informations\nfor the pointer, which is what this patch does.\n\nTo better illustrate the situation, suppose you have the\nfollowing variable declaration:\n\tstatic int var;\n\nvar's type should be:\n\tint static [toplevel] [addressable]\n\nif you take its address the resulting pointer will be of type:\n\tint static [toplevel] *\n\nwhile it should simply be:\n\tint *\n\nDetected-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/nocast.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "e54a9b7796b06680acfefcbb8cbb104e80f0e1f3",
+      "short_hash": "e54a9b7796b0",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-23 21:38:55 +0100",
+      "year": "2016",
+      "subject": "add test case for builtin bswap with constant args",
+      "body": "Signed-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/builtin-constant-eval.c",
+            "insertions": 28,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 28,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "6e3d2b3f92b68e14c88bbc1ff73723790e46df44",
+      "short_hash": "6e3d2b3f92b6",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-22 17:43:30 +0100",
+      "year": "2016",
+      "subject": "remove unused field 'multijump' in struct instruction",
+      "body": "This field was introduced (I think) for OP_SWITCH but is\nnot needed anymore as OP_SWITCH has its own entry with a field\nfOr multijump list.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 0,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "5f8681e7ad9abff079db4ed3bfdeb7b5e1808c4a",
+      "short_hash": "5f8681e7ad9a",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@looxix.net",
+      "date": "2016-11-22 17:32:33 +0100",
+      "year": "2016",
+      "subject": "OP_SWITCH should use 'insn->cond' instead of 'insn->target'",
+      "body": "show_instruction() uses the field 'target' to display OP_SWITCH\ninstruction instead of 'cond' like OP_BR does.\nIt doesn't change anything since these two fields use the same\nstorage inside struct instruction but better to use the right field\nto keep consistent.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5dd219ef2abf39d803f8ba4950acabc9c0f0244d",
+      "short_hash": "5dd219ef2abf",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-22 16:42:23 +0100",
+      "year": "2016",
+      "subject": "give comparable label's names to basic blocks",
+      "body": "test-linearize displays basic block's labels by using\n'.L0x' plus the address of the bb struct. This is certainly\nconvenient as an UID but it has the disadvantage that these\nnames change at each run and are thus not comparable.\n\nThis complicate testing quite a bit.\n\nLet change this by giving a simple sequential number to each bb\nand simply display them as: '.L1', '.L2', ...\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 16,
+            "deletions": 14
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 4,
+            "deletions": 1
+          },
+          {
+            "file": "test-unssa.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 21,
+        "total_deletions": 16
+      }
+    },
+    {
+      "hash": "a721d1598fca5982c2c0270280401a00f6a32cd7",
+      "short_hash": "a721d1598fca",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-21 04:49:33 +0100",
+      "year": "2016",
+      "subject": "let \"compile\" not crash on bools",
+      "body": "\"compile\" & \"compile-i386\" have never been adapted to use\nbits_to_bytes() and crash when processing a bool because\nit doesn't find a suffix for 1-bit instructions ('b', 'w', 'l', 'q').\n\nSprinkling a dozen \"bit_to_bytes()\" and adjusting a few shifts\nwould fix it but letting bits_in_bool be equal to 8 is much simpler.\n\nNote: with this patch, \"compile\" crashes 'only' 25 times when used\non the testsuite files, instead of 27 without it.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nCC: Jeff Layton <jlayton@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "compile.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "656336899b2522b8f60c1a35d39aff2a809a9163",
+      "short_hash": "656336899b25",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-17 20:59:18 +0100",
+      "year": "2016",
+      "subject": "make ptrlist walking against robust against empty blocks",
+      "body": "Not all macros or function involved in the ptrlist walking\ncan handle a ptrlist containing some empty blocks.\n\nFix this by:\n- add the proper check & looping to first & last_ptr_list().\n- add a safe version of PTR_ENTRY doing the needed check & looping.\n- use this safe version for DO_PREPARE() & DO_RESET()\n\nSuggested-by: Linus Torvalds <torvalds@linux-foundation.org>\nCC: Dan Carpenter <dan.carpenter@oracle.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nTested-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ptrlist.h",
+            "insertions": 26,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 26,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "05655137c5e493392aa7e3ade1c94c1dc81752d2",
+      "short_hash": "05655137c5e4",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2016-11-17 10:55:03 +0100",
+      "year": "2016",
+      "subject": "implement constant-folding in __builtin_bswap*()",
+      "body": "Since gcc does this, it's apparently valid to write\n\n switch (x) {\n case __builtin_bswap16(12):\n   break;\n }\n\nbut sparse will flag it as an error today.\n\nThe constant folding used to be done in the kernel's htons() and\nfriends, but due to gcc bugs that isn't done anymore since\ncommit 7322dd755e7d (\"byteswap: try to avoid __builtin_constant_p\ngcc bug\").\n\nTo get rid of the sparse errors on every such instance now, just\nadd constant folding to __builtin_bswap*() in sparse.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 32,
+            "deletions": 3
+          },
+          {
+            "file": "validation/bswap-constant-folding.c",
+            "insertions": 28,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 60,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "1db3b627dfff5a6ab7a7af3259603eb0a10b45aa",
+      "short_hash": "1db3b627dfff",
+      "author_name": "Jeff Layton",
+      "author_email": "jlayton@redhat.com",
+      "date": "2016-11-14 14:12:16 -0500",
+      "year": "2016",
+      "subject": "Handle SForced in storage_modifiers",
+      "body": "We have been seeing errors like this for a while now in the sparse\nFedora package, when doing kernel builds:\n\n    ./include/linux/err.h:53:25: warning: dereference of noderef expression\n    ./include/linux/err.h:35:16: warning: dereference of noderef expression\n\nThis spews all over the build because this comes from IS_ERR(), which\nis called everywhere. Even odder, it turns out that if we build the\npackage with -fpic turned off, then it works fine.\n\nWith some brute-force debugging, I think I've finally found the cause.\nThis array is missing the SForced element. When this is added then the\nproblem goes away.\n\nAs to why this goes away when -fpic is removed, I can only assume that\nwe get lucky with the memory layout and have a zeroed out region just\nbeyond the end of the array.\n\nFixes: 3829c4d8b097776e6b3472290a9fae08a705ab7a\nCc: Al Viro <viro@ftp.linux.org.uk>\nSigned-off-by: Jeff Layton <jlayton@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "28f6f5d2ee0389e27d6c8b8e35840df7ac3793ed",
+      "short_hash": "28f6f5d2ee03",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-10 15:45:20 +0100",
+      "year": "2016",
+      "subject": "fix discarded label statement",
+      "body": "When code contains an unused label, it's not needed to create a new\nbasic block for the code that follow it but that doesn't mean that\nthe following code is unreachable.\n\nThere is currently a bug related to this when processing a label statement\nfor a label that is never used: not only the label is ignored (and this\nno new basic block is created) but the whol statement is ignored.\nIn other words the statement directly following an unused label is\nsimply ignored.\n\nThe patch fix this by simply moving the code handling the statement out\nof the conditional part processing used labels.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/discarded-label-statement.c",
+            "insertions": 24,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 25,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "bb33d4ecc3446248617d4d2f66868c46635ce497",
+      "short_hash": "bb33d4ecc344",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 23:11:13 +0100",
+      "year": "2016",
+      "subject": "Remove unneeded variable in integer_promotion()",
+      "body": "Following some previous simplification done on the function,\nthe variable 'orig_type' is now always the same as 'type'.\n\nTo avoid possible confusion, only use 'type' and remove\nthe declaration of 'orig_type'.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "f25e41f4856b800d41a5d97122ed881a261deb50",
+      "short_hash": "f25e41f4856b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 22:59:37 +0100",
+      "year": "2016",
+      "subject": "Warn on unknown attributes instead of throwing errors",
+      "body": "GCC creates new attributes quite often, generaly for specific\nusages irrelevant to what sparse is used for.\nThrowing errors on these create needless noise and annoyance\nwhich is better to avoid.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "validation/Wunknown-attribute-def.c",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/Wunknown-attribute-no.c",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/Wunknown-attribute-yes.c",
+            "insertions": 10,
+            "deletions": 0
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 33,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "d589636c2475bf049b518a55e1b0d8519335936d",
+      "short_hash": "d589636c2475",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 18:16:23 +0100",
+      "year": "2016",
+      "subject": "cleanup: remove evaluate_arguments()'s unused argument",
+      "body": "Was slightly confusing when reading some code.\nBetter to remove it.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "0a367bdf4b13b984c6572d623456971d62601641",
+      "short_hash": "0a367bdf4b13",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 18:16:02 +0100",
+      "year": "2016",
+      "subject": "make 'ignored_attributes[]' static",
+      "body": "And so quiets a warning from sparse about an undeclared symbol\nwhen running on its own code.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "2b2725ce700826e0fcd7de99a461ce75b9ffb0a6",
+      "short_hash": "2b2725ce7008",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 18:15:44 +0100",
+      "year": "2016",
+      "subject": "add missing #include \"char.h\" to char.c",
+      "body": "And so quiets a warning from sparse about undeclared\nsymbols when running on its own code.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "char.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "c917c64e0eb61aa88e6257004be1849121b054ba",
+      "short_hash": "c917c64e0eb6",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-11-02 18:13:49 +0100",
+      "year": "2016",
+      "subject": "Fix type checking of variadic functions",
+      "body": "When doing a type comparison between functions, in the varidicity part,\nthe base type of these functions (= their return type) is\nwrongly used intead of their own type.\n\nFix this and add some tests showing this and others cases are\nnow OK\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nCC: Al Viro <viro@zeniv.linux.org.uk>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/function-redecl.c",
+            "insertions": 62,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 63,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "12e122908c3833ec86323354c31aa613fb40b8f6",
+      "short_hash": "12e122908c38",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-10-31 13:13:11 +0100",
+      "year": "2016",
+      "subject": "By default disable the warning flag '-Wunknown-attribute'",
+      "body": "Generally, we're not interested by those warnings, but we\ncan always explicitly ask for them if needed.\n\nSo make the flag '-Wunknown-attribute' off by default.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/Wunknown-attribute-def.c",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 1,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "bdf0e7cbb34b4d914366fe00063ce1da85ee2667",
+      "short_hash": "bdf0e7cbb34b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-10-31 13:13:11 +0100",
+      "year": "2016",
+      "subject": "By default disable the warning flag '-Wunknown-attribute'",
+      "body": "Generally, we're not interested by those warnings, but we\ncan always explicitly ask for them if needed.\n\nSo make the flag '-Wunknown-attribute' off by default.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/Wunknown-attribute-def.c",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 1,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "65f90e77057687ad5a6e8196d99aaf93bd0f5443",
+      "short_hash": "65f90e770576",
+      "author_name": "Ramsay Jones",
+      "author_email": "ramsay@ramsayjones.plus.com",
+      "date": "2016-10-06 00:49:18 +0100",
+      "year": "2016",
+      "subject": "sparse: add 'alloc_align' to the ignored attributes",
+      "body": "Signed-off-by: Ramsay Jones <ramsay@ramsayjones.plus.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/alloc-align.c",
+            "insertions": 38,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 40,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "153fbd0bbbfd952c6e3c1f6494e71d6ba903f7ed",
+      "short_hash": "153fbd0bbbfd",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2016-09-29 00:38:31 -0700",
+      "year": "2016",
+      "subject": "Fix warning compiling sparse-llvm",
+      "body": "-pedantic in the llvm-config --cflags cause a lot of warning.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "token.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "ffc860be91930f52f14193f9ee4166931e2e8fab",
+      "short_hash": "ffc860be9193",
+      "author_name": "Lance Richardson",
+      "author_email": "lrichard@redhat.com",
+      "date": "2016-09-28 14:41:05 -0400",
+      "year": "2016",
+      "subject": "sparse: ignore __assume_aligned__ attribute",
+      "body": "The __assume_aligned__ attribute can be safely ignored, add it\nto the list of ignored attributes and add a test to verify that\nthis attribute is ignored.\n\nSigned-off-by: Lance Richardson <lrichard@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/attr_aligned.c",
+            "insertions": 6,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 8,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "82d573cb15e33fd843ecf20ad559b1eb227ffc01",
+      "short_hash": "82d573cb15e3",
+      "author_name": "Lance Richardson",
+      "author_email": "lrichard@redhat.com",
+      "date": "2016-09-21 10:13:58 -0400",
+      "year": "2016",
+      "subject": "sparse: update __builtin_object_size() prototype",
+      "body": "Sparse emits a large number of warnings for the linux kernel source\ntree of the form:\n    ./arch/x86/include/asm/uaccess.h:735:18: \\\n        warning: incorrect type in argument 1 (different modifiers)\n    ./arch/x86/include/asm/uaccess.h:735:18:    expected void *<noident>\n    ./arch/x86/include/asm/uaccess.h:735:18:    got void const *from\n\nFix by making the first parameter to __builtin_object_size()\ntype \"const void *\" instead of \"void *\", which is consistent with GCC\nbehavior (the prototype for this builtin in GCC documentation is evidently\nincorrect).\n\nSigned-off-by: Lance Richardson <lrichard@redhat.com>\nAcked-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "6c283a05175c512e2d564753cd0b1a7bfc68c620",
+      "short_hash": "6c283a05175c",
+      "author_name": "Rui Teng",
+      "author_email": "rui.teng@linux.vnet.ibm.com",
+      "date": "2016-06-01 10:45:26 +0800",
+      "year": "2016",
+      "subject": "sparse: add no_sanitize_address as an ignored attribute",
+      "body": "Add attribute \"no_sanitize_address\" or \"__no_sanitize_address__\" as an ignored\nattribute. Fixes this sparse warning:\n\ninclude/linux/compiler.h:232:8: error: attribute 'no_sanitize_address': unknown attribute\n\nAlso add test case for 'no_sanitize_address': validation/attr-no_sanitize_address.c.\n'make check' says for this test case:\n    TEST     attribute no_sanitize_address (attr-no_sanitize_address.c)\n\nSigned-off-by: Rui Teng <rui.teng@linux.vnet.ibm.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/attr-no_sanitize_address.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 11,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "0e91f8781701cd40bd02999ca699c511cb7655c1",
+      "short_hash": "0e91f8781701",
+      "author_name": "Emily Maier",
+      "author_email": "emily@emilymaier.net",
+      "date": "2016-05-04 08:39:44 -0400",
+      "year": "2016",
+      "subject": "validation: Check C99 for loop variables",
+      "body": "Previously, sparse would generate incorrect code in the presence of a\nC99 variable declaration inside the for statement, completely dropping\nthe code after the end of the for loop. Check that it's now behaving\ncorrectly by entering a context and not leaving it at the end of the\nloop.\n\nSigned-off-by: Emily Maier <emily@emilymaier.net>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/c99-for-loop.c",
+            "insertions": 33,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 33,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ed73fd32736d0c945b29857be130153c81699478",
+      "short_hash": "ed73fd32736d",
+      "author_name": "Emily Maier",
+      "author_email": "emily@emilymaier.net",
+      "date": "2016-05-04 08:39:43 -0400",
+      "year": "2016",
+      "subject": "linearize: Emit C99 declarations correctly",
+      "body": "Variables declared with C99 syntax inside a for statement should be\nlinearized in the loop top, rather than implicitly inside the loop body.\n\nSigned-off-by: Emily Maier <emily@emilymaier.net>\nReviewed-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nTested-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2ad59aaa5eaec421e9bbb7163e56ace4d388cfd5",
+      "short_hash": "2ad59aaa5eae",
+      "author_name": "Daniel Wagner",
+      "author_email": "daniel.wagner@bmw-carit.de",
+      "date": "2016-02-17 10:51:31 +0100",
+      "year": "2016",
+      "subject": "parse: Add comment to struct statement",
+      "body": "All the other members of the union got a nice comment\nwhat they represent. Let's fix for context as well.\n\nSigned-off-by: Daniel Wagner <daniel.wagner@bmw-carit.de>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "82c13835624782a6744c3a5dab89c37866c8f7ae",
+      "short_hash": "82c138356247",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@redhat.com",
+      "date": "2016-02-11 23:47:10 +0100",
+      "year": "2016",
+      "subject": "dissect: s/mode_t/usage_t/ in report_member()",
+      "body": "Cosmetic, fix the typo.\n\nSigned-off-by: Oleg Nesterov <oleg@redhat.com>\nAcked-by: Lance Richardson <lrichard@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "ba83e861566d75132074fabfc96eff5e30e34297",
+      "short_hash": "ba83e861566d",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@redhat.com",
+      "date": "2016-02-08 16:13:28 +0100",
+      "year": "2016",
+      "subject": "dissect: teach do_initializer() to handle the nested EXPR_IDENTIFIER's",
+      "body": "do_initializer() is very limited/buggy but it was able to parse the kernel\ncode until ftrace started to use \".a.b = x\" rather than \".a = { .b = x }\"\nin initializers.\n\nTest-case:\n\n\tstruct O {\n\t\tstruct I {\n\t\t\tint mem;\n\t\t} inn;\n\t\tint end;\n\t} var = {\n\t\t.inn.mem = 0,\n\t\t0,\n\t};\n\nbefore the patch:\n\n\t1:8   s def  O\n\t2:16  s def  I\n\t6:3   g def  var                              struct O\n\t6:3   g -w-  var                              struct O\n\t7:10  s -w-  O.inn                            struct I\n\t7:10  s -w-  I.*                              struct I\n\tI.c:7:14: warning: bad expr->type: 25\n\t8:9   s -w-  O.end                            int\n\nafter:\n\n\t1:8   s def  O\n\t2:16  s def  I\n\t6:3   g def  var                              struct O\n\t6:3   g -w-  var                              struct O\n\t7:10  s -w-  O.inn                            struct I\n\t7:14  s -w-  I.mem                            int\n\t8:9   s -w-  O.end                            int\n\nSigned-off-by: Oleg Nesterov <oleg@redhat.com>\nAcked-by: Lance Richardson <lrichard@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 12,
+            "deletions": 7
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 12,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "dced7bc871c4f3eab293e153a9714c39cb469d43",
+      "short_hash": "dced7bc871c4",
+      "author_name": "Oleg Nesterov",
+      "author_email": "oleg@redhat.com",
+      "date": "2016-02-08 14:26:57 +0100",
+      "year": "2016",
+      "subject": "dissect: teach do_expression() to handle EXPR_OFFSETOF",
+      "body": "Starting from a194f3e0 \"implement __builtin_offsetof()\" sparse handles\noffsetof() internally but dissect.c wasn't updated.\n\nTest case:\n\n\tstruct S { int m; };\n\n\tvoid func(void)\n\t{\n\t\t__builtin_offsetof(struct S, m);\n\t}\n\nbefore this patch:\n\n\t3:6   g def  func                             void ( ... )\n\tT.c:5:38: warning: bad expr->type: 30\n\nafter:\n\n\t3:6   g def  func                             void ( ... )\n\t1:8   s def  S\n\t5:38  s ---  S.m                              int\n\nWhile at it, update my email.\n\nSigned-off-by: Oleg Nesterov <oleg@redhat.com>\nAcked-by: Lance Richardson <lrichard@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 15,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 15,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "826ff0b7e91d2414eae15030238b74a02c48e931",
+      "short_hash": "826ff0b7e91d",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:47:16 +0100",
+      "year": "2016",
+      "subject": "constexpr: treat comparisons between types as integer constexpr",
+      "body": "The expression parsing code builds an EXPR_COMPARE expression around two\nEXPR_TYPE expressions for __builtin_types_compatible_p().\n\nThe EXPR_TYPE expressions are tagged as being integer constant expressions\nin order to trick the generic comparison evaluation code into flagging the\nresult as an integer constant expression again.\n\nAvoid this trickery by making evaluate_compare() unconditionally tag a\ncomparison between types as an integer constant expression.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 9,
+            "deletions": 4
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "validation/constexpr-types-compatible-p.c",
+            "insertions": 8,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 17,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "b59499db2f1dad0d18e0a6c43d381ab1b2047ee0",
+      "short_hash": "b59499db2f1d",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:45:27 +0100",
+      "year": "2016",
+      "subject": "constexpr: support compound literals as address constants",
+      "body": "Toplevel compound literals have got static storage duration\n[6.5.2.5(6)].\n\nThis implies that\n1. their addresses are address constants [6.6(9)] and\n2. their initializers must contain constant expressions only\n   [6.5.2.5(3), 6.7.8(4)] .\n\nFlag the anonymous symbol created at expression parsing time as having\nstatic storage duration if the compound literal occurs at top level\nscope.\n\nFlag the whole expression as being an address constant at evaluation\ntime if its corresponding anonymous symbol had been previously marked\nas having static storage duration.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "expression.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-compound-literal.c",
+            "insertions": 19,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 23,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "56eeb88715772b14d7e2b93c41d67a35d7e6d0f8",
+      "short_hash": "56eeb8871577",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:44:38 +0100",
+      "year": "2016",
+      "subject": "constexpr: relax some constant expression rules for pointer expressions",
+      "body": "The official constraints on constant expressions [6.6] are insanely\nstrict in that they do not allow some constructs commonly used in the\nwild.\n\nRelax them by treating\n- address constants cast to different pointer type as address constants\n  again,\n- address constants cast to arithmetic type as arithmetic constant\n  expressions\n- conditional expressions whose true and false branches both yield\n  address constants as address constants,\n- and conditional expressions whose condition is an address constant\n  as an constant expression to the extent their true and false branches\n  allow.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 27,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 27,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "81b640bfe151797660569e3ce5a7ddf36c404aa8",
+      "short_hash": "81b640bfe151",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:43:53 +0100",
+      "year": "2016",
+      "subject": "constexpr: flag builtins constant_p, safe_p and warning as constexprs",
+      "body": "Unconditionally flag the expressions\n  __builtin_constant_p(),\n  __builtin_safe_p(),\n  __builtin_warning()\nas being integer constant expressions.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "builtin.c",
+            "insertions": 5,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "6ccf80b075d08276f00cbf91dfa9f95bb081d3b2",
+      "short_hash": "6ccf80b075d0",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:42:59 +0100",
+      "year": "2016",
+      "subject": "constexpr: examine constness of __builtin_offsetof at evaluation only",
+      "body": "Currently, the determination of a __builtin_offsetof() expressions'\nconstness flags is done in two steps:\n- Several flags are speculatively set at expression parsing time\n- and possibly cleared again at evaluation if the member expression\n  includes a non-const array index like in\n    __builtin_offsetof(struct A, a.b[non_const_foo])\n\nFor consistency with other expression types' evaluation, defer the\ndetermination of a __builtin_offsetof() expression's constness to\nevaluation time, too.\n\nFurthermore, carry an array index expression's constness flags\nthrough the implicit cast to size_t type.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 6,
+            "deletions": 2
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "validation/constexpr-offsetof.c",
+            "insertions": 21,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 27,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "722199c0867a391df6ba78b4ca57ee93f71b6e42",
+      "short_hash": "722199c0867a",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:42:10 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize references to labels as address constants",
+      "body": "As an extension, GCC allows labels to be referenced a la\n  label1:\n  ...\n\n  void *ptr = &&label1;\n\nTag these label references as being address constants allowing them\nto be used as initializers for objects of static storage duration.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-labelref.c",
+            "insertions": 14,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a39fedb0d7bf128bbef74c9a618f4ee6fe875a92",
+      "short_hash": "a39fedb0d7bf",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:41:24 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize string literals as address constants",
+      "body": "Introduce support for recognizing string literals as address constants.\n\nMake evaluate_string() unconditionally tag the *-preop wrapped symbol\nexpression as being an address constant.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-string.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 10,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "fa1c8068099cf4f7a555f2a4055adc4e4ceafccb",
+      "short_hash": "fa1c8068099c",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:40:42 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize members of static compound objects as address constants",
+      "body": "According to 6.6(9), the member access operators \".\" and \"->\" may be used\nin the creation of address constants.\n\nUses of both operators amount to the creation of EXPR_DEREF expressions\nwhich are eventually fed into evaluate_offset() at evaluation.\n\nMake evaluate_offset() propagate any address constant flag of the object\ncontaining the referenced member to the newly created pointer addition\nexpression.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 6,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-addr-of-static-member.c",
+            "insertions": 26,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 32,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "950dd57c4e43248c8a4dac6595991df42a36c0f1",
+      "short_hash": "950dd57c4e43",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:39:58 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize address constants created through pointer arithmetic",
+      "body": "An address constant +/- an integer constant expression qualifies as an\naddress constant again.\nFurthermore, the array-subscript operator \"[]\" may be used in the creation\nof address constant.\n\nHandle both cases by making evaluate_ptr_add() check whether an integer\nconstant expression is added to an address constant and tag the result as\nbeing an address constant again if so.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-pointer-arith.c",
+            "insertions": 28,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 35,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "f2c8ea249e59bac572bc23469d2e5d475418a473",
+      "short_hash": "f2c8ea249e59",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:39:09 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize address constants created through casts",
+      "body": "According to 6.6(9), an address constant may get created by casting\nan integer constant to pointer type.\n\nMake evaluate_cast() handle this case, that is tag a cast expression\nas being an address constant if the target is a integer constant and\nthe destination is of pointer type.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-pointer-cast.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 20,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8880427d5596d48c9b55b13b87b595e4b1763e14",
+      "short_hash": "8880427d5596",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:38:24 +0100",
+      "year": "2016",
+      "subject": "constexpr: recognize static objects as address constants",
+      "body": "Introduce support for recognizing address constants created either\n- explicitly by referencing a static storage duration object by means\n  of the unary & operator,\n- implicitly by the use of an expression of array or function type.\n\nInitially tag an expression as being an address constant at the primary\nexpression level, i.e. upon encountering a symbol designating an object of\nstatic storage duration in primary_expression().\n\nCarry the address constant flag over to the *-preop wrapped expression\ncreated by evaluate_symbol_expression().\n\nWhen dereferencing such a *-preop wrapped expression, make\nevaluate_addressof() keep any address constant flag for the unwrapped\nexpression.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "expression.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-addr-of-static.c",
+            "insertions": 36,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 46,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "080bef90f57599975b9a29a170d548038f01c59e",
+      "short_hash": "080bef90f575",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:37:18 +0100",
+      "year": "2016",
+      "subject": "constexpr: check static storage duration objects' intializers' constness",
+      "body": "Initializers of static storage duration objects shall be constant\nexpressions [6.7.8(4)].\n\nWarn if that requirement is not met and the -Wstatic-initializer-not-const\nflag has been given on sparse's command line.\n\nIdentify static storage duration objects by having either of\nMOD_TOPLEVEL or MOD_STATIC set.\n\nCheck an initializer's constness at the lowest possible subobject\nlevel, i.e. at the level of the \"assignment-expression\" production\nin [6.7.8].\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "file": "lib.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-init.c",
+            "insertions": 60,
+            "deletions": 0
+          }
+        ],
+        "total_files": 5,
+        "total_insertions": 82,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "5aece3c39ccd92d7805f9b332a4253302d1d0ff6",
+      "short_hash": "5aece3c39ccd",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:36:18 +0100",
+      "year": "2016",
+      "subject": "constexpr: add support for tagging address constants",
+      "body": "Address constants [6.6(9)] constitute one of the types of constant\nexpressions allowed in initializers [6.6(7)] for static storage\nduration objects [6.7.8(4)].\n\nIntroduce a new flag for tagging expressions which qualify as\nbeing an address constant.\n\nMake sure not to carry over the address constant attribute from\nsubexpressions for operators that never yield address constants,\ni.e.  most arithmetic ones, logical ones etc.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 18,
+            "deletions": 1
+          },
+          {
+            "file": "expression.h",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 20,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "23a85c504dcf6a40a0b6c6f00963032d1e8d62a7",
+      "short_hash": "23a85c504dcf",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:35:27 +0100",
+      "year": "2016",
+      "subject": "constexpr: add support for tagging arithmetic constant expressions",
+      "body": "Arithmetic constant expressions may be either of (6.6(8)):\n- integer constant expressions\n- floating point constants\nor any arithmetic expression build up from them.\nFurthermore, casts with arithmetic destination types preserve\narithmetic constness.\n\nArithmetic constant expressions may be used as initializers for\nobjects of static storage duration.\n\nIntroduce a new constexpr flag : CEF_ACE.\n\nModify CEF_SET_ICE and CEF_SET_FLOAT to also include that new bit.\nThus, whenever an integer constant expression or a floating point\nconstant is recognized, it is automatically tagged as an arithmetic\nconstant expression.\n\nNote that everything has already been set up such that the new flag\npropagates nicely from subexpressions to parent expressions at evaluation.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.h",
+            "insertions": 12,
+            "deletions": 10
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 12,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "c352b0d872b5c393d3ef1eb3053c19c298bcc82e",
+      "short_hash": "c352b0d872b5",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:34:34 +0100",
+      "year": "2016",
+      "subject": "constexpr: examine constness of conditionals at evaluation only",
+      "body": "Move the whole calculation of conditional expressions' constness flags\nto the evaluation phase such that expressions like\n\n  0 ? __builtin_choose_expr(0, 0, 0) : 0\n  0 ? 0 : __builtin_choose_expr(0, 0, 0)\n\ncan now be recognized as qualifying as integer constant expressions.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 6
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 6
+          },
+          {
+            "file": "validation/constexpr-conditional.c",
+            "insertions": 34,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 36,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "ccd9e3b5c6ab48bc03b52014a48ea53d681aa704",
+      "short_hash": "ccd9e3b5c6ab",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:33:38 +0100",
+      "year": "2016",
+      "subject": "constexpr: examine constness of preops at evaluation only",
+      "body": "Move the whole calculation of prefix expressions' constness flags to\nthe evaluation phase such that expressions like\n\n  -__builtin_choose_expr(0, 0, 0)\n  ~__builtin_choose_expr(0, 0, 0)\n  !__builtin_choose_expr(0, 0, 0)\n\ncan now be recognized as qualifying as integer constant expressions.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "validation/constexpr-preop.c",
+            "insertions": 29,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 33,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "4a99724da62bfe56c6347be07cf01579b16c6e68",
+      "short_hash": "4a99724da62b",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:32:32 +0100",
+      "year": "2016",
+      "subject": "constexpr: examine constness of binops and alike at evaluation only",
+      "body": "Move the whole calculation of binary operations', compare and logical\nexpressions' constness flags to the evaluation phase such that expressions\nlike\n\n  0 + __builtin_choose_expr(0, 0, 0)\n  0 < __builtin_choose_expr(0, 0, 0)\n  0 && __builtin_choose_expr(0, 0, 0)\n\ncan now be recognized as qualifying as integer constant expressions.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 6,
+            "deletions": 13
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "validation/constexpr-binop.c",
+            "insertions": 33,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 39,
+        "total_deletions": 16
+      }
+    },
+    {
+      "hash": "1b62f0f61f38d8f6881c6ee14da2f9137bd68fc7",
+      "short_hash": "1b62f0f61f38",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:31:47 +0100",
+      "year": "2016",
+      "subject": "constexpr: examine constness of casts at evaluation only",
+      "body": "Move the whole calculation of cast expressions' constness flags to the\nevaluation phase such that expressions like\n\n  (int)__builtin_choose_expr(0, 0, 0)\n\ncan now be recognized as qualifying as integer constant expressions.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 29,
+            "deletions": 8
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 19
+          },
+          {
+            "file": "expression.h",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "file": "validation/constexpr-cast.c",
+            "insertions": 25,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 61,
+        "total_deletions": 27
+      }
+    },
+    {
+      "hash": "2919ca4cd57c4633bccf26b01cb2b8c00271446d",
+      "short_hash": "2919ca4cd57c",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:30:49 +0100",
+      "year": "2016",
+      "subject": "constexpr: init flags at expression allocation",
+      "body": "Currently, the expression evaluation code explicitly opts out from\nconstness at evaluation if certain criteria regarding the subexpressions\nare not matched.\n\nInstead of this active opt-out, we want to have subexpression constness\nattributes to get propagated from child expressions to their parents in\nthe future.\n\nA prerequisite is that each expression's ->flags is in a defined\nstate at all times.\n\nSet ->flags to SET_INT or NONE at expression allocation time,\ndepending if the expression has a type or not\n(alloc_const_expression() or alloc_expression()).\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.h",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "274c154704db4e5f4417a087a1ab8b2002245832",
+      "short_hash": "274c154704db",
+      "author_name": "Nicolai Stange",
+      "author_email": "nicstange@gmail.com",
+      "date": "2016-02-01 03:29:40 +0100",
+      "year": "2016",
+      "subject": "constexpr: introduce additional expression constness tracking flags",
+      "body": "Even if sparse attempted to verify that initializers for static storage\nduration objects are constant expressions [6.7.8(4)] (which it\ncurrently does not), it could not tell reliably.\nExample:\n\n  enum { b = 0 };\n  static void *c = { (void*)b }; /* disallowed by C99 */\n\nReferences to enum members are not allowed in address constants [6.6(9)]\nand thus, the initializer is not a constant expression at all.\n\nPrepare for a more fine-grained tracking of expression constness in the\nsense of C99 [6.4.4, 6.6].\n\nIntroduce a broader set of constness tracking flags, resembling the\nfour types of primary expression constants [6.4.4] (integer, floating,\nenumeration, character). Define helper macros to consistently set and\nclear these flags as they are not completely independent.\n\nIn particular, introduce the following flags for tagging expression constness\nat the level of primary expressions:\n- CEF_INT: integer constant, i.e. literal\n- CEF_FLOAT: floating point constant (former Float_literal flag)\n- CEF_ENUM: enumeration constant\n- CEF_CHAR: character constant\n\nIntroduce the CEF_ICE flag meant for tagging integer constant\nexpressions. It is equivalent to the former Int_const_expr flag.\nNote that CEF_INT, CEF_ENUM and CEF_CHAR flags imply CEF_ICE being set.\n\nSigned-off-by: Nicolai Stange <nicstange@gmail.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 26,
+            "deletions": 26
+          },
+          {
+            "file": "expand.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "expression.c",
+            "insertions": 38,
+            "deletions": 24
+          },
+          {
+            "file": "expression.h",
+            "insertions": 53,
+            "deletions": 4
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 118,
+        "total_deletions": 55
+      }
+    },
+    {
+      "hash": "8efbac18a251580615e3a5c587155fd7233b1b13",
+      "short_hash": "8efbac18a251",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-01-07 02:47:09 +0100",
+      "year": "2016",
+      "subject": "Fix size calculation of unsized bool array",
+      "body": "This stops sparse from issuing the error message\n\t\"error: cannot size expression\"\nfor code like:\n\tstatic _Bool boolarray[] = {\n\t\t0,\n\t\t1,\n\t};\n\tstatic int n = sizeof(boolarray);\n\nThe fix consists of using array_element_offset() for calculating\nthe size of unsized arrays, like it is done elsewhere for sized ones.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/bool-array.c",
+            "insertions": 47,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 48,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "7647c775497f8c0f5841051377fba8cbb495c275",
+      "short_hash": "7647c775497f",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2016-01-05 17:25:53 +0100",
+      "year": "2016",
+      "subject": "Do not drop 'nocast' modifier when taking the address.",
+      "body": "With the following code:\n\ttypedef unsigned long __nocast cputime_t;\n\n\tvoid task_cputime_adjusted(cputime_t *);\n\n\tvoid current_task_runtime_100ns(void)\n\t{\n\t        cputime_t utime;\n\n\t        task_cputime_adjusted(&utime);\n\t}\n\nsparse emits the following message:\n\tx.c:16:32: warning: incorrect type in argument 1 (different modifiers)\n\tx.c:16:32:    expected unsigned long [nocast] [usertype] *<noident>\n\tx.c:16:32:    got unsigned long *<noident>\n\tx.c:16:32: warning: implicit cast to nocast type\n\nIn other words, when taking the address of 'utime', sparse drops the 'nocast'\nmodifier and then complains that task_cputime_adjusted() is not given a\n'nocast' pointer as expected ...\n\nThis feels wrong to me.\n\nThe proposed fix is to simply not dropping the 'nocast' modifier when\ntaking the address, like done for a normal type qualifier.\nThis gives very reasonable behaviour for all the test cases I could\nthink of:\n\t- taking the address or dereferencing doesn't drop the nocast\n\t- arithmetic operations on nocast give a nocast result.\n\t- implicit to/from cast is OK only if the base type are the same\n\t- implicit to/from pointer cast is OK only if the base type are the same\n\nThis still gives a \"leaky\" semantic: the nocast modifier can be lost via\nan implicit cast to a non-qualified value.\n\nExplicit cast to or from nocast values doesn't give any warning, maybe\nit's OK, maybe it's not but it's orthogonal to the current issue.\n\nIs this the wanted semantic for the nocast modifier?\n\nReported-by: Roman Kagan <rkagan@virtuozzo.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/nocast.c",
+            "insertions": 197,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 198,
+        "total_deletions": 1
+      }
+    }
+  ]
+}

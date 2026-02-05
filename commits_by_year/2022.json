@@ -1,0 +1,1174 @@
+{
+  "year": "2022",
+  "stats": {
+    "total_commits": 42,
+    "with_description": 42,
+    "without_description": 0,
+    "total_insertions": 642,
+    "total_deletions": 94,
+    "contributors": 4
+  },
+  "commits": [
+    {
+      "hash": "98b203419679a4ccb224ff6a48ed39119faf8d71",
+      "short_hash": "98b203419679",
+      "author_name": "Guennadi Liakhovetski",
+      "author_email": "guennadi.liakhovetski@linux.intel.com",
+      "date": "2022-11-16 17:55:25 +0100",
+      "year": "2022",
+      "subject": "xtensa: switch to little endianness",
+      "body": "Current gcc options only support the little endian mode on Xtensa,\nswitch over to it.\n\nSigned-off-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-xtensa.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "40c42530d7d37217a98bf9bcd28e3ad2ba4fe678",
+      "short_hash": "40c42530d7d3",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-08-10 22:33:56 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Add support for the zihintpause extension",
+      "body": "This was recently added to binutils and with any luck will soon be in\nLinux, without it sparse will fail when trying to build new kernels on\nsystems with new toolchains.\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nTested-by: Conor Dooley <conor.dooley@microchip.com>\nTested-by: Geert Uytterhoeven <geert+renesas@glider.be>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "7058eaf5677ff4b0f253d2985333d312e3d542ba",
+      "short_hash": "7058eaf5677f",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-08-10 20:31:38 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Add support for the zicbom extension",
+      "body": "This was recently added to binutils and with any luck will soon be in\nLinux, without it sparse will fail when trying to build new kernels on\nsystems with new toolchains.\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nTested-by: Conor Dooley <conor.dooley@microchip.com>\nTested-by: Geert Uytterhoeven <geert+renesas@glider.be>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ce1a6720f69e6233ec9abd4e9aae5945e05fda41",
+      "short_hash": "ce1a6720f69e",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-27 12:16:17 +0200",
+      "year": "2022",
+      "subject": "Merge branches 'unreplaced' and 'inline'",
+      "body": "* fix \"unreplaced\" warnings caused by using typeof() on inline functions\n* cleanup related to inlining of variadic functions",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 13,
+            "deletions": 10
+          },
+          {
+            "file": "validation/inline-early/variadic0.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 26,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "bad12ea3413288aae097bc91dbe4ce1226557966",
+      "short_hash": "bad12ea34132",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-27 10:09:04 +0200",
+      "year": "2022",
+      "subject": "bitwise: add testcases",
+      "body": "Currently bitwise types only support bitwise operations\n(&, |, ^ and ~) and the constant 0 (since this value is\ninvariant for all bitwise operations and endianness conversion).\n\nBut the incoming series will relax this a little bit.\nSo, add a few testcases for it.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/bitwise-cmp.c",
+            "insertions": 32,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bitwise-is-signed.c",
+            "insertions": 22,
+            "deletions": 0
+          },
+          {
+            "file": "validation/linear/bitwise-cmps.c",
+            "insertions": 18,
+            "deletions": 0
+          },
+          {
+            "file": "validation/linear/bitwise-cmpu.c",
+            "insertions": 18,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 90,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "f8f08b3336e380ed1af5f731cc465fe710e64eec",
+      "short_hash": "f8f08b3336e3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-27 09:35:07 +0200",
+      "year": "2022",
+      "subject": "bitwise: accept all ones as non-restricted value",
+      "body": "Currently, the only value bitwise types can act on is 0\nbecause the this value is anyway invariant for all bitwise\noperations and endianness conversions.\n\nBut, a bit-pattern of all ones has the same properties and\nis also very often used.\n\nSo, accept all ones as a valid value for bitwise operations.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/bitwise-cast.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 14,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "a20ea60c1a18256f9e3b84d3781778067808aa50",
+      "short_hash": "a20ea60c1a18",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-27 02:31:32 +0200",
+      "year": "2022",
+      "subject": "bitwise: allow compares for bitwise types",
+      "body": "Currently, bitwise types are restricted to bitwise operations\n(&, |, ^ and ~) as well as equality comparisons.\n\nThis patch makes the others comparisons valid for bitwise types\ntoo.\n\nWarning: This change make sense in the context of [1] but\n         doesn't make sense for the 'main' bitwise types:\n         __be32 and friends.\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bitwise-cmp.c",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "file": "validation/linear/bitwise-cmps.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "346ad756651e6c7c72f3012a4e1d57a49c327bc4",
+      "short_hash": "346ad756651e",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-27 02:29:40 +0200",
+      "year": "2022",
+      "subject": "bitwise: do not remove the signedness of bitwise types",
+      "body": "When bitwise types were added [1] the signedness modifiers\nwere removed from them. More exactly, it was MOD_SPECIFIER\nwhich was removed. I suppose this was done because then\nMOD_SPECIFIER contained the signedness bits but also MOD_CHAR,\nMOD_LONG, ...  and those had to be removed.\n\nBut currently MOD_SPECIFIER contains only MOD_SIGNEDNESS\nand the signedness info can be useful for bitwise types too.\n\nSo, do not removed anymore MOD_SPECIFIER from the bitwise\ntypes' modifiers.\n\n[1] commit 032f492af0ac (\"[PATCH] __attribute__((bitwise))\")\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/linear/bitwise-cmpu.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 1,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "d33c81e7b6f32c4cb9a0d7ba20ee4eb875dfc44f",
+      "short_hash": "d33c81e7b6f3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-26 23:36:26 +0200",
+      "year": "2022",
+      "subject": "bitwise: early expansion of simple constants",
+      "body": "C has only positive constants: -1 is really an expression,\nthe unary '-' operator applied to the constant 1. '-1' as\na constant value only exists after the expansion of constant\nexpressions.\n\nThis is rather unfortunate since it inhibits easy testing\nof such constants in the evaluation phase, like here for\nrestricted_value().\n\nSo, expand expressions like +CTE, -CTE or ~CTE before\ncalling restricted_value().\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 47,
+            "deletions": 1
+          },
+          {
+            "file": "validation/bitwise-cast.c",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bitwise-is-signed.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 60,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "102baa11391d48e5da57519df53b7b8d7d751887",
+      "short_hash": "102baa11391d",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-26 01:11:05 +0200",
+      "year": "2022",
+      "subject": "inline: add testcases for inlining of variadics",
+      "body": "Inlining of variadic functions needs some special cases.\nAdd some testcases for this.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/inline-early/variadic0.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "d42df42ec5a5f0ac7e58bfbfa6ceadd706b5517f",
+      "short_hash": "d42df42ec5a5",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-25 18:05:52 +0200",
+      "year": "2022",
+      "subject": "inline: free symbol list after use",
+      "body": "We usually don't free allocated memory because it's not known\nwhen the allocated objects aren't used anymore.\n\nBut here it's pretty obvious, so free this symbol list.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ec2e9b554d4799633ff195106280a8146647db5b",
+      "short_hash": "ec2e9b554d47",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-25 15:27:17 +0200",
+      "year": "2022",
+      "subject": "inline: declaration of the variadic vars is useless",
+      "body": "When inlining a function call, the arguments of this call must\nsomehow be assigned to the names used in the function definition.\nThis is done via a STMT_DECLARATION associated to the top\nSTMT_COMPOUND which now correspond to the inlined code.\n\nThis is perfectly fine for the normal case of non-variadic function\nbut when inlining a variadic function there is no corresponding name\nto assign the non-fixed arguments to (such arguments must either be\nnot used at all or copied via __builtin_va_arg_pack()). What's then\nhappening is essentially that these variables are self-assigned.\nNot Good.\n\nThis seems to be relatively harmless but is confusing.\nSo only put the fixed/named arguments in the declaration list.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "1777fe6b3ce8359b49d133924f1488ce0b0cc628",
+      "short_hash": "1777fe6b3ce8",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-25 15:26:04 +0200",
+      "year": "2022",
+      "subject": "inline: allocate statement after guards",
+      "body": "In inline_function(), the statement that will correspond to the\ninlined code is allocated in the function declaration but then\nit's checked if the function can be allocated or not.\n\nThis is not much memory and the checks should succeed most of the time\nbut it's clearer if the statement is allocated after the checks.\n\nSo, move the allocation after the checks.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "b6b0d32a94a7ae21ac28be762be8ad50b092b177",
+      "short_hash": "b6b0d32a94a7",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-25 15:25:19 +0200",
+      "year": "2022",
+      "subject": "inline: avoid needless intermediate vars",
+      "body": "In inline_function(), we need to iterate over the parameters\nand the (effective) arguments. An itermediate variable is used for\neach: \"name_list\" and \"arg_list\".\n\nThese confuse me a lot (especially \"name_list\", \"param_list\" would\nbe much more OK) and are just used once.\n\nSo, avoid using an intermediate variable for these.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 3,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "fd3f7de6113aebe927d9bfff0f485e48a6edf68e",
+      "short_hash": "fd3f7de6113a",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-25 11:34:21 +0200",
+      "year": "2022",
+      "subject": "inline: comment about creating node of node on variadics",
+      "body": "When inlining a variadic function the extra arguments are\nadded in the declaration list as SYM_NODE but these arguments\ncan already be SYM_NODEs.\n\nSparse doesn't support everywhere such nested nodes (they must\nbe merged) but in this case it's fine as the node will be merged\nwhen evaluated.\n\nAdd a comment telling the situation is fine.\nAlso, move the code to where the variadic arguments are handled\nsince the fixed one will be anyway directly overwritten.\n\nNote: Sparse doesn't really support inlining of variadic functions\n      but is fine when the arguments are not used (and such cases\n      occur in the kernel).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 5,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "0e1aae55e49cad7ea43848af5b58ff0f57e7af99",
+      "short_hash": "0e1aae55e49c",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-23 23:44:44 +0200",
+      "year": "2022",
+      "subject": "fix \"unreplaced\" warnings caused by using typeof() on inline functions",
+      "body": "Currently, sparse do all its inlining at the tree level, during\nconstant expansion. To not mix-up the evaluation of the original\nfunction body in case the address of an inline function is taken or\nwhen the function can't otherwise be inlined, the statements and\nsymbols lists of inline functions are kept in separated fields.\nThen, if the original body must be evaluated it must first be\n'uninlined' to have a copy in the usual fields.\n\nThis make sense when dealing with the definition of the function.\nBut, when using typeof() on functions, the resulting type doesn't\nrefer to this definition, it's just a copy of the type and only\nof the type. There shouldn't be any reasons to uninline anything.\nHowever, the distinction between 'full function' and 'type only'\nis not made during evaluation and the uninlining attempt produce\na lot of \"warning: unreplaced symbol '...'\" because of the lack\nof a corresponding definition.\n\nFix this by not doing the uninlining if the symbol lack a definition.\n\nNote: It would maybe be more appropriate for EXPR_TYPE to use\n      a stripped-own version of evaluate_symbol() doing only the\n      examination of the return and argument types, bypassing the\n      attempt to uninline the body and evaluate the initializer and\n      the statements since there is none of those for an EXPR_TYPE.\n\nLink: https://lore.kernel.org/all/202206191726.wq70mbMK-lkp@intel.com\nReported-by: kernel test robot <lkp@intel.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/inline-early/unreplaced-abstract.c",
+            "insertions": 28,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/devirtualize0.c",
+            "insertions": 17,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 46,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "4880bd1999feb9276faacd9a79647b53b6ffe8be",
+      "short_hash": "4880bd1999fe",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-14 01:43:12 +0200",
+      "year": "2022",
+      "subject": "predefine __ATOMIC_ACQUIRE & friends as weak",
+      "body": "In kernel's arch/mips/Makefile the whole content of gcc's -dM is used\nfor CHECKFLAGS. This conflict with some macros also defined internally:\n\tbuiltin:1:9: warning: preprocessor token __ATOMIC_ACQUIRE redefined\n\tbuiltin:0:0: this was the original definition\n\nFix this by using a weak define for these macros.\n\nReported-by: Randy Dunlap <rdunlap@infradead.org>\nReported-by: kernel test robot <lkp@intel.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "predefine.c",
+            "insertions": 6,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "9212270048c3bd23f56c20a83d4f89b870b2b26e",
+      "short_hash": "9212270048c3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-09 11:11:09 +0200",
+      "year": "2022",
+      "subject": "Merge branches 'cgcc-dash-x' and 'fixes'",
+      "body": "* cgcc: do not die on '-x assembler'\n* fix crash when inlining casts of erroneous expressions\n- allow show_token() on TOKEN_ZERO_IDENT",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "tokenize.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/inline-early/bug-bad-token.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 19,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "53e04b3b780bbcf2dd3eb7990c17414742bbfef9",
+      "short_hash": "53e04b3b780b",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-07 14:22:13 +0200",
+      "year": "2022",
+      "subject": "allow show_token() on TOKEN_ZERO_IDENT",
+      "body": "TOKEN_ZERO_IDENTs are created during the evaluation of pre-processor\nexpressions but which otherwise are normal idents and  were first tokenized\nas TOKEN_IDENTs.\n\nAs such, they could perfectly be displayed by show_token() but are not.\nSo, in error messages they are displayed as \"unhandled token type '4'\",\nwhich is not at all informative.\n\nFix this by letting show_token() process them like usual TOKEN_IDENTs.\nIdem for quote_token().\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nAcked-by: Linus Torvalds <torvalds@linux-foundation.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "tokenize.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "e44f724a5ce007ad789d4688a37d03c4845032c0",
+      "short_hash": "e44f724a5ce0",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-06 23:49:14 +0200",
+      "year": "2022",
+      "subject": "fix crash when inlining casts of erroneous expressions",
+      "body": "Sparse do inlining very early, during expansion, just after (type)\nevaluation and before IR linearization, and is done even if some\nerrors have been found. This means that the inlining must be robust\nagainst erroneous code.\n\nHowever, during inlining, a cast expression is always dereferenced and\na crash will occur if not valid (in which case it should be null).\n\nFix this by checking for null cast expressions and directly returning\nNULL, like done for the inlining of the other invalid expressions.\n\nLink: https://lore.kernel.org/r/e42698a9-494c-619f-ac16-8ffe2c87e04e@intel.com\nReported-by: kernel test robot <lkp@intel.com>\nReported-by: Yafang Shao <laoar.shao@gmail.com>\nReported-by: Yujie Liu <yujie.liu@intel.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "validation/inline-early/bug-bad-token.c",
+            "insertions": 15,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 17,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "29083a76efa600b02d30f32d0393ae53e37887f8",
+      "short_hash": "29083a76efa6",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-06 22:23:51 +0200",
+      "year": "2022",
+      "subject": "cgcc: do not die on '-x assembler'",
+      "body": "Currently cgcc will die if the option '-x' is used with any argument\nother than 'c'.\n\nIt makes sense since sparse can only handle C files but it can be\nuseful in a project to simply use something like:\n\tmake CC=cgcc\n\nSo, instead of die()ing, avoid calling sparse if such '-x' option\nis used, like already done by default for non .c files.\n\nOriginal-patch-by: Tom Rix <trix@redhat.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 2,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "b3cf30ba5b47dfa7414416fe3bc5ae34db6065e7",
+      "short_hash": "b3cf30ba5b47",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-05 22:19:28 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'riscv'",
+      "body": "* riscv: small improvements of '-march' parsing",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 9,
+            "deletions": 13
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 9,
+        "total_deletions": 13
+      }
+    },
+    {
+      "hash": "d9c17b4dc21ef531d673d1d6e510347e141e6801",
+      "short_hash": "d9c17b4dc21e",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-06-05 18:29:41 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'cast-value'",
+      "body": "* small improvements to cast_value()",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 7,
+            "deletions": 3
+          },
+          {
+            "file": "expression.c",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "expression.h",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 10,
+        "total_deletions": 9
+      }
+    },
+    {
+      "hash": "187285b32ea71c25419a09724d9fe5f1b46aab2e",
+      "short_hash": "187285b32ea7",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-31 15:27:37 +0200",
+      "year": "2022",
+      "subject": "cast_value: remove error-prone redundant argument",
+      "body": "The last two arguments of cast_value() are the old expression and\nthe oldtype which suggest that this oldtype can be distinct from the\ntype of the old expression.\n\nBut this is not the case because internally the type used to retrieve\nthe value of the expression is the type of the expression itself (old->ctype)\nthe type which is used and the two types must be the same (or at least\nbe equivalent).\n\nSo, remove the error-prone last argument and always us the type of the\nexpression itself.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "expression.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "expression.h",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 6,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "698360ca020e8ce4bc84eb44233dba9dbc9b598c",
+      "short_hash": "698360ca020e",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-31 14:56:21 +0200",
+      "year": "2022",
+      "subject": "cast_value: assign the new type",
+      "body": "The first two arguments of cast_value() are the new expression and the\ntype wanted for it. This type is then used to calculate the new value.\n\nBut the type of the expression must be assigned separately (usually\nafter the cast because the old and the new expression can refer to\nthe same object).\n\nTo avoid any possible inconsistencies, assign the new type during the\ncasting itself.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "expression.c",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "file": "parse.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "56afb504c0b917a2563b44fabe2f1e92e4c14287",
+      "short_hash": "56afb504c0b9",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-31 13:53:18 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'fixes' into master",
+      "body": "* fix zero/sign extension of integer character constants\n* handle clang's option \"-meabi gnu\"\n* fix infinite loop when expanding __builtin_object_size() with self-init vars",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "builtin.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "expression.c",
+            "insertions": 9,
+            "deletions": 1
+          },
+          {
+            "file": "options.c",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "file": "validation/builtin-objsize-self-init.c",
+            "insertions": 11,
+            "deletions": 0
+          },
+          {
+            "file": "validation/char-constant-signed.c",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/char-constant-unsigned.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 59,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "99a5645a0edbafac8eb667e0f341a73bebb5f34d",
+      "short_hash": "99a5645a0edb",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-23 10:55:03 +0200",
+      "year": "2022",
+      "subject": "handle clang's option \"-meabi gnu\"",
+      "body": "Clang has an option \"-meabi <arg>\" which is used by the kernel for ARMv7.\nThis kind of option, taking a argument without a separating '=', can't\nbe ignored like most other options and must this be special-cased.\n\nSo, add the special case for this option and consume the argument if it's\none of the valid one.\n\nLink: https://lore.kernel.org/r/20220331110118.vr4miyyytqlssjoi@pengutronix.de\nReported-by: Marc Kleine-Budde <mkl@pengutronix.de>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "options.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "3d1d65bfe6dad089b9c2a8d69f36ba5301a9509c",
+      "short_hash": "3d1d65bfe6da",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-22 20:46:58 +0200",
+      "year": "2022",
+      "subject": "fix zero/sign extension of integer character constants",
+      "body": "An integer character constant has type 'int' but, subtly enough,\nits value is the one of a 'char' converted to an 'int'.\n\nSo, do this conversion.\nAlso set the type of wide character constants from 'long' to 'wchar_t'.\n\nLink: https://lore.kernel.org/r/20210927130253.GH2083@kadam\nReported-by: Dan Carpenter <dan.carpenter@oracle.com>\nReported-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 9,
+            "deletions": 1
+          },
+          {
+            "file": "validation/char-constant-signed.c",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/char-constant-unsigned.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 27,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5a0004b591e311cb840633144087dee6ecdade17",
+      "short_hash": "5a0004b591e3",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-22 11:46:26 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'xtensa'",
+      "body": "* cgcc: add Xtensa support",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b4fb2fd8eefb57d1888da06bd56c3b2f78f7cd04",
+      "short_hash": "b4fb2fd8eefb",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-21 22:45:29 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'riscv-zicsr'",
+      "body": "* riscv: add the Zicsr extension\n* riscv: add the Zifencei extension",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 10,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 10,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "618f92e7ad155144cc8c97098f7ef86a57aad39d",
+      "short_hash": "618f92e7ad15",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-21 11:53:52 +0200",
+      "year": "2022",
+      "subject": "fix one year off in v0.6.4's release notes",
+      "body": "Bernhard Voelker noticed that the date in the release notes\nis one year off. Fix this.\n\nReported-by: Bernhard Voelker <mail@bernhard-voelker.de>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Documentation/release-notes/v0.6.4.rst",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "b22b01e5c1c6da0a6eeb6b3bb5d538f493f696b6",
+      "short_hash": "b22b01e5c1c6",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-21 11:21:01 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'semid'",
+      "body": "* semind: Index more symbols\n  For indexing purposes, macros definitions and typedefs are added to the\n  semind database. Functions that are not used in the code are also indexed.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "dissect.c",
+            "insertions": 60,
+            "deletions": 1
+          },
+          {
+            "file": "options.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "options.h",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "semind.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "test-dissect.c",
+            "insertions": 4,
+            "deletions": 1
+          }
+        ],
+        "total_files": 5,
+        "total_insertions": 72,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "7d990b119a6249af9a1ef4f3df9957d8975b56b2",
+      "short_hash": "7d990b119a62",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-21 11:16:24 +0200",
+      "year": "2022",
+      "subject": "Merge branch 'next-ramsay'",
+      "body": "* fix regression disabling the 'memcpy-max-count' check.\n* warn about a 'case label' on empty statement\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/byte-count-max.c",
+            "insertions": 28,
+            "deletions": 0
+          },
+          {
+            "file": "validation/label-positioning.c",
+            "insertions": 22,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 56,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "b3d7fb1bac881a714fed871db33e98e67b9bf1b6",
+      "short_hash": "b3d7fb1bac88",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2022-05-20 22:27:08 +0200",
+      "year": "2022",
+      "subject": "fix infinite loop when expanding __builtin_object_size() with self-init vars",
+      "body": "expand_object_size(), used to expand __builtin_object_size(),\nrecursively try to get the parent initializer. This fails miserably\nby looping endlessly when the object is a self-initialized variable.\n\nFor the moment, fix this in the most obvious way: stop the recursion\nand do not expand such variables.\n\nNote: I wouldn't be surprised if these self-initialized variables create\n      other problems elsewhere. Maybe we should remove their initializer\n      and somehow mark them as \"do not warn about -Wuninitialized\"\n      (well, there is no such warnings *yet*).\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "builtin.c",
+            "insertions": 8,
+            "deletions": 0
+          },
+          {
+            "file": "validation/builtin-objsize-self-init.c",
+            "insertions": 11,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 19,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "df76096c637951cf1713edf7d34940c814f8cb3d",
+      "short_hash": "df76096c6379",
+      "author_name": "Guennadi Liakhovetski",
+      "author_email": "guennadi.liakhovetski@linux.intel.com",
+      "date": "2022-04-20 14:31:34 +0200",
+      "year": "2022",
+      "subject": "cgcc: add Xtensa support",
+      "body": "Add support for the Xtensa architecture.\n\nSigned-off-by: Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "76d40fa9e54fdf790f9d1a4b97be93f94d26abfc",
+      "short_hash": "76d40fa9e54f",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:41 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Add the Zifencei extension",
+      "body": "Recent versions of binutils default to an ISA spec version that doesn't\ninclude Zifencei as part of I, so Linux has recently started passing\nthis in -march.\n\n[ Luc Van Oostenryck: move this patch at the start of the series ]\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "54cb689f2b664d379ac070b23fa3d8c814421d3a",
+      "short_hash": "54cb689f2b66",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:40 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Add the Zicsr extension",
+      "body": "Recent versions of binutils default to an ISA spec version that doesn't\ninclude Zicsr as part of I, so Linux has recently started passing this\nin -march.\n\n[ Luc Van Oostenryck: move this patch at the start of the series ]\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 6,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "b296539554213125eb8f61291c862eec190e4c9b",
+      "short_hash": "b29653955421",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:39 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Remove \"g\" from the extension list",
+      "body": "\"g\" goes along with the base ISA, but it was being treated as an\nextension.  This allows for all sorts of odd ISA strings to be accepted\nby sparse, things like \"rv32ig\" or \"rv32gg\".  We're still allowing\nsome oddities, like \"rv32ga\", but this one was easy to catch.\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "dcb3887d85c10c96cc56d2715bf21566e3c31d9b",
+      "short_hash": "dcb3887d85c1",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:38 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Remove the unimplemented ISA extensions",
+      "body": "This made sense when we die()d on unknown ISA extensions, but now that\nwe're just warning it's actually a bit detrimental: users won't see that\ntheir unimplemented ISA extensions are silently having the wrong\ndefinitions set, which may cause hard to debug failures.\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 0,
+            "deletions": 10
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "90feaaa967227961fc9972a0a46bb4fa51eec7b2",
+      "short_hash": "90feaaa96722",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:37 -0700",
+      "year": "2022",
+      "subject": "RISC-V: Match GCC's semantics for multiple -march instances",
+      "body": "GCC's semantics for \"-march=X -march=Y\" are that Y entirely overrides X,\nbut sparse takes the union of these two ISA strings.  This fixes the\nbehavior by setting, instead of oring, the flags whenever a base ISA is\nencountered.  RISC-V ISA strings can only have a single base ISA, it's\nnot like x86 where the 64-bit ISA is an extension of the 32-bit ISA.\n\n[Luc Van Oostenryck: reset the flags at the start of the parsing loop]\n\nSigned-off-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "e31e645f5c29b6587404c1efe534c65b4691e023",
+      "short_hash": "e31e645f5c29",
+      "author_name": "Palmer Dabbelt",
+      "author_email": "palmer@rivosinc.com",
+      "date": "2022-04-01 22:00:36 -0700",
+      "year": "2022",
+      "subject": "RISC-V: don't die() on -march errors, just warn",
+      "body": "Parsing RISC-V ISA strings is extremely complicated: there are many\nextensions, versions of extensions, versions of the ISA string rules,\nand a bunch of unwritten rules to deal with all the bugs that fell out\nof that complexity.\n\nRather than die()ing when the ISA string parsing fails, just stop parsing\nwhere we get lost and emit a warning. Changes tend to end up at\nthe end of the ISA string, so that's probably going to work (and if\nit doesn't there's a warning to true and clue folks in).\n\nThis does have the oddity in that \"-Wsparse-error\" is ignored for this\nwarning but this option was never meant to be used at this stage of\nthe processing..\n\n[Luc Van Oostenryck: drop handling of \"-Wsparse-error\"]\n\nSuggested-by: Linus Torvalds <torvalds@linux-foundation.org>\nBased-on-patch-by: Palmer Dabbelt <palmer@rivosinc.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target-riscv.c",
+            "insertions": 6,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "fbdc046e9561829265588582a0e5926eda1eaa88",
+      "short_hash": "fbdc046e9561",
+      "author_name": "Richard Palethorpe",
+      "author_email": "rpalethorpe@suse.com",
+      "date": "2022-03-21 11:21:19 +0000",
+      "year": "2022",
+      "subject": "Use offsetof macro to silence null ptr subtraction warning",
+      "body": "Subtracting (char *)0 is undefined behavior. Newer compilers warn\nabout this unless it is done in system headers.\n\nSigned-off-by: Richard Palethorpe <rpalethorpe@suse.com>\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "token.h",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    }
+  ]
+}

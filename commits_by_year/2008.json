@@ -1,0 +1,1601 @@
+{
+  "year": "2008",
+  "stats": {
+    "total_commits": 51,
+    "with_description": 51,
+    "without_description": 0,
+    "total_insertions": 2858,
+    "total_deletions": 2056,
+    "contributors": 13
+  },
+  "commits": [
+    {
+      "hash": "ac66df10a8db613c4952813d9e4006387e2c1a99",
+      "short_hash": "ac66df10a8db",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-31 13:03:34 -0800",
+      "year": "2008",
+      "subject": "Update the validation check for ftabstop=",
+      "body": "The ftabstop patch output different position for\nthe same error. Update all test case accordingly.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/address_space.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "validation/bad-array-designated-initializer.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "validation/bad-assignment.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/bad-cast.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "validation/bad-ternary-cond.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/badtype4.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/check_byte_count-ice.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/cond_expr.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/cond_expr2.c",
+            "insertions": 6,
+            "deletions": 6
+          },
+          {
+            "file": "validation/context.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "validation/declaration-after-statement-ansi.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/declaration-after-statement-c89.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/initializer-entry-defined-twice.c",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "file": "validation/noderef.c",
+            "insertions": 3,
+            "deletions": 3
+          },
+          {
+            "file": "validation/typesign.c",
+            "insertions": 18,
+            "deletions": 18
+          }
+        ],
+        "total_files": 15,
+        "total_insertions": 55,
+        "total_deletions": 55
+      }
+    },
+    {
+      "hash": "bb54f9a83eaa7c683e292a90fdfeebb54381c313",
+      "short_hash": "bb54f9a83eaa",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-26 01:37:01 -0800",
+      "year": "2008",
+      "subject": "Clean up Makefile long lines",
+      "body": "Signed-Off-By: Christopher Li<sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 17,
+            "deletions": 14
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 17,
+        "total_deletions": 14
+      }
+    },
+    {
+      "hash": "6edfd26e39c24e766edbed806ef829c101d55cc6",
+      "short_hash": "6edfd26e39c2",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-26 01:36:16 -0800",
+      "year": "2008",
+      "subject": "Makefile automatic header dependency",
+      "body": "It use the gcc generated dependency file to track\nheader file changes.\n\nUse pattern rules to build programes.\nMakefile is much shorter now. Easier to add\nnew objs or new programs.\n\nSigned-Off-By: Christopher Li<sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 21,
+            "deletions": 77
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 77
+      }
+    },
+    {
+      "hash": "521bacf04c705259c942ce4093627bd1640252e8",
+      "short_hash": "521bacf04c70",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-25 23:10:58 +0300",
+      "year": "2008",
+      "subject": "Also warn about sizeof(function)",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 6,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 6,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "405cd6edfe2e88c808f0a45f0c2ef92a854dbe67",
+      "short_hash": "405cd6edfe2e",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-25 16:17:15 -0800",
+      "year": "2008",
+      "subject": "Warn about explicit usage of sizeof(void)",
+      "body": "sizeof(void) still evaluate as 1 after the warning.\nvoid_ctype.bit_size remain zero so is_byte_type()\nwill continue to work.\n\nSigned-Off-By: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 14,
+            "deletions": 1
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 15,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "eb8559bf861c94ab7958105efa812b21e1da2d51",
+      "short_hash": "eb8559bf861c",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-25 14:20:38 -0800",
+      "year": "2008",
+      "subject": "Teach classify_type to handle typeof",
+      "body": "This change will fix Rusty Russel's test case:\n(*(typeof(v) __attribute__((address_space(0), force)) *)(&v))\n\nSigned-Off-By: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/typeof-attribute.c",
+            "insertions": 16,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 21,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2479d0f7819bdc4328f28c317248f1a6f78e3e9f",
+      "short_hash": "2479d0f7819b",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-12-23 10:59:22 +0100",
+      "year": "2008",
+      "subject": "Revert the context tracking code",
+      "body": "> Do you want to resend your change which revert the context changes?\n> Make it base on Josh's git's tree and I will merge your changes in my\n> branch.\n\nBelow. Or I can give it to you in git if you prefer. I still think we\nshould redo this in some form so that annotations with different\ncontexts can work properly, but I don't have time to take care of it\nright now.\n\njohannes\n\n>From ca95b62edf1600a2b55ed9ca0515d049807a84fc Mon Sep 17 00:00:00 2001\nFrom: Johannes Berg <johannes@sipsolutions.net>\nDate: Tue, 23 Dec 2008 10:53:19 +0100\nSubject: [PATCH] Revert context tracking code",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 2,
+            "deletions": 10
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 16,
+            "deletions": 15
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 3,
+            "deletions": 4
+          },
+          {
+            "file": "parse.c",
+            "insertions": 10,
+            "deletions": 124
+          },
+          {
+            "file": "parse.h",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 10,
+            "deletions": 33
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 51,
+            "deletions": 373
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "validation/context-dynamic.c",
+            "insertions": 0,
+            "deletions": 171
+          },
+          {
+            "file": "validation/context-named.c",
+            "insertions": 0,
+            "deletions": 553
+          },
+          {
+            "file": "validation/context-statement.c",
+            "insertions": 0,
+            "deletions": 69
+          },
+          {
+            "file": "validation/context.c",
+            "insertions": 14,
+            "deletions": 100
+          }
+        ],
+        "total_files": 12,
+        "total_insertions": 108,
+        "total_deletions": 1456
+      }
+    },
+    {
+      "hash": "e3bff51f8a10eeb65f5bb06ca0441291b2bf63e9",
+      "short_hash": "e3bff51f8a10",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-18 20:22:27 +0300",
+      "year": "2008",
+      "subject": "Let void have sizeof 1",
+      "body": "Gcc assumes sizeof(void) being 1.\nCurrently sparse would generate wrong code for:\n\nvoid *test(void *p) {\n       p++;\n       return p;\n}\n\nunsigned long test1(void *p)\n{\n       return sizeof(*p);\n}\n\n.L0x2b48867c1010:\n       <entry-point>\n       add.32      %r2 <- %arg1, $-1\n       ret.32      %r2\n\ntest1:\n.L0x2b48867c10b0:\n       <entry-point>\n       ret.32      $-1\n\nAnd with bit_size set to &bits_in_char, the code looks\nas expected.\n\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "5cba08a5cf79205e324f4c50d3a58177693bdf92",
+      "short_hash": "5cba08a5cf79",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-18 20:22:27 +0300",
+      "year": "2008",
+      "subject": "Rename dirafter to idirafter.",
+      "body": "Dirafter was probably just a mistake.\nGcc uses -idirafter.\n\nAcked-by: Sam Ravnborg <sam@ravnborg.org>\nSigned-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 5,
+            "deletions": 10
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 7,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "ace0046beb4a2bcd461239b5a96156fa6d3e68a1",
+      "short_hash": "ace0046beb4a",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-18 20:22:27 +0300",
+      "year": "2008",
+      "subject": "Document -gcc-base-dir in sparse.1",
+      "body": "Signed-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse.1",
+            "insertions": 5,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "9e6965b5031ad49b2ce4b6c8db6e1343b3364292",
+      "short_hash": "9e6965b5031a",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-18 20:22:27 +0300",
+      "year": "2008",
+      "subject": "Let cgcc pass -gcc-base-dir to sparse.",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 13,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "95f9d2d8a576a1abd06c677bc494a9f9b5c105cc",
+      "short_hash": "95f9d2d8a576",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-18 20:22:26 +0300",
+      "year": "2008",
+      "subject": "Set gcc include path at runtime.",
+      "body": "You can now tell sparse where to look for the compiler\nheaders with -gcc-base-dir <dir>. Otherwise sparse will\nlook for headers used to build it.\n\nAlso adds $GCC_BASE/include-fixed used by newer gcc\nversions.\n\nSigned-off-by: Alexey zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 4
+          },
+          {
+            "file": "lib.c",
+            "insertions": 20,
+            "deletions": 3
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 76,
+            "deletions": 20
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 99,
+        "total_deletions": 27
+      }
+    },
+    {
+      "hash": "e34179b2e784ee6b4de195e69d5898127015545a",
+      "short_hash": "e34179b2e784",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2008-12-18 01:33:19 +0300",
+      "year": "2008",
+      "subject": "Expand \"dubious !x & y\" handling to other combinations of !, &, and |.",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 10,
+            "deletions": 3
+          },
+          {
+            "file": "validation/dubious-bitwise-with-not.c",
+            "insertions": 17,
+            "deletions": 2
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 27,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "caffda221c4e2db78b03f5e6f8c43d1104f02004",
+      "short_hash": "caffda221c4e",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-18 01:33:19 +0300",
+      "year": "2008",
+      "subject": "Add enum member list to the parent",
+      "body": "Signed-Off-By: Christopher Li <sparse@chrisli.org>\nAcked-by: Thomas Schmid <Thomas.Schmid@br-automation.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "383fe762a3c5d4a5c6dae2046e852e17ea6385d3",
+      "short_hash": "383fe762a3c5",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "Warning should be enough for an unhandled transparent union",
+      "body": "An error would be issued if such union is actually used.\n\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "c01cc97bcb7bee491acb93ab1b5f87cae0b3a9d1",
+      "short_hash": "c01cc97bcb7b",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "A slightly edited irc discussion with Josh Triplett.",
+      "body": "Describes most data srtructures used in sparse.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Documentation/data-structures.txt",
+            "insertions": 54,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 54,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "1839db92cd1b7c1374982ae90e6f5dd1b151d887",
+      "short_hash": "1839db92cd1b",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "Gdb macros to get a better look at some sparse data structures.",
+      "body": "Note that we need to build sparse with -g3 -gdwarf-2 to get\nthe cpp macros included into the debug ingo.\n\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 11,
+            "deletions": 9
+          },
+          {
+            "file": "gdbhelpers",
+            "insertions": 310,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 321,
+        "total_deletions": 9
+      }
+    },
+    {
+      "hash": "fef304c047ddf90c41726dc139f415c70d646019",
+      "short_hash": "fef304c047dd",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "Handle missing argument to -D.",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "5e48e6b76709bd7f0d520054889884b1ad8fa24c",
+      "short_hash": "5e48e6b76709",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "Mark handle_switch as static and don't export it from lib.h",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "lib.h",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 1,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "3056bae9ca3c5fea3ecdfc7adf751af1a4ca7b6a",
+      "short_hash": "3056bae9ca3c",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:18 +0300",
+      "year": "2008",
+      "subject": "Looks more evident this way.",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "4d7c98921a8204501a7c3748dd0c400e469f8356",
+      "short_hash": "4d7c98921a82",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:17 +0300",
+      "year": "2008",
+      "subject": "Handle a terminal -o option properly.",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 7,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "775c9d92e4f9de1c6611bdbc317fdf2d9210ef18",
+      "short_hash": "775c9d92e4f9",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:17 +0300",
+      "year": "2008",
+      "subject": "Make show_symbol newline-consistent",
+      "body": "Signed-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "show-parse.c",
+            "insertions": 5,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "f8461c5cf3a66ad16084082367feac23c8cab490",
+      "short_hash": "f8461c5cf3a6",
+      "author_name": "Blue Swirl",
+      "author_email": "blauwirbel@gmail.com",
+      "date": "2008-12-17 22:01:17 +0300",
+      "year": "2008",
+      "subject": "OpenBSD support",
+      "body": "This patch adds OpenBSD support to sparse.\n\nAcked-by: Christopher Li <sparse@chrisli.org>\nSigned-off-by: Blue Swirl <blauwirbel@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "file": "compat-bsd.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 23,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "c765f350c6473a65f0d6937355dddd198d1317a9",
+      "short_hash": "c765f350c647",
+      "author_name": "Blue Swirl",
+      "author_email": "blauwirbel@gmail.com",
+      "date": "2008-12-17 22:01:17 +0300",
+      "year": "2008",
+      "subject": "Sparc64 (Sparc V9, LP64) support",
+      "body": "This patch adds support for Sparc64 (Sparc V9, LP64).\n\nSigned-off-by: Blue Swirl <blauwirbel@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "9a46ba1b5f134fdab62b60374073476cf5ff0599",
+      "short_hash": "9a46ba1b5f13",
+      "author_name": "Christopher Li",
+      "author_email": "spase@chrisli.org",
+      "date": "2008-12-17 22:01:17 +0300",
+      "year": "2008",
+      "subject": "Remove pre_buffer",
+      "body": "This patch removes the pre_buffer completely. Instead,\nsparse will tokenized the buffer during add_pre_buffer().\nSparse just tracks the beginning and end of pre_buffer.\n\nReviewed-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>\nSigned-Off-By: Christopher Li <spase@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 14,
+            "deletions": 9
+          },
+          {
+            "file": "token.h",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "tokenize.c",
+            "insertions": 11,
+            "deletions": 10
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 26,
+        "total_deletions": 20
+      }
+    },
+    {
+      "hash": "ed3d4c5cf65ff50220312353b340e5f6609a5944",
+      "short_hash": "ed3d4c5cf65f",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-12-17 22:01:16 +0300",
+      "year": "2008",
+      "subject": "Replace the -specs cgcc option with -target",
+      "body": "-spesc is just confusing, as gcc takes the same\noption for something compeltely different.\n\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "8f0331093ca506931f39a6cfbc3ae288a2e14b98",
+      "short_hash": "8f0331093ca5",
+      "author_name": "David Given",
+      "author_email": "dg@cowlark.com",
+      "date": "2008-12-17 22:01:16 +0300",
+      "year": "2008",
+      "subject": "Add type information to struct instruction.",
+      "body": "Currently there is no generic way to derive phy\ntype information from the instruction flow.\n\nSigned-off-by: David Given <dg@cowlark.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 4,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "eb800bdc37916dc96dfbd5b424dea3e6cde2409b",
+      "short_hash": "eb800bdc3791",
+      "author_name": "David Given",
+      "author_email": "dg@cowlark.com",
+      "date": "2008-12-17 22:01:16 +0300",
+      "year": "2008",
+      "subject": "Unhardcode byte size being 8 bits.",
+      "body": "Signed-off-by: David Given <dg@cowlark.com>\n[negative value division fixed by alexey.zaytsev@gmal.com]\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "compile-i386.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "evaluate.c",
+            "insertions": 13,
+            "deletions": 13
+          },
+          {
+            "file": "example.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "expand.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "flow.c",
+            "insertions": 6,
+            "deletions": 4
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "file": "target.h",
+            "insertions": 14,
+            "deletions": 0
+          }
+        ],
+        "total_files": 8,
+        "total_insertions": 42,
+        "total_deletions": 26
+      }
+    },
+    {
+      "hash": "e45e23489743c2c6e316008d1fbf11422cf0f4a9",
+      "short_hash": "e45e23489743",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2008-12-15 02:46:29 +0300",
+      "year": "2008",
+      "subject": "Evaluate iterator symbols",
+      "body": "evaluate.c forgets to evaluate iterator_syms, which\nmight have some expression in initializer.\n\nSigned-Off-By: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8f208e215a531d2b32aec0428fd5eaa24ae3100b",
+      "short_hash": "8f208e215a53",
+      "author_name": "Alexander Shishkin",
+      "author_email": "alexander.shishckin@gmail.com",
+      "date": "2008-08-26 00:33:39 +0300",
+      "year": "2008",
+      "subject": "don't call sparse when called to generate dependencies",
+      "body": "I have a situation here when $(CC) is called with -M options with\nslighly different set of -I/-D/etc arguments, which causes all sorts of\nfunny reports from sparse. Also, this increases the overall build time\nbecause every compilation unit if sparsed twice.\n\nSigned-off-by: Alexander Shishkin <alexander.shishckin@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "6a0698873c43e41c78abf3231c6d5a7863bda897",
+      "short_hash": "6a0698873c43",
+      "author_name": "Alexey Zaytsev",
+      "author_email": "alexey.zaytsev@gmail.com",
+      "date": "2008-06-11 16:15:58 +0400",
+      "year": "2008",
+      "subject": "Remove symbol.id_list",
+      "body": "It was only used to check if the symbol was already bound, and would\ncause significant complication in the serialization code.\n\nSigned-off-by: Alexey Zaytsev <alexey.zaytsev@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "scope.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 2
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 4,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "cb08a60a883504a84ced36e1d1e16c93c69bb7e4",
+      "short_hash": "cb08a60a8835",
+      "author_name": "Vegard Nossum",
+      "author_email": "vegardno@ifi.uio.no",
+      "date": "2008-05-25 10:29:19 +0200",
+      "year": "2008",
+      "subject": "Set *tree to NULL on error",
+      "body": "On \"Syntax error in unary expression\", the output parameter \"tree\" would be left\nuninitialized and subsequently used in unary_expression(), leading to segfault.\n\nCaught by valgrind and fixed by me ;-)\n\nSigned-off-by: Vegard Nossum <vegardno@ifi.uio.no>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "dd82c7033c4644299d3a8d7ed2f6b2422281b0cc",
+      "short_hash": "dd82c7033c46",
+      "author_name": "Vegard Nossum",
+      "author_email": "vegardno@ifi.uio.no",
+      "date": "2008-05-25 09:41:29 +0200",
+      "year": "2008",
+      "subject": "Fix use of invalid file descriptor",
+      "body": "tokenize_buffer() calls setup_stream() with a file descriptor argument of -1.\nThis number makes it all the way into nextchar_slow(), where -1 is used as an\nactual file descriptor when calling read().\n\nCheck for the -1 before calling read() if the buffer is empty.\n\n(By the way, that read() there is probably missing some additional error\n handling. An EINTR at the right moment...)\n\nSigned-off-by: Vegard Nossum <vegardno@ifi.uio.no>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "tokenize.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "230e6e21679296401c1e3c3090de456344f13063",
+      "short_hash": "230e6e216792",
+      "author_name": "Pavel Roskin",
+      "author_email": "proski@gnu.org",
+      "date": "2008-05-02 15:42:33 -0400",
+      "year": "2008",
+      "subject": "Ignore \"cold\" and \"hot\" attributes, which appeared in gcc 4.3",
+      "body": "They describe how likely the function is to be executed, which can\naffect optimization.  Also ignore the attributes with underscores.\n\nSigned-off-by: Pavel Roskin <proski@gnu.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 2,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 6,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "f43b0e9a874c86eeeb9ea6af89e39bae20d96be2",
+      "short_hash": "f43b0e9a874c",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@woody.linux-foundation.org",
+      "date": "2008-04-24 14:47:04 -0700",
+      "year": "2008",
+      "subject": "Simplify (and warn about) right shifts that result in zero",
+      "body": "..due to limited source sizes.\n\nYeah, should do this for left shifts too.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 56,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 56,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "a0962f7893fe8c7ce36ce8b03952335cb5152b54",
+      "short_hash": "a0962f7893fe",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@woody.linux-foundation.org",
+      "date": "2008-04-24 14:45:43 -0700",
+      "year": "2008",
+      "subject": "Fix cast instruction generation",
+      "body": "Whether it's a sign-extending cast or not depends on the source\nof the cast, not destination. The final size of the cast depends\non the destination, of course.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "6dcc36aec041ea5bb4b8d013d97aaa60d51c18df",
+      "short_hash": "6dcc36aec041",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-23 12:24:49 +0200",
+      "year": "2008",
+      "subject": "fix bug in context tracking code",
+      "body": "My optimisation to avoid recursion into BBs when checking contexts\nlead to a failure in a case like this:\n\n    static int warn_conditional(void)\n    {\n        if (condition)\n            return 0;\n\n        a();\n        if (condition == 0)\n            return 1;\n        r();\n        return 0;\n    }\n\nbecause some blocks are called with different contexts and thus\nneed to be checked multiple times.\n\nThe obvious fix would be to decrease the recursion depth at the\nend of the BB check function, but that, while correct, leads to\nextremely long sparse runtimes on somewhat complex functions.\nThus, this patch also makes sparse cache which contexts it has\nchecked a block in and avoid the re-checking in that case.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 0,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 114,
+            "deletions": 14
+          },
+          {
+            "file": "validation/context.c",
+            "insertions": 14,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 131,
+        "total_deletions": 16
+      }
+    },
+    {
+      "hash": "32dd96be4de207b09559d9b71c4cd6f7cb0cb4e2",
+      "short_hash": "32dd96be4de2",
+      "author_name": "Geoff Johnstone",
+      "author_email": "geoff.johnstone@googlemail.com",
+      "date": "2008-04-21 11:53:48 -0700",
+      "year": "2008",
+      "subject": "Add -Wno-declaration-after-statement",
+      "body": "This adds -W[no-]declaration-after-statement, which makes warnings about\ndeclarations after statements a command-line option. (The code to implement\nthe warning was already in there via a #define; the patch just exposes it\nat runtime.) Rationale: C99 allows them, C89 doesn't.\n\nSigned-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 24,
+            "deletions": 0
+          },
+          {
+            "file": "lib.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 3
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "file": "validation/declaration-after-statement-ansi.c",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "file": "validation/declaration-after-statement-c89.c",
+            "insertions": 12,
+            "deletions": 0
+          },
+          {
+            "file": "validation/declaration-after-statement-c99.c",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "validation/declaration-after-statement-default.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 8,
+        "total_insertions": 78,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "6663e10782e0bd57c028dd4fb70531bff782e926",
+      "short_hash": "6663e10782e0",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-11 13:08:32 +0200",
+      "year": "2008",
+      "subject": "improve -Wcontext code and messages",
+      "body": "This builds on my previous code improving the code and the messages,\nthe messages now always tell you the expected and actual context\nvalue. Also add another test since I had mentioned that case.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse.c",
+            "insertions": 158,
+            "deletions": 76
+          },
+          {
+            "file": "validation/context-dynamic.c",
+            "insertions": 12,
+            "deletions": 2
+          },
+          {
+            "file": "validation/context-named.c",
+            "insertions": 48,
+            "deletions": 24
+          },
+          {
+            "file": "validation/context-statement.c",
+            "insertions": 14,
+            "deletions": 3
+          },
+          {
+            "file": "validation/context.c",
+            "insertions": 75,
+            "deletions": 15
+          }
+        ],
+        "total_files": 5,
+        "total_insertions": 307,
+        "total_deletions": 120
+      }
+    },
+    {
+      "hash": "d8760c3341f858648b1e7091fdf24033d0669dc4",
+      "short_hash": "d8760c3341f8",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-11 13:07:47 +0200",
+      "year": "2008",
+      "subject": "inlined call bugfix & test",
+      "body": "This patch fixes an oversight in my other patches, inlined\ncalls weren't checked for context properly. Also adds a test\ncase for this.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/context-named.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "c3903563ac88d18a726aef47220573b383d697d1",
+      "short_hash": "c3903563ac88",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-10 15:25:22 +0200",
+      "year": "2008",
+      "subject": "sparse: simple conditional context tracking",
+      "body": "This patch enables a very simple form of conditional context tracking,\nnamely something like\n\nif (spin_trylock(...)) {\n\t[...]\n\tspin_unlock(...);\n}\n\nNote that\n__ret = spin_trylock(...);\nif (__ret) {\n\t[...]\n\tspin_unlock(...);\n}\n\ndoes /not/ work since that would require tracking the variable and doing\nextra checks to ensure the variable isn't globally accessible or similar\nwhich could lead to race conditions.\n\nTo declare a trylock, one uses:\n\nint spin_trylock(...) __attribute__((conditional_context(spinlock,0,1,0)))\n{...}\n\nNote that doing this currently excludes that function itself from context\nchecking completely.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 6,
+            "deletions": 16
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "parse.c",
+            "insertions": 52,
+            "deletions": 0
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 9,
+            "deletions": 0
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 40,
+            "deletions": 14
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/context-dynamic.c",
+            "insertions": 161,
+            "deletions": 0
+          }
+        ],
+        "total_files": 7,
+        "total_insertions": 270,
+        "total_deletions": 33
+      }
+    },
+    {
+      "hash": "7f91144d2de97bcbf26d980830646cac25e2b7df",
+      "short_hash": "7f91144d2de9",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-10 15:25:21 +0200",
+      "year": "2008",
+      "subject": "sparse test suite: add test mixing __context__ and __attribute__((context(...)))",
+      "body": "An earlier version of the next patch had a bug that this test catches.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/context-named.c",
+            "insertions": 21,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "c5b808c9964d62fc026d9398a4a62c3ce7bacac8",
+      "short_hash": "c5b808c9964d",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-10 15:25:20 +0200",
+      "year": "2008",
+      "subject": "make sparse keep its promise about context tracking",
+      "body": "The sparse man page promises that it will check this:\n\n   Functions with the extended attribute\n\t__attribute__((context(expression,in_context,out_context))\n   require the context expression (for instance, a lock) to have the\n   value in_context (a constant nonnegative integer) when called,\n   and return with the value out_context (a constant nonnegative\n   integer).\n\nIt doesn't keep that promise though, nor can it, especially with\ncontexts that can be acquired recursively (like RCU in the kernel.)\n\nThis patch makes sparse track different contexts, and also follows\nup on that promise, but with slightly different semantics:\n\n  * the \"require the context to have the value\" is changed to require\n    it to have /at least/ the value if 'in_context',\n  * an exact_context(...) attribute is introduced with the previously\n    described semantics (to be used for non-recursive contexts),\n  * the __context__ statement is extended to also include a required\n    context argument (same at least semantics),\n\nUnfortunately, I wasn't able to keep the same output, so now you'll\nsee different messages from sparse, especially when trying to unlock\na lock that isn't locked you'll see a message pointing to the unlock\nfunction rather than complaining about the basic block, you can see\nthat in the test suite changes.\n\nThis patch also contains test updates and a lot of new tests for the\nnew functionality. Except for the changed messages, old functionality\nshould not be affected.\n\nHowever, the kernel use of __attribute__((context(...)) is actually\nwrong, the kernel often does things like:\n\n    static void *dev_mc_seq_start(struct seq_file *seq, loff_t * pos)\n            __acquires(dev_base_lock)\n    {\n            [...]\n            read_lock(&dev_base_lock);\n            [...]\n    }\n\nrather than\n\n    static void *dev_mc_seq_start(struct seq_file *seq, loff_t * pos)\n            __acquires(dev_base_lock)\n    {\n            [...]\n            __acquire__(dev_base_lock);\n            read_lock(&dev_base_lock);\n            [...]\n    }\n\n(and possibly more when read_lock() is annotated appropriately, such\nas dropping whatever context read_lock() returns to convert the context\nto the dev_base_lock one.)\n\nCurrently, sparse doesn't care, but if it's going to check the context\nof functions contained within another function then we need to put the\nactual __acquire__ together with acquiring the context.\n\nThe great benefit of this patch is that you can now document at least\nsome locking assumptions in a machine-readable way:\n\nbefore:\n    /* requires mylock held */\n    static void myfunc(void)\n    {...}\n\nafter:\n    static void myfunc(void)\n            __requires(mylock)\n    {...}\n\nwhere, for sparse,\n    #define __requires(x) __attribute__((context(x,1,1)))\n\nDoing so may result in lots of other functions that need to be annoated\nalong with it because they also have the same locking requirements, but\nultimately sparse can check a lot of locking assumptions that way.\n\nI have already used this patch and identify a number of kernel bugs by\nmarking things to require certain locks or RCU-protection and checking\nsparse output. To do that, you need a few kernel patches which I'll\nsend separately.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 10,
+            "deletions": 2
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "parse.c",
+            "insertions": 72,
+            "deletions": 10
+          },
+          {
+            "file": "parse.h",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "sparse.1",
+            "insertions": 24,
+            "deletions": 10
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 161,
+            "deletions": 48
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/context-named.c",
+            "insertions": 496,
+            "deletions": 0
+          },
+          {
+            "file": "validation/context-statement.c",
+            "insertions": 58,
+            "deletions": 0
+          },
+          {
+            "file": "validation/context.c",
+            "insertions": 26,
+            "deletions": 14
+          }
+        ],
+        "total_files": 11,
+        "total_insertions": 861,
+        "total_deletions": 86
+      }
+    },
+    {
+      "hash": "08431f18af58bb612976185000a465bf8168582b",
+      "short_hash": "08431f18af58",
+      "author_name": "Geoff Johnstone",
+      "author_email": "geoff.johnstone@googlemail.com",
+      "date": "2008-04-05 02:59:06 -0700",
+      "year": "2008",
+      "subject": "Fix type mismatches with incomplete types",
+      "body": "If I put the following in a public header:\n\n   struct foo;\n   typedef struct foo *Foo;\n\n   void func (Foo f);\n\nand the definition of struct foo in a private header:\n\n   struct foo { int bar; }\n\nthen I get a sparse warning (different base type for argument 1) when\nI compile the implementation file:\n\n   #include \"public.h\"\n   #include \"private.h\"\n\n   void func (Foo f) { ... }\n\ni.e. sparse doesn't realise that the incomplete structure definition\nin the function  prototype refers to the same type as the complete\nstructure definition in the function definition.\n\n*I think* that the patch fixes this - it silences the error - but I\ndon't know enough about sparse to know whether it's correct (or\nwhether it silences other legitimate errors, for example).\n\nSigned-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "27be02d4055500ab7a3f8607f9daef044375b155",
+      "short_hash": "27be02d40555",
+      "author_name": "Geoff Johnstone",
+      "author_email": "geoff.johnstone@googlemail.com",
+      "date": "2008-04-05 02:52:29 -0700",
+      "year": "2008",
+      "subject": "Add builtin functions for use with __FORTIFY_SOURCE",
+      "body": "__FORTIFY_SOURCE=2 converts memcpy() into __builtin___memcpy_chk() etc.\nThe patch adds some/all? of the relevant builtin prototypes.\n\nSigned-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 16,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 16,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ebed4963196340cf740bbcac3c3ac448a5b03add",
+      "short_hash": "ebed49631963",
+      "author_name": "Geoff Johnstone",
+      "author_email": "geoff.johnstone@googlemail.com",
+      "date": "2008-04-05 02:50:40 -0700",
+      "year": "2008",
+      "subject": "Add support for GCC's -std=... and -ansi command line options.",
+      "body": "This adds support for GCC's -std=... and -ansi command line options,\ni.e. defining __STDC_VERSION__ and __STRICT_ANSI__ appropriately.\n\nThis means that code that invokes #error if __STDC_VERSION__ < 199901L\nwill work. It will probably also affect the userland header files too.\n\nSigned-off-by: Geoff Johnstone <geoff.johnstone@googlemail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "lib.c",
+            "insertions": 75,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 75,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "0a09c64fd78b874a4f3abda7f5cd844eb20b71f6",
+      "short_hash": "0a09c64fd78b",
+      "author_name": "Josh Triplett",
+      "author_email": "josh@freedesktop.org",
+      "date": "2008-04-03 13:56:19 -0700",
+      "year": "2008",
+      "subject": "Add test case for new warning about !x & y",
+      "body": "Signed-off-by: Josh Triplett <josh@freedesktop.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/dubious-bitwise-with-not.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 9,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "f93bc9bade1f2db9320ad65ffa174ff3f684849f",
+      "short_hash": "f93bc9bade1f",
+      "author_name": "Johannes Berg",
+      "author_email": "johannes@sipsolutions.net",
+      "date": "2008-04-02 18:00:34 +0200",
+      "year": "2008",
+      "subject": "cgcc: handle ppc arch",
+      "body": "I'm not sure this is exactly the right thing to do because I'm\nunfamiliar with the default CFLAGS, but it seems to at least make it\nmostly work on powerpc.\n\nSigned-off-by: Johannes Berg <johannes@sipsolutions.net>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cgcc",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "33b0ef36fca702b0f911f3cae11f39fe5be25e51",
+      "short_hash": "33b0ef36fca7",
+      "author_name": "Al Viro",
+      "author_email": "viro@ftp.linux.org.uk",
+      "date": "2008-02-22 23:05:35 +0000",
+      "year": "2008",
+      "subject": "catch !x & y brainos",
+      "body": "Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "64b65ec931369939014995e65b682effa7c0a654",
+      "short_hash": "64b65ec93136",
+      "author_name": "Al Viro",
+      "author_email": "viro@ftp.linux.org.uk",
+      "date": "2008-02-22 23:05:25 +0000",
+      "year": "2008",
+      "subject": "fix show_typename()",
+      "body": "* postfix stuff had been applied in wrong order (e.g. int a[2][3] generated\nint [addressable][toplevel] a[3][2])\n* after fixing that, we've no need for recursion anymore, a bunch of arguments\ngo away and turn into local variables and we get an easy way to get rid of\nbogus space in the show_typename() result.\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>\n[Josh: fix test suite to match]\nSigned-off-by: Josh Triplett <josh@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 51,
+            "deletions": 49
+          },
+          {
+            "file": "validation/compare-null-to-int.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/cond_expr.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 55,
+        "total_deletions": 53
+      }
+    },
+    {
+      "hash": "8ad1087c5947c49dafb7566df32c86b1eb51ccc4",
+      "short_hash": "8ad1087c5947",
+      "author_name": "Al Viro",
+      "author_email": "viro@ftp.linux.org.uk",
+      "date": "2008-02-22 23:05:15 +0000",
+      "year": "2008",
+      "subject": "saner warnings for restricted types",
+      "body": "* don't crap the type->ident for unsigned int just because somebody did\n\ttypedef unsigned int x;\n  only structs, unions, enums and restricted types need it.\n* generate saner warnings for restricted, include type name(s) into them.\n\nSigned-off-by: Al Viro <viro@zeniv.linux.org.uk>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 20,
+            "deletions": 13
+          },
+          {
+            "file": "parse.c",
+            "insertions": 9,
+            "deletions": 2
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 33,
+        "total_deletions": 15
+      }
+    }
+  ]
+}

@@ -1,0 +1,3014 @@
+{
+  "year": "2011",
+  "stats": {
+    "total_commits": 116,
+    "with_description": 113,
+    "without_description": 3,
+    "total_insertions": 3300,
+    "total_deletions": 1017,
+    "contributors": 13
+  },
+  "commits": [
+    {
+      "hash": "65be24b8ddf54164ff25febfd3d5f9c26ae3877d",
+      "short_hash": "65be24b8ddf5",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-12-21 22:24:46 +0200",
+      "year": "2011",
+      "subject": "Revert \"sparse: Bump up sizeof(_Bool) to 8 bits\"",
+      "body": "This reverts commit 2ded1e7406914eda77abde035416140849d76f68. It's no longer\nneeded as LLVM backend supports 1-bit integers.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/sizeof-bool.c",
+            "insertions": 5,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 6,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "d3a751c556684f82af86dbedfca0997908961715",
+      "short_hash": "d3a751c55668",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-12-21 22:24:46 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Add test case for <stdbool.h> type",
+      "body": "As it turns out, our validation test harness doesn't catch <stdbool.h> related\nbreakage so add a minimal test case that does.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/backend/bool-test.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 9,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "e1b4d29a0b9c2f29044db482d5965b18937eac02",
+      "short_hash": "e1b4d29a0b9c",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-12-21 22:24:45 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Use LLVMInt1Type() in sym_basetype_type()",
+      "body": "In preparation for reverting commit 2ded1e7 (\"sparse: Bump up sizeof(_Bool) to\n8 bits\"), teach sym_basetype_type() about LLVMInt1Type().\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "3ae341501dd0f539f3a9a1add8295963a5dacd08",
+      "short_hash": "3ae341501dd0",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-25 08:46:18 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Don't fail the build if LLVM is too old",
+      "body": "Disable sparse-llvm compilation if LLVM version is too old.\n\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 10,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 10,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "04b9fc9a5e735e87f3b2049bca80b332353dab66",
+      "short_hash": "04b9fc9a5e73",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-11-23 14:34:14 -0500",
+      "year": "2011",
+      "subject": "sparse, llvm: add loop testcase",
+      "body": "Signed-off-by: Jeff Garzik <jgarzik@redhat.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/backend/loop.c",
+            "insertions": 21,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "830ddf490134a9c94e2e52583c8177d52e838dae",
+      "short_hash": "830ddf490134",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-23 11:39:06 -0800",
+      "year": "2011",
+      "subject": "Merge pull request #6 from jgarzik/hacks",
+      "body": "sparse, llvm: add loop testcase",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/backend/loop.c",
+            "insertions": 21,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "174aa10430f7a15bbabc87c23ec4ba6d63f88c59",
+      "short_hash": "174aa10430f7",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-11-23 00:55:11 -0500",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix loops, by properly handling OP_PHI forward references",
+      "body": "Previous code simply omitted PHI sources that had not been assigned a\nLLVMValueRef at the time of OP_PHI.\n\nFix by creating a list of such instances, and attempt to resolve forward\nreferences at each OP_PHISOURCE appearance.\n\nTestcase:\n\n\textern int bar (int);\n\n\tint foo (int x)\n\t{\n\t\tint y = 0;\n\n\t\twhile (y < 1000) {\n\t\t\ty += bar(x);\n\t\t}\n\n\t\treturn y;\n\t}\n\nSigned-off-by: Jeff Garzik <jgarzik@redhat.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 77,
+            "deletions": 7
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 77,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "ce2aacc7ce377c9871e8a5c362d2c7c0aae8ebd6",
+      "short_hash": "ce2aacc7ce37",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-22 21:41:12 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: FP comparison op code generation",
+      "body": "This patch implements code generation for floating point versions of OP_BINCMP.\n\nAcked-by: Linus Torvalds <torvalds@linux-foundation.org>\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 27,
+            "deletions": 2
+          },
+          {
+            "file": "validation/backend/cmp-ops.c",
+            "insertions": 30,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 57,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "58f7c712b643db22fe46ecfb9fa39a93a57ddfa9",
+      "short_hash": "58f7c712b643",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-22 19:54:16 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Simplify comparison op code generation",
+      "body": "Linus writes:\n\n  On Tue, Nov 22, 2011 at 9:40 AM, Pekka Enberg <penberg@kernel.org> wrote:\n  > This patch implements LLVM code generation for OP_SET_LE, OP_SET_GE, OP_SET_BE,\n  > and OP_SET_AE.\n\n  Ugh.\n\n  Can't you just do it with a single statement like\n\n     target = LLVMBuildICmp(fn->builder, translate_op(op), lhs, rhs,\ntarget_name);\n\n  instead of having that case-statement where every case does the same thing?\n\n  The translate_op() thing should be trivial too, just something like\n\n    static int translate_op(int sparse_op)\n    {\n        static const int trans_tbl[] = {\n            .[OP_SET_LE] = LLVMIntSLE,\n        ...\n         };\n         return trans_tbl[sparse_op];\n    }\n\n  or whatever. No?\n\nSuggested-by: Linus Torvalds <torvalds@linux-foundation.org>\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nAcked-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 23,
+            "deletions": 33
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 23,
+        "total_deletions": 33
+      }
+    },
+    {
+      "hash": "b08efe9f3e4513b3418dce040340e9fffa42bc15",
+      "short_hash": "b08efe9f3e45",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-22 19:33:19 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: More comparison ops code generation",
+      "body": "This patch implements LLVM code generation for OP_SET_LE, OP_SET_GE, OP_SET_BE,\nand OP_SET_AE.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 4,
+            "deletions": 4
+          },
+          {
+            "file": "validation/backend/cmp-ops.c",
+            "insertions": 20,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 24,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "d3e0567c425b6334e4ae71d5067ded447b5a9d75",
+      "short_hash": "d3e0567c425b",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-22 17:27:55 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: OP_SET_B and OP_SET_A code generation",
+      "body": "This patch implement unsigned less than and greater than comparison operator\nLLVM code generation.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "validation/backend/cmp-ops.c",
+            "insertions": 10,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 12,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "2b67f8548ad54267e6c53a9d22f9f16affd07e97",
+      "short_hash": "2b67f8548ad5",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-22 17:27:54 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Pointer cast code generation",
+      "body": "This patch implement code generation for OP_PTRCAST using LLVMBuildBitCast().\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 19,
+            "deletions": 1
+          },
+          {
+            "file": "validation/backend/ptrcast.c",
+            "insertions": 9,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 28,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "7101fe01404bbd985471122258b952abeaa0845b",
+      "short_hash": "7101fe01404b",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-21 22:03:03 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Make llc output to stdout in sparsec",
+      "body": "This patch fixes a bug in 'sparsec' that made it generate empty object files.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparsec",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "d5077986c067b81111325311dd1892eef62743f2",
+      "short_hash": "d5077986c067",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-21 22:03:03 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix 'extern' symbol code generation",
+      "body": "LLVMExternalLinkage is used for both extern and non-extern C symbols. The\nlinkage is differentiated by LLVMSetInitializer() which is should not be called\nfor extern symbols.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "f6a6a4d7c3268952da9b9983f17001544159318b",
+      "short_hash": "f6a6a4d7c326",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-21 22:03:03 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix symbol initializer code generation",
+      "body": "The output_data() function does not see right hand side symbols for expressions\nsuch as this in target.c:\n\n  struct symbol *size_t_ctype = &uint_ctype;\n\nTherefore, call output_data() recursively if LLVMGetNamedGlobal() returns NULL\nfor a symbol.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 4,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "65a4e2fc656aa6e99604358056d8599a1823a8bc",
+      "short_hash": "65a4e2fc656a",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-11-21 01:52:55 -0800",
+      "year": "2011",
+      "subject": "sparse 0.4.4",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "16a2e9108be73f64a263b281a3991b51ced67b8b",
+      "short_hash": "16a2e9108be7",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-11-21 01:32:30 -0800",
+      "year": "2011",
+      "subject": "Add test case for binary constants",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/binary-constant.c",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "064c4adfb5fdf0403614cb0a5a1a6373e88866b8",
+      "short_hash": "064c4adfb5fd",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-18 17:30:59 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Function pointer code generation",
+      "body": "This patch implements support for function pointer types and function pointer\ncalls to the LLVM backend.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 52,
+            "deletions": 2
+          },
+          {
+            "file": "validation/backend/function-ptr.c",
+            "insertions": 11,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 63,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "6329d02b495b415dcac9f51300f7209a65ba80eb",
+      "short_hash": "6329d02b495b",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-11-18 17:30:58 +0200",
+      "year": "2011",
+      "subject": "sparse, llvm: Make 'sparsec' error handling more robust",
+      "body": "Make 'sparsec' more robust against SIGSEGV in Sparse/LLVM code so that 'make\ncheck' detects test breakage.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparsec",
+            "insertions": 8,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 8,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "bc367edabaf2503a20dfdd5f5912d9a4733424fa",
+      "short_hash": "bc367edabaf2",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-25 12:26:30 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for union types",
+      "body": "This patch adds support for SYM_UNION in symbol_type(). The LLVM API does not\nprovide support for unions so we treat them as opaque structs.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "file": "validation/backend/union.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 32,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "ac1601d50ff22e2a4835ca252722ef687c7ef6d8",
+      "short_hash": "ac1601d50ff2",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-25 12:03:35 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for array types",
+      "body": "This patch adds support for SYM_ARRAY in symbol_type().\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 17,
+            "deletions": 0
+          },
+          {
+            "file": "validation/backend/array.c",
+            "insertions": 6,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 23,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2b1d2bc9e6f84638d0076b6e94cf950327899496",
+      "short_hash": "2b1d2bc9e6f8",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-24 18:40:43 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix symbol_type() for bitfields and enums",
+      "body": "This patch adds SYM_BITFIELD and SYM_ENUM support to symbol_type().\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "e6981551345b7284f6995556398b3564d02afc42",
+      "short_hash": "e6981551345b",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-24 14:11:13 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix 'void *' pointer code generation",
+      "body": "Sparse front-end generates SYM_PTR with SYM_BASETYPE with bit_size set to -1\nfor \"void *\" pointers. We currently map that to LLVMVoidType() but that no\nlonger works with LLVM Subversion trunk:\n\n  $ ./sparse-llvm validation/backend/struct.c\n  sparse-llvm: Type.cpp:676: static llvm::PointerType* llvm::PointerType::get(llvm::Type*, unsigned int): Assertion `isValidElementType(EltTy) && \"Invalid type for pointer element!\"' failed.\nAborted\n\nFix the issue by treating 'void *' as 'char *' as suggested by Linus:\n\nOn Mon, 24 Oct 2011, Linus Torvalds wrote:\n> Why bits_per_pointer? Isn't this the \"base type\" of void *? A more\n> logical choice would seem to be to make it equivalent to \"char *\", and\n> just make it fall through to the \"case 8\" case?\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 1,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "3b0407946777b10c3655fac2a0d5189b182aa7c0",
+      "short_hash": "3b0407946777",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-24 13:03:35 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix struct code generation",
+      "body": "Use LLVMGetTypeByName() to look up struct data types to fix code generation for\nstructs that refer to themselves.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 27,
+            "deletions": 23
+          },
+          {
+            "file": "validation/backend/struct.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 28,
+        "total_deletions": 23
+      }
+    },
+    {
+      "hash": "ea97bb4c5221a9be275b2d93dc90354bd6081a8c",
+      "short_hash": "ea97bb4c5221",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-10-23 10:16:19 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Use new LLVM type system API for structs",
+      "body": "To fix an issue with structs that refer to themselves:\n\n  struct symbol {\n          struct symbol *next;\n  };\n\nconvert the code to use new type system API introduced in LLVM 3.0 so that\nthere's a LLVMTypeRef of the struct we can look up while walking through the\nstruct members.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 13,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "30f5aa58c15d8a2761e703424e8400943916a065",
+      "short_hash": "30f5aa58c15d",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-09-26 17:47:24 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for logical ops",
+      "body": "The generated asm for logical-ops.c test case looks as follows on x86-64:\n\nGCC 4.6:\n\n  0000000000000000 <and_bool>:\n     0:\t31 c0                \txor    %eax,%eax\n     2:\t85 f6                \ttest   %esi,%esi\n     4:\t0f 95 c0             \tsetne  %al\n     7:\t31 d2                \txor    %edx,%edx\n     9:\t85 ff                \ttest   %edi,%edi\n     b:\t0f 95 c2             \tsetne  %dl\n     e:\t21 d0                \tand    %edx,%eax\n    10:\tc3                   \tretq\n\n  0000000000000020 <uand_bool>:\n    20:\t31 c0                \txor    %eax,%eax\n    22:\t85 f6                \ttest   %esi,%esi\n    24:\t0f 95 c0             \tsetne  %al\n    27:\t31 d2                \txor    %edx,%edx\n    29:\t85 ff                \ttest   %edi,%edi\n    2b:\t0f 95 c2             \tsetne  %dl\n    2e:\t21 d0                \tand    %edx,%eax\n    30:\tc3                   \tretq\n\n  0000000000000040 <or_bool>:\n    40:\t09 fe                \tor     %edi,%esi\n    42:\t0f 95 c0             \tsetne  %al\n    45:\t0f b6 c0             \tmovzbl %al,%eax\n    48:\tc3                   \tretq\n\n  0000000000000050 <uor_bool>:\n    50:\t09 fe                \tor     %edi,%esi\n    52:\t0f 95 c0             \tsetne  %al\n    55:\t0f b6 c0             \tmovzbl %al,%eax\n    58:\tc3                   \tretq\n\nSparse/LLVM:\n\n  0000000000000000 <and_bool>:\n     0:\t85 f6                \ttest   %esi,%esi\n     2:\t0f 95 c0             \tsetne  %al\n     5:\t85 ff                \ttest   %edi,%edi\n     7:\t0f 95 c1             \tsetne  %cl\n     a:\t20 c1                \tand    %al,%cl\n     c:\t0f b6 c1             \tmovzbl %cl,%eax\n     f:\tc3                   \tretq\n\n  0000000000000010 <uand_bool>:\n    10:\t85 f6                \ttest   %esi,%esi\n    12:\t0f 95 c0             \tsetne  %al\n    15:\t85 ff                \ttest   %edi,%edi\n    17:\t0f 95 c1             \tsetne  %cl\n    1a:\t20 c1                \tand    %al,%cl\n    1c:\t0f b6 c1             \tmovzbl %cl,%eax\n    1f:\tc3                   \tretq\n\n  0000000000000020 <or_bool>:\n    20:\t09 f7                \tor     %esi,%edi\n    22:\t0f 95 c0             \tsetne  %al\n    25:\t0f b6 c0             \tmovzbl %al,%eax\n    28:\tc3                   \tretq\n\n  0000000000000030 <uor_bool>:\n    30:\t09 f7                \tor     %esi,%edi\n    32:\t0f 95 c0             \tsetne  %al\n    35:\t0f b6 c0             \tmovzbl %al,%eax\n    38:\tc3                   \tretq\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 19,
+            "deletions": 4
+          },
+          {
+            "file": "validation/backend/logical-ops.c",
+            "insertions": 0,
+            "deletions": 2
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 19,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "2ded1e7406914eda77abde035416140849d76f68",
+      "short_hash": "2ded1e740691",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-09-26 17:47:23 +0300",
+      "year": "2011",
+      "subject": "sparse: Bump up sizeof(_Bool) to 8 bits",
+      "body": "We need sizeof(_Bool) to be one byte to generate code for boolean expressions\nin the LLVM backend.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Jeff Garzik <jgarzik@redhat.com>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "target.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/sizeof-bool.c",
+            "insertions": 1,
+            "deletions": 5
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 2,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "e577957155d2022e6636553421fba3a6dcb358b2",
+      "short_hash": "e577957155d2",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-09-09 16:03:21 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for symbol initializers",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 11,
+            "deletions": 2
+          },
+          {
+            "file": "validation/backend/struct.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 12,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "4d6db1798508eb45517f5a0a55d73eb44ffe19b9",
+      "short_hash": "4d6db1798508",
+      "author_name": "Dan Carpenter",
+      "author_email": "error27@gmail.com",
+      "date": "2011-09-08 10:47:30 -0700",
+      "year": "2011",
+      "subject": "recognize binary constants",
+      "body": "Sparse doesn't parse binary constants properly so the following code\ngenerates an error:\n\n\tx = 0b11;\n\ntest.c:5:17: error: constant 0b11 is not a valid number\n\nKamal: add call to tolower(), since \"0B11\" is also a valid syntax.\n\nReported-by: Kamal Mostafa <kamal@canonical.com>\nSigned-off-by: Dan Carpenter <error27@gmail.com>\nSigned-off-by: Kamal Mostafa <kamal@canonical.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 8,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 8,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "f567535353119eae0e57beef52a83519e0ebee3e",
+      "short_hash": "f56753535311",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-09-07 17:36:40 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for struct types",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 53,
+            "deletions": 2
+          },
+          {
+            "file": "validation/backend/struct.c",
+            "insertions": 17,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 70,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "6d233957ef292a9552b7dba126eb1a66ff1ef9cd",
+      "short_hash": "6d233957ef29",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-31 16:28:25 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix code generation for 'long double' data type",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 3,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "24b8e0ebe1c36a286621019e29b1c26f285df988",
+      "short_hash": "24b8e0ebe1c3",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-31 00:39:49 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: support OP_STORE",
+      "body": "testcase:\n\nint foo(int *addr_i, int x)\n{\n\t*addr_i = x;\n\n\treturn x;\n}",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 31,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 31,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "85c19bf76ed7a4ce82790bdb1526d8b45f9cb454",
+      "short_hash": "85c19bf76ed7",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-30 23:01:59 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: move OP_COPY support to separate function.  Add FP support.",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies sparse-llvm.c. Changes: +30/-12 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 30,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 30,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "0c8f7c8757d13a8116832d083ed2d71b6b679d89",
+      "short_hash": "0c8f7c8757d1",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-30 22:24:07 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: store module-local functions on function reference list",
+      "body": "Fixes testcase:\n\nint sum(int x, int y)\n{\n    return x + y;\n}\n\nint main(int argc, char *argv[])\n{\n    return sum(1, 2);\n}",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 9,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 9,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "1f1a0a2898ea74e58c50ca375f8c2bb382bf5310",
+      "short_hash": "1f1a0a2898ea",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 22:01:29 -0700",
+      "year": "2011",
+      "subject": "Merge pull request #4 from jgarzik/hacks",
+      "body": "sparse, llvm: store module-local functions on function reference list",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 70,
+            "deletions": 14
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 70,
+        "total_deletions": 14
+      }
+    },
+    {
+      "hash": "a99eaeda5e41fd15a27bf8db80a04eb2d129bc66",
+      "short_hash": "a99eaeda5e41",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 20:50:36 +0300",
+      "year": "2011",
+      "subject": "llvm, sparse: Fix symbol_is_fp_type() goof",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "e6ad114d067833834d21d66ac421cb1a6dbd1a5e",
+      "short_hash": "e6ad114d0678",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 20:43:58 +0300",
+      "year": "2011",
+      "subject": "Merge branch 'master' of github.com:penberg/sparse-llvm",
+      "body": "Conflicts:\n\tsparse-llvm.c",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 27,
+            "deletions": 7
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 27,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "3610addace21aeb49b95d7f9adfda91753ccbf5e",
+      "short_hash": "3610addace21",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 20:42:08 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix pseudo_type() for PSEUDO_ARG",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 4,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "014de231b87ad9ba3f62b21abd4a591de742a5f4",
+      "short_hash": "014de231b87a",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 20:26:57 +0300",
+      "year": "2011",
+      "subject": "Revert \"sparse, llvm: Don't redefine module local functions\"",
+      "body": "This reverts commit be40b1a0e49a97f084c67d2ffc866b1445445d44.\n\nJeff Garzik explains:\n\n  That last commit isn't quite right.  The code before wasn't quite right either,\n  but the new commit doesn't do a whole lot:\n\n  commit be40b1a0e49a97f084c67d2ffc866b1445445d44\n  Author: Pekka Enberg <penberg@kernel.org>\n  Date:   Tue Aug 30 18:10:25 2011 +0300\n\n      sparse, llvm: Don't redefine module local functions\n\n      Signed-off-by: Pekka Enberg <penberg@kernel.org>\n\n  First problem:  we already have a list of function calling conventions cached\n  for use.  That is what llfunc_list is.\n\n  However...  this is _very wrong_ for varargs functions.  Your commit changes to\n  using an LLVM list from a local list, but that does not fix the problem.\n\n  This test case should demonstrate the broken code:\n\n  int foo(int x, int y)\n  {\n     printf(\"%d\\n\", x);\n     printf(\"%d, %d\\n\", x, y);\n     return 0;\n  }\n\n  The first printf() cached [incorrectly] the list of arguments.  c.f. this code\n  comment:\n\n        /* to avoid strangeness with varargs [for now], we build\n         * the function and type anew, for each call.  This\n         * is probably wrong.  We should look up the\n         * symbol declaration info.\n         */",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 0,
+            "deletions": 5
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "c19ad437aee130bfde2ac41494d3a46900670dc6",
+      "short_hash": "c19ad437aee1",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 19:46:29 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix code generation for casts",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 10,
+            "deletions": 6
+          },
+          {
+            "file": "validation/backend/cast.c",
+            "insertions": 47,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 57,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "be40b1a0e49a97f084c67d2ffc866b1445445d44",
+      "short_hash": "be40b1a0e49a",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 18:10:25 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Don't redefine module local functions",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 5,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "b37c0754eedb7e3039902caa3da4b192a03695a4",
+      "short_hash": "b37c0754eedb",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 18:06:20 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix PSEUDO_OP code generation",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 21,
+            "deletions": 21
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 21
+      }
+    },
+    {
+      "hash": "57890887bc122c0c9bb4977d5df9fdfa128ac812",
+      "short_hash": "57890887bc12",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 18:00:25 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Improve sparsec front-end",
+      "body": "This patch improves 'sparsec' so that things like\n\n  ./sparsec hello.c\n  ./sparsec hello.c -o hello\n\nwork like with GCC.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparsec",
+            "insertions": 21,
+            "deletions": 8
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 21,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "0b5f89d81c2b0a499a4d117388b9badbb028a72d",
+      "short_hash": "0b5f89d81c2b",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-30 13:31:22 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: create helper for obtaining instruction's type",
+      "body": "Use with PSEUDO_VAL.\n\nAlso, remove needless braces around PSEUDO_ARG.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 27,
+            "deletions": 7
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 27,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "2f637623720e1fe8ab1075572754065599ab305f",
+      "short_hash": "2f637623720e",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-30 10:43:13 -0700",
+      "year": "2011",
+      "subject": "Merge pull request #3 from jgarzik/hacks",
+      "body": "sparse, llvm: create helper for obtaining instruction's type",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 27,
+            "deletions": 7
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 27,
+        "total_deletions": 7
+      }
+    },
+    {
+      "hash": "2dea6f7fb07cd18255cf1d73079638dc96bdd08b",
+      "short_hash": "2dea6f7fb07c",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-29 23:36:04 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix OP_CAST to use zero-extend",
+      "body": "Linus Torvalds explains:\n\n  On Mon, Aug 29, 2011 at 12:45 PM, Pekka Enberg <penberg@kernel.org> wrote:\n  > However, i'm not 100% sure that's sufficient. Is OP_CAST always zero-extend\n  > or do we need to check for something specific here?\n\n  OP_CAST is always a zero-extend, OP_SCAST is a sign-extending one.\n\n  (Of course, they may be *truncating* casts too, which don't need to\n  generate any code on most architectures).\n\n  OP_PTRCAST should act as OP_CAST.\n\n  NOTE! The casting is dubious. We only have a single OP_FPCAST, for\n  example, and that's just broken. Right now \"OP_FPCAST\" means that the\n  *source* was a FP value. But if we cast *to* a FP value, it ends up\n  showing up as OP_[S]CAST, which is just bogus. The FPCAST should be\n  for any FP operation (to or from or both), and then the FPCAST logic\n  would have to decide how it handles it.\n\n  The FP support in general is pretty weak. The kernel doesn't do FP, I\n  never really cared about it.\n\nThis patch fixes comparison operator code generation. For example, this C code\n\n  int sete(int x, int y)\n  {\n          return x == y;\n  }\n\nis translated as follows:\n\n  Before:\n\n  0000000000000000 <sete>:\n     0:\t31 c9                \txor    %ecx,%ecx\n     2:\t39 f7                \tcmp    %esi,%edi\n     4:\tb8 ff ff ff ff       \tmov    $0xffffffff,%eax\n     9:\t0f 45 c1             \tcmovne %ecx,%eax\n     c:\tc3                   \tretq\n\n  After:\n\n  0000000000000000 <sete>:\n     0:\t39 f7                \tcmp    %esi,%edi\n     2:\t0f 94 c0             \tsete   %al\n     5:\t0f b6 c0             \tmovzbl %al,%eax\n     8:\tc3                   \tretq\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "70b2c17c095d393a7313c0681e3d6cc58bb01147",
+      "short_hash": "70b2c17c095d",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-29 19:26:17 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Cleanup output_data()",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 5,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "deb11bd4ee6ed46bce6a5e35a69ada519d81a0a8",
+      "short_hash": "deb11bd4ee6e",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-29 17:20:54 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Code generation for string constants",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 48,
+            "deletions": 6
+          },
+          {
+            "file": "validation/backend/hello.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 61,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "d2e0456f710a4b834afdd0db7e871befebf812b4",
+      "short_hash": "d2e0456f710a",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-29 16:28:28 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Warn the user when we fall back to GCC",
+      "body": "Make sure the user knows when we're using GCC instead of sparse-llvm.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparsec",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "2bc58a769b5b3cb381225e374695241512ffa163",
+      "short_hash": "2bc58a769b5b",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-29 02:40:33 -0700",
+      "year": "2011",
+      "subject": "Sparse 0.4.4-rc2",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "449d9d6d12c4ac98233473d6c8640e9252dd61c6",
+      "short_hash": "449d9d6d12c4",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-28 02:35:10 -0700",
+      "year": "2011",
+      "subject": "Merge pull request #2 from jgarzik/hacks",
+      "body": "sparse, llvm: move OP_CAST code to separate func.  support FP casts.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 20,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 20,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "7ac3e4bd792ca16d1fc3a0b8ba1c2b046dabb555",
+      "short_hash": "7ac3e4bd792c",
+      "author_name": "Kamil Dudka",
+      "author_email": "kdudka@redhat.com",
+      "date": "2011-08-28 01:29:13 +0200",
+      "year": "2011",
+      "subject": "cse: update PHI users when throwing away an instruction",
+      "body": "The attached patch solves the dangling PHI nodes and does not seem to break\nanything at first glance.  It is probably not the most efficient solution,\nbut it might at least show where to look for the problem.\n\nAcked-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Kamil Dudka <kdudka@redhat.com>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cse.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "d385c9d0de358531abca1ac0685a7e1f462d69e2",
+      "short_hash": "d385c9d0de35",
+      "author_name": "Kamil Dudka",
+      "author_email": "kdudka@redhat.com",
+      "date": "2011-08-28 01:29:13 +0200",
+      "year": "2011",
+      "subject": "cse: update PHI users when throwing away an instruction",
+      "body": "Acked-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Kamil Dudka <kdudka@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "cse.c",
+            "insertions": 13,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 13,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "34c6f2fe2aeb35528be57aa6aab16d9ce144a099",
+      "short_hash": "34c6f2fe2aeb",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-28 01:04:41 -0700",
+      "year": "2011",
+      "subject": "Limit usage of g++ to llvm related programs.",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "39109385e367b7194d1b1230db7220c1b1a0dd50",
+      "short_hash": "39109385e367",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 22:13:55 -0700",
+      "year": "2011",
+      "subject": "Merge pull request #1 from jgarzik/hacks",
+      "body": "some cleanups and support for function calls",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 197,
+            "deletions": 46
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 197,
+        "total_deletions": 46
+      }
+    },
+    {
+      "hash": "f635123cd0cc97e93a0559d0971152c5271d566d",
+      "short_hash": "f635123cd0cc",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 20:47:06 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: move OP_CAST code to separate func.  support FP casts.",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies sparse-llvm.c. Changes: +20/-12 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 20,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 20,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "7c8d8ae6c57c9d4d65c7952c52ea82100d7f6add",
+      "short_hash": "7c8d8ae6c57c",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 17:54:19 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: move OP_PHI code from switch statement to separate function",
+      "body": "Just code movement, no other changes.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 35,
+            "deletions": 31
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 35,
+        "total_deletions": 31
+      }
+    },
+    {
+      "hash": "d08787e339325d881015a827633a02c54cd42c31",
+      "short_hash": "d08787e33932",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 15:53:15 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Kill debugging code",
+      "body": "You can get module dump with:\n\n  ./sparse-llvm foo.c | llvm-dis\n\nso lets just kill debugging code that's used for the same thing.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "fcd64330d214053de9bc1f1f01061cea0fc68f06",
+      "short_hash": "fcd64330d214",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 15:51:53 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Kill ifdef'd unssa() call",
+      "body": "LLVM works with SSA form just fine so there's absolutely no reason to convert\nthe linearized IR into normal form before passing it to LLVM.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "8fe6c7a469a65396b03ea58c6fca04b7ca13c99e",
+      "short_hash": "8fe6c7a469a6",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 15:44:01 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Bitwise not operator codegen",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 14,
+            "deletions": 1
+          },
+          {
+            "file": "validation/backend/bitwise-ops.c",
+            "insertions": 10,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 24,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "397ea4ed08f699ac84d8fa1e4470b15a2632b2e1",
+      "short_hash": "397ea4ed08f6",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 15:39:20 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Reorganize code generation tests",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/backend/arithmetic-ops.c",
+            "insertions": 94,
+            "deletions": 0
+          },
+          {
+            "file": "validation/backend/binops.c",
+            "insertions": 0,
+            "deletions": 186
+          },
+          {
+            "file": "validation/backend/bitwise-ops.c",
+            "insertions": 54,
+            "deletions": 0
+          },
+          {
+            "file": "validation/backend/cmp-ops.c",
+            "insertions": 24,
+            "deletions": 0
+          },
+          {
+            "file": "validation/backend/logical-ops.c",
+            "insertions": 26,
+            "deletions": 0
+          }
+        ],
+        "total_files": 5,
+        "total_insertions": 198,
+        "total_deletions": 186
+      }
+    },
+    {
+      "hash": "404705a0c86d910edebb4ad0936f9195f9d6d6b9",
+      "short_hash": "404705a0c86d",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 15:31:37 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: implement OP_CALL",
+      "body": "testcase...\n\nextern int f(int a, int b);\n\nint foo(int x)\n{\n\tint y;\n\n\ty = f(x + 1, x + 2);\n\ty += f(x + 11, x + 22);\n\n\treturn y;\n}",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 157,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 157,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "638debc6162ecb79061bbe8095d203d47c1a31d0",
+      "short_hash": "638debc6162e",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-27 14:09:50 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Floating point support for binops",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 70,
+            "deletions": 24
+          },
+          {
+            "file": "validation/backend/binops.c",
+            "insertions": 40,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 110,
+        "total_deletions": 24
+      }
+    },
+    {
+      "hash": "55c82c3b2408df37241cfdfbcd00447f85448af5",
+      "short_hash": "55c82c3b2408",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 13:48:48 -0400",
+      "year": "2011",
+      "subject": "sparse, llvm: replace FIXME comment with assert(), following existing style",
+      "body": "",
+      "has_detailed_description": false,
+      "generated_summary": "Modifies sparse-llvm.c. Changes: +2/-2 in 1 file(s)",
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "46352d97f3741a6415b88644e735a0ae59e0c38c",
+      "short_hash": "46352d97f374",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@linux-foundation.org",
+      "date": "2011-08-27 11:43:24 -0700",
+      "year": "2011",
+      "subject": "Make 'linearize_return()' helper function",
+      "body": "Rather than do it in that huge 'linearize_statement()' function, split\nout the return generation case.  Avoids one level of indentation, and\nmakes for simpler and more straightforward functions.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 26,
+            "deletions": 22
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 26,
+        "total_deletions": 22
+      }
+    },
+    {
+      "hash": "cbe34a536d642fee2c0d2da5865ad09755a20652",
+      "short_hash": "cbe34a536d64",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@linux-foundation.org",
+      "date": "2011-08-27 11:41:35 -0700",
+      "year": "2011",
+      "subject": "Make 'linearize_switch()' helper function",
+      "body": "Rather than do it in that huge 'linearize_statement()' function, split\nout the switch generation case.  Avoids one level of indentation, and\nmakes for simpler and more straightforward functions.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 65,
+            "deletions": 61
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 65,
+        "total_deletions": 61
+      }
+    },
+    {
+      "hash": "979f0259c17997917db8a13843075d80a26a02ee",
+      "short_hash": "979f0259c179",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@linux-foundation.org",
+      "date": "2011-08-27 11:30:31 -0700",
+      "year": "2011",
+      "subject": "Make 'linearize_iterator()' helper function",
+      "body": "Rather than do it in that huge 'linearize_statement()' function, split\nout the iterator case.  Avoids one level of indentation, and makes for\nsimpler and more straightforward functions.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.c",
+            "insertions": 45,
+            "deletions": 40
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 45,
+        "total_deletions": 40
+      }
+    },
+    {
+      "hash": "f0f961f3a2d84c368aefadd8e5fc20036bfd110e",
+      "short_hash": "f0f961f3a2d8",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 10:55:04 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: if-else code generation",
+      "body": "It gets the code a bit farther, with the following test case:\n\nint foo(int x)\n{\n        if (x > 0xffff)\n                x++;\n        else\n                x--;\n        return x;\n}\n\n* run with\n\n        ./sparse-llvm hello.c | llvm-dis\n\nfor an IMO more useful disassembly than via 'llc'\n\n* add 'priv' to struct basic_block\n\n* run a first pass through the BB's, creating LLVMBasicBlockRef's and assigning\n  them to bb->priv\n\n* comment out unssa() call, and implement OP_PHI and OP_PHISOURCE, which LLVM\n  directly supports.\n\n* remove '%' prefix from PSEUDO_REG names, as it was redundant and made\n  llvm-dis output ugly\n\n* implement support for conditional and unconditional branches (OP_BR)\n\n* implement OP_COPY.  a possibly better implementation would be a single-source\n  LLVMBuildPhi\n\n[ penberg@kernel.org: minor cleanups ]\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 86,
+            "deletions": 12
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 87,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "b28a446882071e6f86b20b91b72bacb8047af148",
+      "short_hash": "b28a44688207",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 04:40:54 -0400",
+      "year": "2011",
+      "subject": "sparse-llvm OP_PHISOURCE: replace copy with target=src pointer operation",
+      "body": "Simply reference used value directly.",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 3,
+            "deletions": 12
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 12
+      }
+    },
+    {
+      "hash": "14a82f46806a584b15d36782419ff66114fac9a7",
+      "short_hash": "14a82f46806a",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 04:03:11 -0400",
+      "year": "2011",
+      "subject": "sparse-llvm: OP_LOAD",
+      "body": "int foo(int *x)\n{\n\tint y;\n\n\ty = *x;\n\ty += 12;\n\n\treturn y;\n}\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 29,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 29,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "9e2fce867f280cca89a91e1409af9389717f4716",
+      "short_hash": "9e2fce867f28",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 02:18:17 -0400",
+      "year": "2011",
+      "subject": "sparse-llvm: OP_SWITCH",
+      "body": "testcase:\n\n    int foo(int x)\n    {\n    \tswitch (x) {\n    \tcase 1:\n    \t\treturn 11;\n    \tcase 2:\n    \t\treturn 22;\n    \tdefault:\n    \t\treturn 33;\n    \t}\n\n    \treturn 44;\n    }\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 47,
+            "deletions": 5
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 47,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "5c6931812fc1ad2893f7c35005b3dbdaab25c73f",
+      "short_hash": "5c6931812fc1",
+      "author_name": "Jeff Garzik",
+      "author_email": "jeff@garzik.org",
+      "date": "2011-08-27 01:36:54 -0400",
+      "year": "2011",
+      "subject": "sparse-llvm: OP_SEL",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 14,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 14,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "6071a81229aee0c44028e379edbe6f7f0e55c6cc",
+      "short_hash": "6071a81229ae",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 23:03:05 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Implement OP_CAST",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 12,
+            "deletions": 3
+          },
+          {
+            "file": "validation/backend/binops.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 13,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "9431db102f090209c54b157f56d6dc49615134fa",
+      "short_hash": "9431db102f09",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 22:49:43 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Move binop tests to validation/backend",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "functional/binops.c",
+            "insertions": 0,
+            "deletions": 141
+          },
+          {
+            "file": "validation/backend/binops.c",
+            "insertions": 146,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 146,
+        "total_deletions": 141
+      }
+    },
+    {
+      "hash": "5ddb9fcf51acdae24fb352ae988403227d9d2a42",
+      "short_hash": "5ddb9fcf51ac",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 22:36:43 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Implement some binary comparison ops",
+      "body": "We need OP_CAST before we can actually generate code for them.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "functional/binops.c",
+            "insertions": 20,
+            "deletions": 0
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 30,
+            "deletions": 4
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 50,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "c63cd1891fecdf7fdc0e4ce8cf65b9232894a84f",
+      "short_hash": "c63cd1891fec",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 20:52:03 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for more binary ops",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "functional/binops.c",
+            "insertions": 121,
+            "deletions": 0
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 15,
+            "deletions": 13
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 136,
+        "total_deletions": 13
+      }
+    },
+    {
+      "hash": "fd74fbf017f0602078accb12443e30d845adc9b7",
+      "short_hash": "fd74fbf017f0",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 20:38:40 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Implement OP_ADD",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "linearize.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 69,
+            "deletions": 22
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 70,
+        "total_deletions": 22
+      }
+    },
+    {
+      "hash": "e0ec5383b62951697d243838c5408b1c8f811017",
+      "short_hash": "e0ec5383b629",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 20:30:46 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add output_op_binary() stub",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 91,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 91,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "7016a33a8d01de66625ab54f2b3265071e503938",
+      "short_hash": "7016a33a8d01",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 20:23:50 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Introduce 'struct function' to clean up code",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 23,
+            "deletions": 18
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 23,
+        "total_deletions": 18
+      }
+    },
+    {
+      "hash": "4d90fe7e5dd54829c642209bbdd889e8d6443728",
+      "short_hash": "4d90fe7e5dd5",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-25 20:21:33 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add support for OP_RET/PSEUDO_ARG",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 15,
+            "deletions": 10
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 15,
+        "total_deletions": 10
+      }
+    },
+    {
+      "hash": "aeed5d454f9ab793a43d3c463d4092e606f458b8",
+      "short_hash": "aeed5d454f9a",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 20:27:03 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: OP_RET/PSEUDO_VAL code generation",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 39,
+            "deletions": 20
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 39,
+        "total_deletions": 20
+      }
+    },
+    {
+      "hash": "315d7a1bf5c2d85a694f0735923a2daeae1ddd80",
+      "short_hash": "315d7a1bf5c2",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 20:13:54 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Add switch statement to output_insn()",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 62,
+            "deletions": 8
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 62,
+        "total_deletions": 8
+      }
+    },
+    {
+      "hash": "b78a2674f3275e9de4a18d2302c6529ea7bec774",
+      "short_hash": "b78a2674f327",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 20:07:30 +0300",
+      "year": "2011",
+      "subject": "llvm, sparse: Separate entry and exit basic blocks",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 14,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 14,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "80e549751078e55e852965876642bca1b1f88930",
+      "short_hash": "80e549751078",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 18:52:33 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix 'sparsec' when it's not in PATH",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "sparsec",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "0a700caa38a078d2cc2ca752b776c4440782fca4",
+      "short_hash": "0a700caa38a0",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 18:06:09 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix global variable initialization",
+      "body": "Signed-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 11,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 11,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "61ae98edba8f01b7352066eb13da6ecf39511675",
+      "short_hash": "61ae98edba8f",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 17:52:11 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Fix assert() in sparse code",
+      "body": "Don't let 'llvm-config' define NDEBUG because it disables assert().\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "45a6fbff825047582979c93ca363d8483122c3d5",
+      "short_hash": "45a6fbff8250",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-23 17:11:44 +0300",
+      "year": "2011",
+      "subject": "sparse, llvm: Initial commit",
+      "body": "This is the first commit to implementing a LLVM backend for sparse using the\nLLVM C bindings.\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": ".gitignore",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "Makefile",
+            "insertions": 17,
+            "deletions": 1
+          },
+          {
+            "file": "sparse-llvm.c",
+            "insertions": 185,
+            "deletions": 0
+          },
+          {
+            "file": "sparsec",
+            "insertions": 31,
+            "deletions": 0
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 234,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "b183ef202eb44e73f0a60b272e2fc50146a0603d",
+      "short_hash": "b183ef202eb4",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-23 14:42:26 -0700",
+      "year": "2011",
+      "subject": "Fix parsing empty asm clobber",
+      "body": "Skip the expression instead of adding a null one.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 3,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "d5096c9aa0861b82120c3d24ff526a9c67a83e3b",
+      "short_hash": "d5096c9aa086",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-23 14:39:47 -0700",
+      "year": "2011",
+      "subject": "Add test case for empty asm clobbers",
+      "body": "This test case is provided by Dave Jones.\nSparse currently chokes on it.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/asm-empty-clobber.c",
+            "insertions": 28,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 28,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "181ce0f980cb4693ba8d22b5ba53b727e11c8a30",
+      "short_hash": "181ce0f980cb",
+      "author_name": "Michael Stefaniuc",
+      "author_email": "mstefani@redhat.com",
+      "date": "2011-08-23 14:13:22 -0700",
+      "year": "2011",
+      "subject": "Ignore the ms_hook_prologue attribute.",
+      "body": "Signed-off-by: Michael Stefaniuc <mstefani@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "8376ab091a5ab1850797fd203f31ae97a1287b23",
+      "short_hash": "8376ab091a5a",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-22 16:57:29 +0300",
+      "year": "2011",
+      "subject": "sparse: Fix __builtin_safe_p for pure and const functions",
+      "body": "This patch fixes __builtin_safe_p() to work properly for calls to pure\nfunctions.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expand.c",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 5,
+            "deletions": 5
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/builtin_safe1.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 5,
+        "total_insertions": 10,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "6afef22e1e3c2a7e6dab464706c80f4541f90a4b",
+      "short_hash": "6afef22e1e3c",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-22 16:57:28 +0300",
+      "year": "2011",
+      "subject": "sparse: Enable unhandled validation tests",
+      "body": "This patch enables unhandled tests that did not have \"check-name\" specified.\nIt's pointless not to run them.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/badtype1.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/badtype2.c",
+            "insertions": 14,
+            "deletions": 0
+          },
+          {
+            "file": "validation/badtype3.c",
+            "insertions": 17,
+            "deletions": 0
+          },
+          {
+            "file": "validation/bitfields.c",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "file": "validation/builtin_safe1.c",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "file": "validation/choose_expr.c",
+            "insertions": 13,
+            "deletions": 0
+          },
+          {
+            "file": "validation/field-overlap.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/foul-bitwise.c",
+            "insertions": 10,
+            "deletions": 0
+          },
+          {
+            "file": "validation/inline_compound_literals.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/struct-ns2.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/struct-size1.c",
+            "insertions": 4,
+            "deletions": 0
+          },
+          {
+            "file": "validation/test-be.c",
+            "insertions": 3,
+            "deletions": 0
+          },
+          {
+            "file": "validation/type1.c",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 13,
+        "total_insertions": 99,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "a7a00d5108c36b8baaf54814aa1f42583dabc754",
+      "short_hash": "a7a00d5108c3",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-08-22 16:57:27 +0300",
+      "year": "2011",
+      "subject": "Show expected vs. actual output on test failure",
+      "body": "This patch changes 'make check' output to show sparse output compared to\nexpected results upon unexpected test failure. For example,\nstatic-forward-decl.c output would look like this if it would not be tagged as\n\"known to fail\":\n\n       TEST     static forward declaration (static-forward-decl.c)\n  error: actual error text does not match expected error text.\n  --- static-forward-decl.c.error.expected\t2011-08-22 06:29:40.000000000 +0000\n  +++ static-forward-decl.c.error.got\t2011-08-22 06:29:40.000000000 +0000\n  @@ -0,0 +1 @@\n  +static-forward-decl.c:3:5: warning: symbol 'f' was not declared. Should it be static?\n  error: see static-forward-decl.c.error.* for further investigation.\n  info: test 'static-forward-decl.c' is known to fail\n\nThis makes it easier to detect and analyze test breakage.\n\nCc: Christopher Li <sparse@chrisli.org>\nCc: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Pekka Enberg <penberg@kernel.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/test-suite",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "cfcf8b5d5c1075c27ebb751946d1f19cdc77fe17",
+      "short_hash": "cfcf8b5d5c10",
+      "author_name": "Jonathan Neusch\u00e4fer",
+      "author_email": "j.neuschaefer@gmx.net",
+      "date": "2011-08-20 17:02:59 +0200",
+      "year": "2011",
+      "subject": "fix common misspellings with codespell",
+      "body": "See http://git.profusion.mobi/cgit.cgi/lucas/codespell/ for more\ninformation on codespell.\n\nSigned-off-by: Jonathan Neusch\u00e4fer <j.neuschaefer@gmx.net>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "LICENSE",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "README",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "ast-model.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "validation/preprocessor/preprocessor19.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 4,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "abca4fede1626676d783cc2178768cf08340ac9e",
+      "short_hash": "abca4fede162",
+      "author_name": "Jonathan Neusch\u00e4fer",
+      "author_email": "j.neuschaefer@gmx.net",
+      "date": "2011-08-20 17:02:58 +0200",
+      "year": "2011",
+      "subject": "FAQ: fix a typo (\"because or\")",
+      "body": "Signed-off-by: Jonathan Neusch\u00e4fer <j.neuschaefer@gmx.net>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "FAQ",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "d79064e7a3a36443a09d049eda0500d632d2a1a5",
+      "short_hash": "d79064e7a3a3",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-20 00:45:30 -0700",
+      "year": "2011",
+      "subject": "Sparse 0.4.4-rc1",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "c0719f0fbb21d16a786fdf202c7f424e40abf51b",
+      "short_hash": "c0719f0fbb21",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-14 14:10:09 -0700",
+      "year": "2011",
+      "subject": "Fix inlining switch statement.",
+      "body": "In sparse, inline is replacing the function call\nexpression with a compound statment of inline\nfunction body. During the process, all reference\nto the function arguments need to replaced with\ncalling arguments.\n\nWhen inlining the case statement. Sparse forgets\nto replace the case_label->stmt to the new version.\nIf it has inner inline function call, it will cause\nthe orignal copy of the function definition get\nmodified. That should never happen.\n\nIt cause warning error when the inline\nfunction call the second time.\n\nWith this change, validations/bug_inline_switch.c\nno longer generate warning.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "inline.c",
+            "insertions": 1,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "064f61f7325f898474779b82759ae48aea118c69",
+      "short_hash": "064f61f7325f",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-12 14:47:19 -0700",
+      "year": "2011",
+      "subject": "inspect: Add switch statement and more",
+      "body": "Signed-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ast-inspect.c",
+            "insertions": 17,
+            "deletions": 4
+          },
+          {
+            "file": "ast-model.h",
+            "insertions": 3,
+            "deletions": 1
+          },
+          {
+            "file": "ast-view.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 21,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "5b57cb8105f9fe00119a12462f09f3106b1e6117",
+      "short_hash": "5b57cb8105f9",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-08-11 03:44:34 -0700",
+      "year": "2011",
+      "subject": "validation: inline switch statement",
+      "body": "This bug is reported by Randy. Al provides the simplify\nversion of the test case.\n\nIt generate error message on the current sparse:\n\nwarning: unreplaced symbol 'val'\n\nThis is some bug in the switch inline code.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "validation/bug_inline_switch.c",
+            "insertions": 25,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 25,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "84e51f9005d81e21c24c453babbb9347f0fd0795",
+      "short_hash": "84e51f9005d8",
+      "author_name": "Jonathan Neusch\u00e4fer",
+      "author_email": "j.neuschaefer@gmx.net",
+      "date": "2011-08-09 14:20:23 +0200",
+      "year": "2011",
+      "subject": "fix a memory leak in compile-i386.c",
+      "body": "Don't allocate val twice in emit_divide.\n\nSigned-off-by: Jonathan Neusch\u00e4fer <j.neuschaefer@gmx.net>\nAcked-by: Jeff Garzik <jgarzik@redhat.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "compile-i386.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "9bc7588b099c4178a509696c4f423fd170180c28",
+      "short_hash": "9bc7588b099c",
+      "author_name": "Pekka Enberg",
+      "author_email": "penberg@kernel.org",
+      "date": "2011-06-19 19:20:51 +0300",
+      "year": "2011",
+      "subject": "sparse: Add 'artifical' to ignore attributes",
+      "body": "This patch adds the 'artifical' GCC attribute to list of ignore attributes.\nIt's an attribute that's used by glibc which causes the following bogus sparse\nwarnings when using it for userspace projects:\n\n  /usr/include/bits/stdlib.h:37:1: error: attribute '__artificial__': unknown attribute\n  /usr/include/bits/stdlib.h:64:1: error: attribute '__artificial__': unknown attribute\n\nSigned-off-by: Pekka Enberg <penberg@kernel.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ident-list.h",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "parse.c",
+            "insertions": 2,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 3,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "271cb1a33b9d1354ddca75d5c670e98dc4943092",
+      "short_hash": "271cb1a33b9d",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-05-31 04:16:32 -0700",
+      "year": "2011",
+      "subject": "Remove set but not used variable",
+      "body": "The new gcc complain about set but not used\nvariable. This should make the new gcc happy.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "c2xml.c",
+            "insertions": 1,
+            "deletions": 2
+          },
+          {
+            "file": "evaluate.c",
+            "insertions": 2,
+            "deletions": 8
+          },
+          {
+            "file": "graph.c",
+            "insertions": 2,
+            "deletions": 4
+          },
+          {
+            "file": "lib.c",
+            "insertions": 0,
+            "deletions": 3
+          },
+          {
+            "file": "pre-process.c",
+            "insertions": 0,
+            "deletions": 2
+          },
+          {
+            "file": "symbol.c",
+            "insertions": 1,
+            "deletions": 3
+          }
+        ],
+        "total_files": 6,
+        "total_insertions": 6,
+        "total_deletions": 22
+      }
+    },
+    {
+      "hash": "d8b20ec2324b09b164b298fbab6b4265b6886929",
+      "short_hash": "d8b20ec2324b",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-05-31 04:05:37 -0700",
+      "year": "2011",
+      "subject": "Ignore attribute vector_size",
+      "body": "Report by Randy Dunlap, attribute vector_size is causing\nerror. Ignore it for now.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 1,
+            "deletions": 0
+          },
+          {
+            "file": "validation/attr_vector_size.c",
+            "insertions": 7,
+            "deletions": 0
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 8,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "f20cbcc7ac20f6cd05f945ed1c09af8532094430",
+      "short_hash": "f20cbcc7ac20",
+      "author_name": "Ben Pfaff",
+      "author_email": "blp@nicira.com",
+      "date": "2011-05-04 16:39:54 -0700",
+      "year": "2011",
+      "subject": "evaluate: Allow sizeof(_Bool) to succeed.",
+      "body": "Without this commit, sizeof(_Bool) provokes an error with \"cannot size\nexpression\" because _Bool is a 1-bit type and thus not a multiple of a full\nbyte in size.  But sizeof(_Bool) is valid C that should evaluate to 1, so\nthis commit fixes the problem and adds a regression test.\n\nSigned-off-by: Ben Pfaff <blp@nicira.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "evaluate.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "symbol.h",
+            "insertions": 7,
+            "deletions": 0
+          },
+          {
+            "file": "validation/sizeof-bool.c",
+            "insertions": 12,
+            "deletions": 0
+          }
+        ],
+        "total_files": 3,
+        "total_insertions": 24,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "05e666547ee05acadf7fed2d1fc9967c27739e9a",
+      "short_hash": "05e666547ee0",
+      "author_name": "Jan Pokorn\u00fd",
+      "author_email": "pokorny_jan@seznam.cz",
+      "date": "2011-04-26 00:33:25 -0700",
+      "year": "2011",
+      "subject": "parse.c: \"if(\" -> \"if (\" adjustment",
+      "body": "Signed-off-by: Jan Pokorny <pokorny_jan@seznam.cz>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.c",
+            "insertions": 3,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "7988e483ef47abb97004d7fb7f72b7037aa06bb6",
+      "short_hash": "7988e483ef47",
+      "author_name": "Jan Pokorn\u00fd",
+      "author_email": "pokorny_jan@seznam.cz",
+      "date": "2011-04-26 00:29:46 -0700",
+      "year": "2011",
+      "subject": "use ARRAY_SIZE() when possible (continued)",
+      "body": "Some cases were omitted with the patch from Namhyung Kim\n(commit c5e425e in Chris Li's repo).\n\nMy curiosity led me to try out coccinelle/spatch as suggested by\nNicholas Mc Guire in reply to Kim's patch, but it*) only discovered\noccurrences in show-parse.c, probably because of \"const vs. non-const\"\ndifferences of array item types and the expression given to sizeof.\n\n*) sequence to try coccinelle out on this case (when coccinelle installed):\n$ wget http://coccinelle.lip6.fr/rules/array.cocci\n$ sed 's/<linux\\/kernel.h>/\"lib.h\"/' array.cocci > array-sparse.cocci\n$ for i in $(find . -path ./validation -prune -o -name \"*.c\" -print); \\\n> do spatch -sp_file array-sparse.cocci $i; done\n\nBeside proceeding messages, this will print out any \"real\" patch\ngenerated according to the semantic patch in `array-sparse.cocci'\n(it can also reflect these changes directly etc.).\n\nSigned-off-by: Jan Pokorny <pokorny_jan@seznam.cz>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "expression.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "linearize.c",
+            "insertions": 1,
+            "deletions": 1
+          },
+          {
+            "file": "show-parse.c",
+            "insertions": 2,
+            "deletions": 2
+          },
+          {
+            "file": "sparse.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 4,
+        "total_insertions": 5,
+        "total_deletions": 5
+      }
+    },
+    {
+      "hash": "d04fa1196af5678574d3e1b88bdb1cda85ad7f58",
+      "short_hash": "d04fa1196af5",
+      "author_name": "Christopher Li",
+      "author_email": "sparse@chrisli.org",
+      "date": "2011-04-25 17:17:10 -0700",
+      "year": "2011",
+      "subject": "Allow overwrite CFLAGS from command line",
+      "body": "This is suggested by Diego Elio Petten\u00f2 <flameeyes@gmail.com>.\nCFLAGS now can be overwrited from command line as well.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 7,
+            "deletions": 6
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 7,
+        "total_deletions": 6
+      }
+    },
+    {
+      "hash": "87f4a7fda3d17c85e966e2a150084d6a1cf25ab4",
+      "short_hash": "87f4a7fda3d1",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@linux-foundation.org",
+      "date": "2011-04-19 13:06:45 -0700",
+      "year": "2011",
+      "subject": "Teach 'already_tokenized()' to use the stream name hash table",
+      "body": "This replaces the \"loop over all streams\" with a simple hash lookup.  It\nmakes the cost of checking for already tokenized streams basically go\naway (it could be up to 5% of CPU time, almost entirely due to the\n\"strcmp()\" of the name).\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "pre-process.c",
+            "insertions": 5,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 5,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "52df775e6235b81ddb44f885214f40ea562a61ea",
+      "short_hash": "52df775e6235",
+      "author_name": "Linus Torvalds",
+      "author_email": "torvalds@linux-foundation.org",
+      "date": "2011-04-19 13:02:08 -0700",
+      "year": "2011",
+      "subject": "Add new streams to a hash-list based on their names",
+      "body": "This trivially creates a small (currently 64-entry) hash table for\nstream numbers, so that you can look up a stream by its name.\n\nNothing currently uses it, but the next commit will teach\n\"already_tokenized()\" to look up the stream by name, allowing us to\navoid the \"walk over each stream we've seen\" loop.  The silly string\ncompare in that loop can take a lot of CPU time.\n\nSigned-off-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "token.h",
+            "insertions": 2,
+            "deletions": 1
+          },
+          {
+            "file": "tokenize.c",
+            "insertions": 24,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 26,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "aaff080449ebcb66553ebf5b512f737b6191f339",
+      "short_hash": "aaff080449eb",
+      "author_name": "Diego Elio Petten\u00f2",
+      "author_email": "flameeyes@gmail.com",
+      "date": "2011-04-13 13:06:06 +0200",
+      "year": "2011",
+      "subject": "Fix build with GCC 4.6 series.",
+      "body": "The label_statement attribute in the anonymous structures' union was\nduplicated for label_arg and labeled_struct alises, which were\nidentical. Since the former is never used, delete it and leave the other as\nthe only copy.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "parse.h",
+            "insertions": 0,
+            "deletions": 4
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 4
+      }
+    },
+    {
+      "hash": "ba457c8395073a0b02fdf4fdcb1c6ecd256e081a",
+      "short_hash": "ba457c839507",
+      "author_name": "Diego Elio Petten\u00f2",
+      "author_email": "flameeyes@gmail.com",
+      "date": "2011-04-13 13:06:05 +0200",
+      "year": "2011",
+      "subject": "build: add an all-installable target that builds the targets to install.",
+      "body": "This is useful for distributions that don't want to build content that\nwon't be installed.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 3,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 3,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "ce870b5e305bf4f4422b1a82d75b6c73271981fa",
+      "short_hash": "ce870b5e305b",
+      "author_name": "Diego Elio Petten\u00f2",
+      "author_email": "flameeyes@gmail.com",
+      "date": "2011-04-13 13:06:04 +0200",
+      "year": "2011",
+      "subject": "build: allow easy override of GCC_BASE",
+      "body": "Sometimes gcc reports the wrong path for its own base (for instance when\nICC is present in the same system); by allowing an override of GCC_BASE in\nMakefile, it's easier for packages to fix this up.\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 2,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 1
+      }
+    },
+    {
+      "hash": "0c7d6bffbccead5fdf0897d575b12e389496c9d7",
+      "short_hash": "0c7d6bffbcce",
+      "author_name": "Jan Pokorn\u00fd",
+      "author_email": "pokorny_jan@seznam.cz",
+      "date": "2011-04-13 01:59:46 -0700",
+      "year": "2011",
+      "subject": "flow.c: make comment for `dominates' reflect code",
+      "body": "Signed-off-by: Jan Pokorny <pokorny_jan@seznam.cz>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "flow.c",
+            "insertions": 2,
+            "deletions": 2
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 2,
+        "total_deletions": 2
+      }
+    },
+    {
+      "hash": "b21baf0cce7b2a6c949577952dd159f1c9357d6b",
+      "short_hash": "b21baf0cce7b",
+      "author_name": "Jan Pokorn\u00fd",
+      "author_email": "pokorny_jan@seznam.cz",
+      "date": "2011-04-13 01:58:50 -0700",
+      "year": "2011",
+      "subject": "remove unused \"container\" macro",
+      "body": "This macro seems to be unused since commit e7fb6e0 (4 years ago).\nBut my estimation that it does not currently have any practical usage for\nnavigating through the sparse structures may be wrong.\n\nSigned-off-by: Jan Pokorny <pokorny_jan@seznam.cz>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "ptrlist.h",
+            "insertions": 0,
+            "deletions": 3
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 0,
+        "total_deletions": 3
+      }
+    },
+    {
+      "hash": "0a782d32cd9b607a3cdd57e93e6779be65f04108",
+      "short_hash": "0a782d32cd9b",
+      "author_name": "Florian Fainelli",
+      "author_email": "f.fainelli@gmail.com",
+      "date": "2011-03-04 11:03:37 +0100",
+      "year": "2011",
+      "subject": "Makefile: warn user when libxml and/or libgtk2 are not available",
+      "body": "Since sparse's c2xml is not always packaged my modern distributions, it can be\nbuilt as a host package in build systems, finding out why c2xml was not\ncompiled turned out to be easier if a warning was emitted, add two for libxml\nand libgtk2 presence/absence.\n\nSigned-off-by: Florian Fainelli <f.fainelli@gmail.com>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "Makefile",
+            "insertions": 4,
+            "deletions": 0
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 4,
+        "total_deletions": 0
+      }
+    },
+    {
+      "hash": "5ecad11b093eb431619aed1b02c1d6d12f77ad97",
+      "short_hash": "5ecad11b093e",
+      "author_name": "Nicolas Kaiser",
+      "author_email": "nikai@nikai.net",
+      "date": "2011-01-03 02:12:33 -0800",
+      "year": "2011",
+      "subject": "memops.c: always true expression",
+      "body": "I noticed that the second part of this conditional is always true.\nJust a shot in the dark: Could that be a typo?\n\nSigned-off-by: Nicolas Kaiser <nikai@nikai.net>\nSigned-off-by: Christopher Li <sparse@chrisli.org>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "memops.c",
+            "insertions": 1,
+            "deletions": 1
+          }
+        ],
+        "total_files": 1,
+        "total_insertions": 1,
+        "total_deletions": 1
+      }
+    }
+  ]
+}

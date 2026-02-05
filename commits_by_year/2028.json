@@ -1,0 +1,41 @@
+{
+  "year": "2028",
+  "stats": {
+    "total_commits": 1,
+    "with_description": 1,
+    "without_description": 0,
+    "total_insertions": 5,
+    "total_deletions": 1,
+    "contributors": 1
+  },
+  "commits": [
+    {
+      "hash": "f8434575357435242114a6f9912c13eb0588149f",
+      "short_hash": "f84345753574",
+      "author_name": "Luc Van Oostenryck",
+      "author_email": "luc.vanoostenryck@gmail.com",
+      "date": "2028-09-29 00:53:53 +0200",
+      "year": "2028",
+      "subject": "reassoc: simplify (x # C) # K --> x # eval(C # K)",
+      "body": "Do this simplification once for all associative binops.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>",
+      "has_detailed_description": true,
+      "stats": {
+        "files_changed": [
+          {
+            "file": "simplify.c",
+            "insertions": 5,
+            "deletions": 0
+          },
+          {
+            "file": "validation/optim/reassoc-op-op1.c",
+            "insertions": 0,
+            "deletions": 1
+          }
+        ],
+        "total_files": 2,
+        "total_insertions": 5,
+        "total_deletions": 1
+      }
+    }
+  ]
+}
