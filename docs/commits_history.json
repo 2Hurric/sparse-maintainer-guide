@@ -1,0 +1,4321 @@
+{
+  "generated_at": "2026-02-05T11:42:16.878023",
+  "years": {
+    "2026": {
+      "year": 2026,
+      "total_patches": 17,
+      "merged": 1,
+      "rejected": 0,
+      "rfc_count": 0,
+      "acceptance_rate": 5.9,
+      "top_contributors": [
+        [
+          "Ian Rogers",
+          4
+        ],
+        [
+          "Marco Elver",
+          4
+        ],
+        [
+          "Oleg Nesterov",
+          3
+        ],
+        [
+          "Chris Li",
+          3
+        ],
+        [
+          "Paul Walmsley",
+          2
+        ]
+      ],
+      "categories": {
+        "general": 6,
+        "sparse_internals": 1,
+        "compiler_compat": 2,
+        "type_system": 1,
+        "kernel_integration": 3,
+        "context_analysis": 3,
+        "rfc_proposals": 1
+      },
+      "key_patches": [
+        {
+          "subject": "Re: locking/mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 10/36] locking/mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-08T22:10:25+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Steven Rostedt",
+            "Christoph Hellwig"
+          ],
+          "summary": "On 12/19/25 8:39 AM, Marco Elver wrote:",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 10,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 10/36] locking/mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-08T22:10:25+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Steven Rostedt",
+            "Christoph Hellwig"
+          ],
+          "summary": "On 12/19/25 8:39 AM, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 10,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: cleanup: Basic compatibility with context analysis",
+          "original_subject": "Re: [PATCH v5 06/36] cleanup: Basic compatibility with context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-06T13:21:38+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Tetsuo Handa",
+            "Lorenzo Stoakes"
+          ],
+          "summary": "On 2025/12/20 0:39, Marco Elver wrote:",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 6,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: cleanup: Basic compatibility with context analysis",
+          "original_subject": "Re: [PATCH v5 06/36] cleanup: Basic compatibility with context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-06T13:21:38+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Tetsuo Handa",
+            "Lorenzo Stoakes"
+          ],
+          "summary": "On 2025/12/20 0:39, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 6,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "RISC-V: restart extension search on match",
+          "original_subject": "[PATCHv2 2/2] RISC-V: restart extension search on match",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Paul Walmsley",
+          "date": "2026-01-02T11:44:49+00:00",
+          "message_count": 3,
+          "participants": [
+            "Paul Walmsley",
+            "Ben Dooks"
+          ],
+          "summary": "If we are passed multiple extensions in -march, don't assume these will be in any sort of order. If we do match, then restart the loop by setting the search back to 0, and retrying.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: RISC-V: Stop warning about Zabha and Zacas",
+          "original_subject": "Re: [PATCH 1/2] RISC-V: Stop warning about Zabha and Zacas",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Paul Walmsley",
+          "date": "2026-01-02T11:44:48+00:00",
+          "message_count": 3,
+          "participants": [
+            "Paul Walmsley",
+            "Ben Dooks"
+          ],
+          "summary": "The zabha (atomic byte and halfword) and zacas (atomic compare/swap) are now being used by the kernel, so parse these and stop the warnings when running make C=1 on current kernels.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 2
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "sparse/pre-process: don't update next->pos in collect_arg()",
+          "original_subject": "[PATCH] sparse/pre-process: don't update next->pos in collect_arg()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2026-01-18T14:55:19+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "I don't quite understand why the expand() -> collect_arg() path updates ->pos for each token in the input *list, but this breaks dissect and thus semind.",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: module: Add compile-time check for embedded NUL characters",
+          "original_subject": "Re: [PATCH v2 3/3] module: Add compile-time check for embedded NUL characters",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2026-01-16T23:35:06+00:00",
+          "message_count": 1,
+          "participants": [
+            "Chris Li"
+          ],
+          "summary": "On Fri, Dec 19, 2025 at 6:59=E2=80=AFAM Matthieu Baerts <matttbe@kernel.org= INFO(license, ...) contains embedded NUL byte\" INFO(description, ...) contains embedded NUL byte\"",
+          "category": "general",
+          "version": 2,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: sparse: update MAINTAINERS info.",
+          "original_subject": "Re: [PATCH] sparse: update MAINTAINERS info.",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2026-01-16T23:31:30+00:00",
+          "message_count": 1,
+          "participants": [
+            "Chris Li"
+          ],
+          "summary": "Acked-by: Chris LI <sparse@chrisli.org>",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: sparse: add the new m_pos member into struct expression{EXPR_DEREF}",
+          "original_subject": "Re: [PATCH] sparse: add the new m_pos member into struct expression{EXPR_DEREF}",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2026-01-16T22:55:34+00:00",
+          "message_count": 1,
+          "participants": [
+            "Chris Li"
+          ],
+          "summary": "Hi Oleg,",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "original_subject": "[PATCH] compiler: Use __typeof_unqual__() for __unqual_scalar_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ian Rogers",
+          "date": "2026-01-16T18:18:16+00:00",
+          "message_count": 4,
+          "participants": [
+            "Ian Rogers",
+            "Thomas Gleixner"
+          ],
+          "summary": "From: Peter Zijlstra <peterz@infradead.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: sched: Enable context analysis for core.c and fair.c",
+          "original_subject": "Re: [PATCH v5 36/36] sched: Enable context analysis for core.c and fair.c",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Bart Van Assche",
+          "date": "2026-01-12T22:04:59+00:00",
+          "message_count": 1,
+          "participants": [
+            "Bart Van Assche"
+          ],
+          "summary": "On 12/19/25 8:40 AM, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 36,
+          "patch_total": 36
+        },
+        {
+          "subject": "sparse/dissect: change do_symbol(sym) to use sym->definition",
+          "original_subject": "[PATCH] sparse/dissect: change do_symbol(sym) to use sym->definition",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2026-01-11T17:28:26+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "Test-case:",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "sparse/semind: change r_member() to use r_symbol() when mem->kind == 'e'",
+          "original_subject": "[PATCH] sparse/semind: change r_member() to use r_symbol() when mem->kind == 'e'",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2026-01-11T17:28:14+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "dissect() tries to provide as much info as possible, but from the semind's perspective it doesn't make sense to store the enumerators as members; this just complicates the searching.",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: locking/mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 10/36] locking/mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-08T22:10:25+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Steven Rostedt",
+            "Christoph Hellwig"
+          ],
+          "summary": "On 12/19/25 8:39 AM, Marco Elver wrote:",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 10,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 10/36] locking/mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-08T22:10:25+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Steven Rostedt",
+            "Christoph Hellwig"
+          ],
+          "summary": "On 12/19/25 8:39 AM, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 10,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: cleanup: Basic compatibility with context analysis",
+          "original_subject": "Re: [PATCH v5 06/36] cleanup: Basic compatibility with context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-06T13:21:38+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Tetsuo Handa",
+            "Lorenzo Stoakes"
+          ],
+          "summary": "On 2025/12/20 0:39, Marco Elver wrote:",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 6,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: cleanup: Basic compatibility with context analysis",
+          "original_subject": "Re: [PATCH v5 06/36] cleanup: Basic compatibility with context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2026-01-06T13:21:38+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Tetsuo Handa",
+            "Lorenzo Stoakes"
+          ],
+          "summary": "On 2025/12/20 0:39, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 6,
+          "patch_total": 36
+        },
+        {
+          "subject": "RISC-V: restart extension search on match",
+          "original_subject": "[PATCHv2 2/2] RISC-V: restart extension search on match",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Paul Walmsley",
+          "date": "2026-01-02T11:44:49+00:00",
+          "message_count": 3,
+          "participants": [
+            "Paul Walmsley",
+            "Ben Dooks"
+          ],
+          "summary": "If we are passed multiple extensions in -march, don't assume these will be in any sort of order. If we do match, then restart the loop by setting the search back to 0, and retrying.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: RISC-V: Stop warning about Zabha and Zacas",
+          "original_subject": "Re: [PATCH 1/2] RISC-V: Stop warning about Zabha and Zacas",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Paul Walmsley",
+          "date": "2026-01-02T11:44:48+00:00",
+          "message_count": 3,
+          "participants": [
+            "Paul Walmsley",
+            "Ben Dooks"
+          ],
+          "summary": "The zabha (atomic byte and halfword) and zacas (atomic compare/swap) are now being used by the kernel, so parse these and stop the warnings when running make C=1 on current kernels.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 2
+        }
+      ]
+    },
+    "2025": {
+      "year": 2025,
+      "total_patches": 106,
+      "merged": 20,
+      "rejected": 7,
+      "rfc_count": 0,
+      "acceptance_rate": 18.9,
+      "top_contributors": [
+        [
+          "Marco Elver",
+          28
+        ],
+        [
+          "Eliav Farber",
+          25
+        ],
+        [
+          "Chris Li",
+          10
+        ],
+        [
+          "Oleg Nesterov",
+          6
+        ],
+        [
+          "Ben Dooks",
+          5
+        ]
+      ],
+      "categories": {
+        "general": 13,
+        "rfc_proposals": 11,
+        "sparse_internals": 14,
+        "compiler_compat": 22,
+        "type_system": 25,
+        "kernel_integration": 8,
+        "context_analysis": 9,
+        "address_space": 4
+      },
+      "key_patches": [
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "compiler_compat",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "type_system",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "kernel_integration",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: srcu: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 15/36] srcu: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:04+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "Add support for Clang's context analysis for SRCU.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 15,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: srcu: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 15/36] srcu: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:04+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "Add support for Clang's context analysis for SRCU.",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 15,
+          "patch_total": 36
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "sparse/dissect: don't miss inline functions when !dissect_show_all_symbols",
+          "original_subject": "[PATCH v2] sparse/dissect: don't miss inline functions when !dissect_show_all_symbols",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-31T16:16:19+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "parse_function_body() doesn't do add_symbol(decl) if MOD_INLINE, this means that dissect/semind can't see the definitions of inline functions in translation_unit_used_list.",
+          "category": "general",
+          "version": 2,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "sparse/dissect: change do_file() to use __sparse()",
+          "original_subject": "[PATCH] sparse/dissect: change do_file() to use __sparse()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-28T12:55:15+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "rather than do sparse_keep_tokens/clear_token_alloc by hand.",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "sparse/semind: robustify parse_cmdline_add()",
+          "original_subject": "[PATCH 2/2] sparse/semind: robustify parse_cmdline_add()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Alexey Gladkov",
+          "date": "2025-12-26T14:32:24+00:00",
+          "message_count": 2,
+          "participants": [
+            "Alexey Gladkov",
+            "Oleg Nesterov"
+          ],
+          "summary": "\"semind add -ftabstop=8 ...\" works as expected, but (for example) \"semind add --param=dissect-show-all-symbols ...\" doesn't, this arg is not passed to sparse_initialize().",
+          "category": "general",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: sparse/semind: add the new --param=dissect-show-compiled option",
+          "original_subject": "Re: [PATCH 1/2] sparse/semind: add the new --param=dissect-show-compiled option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Alexey Gladkov",
+          "date": "2025-12-26T14:31:56+00:00",
+          "message_count": 2,
+          "participants": [
+            "Alexey Gladkov",
+            "Oleg Nesterov"
+          ],
+          "summary": "parse_cmdline_add() sets dissect_show_all_symbols = 1 unconditionally and currently it is not possible to clear this option.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: sparse/dissect: introduce do_inline(struct symbol *sym)",
+          "original_subject": "Re: [PATCH] sparse/dissect: introduce do_inline(struct symbol *sym)",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-24T11:38:23+00:00",
+          "message_count": 2,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "parse_function_body() doesn't do add_symbol(decl) if MOD_INLINE, this means that dissect/semind can't see the definitions of inline functions in translation_unit_used_list.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "add variadic format checking",
+          "original_subject": "[PATCH v2 0/4] add variadic format checking",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ben Dooks",
+          "date": "2025-12-22T16:00:30+00:00",
+          "message_count": 2,
+          "participants": [
+            "Ben Dooks"
+          ],
+          "summary": "Second version of this, I think mostly sorting the issues identified in review.",
+          "category": "sparse_internals",
+          "version": 2,
+          "patch_num": 0,
+          "patch_total": 4
+        },
+        {
+          "subject": "add variadic format checking",
+          "original_subject": "[PATCH v2 0/4] add variadic format checking",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ben Dooks",
+          "date": "2025-12-22T16:00:30+00:00",
+          "message_count": 2,
+          "participants": [
+            "Ben Dooks"
+          ],
+          "summary": "Second version of this, I think mostly sorting the issues identified in review.",
+          "category": "compiler_compat",
+          "version": 2,
+          "patch_num": 0,
+          "patch_total": 4
+        },
+        {
+          "subject": "sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "original_subject": "[PATCH] sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-21T14:28:04+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "Test-case:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "original_subject": "[PATCH] sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-21T14:28:04+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "Test-case:",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "original_subject": "[PATCH] sparse/parse: update decl->pos when direct_declarator() sees TOKEN_IDENT",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Oleg Nesterov",
+          "date": "2025-12-21T14:28:04+00:00",
+          "message_count": 1,
+          "participants": [
+            "Oleg Nesterov"
+          ],
+          "summary": "Test-case:",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: minmax: remove useless cast in __is_nonneg()",
+          "original_subject": "Re: [PATCH v2 4/4] minmax: remove useless cast in __is_nonneg()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "kernel test robot",
+          "date": "2025-12-19T22:39:48+00:00",
+          "message_count": 24,
+          "participants": [
+            "kernel test robot",
+            "David Laight",
+            "Vincent Mailhol"
+          ],
+          "summary": "The function like macro __is_nonneg() casts its argument to (long long) in an attempt to silence -Wtype-limits warnings on unsigned values.",
+          "category": "compiler_compat",
+          "version": 2,
+          "patch_num": 4,
+          "patch_total": 4
+        },
+        {
+          "subject": "Re: minmax: remove useless cast in __is_nonneg()",
+          "original_subject": "Re: [PATCH v2 4/4] minmax: remove useless cast in __is_nonneg()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "kernel test robot",
+          "date": "2025-12-19T22:39:48+00:00",
+          "message_count": 24,
+          "participants": [
+            "kernel test robot",
+            "David Laight",
+            "Vincent Mailhol"
+          ],
+          "summary": "The function like macro __is_nonneg() casts its argument to (long long) in an attempt to silence -Wtype-limits warnings on unsigned values.",
+          "category": "type_system",
+          "version": 2,
+          "patch_num": 4,
+          "patch_total": 4
+        },
+        {
+          "subject": "Re: minmax: remove useless cast in __is_nonneg()",
+          "original_subject": "Re: [PATCH v2 4/4] minmax: remove useless cast in __is_nonneg()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "kernel test robot",
+          "date": "2025-12-19T22:39:48+00:00",
+          "message_count": 24,
+          "participants": [
+            "kernel test robot",
+            "David Laight",
+            "Vincent Mailhol"
+          ],
+          "summary": "The function like macro __is_nonneg() casts its argument to (long long) in an attempt to silence -Wtype-limits warnings on unsigned values.",
+          "category": "kernel_integration",
+          "version": 2,
+          "patch_num": 4,
+          "patch_total": 4
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "compiler_compat",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "type_system",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: overflow: Remove is_non_negative() and is_negative()",
+          "original_subject": "Re: [PATCH v3 3/3] overflow: Remove is_non_negative() and is_negative()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Miguel Ojeda",
+          "date": "2025-12-19T22:39:47+00:00",
+          "message_count": 31,
+          "participants": [
+            "Miguel Ojeda",
+            "kernel test robot",
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "The is_non_negative() and is_negative() function-like macros just exist as a workaround to silence the -Wtype-limits warning. Now that this warning is disabled, those two macros have lost their raison d'\u00eatre. Remove them.",
+          "category": "kernel_integration",
+          "version": 3,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "kbuild: cleanup local -Wno-type-limits exceptions",
+          "original_subject": "[PATCH v3 2/3] kbuild: cleanup local -Wno-type-limits exceptions",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Nicolas Schier",
+          "date": "2025-12-19T22:39:46+00:00",
+          "message_count": 13,
+          "participants": [
+            "Nicolas Schier",
+            "Vincent Mailhol"
+          ],
+          "summary": "Now that -Wtype-limits is globally deactivated, there is no need for local exceptions anymore.",
+          "category": "kernel_integration",
+          "version": 3,
+          "patch_num": 2,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: locking/rwlock, spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T20:26:16+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 8,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/rwlock, spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T20:26:16+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 8,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/rwlock, spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 08/36] locking/rwlock, spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T20:26:16+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 8,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "original_subject": "Re: [PATCH v5 02/36] compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T18:38:53+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "sparse_internals",
+          "version": 5,
+          "patch_num": 2,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "original_subject": "Re: [PATCH v5 02/36] compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T18:38:53+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 2,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "original_subject": "Re: [PATCH v5 02/36] compiler-context-analysis: Add infrastructure for Context Analysis with Clang",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T18:38:53+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "On 12/19/25 7:39 AM, Marco Elver wrote:",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 2,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove __cond_lock() function-like helper",
+          "original_subject": "[PATCH v5 24/36] compiler-context-analysis: Remove __cond_lock() function-like helper",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:13+00:00",
+          "message_count": 19,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "As discussed in [1], removing __cond_lock() will improve the readability of trylock code. Now that Sparse context tracking support has been removed, we can also remove __cond_lock().",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 24,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove __cond_lock() function-like helper",
+          "original_subject": "[PATCH v5 24/36] compiler-context-analysis: Remove __cond_lock() function-like helper",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:13+00:00",
+          "message_count": 19,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "As discussed in [1], removing __cond_lock() will improve the readability of trylock code. Now that Sparse context tracking support has been removed, we can also remove __cond_lock().",
+          "category": "general",
+          "version": 5,
+          "patch_num": 24,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove Sparse support",
+          "original_subject": "[PATCH v5 23/36] compiler-context-analysis: Remove Sparse support",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:12+00:00",
+          "message_count": 13,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Remove Sparse support as discussed at [1].",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 23,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove Sparse support",
+          "original_subject": "[PATCH v5 23/36] compiler-context-analysis: Remove Sparse support",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:12+00:00",
+          "message_count": 13,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Remove Sparse support as discussed at [1].",
+          "category": "type_system",
+          "version": 5,
+          "patch_num": 23,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove Sparse support",
+          "original_subject": "[PATCH v5 23/36] compiler-context-analysis: Remove Sparse support",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:12+00:00",
+          "message_count": 13,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Remove Sparse support as discussed at [1].",
+          "category": "general",
+          "version": 5,
+          "patch_num": 23,
+          "patch_total": 36
+        },
+        {
+          "subject": "compiler-context-analysis: Remove Sparse support",
+          "original_subject": "[PATCH v5 23/36] compiler-context-analysis: Remove Sparse support",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:12+00:00",
+          "message_count": 13,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Remove Sparse support as discussed at [1].",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 23,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/ww_mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:09+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Maarten Lankhorst"
+          ],
+          "summary": "Add support for Clang's context analysis for ww_mutex.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 20,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/ww_mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:09+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Maarten Lankhorst"
+          ],
+          "summary": "Add support for Clang's context analysis for ww_mutex.",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 20,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: locking/ww_mutex: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 20/36] locking/ww_mutex: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:09+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Maarten Lankhorst"
+          ],
+          "summary": "Add support for Clang's context analysis for ww_mutex.",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 20,
+          "patch_total": 36
+        },
+        {
+          "subject": "locking/rwsem: Support Clang's context analysis",
+          "original_subject": "[PATCH v5 17/36] locking/rwsem: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:06+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Add support for Clang's context analysis for rw_semaphore.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 17,
+          "patch_total": 36
+        },
+        {
+          "subject": "locking/rwsem: Support Clang's context analysis",
+          "original_subject": "[PATCH v5 17/36] locking/rwsem: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:06+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Add support for Clang's context analysis for rw_semaphore.",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 17,
+          "patch_total": 36
+        },
+        {
+          "subject": "locking/rwsem: Support Clang's context analysis",
+          "original_subject": "[PATCH v5 17/36] locking/rwsem: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:06+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Add support for Clang's context analysis for rw_semaphore.",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 17,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: srcu: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 15/36] srcu: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:04+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "Add support for Clang's context analysis for SRCU.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 15,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: srcu: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 15/36] srcu: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:04+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "Add support for Clang's context analysis for SRCU.",
+          "category": "rfc_proposals",
+          "version": 5,
+          "patch_num": 15,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: srcu: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 15/36] srcu: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:04+00:00",
+          "message_count": 31,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche",
+            "Peter Zijlstra"
+          ],
+          "summary": "Add support for Clang's context analysis for SRCU.",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 15,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: bit_spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 13/36] bit_spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:02+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "The annotations for bit_spinlock.h have simply been using \"bitlock\" as the token. For Sparse, that was likely sufficient in most cases. But Clang's context analysis is more precise, and we need to ensure we can distinguish different bitlocks.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 13,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: bit_spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 13/36] bit_spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:02+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "The annotations for bit_spinlock.h have simply been using \"bitlock\" as the token. For Sparse, that was likely sufficient in most cases. But Clang's context analysis is more precise, and we need to ensure we can distinguish different bitlocks.",
+          "category": "type_system",
+          "version": 5,
+          "patch_num": 13,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: bit_spinlock: Support Clang's context analysis",
+          "original_subject": "Re: [PATCH v5 13/36] bit_spinlock: Support Clang's context analysis",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:40:02+00:00",
+          "message_count": 20,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "The annotations for bit_spinlock.h have simply been using \"bitlock\" as the token. For Sparse, that was likely sufficient in most cases. But Clang's context analysis is more precise, and we need to ensure we can distinguish different bitlocks.",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 13,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: lockdep: Annotate lockdep assertions for context analysis",
+          "original_subject": "Re: [PATCH v5 07/36] lockdep: Annotate lockdep assertions for context analysis",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:39:56+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Clang's context analysis can be made aware of functions that assert that locks are held.",
+          "category": "compiler_compat",
+          "version": 5,
+          "patch_num": 7,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: lockdep: Annotate lockdep assertions for context analysis",
+          "original_subject": "Re: [PATCH v5 07/36] lockdep: Annotate lockdep assertions for context analysis",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Marco Elver",
+          "date": "2025-12-19T15:39:56+00:00",
+          "message_count": 30,
+          "participants": [
+            "Marco Elver",
+            "Bart Van Assche"
+          ],
+          "summary": "Clang's context analysis can be made aware of functions that assert that locks are held.",
+          "category": "context_analysis",
+          "version": 5,
+          "patch_num": 7,
+          "patch_total": 36
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: kbuild: remove gcc's -Wtype-limits",
+          "original_subject": "Re: [PATCH 0/2] kbuild: remove gcc's -Wtype-limits",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Vincent Mailhol",
+          "date": "2025-12-18T18:50:01+00:00",
+          "message_count": 60,
+          "participants": [
+            "Vincent Mailhol",
+            "David Laight",
+            "Nicolas Schier",
+            "Dan Carpenter",
+            "Nathan Chancellor",
+            "Linus Torvalds"
+          ],
+          "summary": "W=2 builds are heavily polluted by the -Wtype-limits warning.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+          "original_subject": "Re: [PATCH] sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2025-12-17T15:17:44+00:00",
+          "message_count": 7,
+          "participants": [
+            "Chris Li",
+            "Oleg Nesterov"
+          ],
+          "summary": "I don't quite understand why does expand() -> collect_arg() path update ->pos for each token in the input *list, but this breaks dissect and thus semind.",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+          "original_subject": "Re: [PATCH] sparse/pre-process: introduce \"dissect_mode\" option to fix dissect/semind",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2025-12-17T15:17:44+00:00",
+          "message_count": 7,
+          "participants": [
+            "Chris Li",
+            "Oleg Nesterov"
+          ],
+          "summary": "I don't quite understand why does expand() -> collect_arg() path update ->pos for each token in the input *list, but this breaks dissect and thus semind.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "validation: add check for typeof() and address spaces",
+          "original_subject": "[PATCH] validation: add check for typeof() and address spaces",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Dan Carpenter",
+          "date": "2025-10-28T13:32:08+00:00",
+          "message_count": 1,
+          "participants": [
+            "Dan Carpenter"
+          ],
+          "summary": "The typeof() key word should preserve the address space and typeof_unqual() should not. Add a check to verify this works as expected.",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "validation: add check for typeof() and address spaces",
+          "original_subject": "[PATCH] validation: add check for typeof() and address spaces",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Dan Carpenter",
+          "date": "2025-10-28T13:32:08+00:00",
+          "message_count": 1,
+          "participants": [
+            "Dan Carpenter"
+          ],
+          "summary": "The typeof() key word should preserve the address space and typeof_unqual() should not. Add a check to verify this works as expected.",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "validation: add check for typeof() and address spaces",
+          "original_subject": "[PATCH] validation: add check for typeof() and address spaces",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Dan Carpenter",
+          "date": "2025-10-28T13:32:08+00:00",
+          "message_count": 1,
+          "participants": [
+            "Dan Carpenter"
+          ],
+          "summary": "The typeof() key word should preserve the address space and typeof_unqual() should not. Add a check to verify this works as expected.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler.h: add __chkp_no_side_effects() empty hint/assertion macro",
+          "original_subject": "[PATCH 3/3] compiler.h: add __chkp_no_side_effects() empty hint/assertion macro",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Linus Torvalds",
+          "date": "2025-10-25T21:15:18+00:00",
+          "message_count": 4,
+          "participants": [
+            "Linus Torvalds",
+            "Jim Cromie"
+          ],
+          "summary": "cpp has no intrinsic protection against macro arg side-effects, so to compensate, checkpatch is paranoid:",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "compiler.h: add __chkp_no_side_effects() empty hint/assertion macro",
+          "original_subject": "[PATCH 3/3] compiler.h: add __chkp_no_side_effects() empty hint/assertion macro",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Linus Torvalds",
+          "date": "2025-10-25T21:15:18+00:00",
+          "message_count": 4,
+          "participants": [
+            "Linus Torvalds",
+            "Jim Cromie"
+          ],
+          "summary": "cpp has no intrinsic protection against macro arg side-effects, so to compensate, checkpatch is paranoid:",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 3
+        },
+        {
+          "subject": "Re: symbol: preserve address space qualifiers with typeof()",
+          "original_subject": "Re: [PATCH] symbol: preserve address space qualifiers with typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2025-10-21T07:22:38+00:00",
+          "message_count": 2,
+          "participants": [
+            "Chris Li",
+            "Dan Carpenter"
+          ],
+          "summary": "On Sat, Oct 18, 2025 at 2:36=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro= .org> wrote:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: symbol: preserve address space qualifiers with typeof()",
+          "original_subject": "Re: [PATCH] symbol: preserve address space qualifiers with typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2025-10-21T07:22:38+00:00",
+          "message_count": 2,
+          "participants": [
+            "Chris Li",
+            "Dan Carpenter"
+          ],
+          "summary": "On Sat, Oct 18, 2025 at 2:36=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro= .org> wrote:",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: symbol: preserve address space qualifiers with typeof()",
+          "original_subject": "Re: [PATCH] symbol: preserve address space qualifiers with typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Chris Li",
+          "date": "2025-10-21T07:22:38+00:00",
+          "message_count": 2,
+          "participants": [
+            "Chris Li",
+            "Dan Carpenter"
+          ],
+          "summary": "On Sat, Oct 18, 2025 at 2:36=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro= .org> wrote:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "add -Wformat",
+          "original_subject": "[PATCH RESEND2 2/4] add -Wformat",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ben Dooks",
+          "date": "2025-10-20T15:39:16+00:00",
+          "message_count": 3,
+          "participants": [
+            "Ben Dooks"
+          ],
+          "summary": "Add option to enable/disable format checking (and default it to off)",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 4
+        },
+        {
+          "subject": "add -Wformat",
+          "original_subject": "[PATCH RESEND2 2/4] add -Wformat",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ben Dooks",
+          "date": "2025-10-20T15:39:16+00:00",
+          "message_count": 3,
+          "participants": [
+            "Ben Dooks"
+          ],
+          "summary": "Add option to enable/disable format checking (and default it to off)",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 4
+        },
+        {
+          "subject": "add -Wformat",
+          "original_subject": "[PATCH RESEND2 2/4] add -Wformat",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Ben Dooks",
+          "date": "2025-10-20T15:39:16+00:00",
+          "message_count": 3,
+          "participants": [
+            "Ben Dooks"
+          ],
+          "summary": "Add option to enable/disable format checking (and default it to off)",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 4
+        },
+        {
+          "subject": "Re: overflow, tracing: Define the is_signed_type() macro once",
+          "original_subject": "Re: [PATCH v2 01/27 5.10.y] overflow, tracing: Define the is_signed_type() macro once",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Farber, Eliav",
+          "date": "2025-10-17T11:59:33+00:00",
+          "message_count": 22,
+          "participants": [
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "On Fri, Oct 17, 2025 at 09:04:53AM +0000, Eliav Farber wrote:",
+          "category": "sparse_internals",
+          "version": 2,
+          "patch_num": 1,
+          "patch_total": 27
+        },
+        {
+          "subject": "Re: overflow, tracing: Define the is_signed_type() macro once",
+          "original_subject": "Re: [PATCH v2 01/27 5.10.y] overflow, tracing: Define the is_signed_type() macro once",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Farber, Eliav",
+          "date": "2025-10-17T11:59:33+00:00",
+          "message_count": 22,
+          "participants": [
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "On Fri, Oct 17, 2025 at 09:04:53AM +0000, Eliav Farber wrote:",
+          "category": "type_system",
+          "version": 2,
+          "patch_num": 1,
+          "patch_total": 27
+        },
+        {
+          "subject": "minmax: fix up min3() and max3() too",
+          "original_subject": "[PATCH v2 20/27 5.10.y] minmax: fix up min3() and max3() too",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-10-17T09:05:12+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "type_system",
+          "version": 2,
+          "patch_num": 20,
+          "patch_total": 27
+        },
+        {
+          "subject": "minmax: add a few more MIN_T/MAX_T users",
+          "original_subject": "[PATCH v2 14/27 5.10.y] minmax: add a few more MIN_T/MAX_T users",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-10-17T09:05:06+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "sparse_internals",
+          "version": 2,
+          "patch_num": 14,
+          "patch_total": 27
+        },
+        {
+          "subject": "minmax: relax check to allow comparison between unsigned arguments and signe",
+          "original_subject": "[PATCH v2 12/27 5.10.y] minmax: relax check to allow comparison between unsigned arguments and signe",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-10-17T09:05:04+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "sparse_internals",
+          "version": 2,
+          "patch_num": 12,
+          "patch_total": 27
+        },
+        {
+          "subject": "Re: minmax: make generic MIN() and MAX() macros available everywhere",
+          "original_subject": "Re: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros available everywhere",
+          "type": "patch",
+          "status": "merged",
+          "author": "Farber, Eliav",
+          "date": "2025-09-29T14:47:31+00:00",
+          "message_count": 23,
+          "participants": [
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "On Mon, Sep 29, 2025 at 02:39:26PM +0000, Farber, Eliav wrote:",
+          "category": "general",
+          "version": 1,
+          "patch_num": 7,
+          "patch_total": 19
+        },
+        {
+          "subject": "Re: doc: update the instructions for mailing list subscription",
+          "original_subject": "Re: [PATCH] doc: update the instructions for mailing list subscription",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2025-09-29T00:57:27+00:00",
+          "message_count": 2,
+          "participants": [
+            "Chris Li",
+            "Changyuan Lyu"
+          ],
+          "summary": "Majordomo commands are deprecated as per https://subspace.kernel.org/vger.kernel.org.html#what-happened-to-majordomo.",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: doc: update the instructions for mailing list subscription",
+          "original_subject": "Re: [PATCH] doc: update the instructions for mailing list subscription",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2025-09-29T00:57:27+00:00",
+          "message_count": 2,
+          "participants": [
+            "Chris Li",
+            "Changyuan Lyu"
+          ],
+          "summary": "Majordomo commands are deprecated as per https://subspace.kernel.org/vger.kernel.org.html#what-happened-to-majordomo.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "minmax.h: move all the clamp() definitions after the min/max() ones",
+          "original_subject": "[PATCH 17/19 v6.1.y] minmax.h: move all the clamp() definitions after the min/max() ones",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:18+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 17,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()",
+          "original_subject": "[PATCH 16/19 v6.1.y] minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:17+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 16,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()",
+          "original_subject": "[PATCH 16/19 v6.1.y] minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:17+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 16,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax.h: reduce the #define expansion of min(), max() and clamp()",
+          "original_subject": "[PATCH 15/19 v6.1.y] minmax.h: reduce the #define expansion of min(), max() and clamp()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:16+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 15,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax.h: reduce the #define expansion of min(), max() and clamp()",
+          "original_subject": "[PATCH 15/19 v6.1.y] minmax.h: reduce the #define expansion of min(), max() and clamp()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:16+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 15,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax.h: add whitespace around operators and after commas",
+          "original_subject": "[PATCH 13/19 v6.1.y] minmax.h: add whitespace around operators and after commas",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:14+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 13,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: improve macro expansion and type checking",
+          "original_subject": "[PATCH 11/19 v6.1.y] minmax: improve macro expansion and type checking",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:12+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 11,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: improve macro expansion and type checking",
+          "original_subject": "[PATCH 11/19 v6.1.y] minmax: improve macro expansion and type checking",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:12+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 11,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: don't use max() in situations that want a C constant expression",
+          "original_subject": "[PATCH 10/19 v6.1.y] minmax: don't use max() in situations that want a C constant expression",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:11+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "general",
+          "version": 1,
+          "patch_num": 10,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: simplify min()/max()/clamp() implementation",
+          "original_subject": "[PATCH 09/19 v6.1.y] minmax: simplify min()/max()/clamp() implementation",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:10+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 9,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: simplify and clarify min_t()/max_t() implementation",
+          "original_subject": "[PATCH 06/19 v6.1.y] minmax: simplify and clarify min_t()/max_t() implementation",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:07+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: simplify and clarify min_t()/max_t() implementation",
+          "original_subject": "[PATCH 06/19 v6.1.y] minmax: simplify and clarify min_t()/max_t() implementation",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:07+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: avoid overly complicated constant expressions in VM code",
+          "original_subject": "[PATCH 05/19 v6.1.y] minmax: avoid overly complicated constant expressions in VM code",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:06+00:00",
+          "message_count": 2,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Linus Torvalds <torvalds@linux-foundation.org>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: fix indentation of __cmp_once() and __clamp_once()",
+          "original_subject": "[PATCH 04/19 v6.1.y] minmax: fix indentation of __cmp_once() and __clamp_once()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:05+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "compiler_compat",
+          "version": 1,
+          "patch_num": 4,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: fix indentation of __cmp_once() and __clamp_once()",
+          "original_subject": "[PATCH 04/19 v6.1.y] minmax: fix indentation of __cmp_once() and __clamp_once()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:05+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 4,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: deduplicate __unconst_integer_typeof()",
+          "original_subject": "[PATCH 03/19 v6.1.y] minmax: deduplicate __unconst_integer_typeof()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:04+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 19
+        },
+        {
+          "subject": "minmax: add in_range() macro",
+          "original_subject": "[PATCH 01/19 v6.1.y] minmax: add in_range() macro",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:02+00:00",
+          "message_count": 1,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: \"Matthew Wilcox (Oracle)\" <willy@infradead.org>",
+          "category": "general",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 19
+        },
+        {
+          "subject": "Backport minmax.h updates from v6.17-rc7",
+          "original_subject": "[PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7",
+          "type": "patch",
+          "status": "merged",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:01+00:00",
+          "message_count": 21,
+          "participants": [
+            "Eliav Farber",
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "This series backports 19 patches to update minmax.h in the 6.1.y branch, aligning it with v6.17-rc7.",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 19
+        },
+        {
+          "subject": "Backport minmax.h updates from v6.17-rc7",
+          "original_subject": "[PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7",
+          "type": "patch",
+          "status": "merged",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:01+00:00",
+          "message_count": 21,
+          "participants": [
+            "Eliav Farber",
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "This series backports 19 patches to update minmax.h in the 6.1.y branch, aligning it with v6.17-rc7.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 19
+        },
+        {
+          "subject": "Backport minmax.h updates from v6.17-rc7",
+          "original_subject": "[PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7",
+          "type": "patch",
+          "status": "merged",
+          "author": "Eliav Farber",
+          "date": "2025-09-24T20:23:01+00:00",
+          "message_count": 21,
+          "participants": [
+            "Eliav Farber",
+            "Farber, Eliav",
+            "Greg KH"
+          ],
+          "summary": "This series backports 19 patches to update minmax.h in the 6.1.y branch, aligning it with v6.17-rc7.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 19
+        },
+        {
+          "subject": "Re: Compiler-Based Capability- and Locking-Analysis",
+          "original_subject": "Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-09-22T17:12:27+00:00",
+          "message_count": 18,
+          "participants": [
+            "Marco Elver",
+            "Nathan Chancellor",
+            "Christoph Hellwig"
+          ],
+          "summary": "On Fri, Sep 19, 2025 at 10:20:37AM -0700, Bart Van Assche wrote:",
+          "category": "general",
+          "version": 3,
+          "patch_num": 0,
+          "patch_total": 35
+        },
+        {
+          "subject": "Re: Compiler-Based Capability- and Locking-Analysis",
+          "original_subject": "Re: [PATCH v3 00/35] Compiler-Based Capability- and Locking-Analysis",
+          "type": "patch",
+          "status": "merged",
+          "author": "Marco Elver",
+          "date": "2025-09-22T17:12:27+00:00",
+          "message_count": 18,
+          "participants": [
+            "Marco Elver",
+            "Nathan Chancellor",
+            "Christoph Hellwig"
+          ],
+          "summary": "On Fri, Sep 19, 2025 at 10:20:37AM -0700, Bart Van Assche wrote:",
+          "category": "context_analysis",
+          "version": 3,
+          "patch_num": 0,
+          "patch_total": 35
+        },
+        {
+          "subject": "Re: vadidation: add used-to-be-signed unit tests",
+          "original_subject": "Re: [PATCH] vadidation: add used-to-be-signed unit tests",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2025-09-22T15:53:21+00:00",
+          "message_count": 3,
+          "participants": [
+            "Chris Li",
+            "Vincent Mailhol"
+          ],
+          "summary": "Add unit tests for the new used-to-be-signed check as introduced in [1]:",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "minmax.h: remove some #defines that are only expanded once",
+          "original_subject": "[PATCH 15/15 6.6.y] minmax.h: remove some #defines that are only expanded once",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-22T10:32:41+00:00",
+          "message_count": 3,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 15,
+          "patch_total": 15
+        },
+        {
+          "subject": "minmax.h: remove some #defines that are only expanded once",
+          "original_subject": "[PATCH 15/15 6.6.y] minmax.h: remove some #defines that are only expanded once",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Eliav Farber",
+          "date": "2025-09-22T10:32:41+00:00",
+          "message_count": 3,
+          "participants": [
+            "Eliav Farber"
+          ],
+          "summary": "From: David Laight <David.Laight@ACULAB.COM>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 15,
+          "patch_total": 15
+        },
+        {
+          "subject": "RE: Backport minmax.h updates from v6.17-rc6",
+          "original_subject": "RE: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6",
+          "type": "patch",
+          "status": "merged",
+          "author": "Farber, Eliav",
+          "date": "2025-09-22T05:02:08+00:00",
+          "message_count": 23,
+          "participants": [
+            "Farber, Eliav",
+            "Christian_K=C3=B6nig",
+            "Greg KH"
+          ],
+          "summary": "On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:",
+          "category": "type_system",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 27
+        },
+        {
+          "subject": "RE: Backport minmax.h updates from v6.17-rc6",
+          "original_subject": "RE: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6",
+          "type": "patch",
+          "status": "merged",
+          "author": "Farber, Eliav",
+          "date": "2025-09-22T05:02:08+00:00",
+          "message_count": 23,
+          "participants": [
+            "Farber, Eliav",
+            "Christian_K=C3=B6nig",
+            "Greg KH"
+          ],
+          "summary": "On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 27
+        },
+        {
+          "subject": "Re: Warn about \"unsigned value that used to be signed against zero\"",
+          "original_subject": "Re: [PATCH] Warn about \"unsigned value that used to be signed against zero\"",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2025-09-21T06:12:30+00:00",
+          "message_count": 8,
+          "participants": [
+            "Chris Li",
+            "Linus Torvalds",
+            "Vincent Mailhol"
+          ],
+          "summary": "Consider this first pattern:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: Warn about \"unsigned value that used to be signed against zero\"",
+          "original_subject": "Re: [PATCH] Warn about \"unsigned value that used to be signed against zero\"",
+          "type": "patch",
+          "status": "merged",
+          "author": "Chris Li",
+          "date": "2025-09-21T06:12:30+00:00",
+          "message_count": 8,
+          "participants": [
+            "Chris Li",
+            "Linus Torvalds",
+            "Vincent Mailhol"
+          ],
+          "summary": "Consider this first pattern:",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: arch/nios2: replace \"__auto_type\" and adjacent equivalent with \"auto\"",
+          "original_subject": "Re: [PATCH v2 4/7] arch/nios2: replace \"__auto_type\" and adjacent equivalent with \"auto\"",
+          "type": "patch",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2025-07-20T06:50:41+00:00",
+          "message_count": 7,
+          "participants": [
+            "H. Peter Anvin",
+            "Dinh Nguyen"
+          ],
+          "summary": "Replace uses of \"__auto_type\" in arch/nios2/include/asm/uaccess.h with \"auto\", and equivalently convert an adjacent cast to the analogous form.",
+          "category": "type_system",
+          "version": 2,
+          "patch_num": 4,
+          "patch_total": 7
+        },
+        {
+          "subject": "fs/proc: replace \"__auto_type\" with \"const auto\"",
+          "original_subject": "[PATCH v2 3/7] fs/proc: replace \"__auto_type\" with \"const auto\"",
+          "type": "patch",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2025-07-20T06:50:40+00:00",
+          "message_count": 2,
+          "participants": [
+            "H. Peter Anvin"
+          ],
+          "summary": "Replace use of \"__auto_type\" in fs/proc/inode.c with \"const auto\".",
+          "category": "address_space",
+          "version": 2,
+          "patch_num": 3,
+          "patch_total": 7
+        },
+        {
+          "subject": "selftests/bpf: replace \"__auto_type\" with \"auto\"",
+          "original_subject": "[PATCH v2 6/7] selftests/bpf: replace \"__auto_type\" with \"auto\"",
+          "type": "patch",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2025-07-18T21:32:49+00:00",
+          "message_count": 7,
+          "participants": [
+            "H. Peter Anvin",
+            "Eduard Zingerman"
+          ],
+          "summary": "Replace instances of \"__auto_type\" with \"auto\" in:",
+          "category": "general",
+          "version": 2,
+          "patch_num": 6,
+          "patch_total": 7
+        },
+        {
+          "subject": "fs/proc: replace \"__auto_type\" with \"auto\"",
+          "original_subject": "[PATCH 3/7] fs/proc: replace \"__auto_type\" with \"auto\"",
+          "type": "patch",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2025-07-18T21:32:46+00:00",
+          "message_count": 6,
+          "participants": [
+            "H. Peter Anvin",
+            "Alexey Dobriyan"
+          ],
+          "summary": "Replace uses of \"__auto_type\" in fs/proc/inode.c with \"auto\".",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 7
+        },
+        {
+          "subject": "compiler_types.h: add \"auto\" as a macro for \"__auto_type\"",
+          "original_subject": "[PATCH 1/7] compiler_types.h: add \"auto\" as a macro for \"__auto_type\"",
+          "type": "patch",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2025-07-18T21:32:44+00:00",
+          "message_count": 2,
+          "participants": [
+            "H. Peter Anvin",
+            "Miguel Ojeda"
+          ],
+          "summary": "\"auto\" was defined as a keyword back in the K&R days, but as a storage type specifier. No one ever used it, since it was and is the default storage type for local variables.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 7
+        },
+        {
+          "subject": "Re: kbuild: Switch from -Wvla to -Wvla-larger-than=0",
+          "original_subject": "Re: [PATCH] kbuild: Switch from -Wvla to -Wvla-larger-than=0",
+          "type": "patch",
+          "status": "merged",
+          "author": "Nathan Chancellor",
+          "date": "2025-04-18T21:32:39+00:00",
+          "message_count": 16,
+          "participants": [
+            "Nathan Chancellor",
+            "Kees Cook",
+            "Christoph Hellwig"
+          ],
+          "summary": "Variable Length Arrays (VLAs) on the stack must not be used in the kernel. Function parameter VLAs[1] should be usable, but -Wvla will warn for those. For example, this will produce a warning but it is not using a stack VLA:",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: af_unix: Fix undefined 'other' error",
+          "original_subject": "Re: [PATCH net-next v2] af_unix: Fix undefined 'other' error",
+          "type": "patch",
+          "status": "merged",
+          "author": "Purva Yeshi",
+          "date": "2025-02-18T13:49:01+00:00",
+          "message_count": 1,
+          "participants": [
+            "Purva Yeshi"
+          ],
+          "summary": "On 18/02/25 18:51, Simon Horman wrote:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: af_unix: Fix undefined 'other' error",
+          "original_subject": "Re: [PATCH net-next v2] af_unix: Fix undefined 'other' error",
+          "type": "patch",
+          "status": "merged",
+          "author": "Purva Yeshi",
+          "date": "2025-02-18T13:49:01+00:00",
+          "message_count": 1,
+          "participants": [
+            "Purva Yeshi"
+          ],
+          "summary": "On 18/02/25 18:51, Simon Horman wrote:",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        }
+      ]
+    },
+    "2024": {
+      "year": 2024,
+      "total_patches": 50,
+      "merged": 14,
+      "rejected": 6,
+      "rfc_count": 7,
+      "acceptance_rate": 28.0,
+      "top_contributors": [
+        [
+          "Uros Bizjak",
+          10
+        ],
+        [
+          "David Laight",
+          9
+        ],
+        [
+          "Thomas Gleixner",
+          6
+        ],
+        [
+          "Vincent Mailhol",
+          4
+        ],
+        [
+          "Ard Biesheuvel",
+          3
+        ]
+      ],
+      "categories": {
+        "sparse_internals": 10,
+        "rfc_proposals": 10,
+        "general": 4,
+        "address_space": 14,
+        "kernel_integration": 10,
+        "context_analysis": 2
+      },
+      "key_patches": [
+        {
+          "subject": "Re: [patch 5/9] x86: Cure per CPU madness on UP",
+          "original_subject": "Re: [patch 5/9] x86: Cure per CPU madness on UP",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Guenter Roeck",
+          "date": "2024-03-16T00:56:36+00:00",
+          "message_count": 26,
+          "participants": [
+            "Guenter Roeck",
+            "Linus Torvalds",
+            "David Laight",
+            "Thomas Gleixner",
+            "Arnd Bergmann"
+          ],
+          "summary": "On 3/15/24 15:55, Thomas Gleixner wrote:",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "original_subject": "Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-08T01:58:37+00:00",
+          "message_count": 25,
+          "participants": [
+            "David Laight",
+            "Rasmus Villemoes",
+            "Linus Torvalds",
+            "Martin Uecker"
+          ],
+          "summary": "On Sat, 7 Dec 2024 at 15:52, Martin Uecker <muecker@gwdg.de> wrote:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "original_subject": "Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-08T01:58:37+00:00",
+          "message_count": 25,
+          "participants": [
+            "David Laight",
+            "Rasmus Villemoes",
+            "Linus Torvalds",
+            "Martin Uecker"
+          ],
+          "summary": "On Sat, 7 Dec 2024 at 15:52, Martin Uecker <muecker@gwdg.de> wrote:",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: x86/kernel: Switch to PIE linking for the core kernel",
+          "original_subject": "Re: [RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Vegard Nossum",
+          "date": "2024-09-25T19:59:32+00:00",
+          "message_count": 24,
+          "participants": [
+            "Vegard Nossum",
+            "Uros Bizjak",
+            "Ard Biesheuvel"
+          ],
+          "summary": "On Wed, 25 Sept 2024 at 21:39, Uros Bizjak <ubizjak@gmail.com> wrote: wrote: le.com> wrote: cts",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86: Use PIE codegen for the core kernel",
+          "original_subject": "[RFC PATCH 25/28] x86: Use PIE codegen for the core kernel",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2024-09-25T15:01:25+00:00",
+          "message_count": 23,
+          "participants": [
+            "H. Peter Anvin",
+            "Ard Biesheuvel",
+            "David Laight",
+            "Uros Bizjak"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86/rethook: Use RIP-relative reference for return address",
+          "original_subject": "[RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for return address",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "Ard Biesheuvel",
+          "date": "2024-09-25T15:01:14+00:00",
+          "message_count": 23,
+          "participants": [
+            "Ard Biesheuvel",
+            "Linus Torvalds",
+            "Andrew Cooper"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: x86: Define the stack protector guard symbol explicitly",
+          "original_subject": "Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Brian Gerst",
+          "date": "2024-09-28T13:41:07+00:00",
+          "message_count": 22,
+          "participants": [
+            "Brian Gerst",
+            "Ard Biesheuvel",
+            "Uros Bizjak"
+          ],
+          "summary": "On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro= te: om> wrote:",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+          "original_subject": "[RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Ard Biesheuvel",
+          "date": "2024-09-25T15:01:04+00:00",
+          "message_count": 22,
+          "participants": [
+            "Ard Biesheuvel",
+            "Josh Poimboeuf"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "net: add inline annotation to fix the build warning",
+          "original_subject": "[PATCH net] net: add inline annotation to fix the build warning",
+          "type": "patch",
+          "status": "merged",
+          "author": "Moon Yeounsu",
+          "date": "2024-09-19T14:21:49+00:00",
+          "message_count": 19,
+          "participants": [
+            "Moon Yeounsu",
+            "Edward Cree",
+            "Simon Horman",
+            "Eric Dumazet",
+            "Stephen Hemminger"
+          ],
+          "summary": "This patch fixes two sparse warnings (`make C=1`): net/ipv6/icmp.c:103:20: warning: context imbalance in 'icmpv6_xmit_lock' - wrong count at exit net/ipv6/icmp.c:119:13: warning: context imbalance in 'icmpv6_xmit_unlock' - unexpected unlock",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "net: add inline annotation to fix the build warning",
+          "original_subject": "[PATCH net] net: add inline annotation to fix the build warning",
+          "type": "patch",
+          "status": "merged",
+          "author": "Moon Yeounsu",
+          "date": "2024-09-19T14:21:49+00:00",
+          "message_count": 19,
+          "participants": [
+            "Moon Yeounsu",
+            "Edward Cree",
+            "Simon Horman",
+            "Eric Dumazet",
+            "Stephen Hemminger"
+          ],
+          "summary": "This patch fixes two sparse warnings (`make C=1`): net/ipv6/icmp.c:103:20: warning: context imbalance in 'icmpv6_xmit_lock' - wrong count at exit net/ipv6/icmp.c:119:13: warning: context imbalance in 'icmpv6_xmit_unlock' - unexpected unlock",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "Re: compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "original_subject": "Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-08T01:58:37+00:00",
+          "message_count": 25,
+          "participants": [
+            "David Laight",
+            "Rasmus Villemoes",
+            "Linus Torvalds",
+            "Martin Uecker"
+          ],
+          "summary": "On Sat, 7 Dec 2024 at 15:52, Martin Uecker <muecker@gwdg.de> wrote:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "original_subject": "Re: [PATCH 02/10] compiler.h: add is_const() as a replacement of __is_constexpr()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-08T01:58:37+00:00",
+          "message_count": 25,
+          "participants": [
+            "David Laight",
+            "Rasmus Villemoes",
+            "Linus Torvalds",
+            "Martin Uecker"
+          ],
+          "summary": "On Sat, 7 Dec 2024 at 15:52, Martin Uecker <muecker@gwdg.de> wrote:",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: compiler.h: add is_const_true() and is_const_false()",
+          "original_subject": "Re: [PATCH 03/10] compiler.h: add is_const_true() and is_const_false()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol",
+          "date": "2024-12-05T15:48:31+00:00",
+          "message_count": 1,
+          "participants": [
+            "Vincent Mailhol"
+          ],
+          "summary": "On Thu. 5 Dec 2024 at 03:48, David Laight <David.Laight@aculab.com> wrote:",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: compiler.h: refactor __is_constexpr() into is_const{, _true, _false}()",
+          "original_subject": "Re: [PATCH 00/10] compiler.h: refactor __is_constexpr() into is_const{, _true, _false}()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol",
+          "date": "2024-12-05T15:21:35+00:00",
+          "message_count": 1,
+          "participants": [
+            "Vincent Mailhol"
+          ],
+          "summary": "On Thu. 5 Dec. 2024 at 08:58, Kees Cook <kees@kernel.org> wrote:",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 10
+        },
+        {
+          "subject": "build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()",
+          "original_subject": "[PATCH] build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()",
+          "type": "patch",
+          "status": "merged",
+          "author": "Yury Norov",
+          "date": "2024-12-05T15:11:46+00:00",
+          "message_count": 14,
+          "participants": [
+            "Yury Norov",
+            "Kees Cook",
+            "Vincent Mailhol"
+          ],
+          "summary": "__BUILD_BUG_ON_ZERO_MSG(), as introduced in [1], makes it possible to do a static assert while still returning a zero value. The direct benefit is to provide a meaningful error message instead of the cryptic negative bitfield size error message currently returned by",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()",
+          "original_subject": "[PATCH] build_bug.h: more user friendly error messages in BUILD_BUG_ON_ZERO()",
+          "type": "patch",
+          "status": "merged",
+          "author": "Yury Norov",
+          "date": "2024-12-05T15:11:46+00:00",
+          "message_count": 14,
+          "participants": [
+            "Yury Norov",
+            "Kees Cook",
+            "Vincent Mailhol"
+          ],
+          "summary": "__BUILD_BUG_ON_ZERO_MSG(), as introduced in [1], makes it possible to do a static assert while still returning a zero value. The direct benefit is to provide a meaningful error message instead of the cryptic negative bitfield size error message currently returned by",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "compiler.h: remove __is_constexpr()",
+          "original_subject": "[PATCH 10/10] compiler.h: remove __is_constexpr()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol via B4 Relay",
+          "date": "2024-12-02T17:33:32+00:00",
+          "message_count": 1,
+          "participants": [
+            "Vincent Mailhol via B4 Relay"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 10,
+          "patch_total": 10
+        },
+        {
+          "subject": "RE: drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()",
+          "original_subject": "RE: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:30+00:00",
+          "message_count": 7,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 8,
+          "patch_total": 10
+        },
+        {
+          "subject": "RE: drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()",
+          "original_subject": "RE: [PATCH 08/10] drm/i915/reg: replace __is_const_expr() by is_const_true() or is_const()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:30+00:00",
+          "message_count": 7,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "general",
+          "version": 1,
+          "patch_num": 8,
+          "patch_total": 10
+        },
+        {
+          "subject": "RE: fortify: replace __is_constexpr() by is_const() in strlen()",
+          "original_subject": "RE: [PATCH 06/10] fortify: replace __is_constexpr() by is_const() in strlen()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:28+00:00",
+          "message_count": 9,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: minmax: simplify __clamp_once() by using is_const_false()",
+          "original_subject": "Re: [PATCH 05/10] minmax: simplify __clamp_once() by using is_const_false()",
+          "type": "patch",
+          "status": "merged",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:27+00:00",
+          "message_count": 11,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "general",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()",
+          "original_subject": "Re: [PATCH 04/10] linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:26+00:00",
+          "message_count": 9,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 4,
+          "patch_total": 10
+        },
+        {
+          "subject": "Re: linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()",
+          "original_subject": "Re: [PATCH 04/10] linux/bits.h: simplify GENMASK_INPUT_CHECK() by using is_const_true()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "David Laight",
+          "date": "2024-12-02T17:33:26+00:00",
+          "message_count": 9,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>",
+          "category": "general",
+          "version": 1,
+          "patch_num": 4,
+          "patch_total": 10
+        },
+        {
+          "subject": "compiler.h: refactor __is_constexpr() into is_const{,_true,_false}()",
+          "original_subject": "[PATCH 00/10] compiler.h: refactor __is_constexpr() into is_const{,_true,_false}()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol via B4 Relay",
+          "date": "2024-12-02T17:33:22+00:00",
+          "message_count": 5,
+          "participants": [
+            "Vincent Mailhol via B4 Relay",
+            "Vincent Mailhol"
+          ],
+          "summary": "This series is the spiritual successor of [1] which introduced const_true(). In [1], following a comment from David Laight, Linus came with a suggestion to simplify __is_constexpr() and its derived macros using a _Generic() selection. Because of the total change of",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 10
+        },
+        {
+          "subject": "percpu/x86: Enable strict percpu checks via named AS qualifiers",
+          "original_subject": "[PATCH 6/6] percpu/x86: Enable strict percpu checks via named AS qualifiers",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Nadav Amit",
+          "date": "2024-11-26T17:21:23+00:00",
+          "message_count": 10,
+          "participants": [
+            "Nadav Amit",
+            "Uros Bizjak"
+          ],
+          "summary": "This patch declares percpu variables in __seg_gs/__seg_fs named AS and keeps them named AS qualified until they are dereferenced with percpu accessor. This approach enables various compiler check for cross-namespace variable assignments.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 6
+        },
+        {
+          "subject": "percpu: Repurpose __percpu tag as a named address space qualifier",
+          "original_subject": "[PATCH 5/6] percpu: Repurpose __percpu tag as a named address space qualifier",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:22+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "The patch introduces per_cpu_qual define and repurposes __percpu tag as a named address space qualifier using the new define.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 6
+        },
+        {
+          "subject": "percpu: Repurpose __percpu tag as a named address space qualifier",
+          "original_subject": "[PATCH 5/6] percpu: Repurpose __percpu tag as a named address space qualifier",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:22+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "The patch introduces per_cpu_qual define and repurposes __percpu tag as a named address space qualifier using the new define.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 6
+        },
+        {
+          "subject": "percpu: Use TYPEOF_UNQUAL() in variable declarations",
+          "original_subject": "[PATCH 3/6] percpu: Use TYPEOF_UNQUAL() in variable declarations",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:20+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "Use TYPEOF_UNQUAL() to declare variables as a corresponding type without named address space qualifier to avoid \"\u2018__seg_gs\u2019 specified for auto variable \u2018var\u2019\" errors.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 6
+        },
+        {
+          "subject": "compiler.h: Introduce TYPEOF_UNQUAL() macro",
+          "original_subject": "[PATCH 2/6] compiler.h: Introduce TYPEOF_UNQUAL() macro",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:19+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "Define TYPEOF_UNQUAL() to use __typeof_unqual__() as typeof operator when available, to return unqualified type of the expression.",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 6
+        },
+        {
+          "subject": "compiler.h: Introduce TYPEOF_UNQUAL() macro",
+          "original_subject": "[PATCH 2/6] compiler.h: Introduce TYPEOF_UNQUAL() macro",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:19+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "Define TYPEOF_UNQUAL() to use __typeof_unqual__() as typeof operator when available, to return unqualified type of the expression.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 6
+        },
+        {
+          "subject": "Enable strict percpu address space checks",
+          "original_subject": "[PATCH 0/6] Enable strict percpu address space checks",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:17+00:00",
+          "message_count": 2,
+          "participants": [
+            "Uros Bizjak",
+            "Dan Carpenter"
+          ],
+          "summary": "This patchset enables strict percpu address space checks via x86 named address space qualifiers. Percpu variables are declared in __seg_gs/__seg_fs named AS and kept named AS qualified until they are dereferenced via percpu accessor. This approach enables various",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 6
+        },
+        {
+          "subject": "Enable strict percpu address space checks",
+          "original_subject": "[PATCH 0/6] Enable strict percpu address space checks",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:17+00:00",
+          "message_count": 2,
+          "participants": [
+            "Uros Bizjak",
+            "Dan Carpenter"
+          ],
+          "summary": "This patchset enables strict percpu address space checks via x86 named address space qualifiers. Percpu variables are declared in __seg_gs/__seg_fs named AS and kept named AS qualified until they are dereferenced via percpu accessor. This approach enables various",
+          "category": "rfc_proposals",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 6
+        },
+        {
+          "subject": "Enable strict percpu address space checks",
+          "original_subject": "[PATCH 0/6] Enable strict percpu address space checks",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:17+00:00",
+          "message_count": 2,
+          "participants": [
+            "Uros Bizjak",
+            "Dan Carpenter"
+          ],
+          "summary": "This patchset enables strict percpu address space checks via x86 named address space qualifiers. Percpu variables are declared in __seg_gs/__seg_fs named AS and kept named AS qualified until they are dereferenced via percpu accessor. This approach enables various",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 6
+        },
+        {
+          "subject": "Enable strict percpu address space checks",
+          "original_subject": "[PATCH 0/6] Enable strict percpu address space checks",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-11-26T17:21:17+00:00",
+          "message_count": 2,
+          "participants": [
+            "Uros Bizjak",
+            "Dan Carpenter"
+          ],
+          "summary": "This patchset enables strict percpu address space checks via x86 named address space qualifiers. Percpu variables are declared in __seg_gs/__seg_fs named AS and kept named AS qualified until they are dereferenced via percpu accessor. This approach enables various",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 0,
+          "patch_total": 6
+        },
+        {
+          "subject": "Re: compiler.h: add const_true()",
+          "original_subject": "Re: [PATCH v4 1/2] compiler.h: add const_true()",
+          "type": "patch",
+          "status": "merged",
+          "author": "Linus Torvalds",
+          "date": "2024-11-18T17:09:55+00:00",
+          "message_count": 2,
+          "participants": [
+            "Linus Torvalds",
+            "Vincent Mailhol"
+          ],
+          "summary": "On Sun, 17 Nov 2024 at 19:22, Vincent Mailhol <mailhol.vincent@wanadoo.fr> wrote:",
+          "category": "sparse_internals",
+          "version": 4,
+          "patch_num": 1,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: compiler.h: Add missing include statement for build_bug.h",
+          "original_subject": "Re: [PATCH 1/1] compiler.h: Add missing include statement for build_bug.h",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Philipp Reisner",
+          "date": "2024-11-14T10:14:02+00:00",
+          "message_count": 9,
+          "participants": [
+            "Philipp Reisner",
+            "Linus Torvalds",
+            "Dan Carpenter"
+          ],
+          "summary": "compiler.h defines __must_be_array() and __must_be_cstr() and both expand to BUILD_BUG_ON_ZERO(). build_bug.h defines BUILD_BUG_ON_ZERO(). So far compiler.h lacks to include build_bug.h.",
+          "category": "sparse_internals",
+          "version": 1,
+          "patch_num": 1,
+          "patch_total": 1
+        },
+        {
+          "subject": "add const_true() to simplify GENMASK_INPUT_CHECK()",
+          "original_subject": "[PATCH v4 0/2] add const_true() to simplify GENMASK_INPUT_CHECK()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol",
+          "date": "2024-11-13T17:18:31+00:00",
+          "message_count": 1,
+          "participants": [
+            "Vincent Mailhol"
+          ],
+          "summary": "The first patch introduces a new variant of statically_true() named const_true() which rely on __is_constexpr() to produce a constant expression result which can be used in BUILD_BUG_ON_ZERO() and other macros which expect a constant expression as input.",
+          "category": "rfc_proposals",
+          "version": 4,
+          "patch_num": 0,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: linux/bits.h: simplify GENMASK_INPUT_CHECK()",
+          "original_subject": "Re: [PATCH v4 2/2] linux/bits.h: simplify GENMASK_INPUT_CHECK()",
+          "type": "patch",
+          "status": "rejected",
+          "author": "David Laight",
+          "date": "2024-11-12T13:59:24+00:00",
+          "message_count": 8,
+          "participants": [
+            "David Laight",
+            "Vincent Mailhol"
+          ],
+          "summary": "In GENMASK_INPUT_CHECK(),",
+          "category": "rfc_proposals",
+          "version": 4,
+          "patch_num": 2,
+          "patch_total": 2
+        },
+        {
+          "subject": "compiler.h: add _static_assert()",
+          "original_subject": "[PATCH v3 1/2] compiler.h: add _static_assert()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Vincent Mailhol",
+          "date": "2024-11-12T13:59:23+00:00",
+          "message_count": 1,
+          "participants": [
+            "Vincent Mailhol"
+          ],
+          "summary": "__builtin_constant_p() is known for not always being able to produce constant expression [1] which led to the introduction of __is_constexpr() [2]. Because of its dependency on __builtin_constant_p(), statically_true() suffers from the same",
+          "category": "sparse_internals",
+          "version": 3,
+          "patch_num": 1,
+          "patch_total": 2
+        },
+        {
+          "subject": "Re: linux/bits: simplify GENMASK_INPUT_CHECK()",
+          "original_subject": "Re: [PATCH v2] linux/bits: simplify GENMASK_INPUT_CHECK()",
+          "type": "patch",
+          "status": "merged",
+          "author": "Linus Torvalds",
+          "date": "2024-11-11T16:43:30+00:00",
+          "message_count": 4,
+          "participants": [
+            "Linus Torvalds",
+            "Vincent Mailhol"
+          ],
+          "summary": "Because of the shortcut logic of the && operator, below expression:",
+          "category": "rfc_proposals",
+          "version": 2,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: x86: Define the stack protector guard symbol explicitly",
+          "original_subject": "Re: [RFC PATCH 05/28] x86: Define the stack protector guard symbol explicitly",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Brian Gerst",
+          "date": "2024-09-28T13:41:07+00:00",
+          "message_count": 22,
+          "participants": [
+            "Brian Gerst",
+            "Ard Biesheuvel",
+            "Uros Bizjak"
+          ],
+          "summary": "On Wed, Sep 25, 2024 at 2:33=E2=80=AFPM Uros Bizjak <ubizjak@gmail.com> wro= te: om> wrote:",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: x86/kernel: Switch to PIE linking for the core kernel",
+          "original_subject": "Re: [RFC PATCH 27/28] x86/kernel: Switch to PIE linking for the core kernel",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Vegard Nossum",
+          "date": "2024-09-25T19:59:32+00:00",
+          "message_count": 24,
+          "participants": [
+            "Vegard Nossum",
+            "Uros Bizjak",
+            "Ard Biesheuvel"
+          ],
+          "summary": "On Wed, 25 Sept 2024 at 21:39, Uros Bizjak <ubizjak@gmail.com> wrote: wrote: le.com> wrote: cts",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86: Use PIE codegen for the core kernel",
+          "original_subject": "[RFC PATCH 25/28] x86: Use PIE codegen for the core kernel",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "H. Peter Anvin",
+          "date": "2024-09-25T15:01:25+00:00",
+          "message_count": 23,
+          "participants": [
+            "H. Peter Anvin",
+            "Ard Biesheuvel",
+            "David Laight",
+            "Uros Bizjak"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86/rethook: Use RIP-relative reference for return address",
+          "original_subject": "[RFC PATCH 14/28] x86/rethook: Use RIP-relative reference for return address",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "Ard Biesheuvel",
+          "date": "2024-09-25T15:01:14+00:00",
+          "message_count": 23,
+          "participants": [
+            "Ard Biesheuvel",
+            "Linus Torvalds",
+            "Andrew Cooper"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+          "original_subject": "[RFC PATCH 04/28] x86/boot: Permit GOTPCREL relocations for x86_64 builds",
+          "type": "rfc",
+          "status": "merged",
+          "author": "Ard Biesheuvel",
+          "date": "2024-09-25T15:01:04+00:00",
+          "message_count": 22,
+          "participants": [
+            "Ard Biesheuvel",
+            "Josh Poimboeuf"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "x86: Rely on toolchain for relocatable code",
+          "original_subject": "[RFC PATCH 00/28] x86: Rely on toolchain for relocatable code",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "Ard Biesheuvel",
+          "date": "2024-09-25T15:01:00+00:00",
+          "message_count": 1,
+          "participants": [
+            "Ard Biesheuvel"
+          ],
+          "summary": "From: Ard Biesheuvel <ardb@kernel.org>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "net: add inline annotation to fix the build warning",
+          "original_subject": "[PATCH net] net: add inline annotation to fix the build warning",
+          "type": "patch",
+          "status": "merged",
+          "author": "Moon Yeounsu",
+          "date": "2024-09-19T14:21:49+00:00",
+          "message_count": 19,
+          "participants": [
+            "Moon Yeounsu",
+            "Edward Cree",
+            "Simon Horman",
+            "Eric Dumazet",
+            "Stephen Hemminger"
+          ],
+          "summary": "This patch fixes two sparse warnings (`make C=1`): net/ipv6/icmp.c:103:20: warning: context imbalance in 'icmpv6_xmit_lock' - wrong count at exit net/ipv6/icmp.c:119:13: warning: context imbalance in 'icmpv6_xmit_unlock' - unexpected unlock",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "net: add inline annotation to fix the build warning",
+          "original_subject": "[PATCH net] net: add inline annotation to fix the build warning",
+          "type": "patch",
+          "status": "merged",
+          "author": "Moon Yeounsu",
+          "date": "2024-09-19T14:21:49+00:00",
+          "message_count": 19,
+          "participants": [
+            "Moon Yeounsu",
+            "Edward Cree",
+            "Simon Horman",
+            "Eric Dumazet",
+            "Stephen Hemminger"
+          ],
+          "summary": "This patch fixes two sparse warnings (`make C=1`): net/ipv6/icmp.c:103:20: warning: context imbalance in 'icmpv6_xmit_lock' - wrong count at exit net/ipv6/icmp.c:119:13: warning: context imbalance in 'icmpv6_xmit_unlock' - unexpected unlock",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: sentinel_ctltable: Add a check for sentinel elements in ctl_table arrays",
+          "original_subject": "Re: [PATCH] sentinel_ctltable: Add a check for sentinel elements in ctl_table arrays",
+          "type": "patch",
+          "status": "merged",
+          "author": "Joel Granados via B4 Relay",
+          "date": "2024-06-14T12:29:41+00:00",
+          "message_count": 2,
+          "participants": [
+            "Joel Granados via B4 Relay",
+            "Dan Carpenter"
+          ],
+          "summary": "From: Joel Granados <j.granados@samsung.com>",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Use x86 named address spaces to catch \"sparse: incorrect type in initializer (different",
+          "original_subject": "[RFC PATCH] Use x86 named address spaces to catch \"sparse: incorrect type in initializer (different ",
+          "type": "rfc",
+          "status": "discussed",
+          "author": "Uros Bizjak",
+          "date": "2024-04-29T21:30:09+00:00",
+          "message_count": 1,
+          "participants": [
+            "Uros Bizjak"
+          ],
+          "summary": "--000000000000f1b815061742f5a7 Content-Type: text/plain; charset=\"UTF-8\" Content-Transfer-Encoding: quoted-printable",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: [patch 5/9] x86: Cure per CPU madness on UP",
+          "original_subject": "Re: [patch 5/9] x86: Cure per CPU madness on UP",
+          "type": "patch",
+          "status": "rejected",
+          "author": "Guenter Roeck",
+          "date": "2024-03-16T00:56:36+00:00",
+          "message_count": 26,
+          "participants": [
+            "Guenter Roeck",
+            "Linus Torvalds",
+            "David Laight",
+            "Thomas Gleixner",
+            "Arnd Bergmann"
+          ],
+          "summary": "On 3/15/24 15:55, Thomas Gleixner wrote:",
+          "category": "general",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 9/9] x86/callthunks: Use EXPORT_PER_CPU_SYMBOL_GPL() for per CPU variables",
+          "original_subject": "[patch 9/9] x86/callthunks: Use EXPORT_PER_CPU_SYMBOL_GPL() for per CPU variables",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:29+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "sparse complains rightfully about the usage of EXPORT_SYMBOL_GPL() for per CPU variables:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 7/9] x86/cpu: Use EXPORT_PER_CPU_SYMBOL_GPL() for x86_spec_ctrl_current",
+          "original_subject": "[patch 7/9] x86/cpu: Use EXPORT_PER_CPU_SYMBOL_GPL() for x86_spec_ctrl_current",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:26+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "sparse rightfully complains:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 6/9] x86/uaccess: Add missing __force to casts in __access_ok() and valid_user_address()",
+          "original_subject": "[patch 6/9] x86/uaccess: Add missing __force to casts in __access_ok() and valid_user_address()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:25+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "sparse complains about losing the __user address space due to the cast to long:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 3/9] x86/msr: Add missing __percpu annotations",
+          "original_subject": "[patch 3/9] x86/msr: Add missing __percpu annotations",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:20+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "sparse complains rightfully about using a plain pointer for per CPU accessors:",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 3/9] x86/msr: Add missing __percpu annotations",
+          "original_subject": "[patch 3/9] x86/msr: Add missing __percpu annotations",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:20+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "sparse complains rightfully about using a plain pointer for per CPU accessors:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "[patch 1/9] perf/x86/amd/uncore: Fix __percpu annotation",
+          "original_subject": "[patch 1/9] perf/x86/amd/uncore: Fix __percpu annotation",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Thomas Gleixner",
+          "date": "2024-03-04T10:12:18+00:00",
+          "message_count": 1,
+          "participants": [
+            "Thomas Gleixner"
+          ],
+          "summary": "The __percpu annotation in struct amd_uncore is confusing sparse:",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "original_subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "type": "patch",
+          "status": "merged",
+          "author": "Ingo Molnar",
+          "date": "2024-03-04T10:12:16+00:00",
+          "message_count": 2,
+          "participants": [
+            "Ingo Molnar",
+            "Thomas Gleixner"
+          ],
+          "summary": "A recent 0-day report about new __percpu related sparse warnings made me look deeper into it after I dismissed the report as bogus initially.",
+          "category": "kernel_integration",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "original_subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "type": "patch",
+          "status": "merged",
+          "author": "Ingo Molnar",
+          "date": "2024-03-04T10:12:16+00:00",
+          "message_count": 2,
+          "participants": [
+            "Ingo Molnar",
+            "Thomas Gleixner"
+          ],
+          "summary": "A recent 0-day report about new __percpu related sparse warnings made me look deeper into it after I dismissed the report as bogus initially.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "original_subject": "Re: [patch 0/9] x86: Cure tons of sparse warnings (mostly __percpu)",
+          "type": "patch",
+          "status": "merged",
+          "author": "Ingo Molnar",
+          "date": "2024-03-04T10:12:16+00:00",
+          "message_count": 2,
+          "participants": [
+            "Ingo Molnar",
+            "Thomas Gleixner"
+          ],
+          "summary": "A recent 0-day report about new __percpu related sparse warnings made me look deeper into it after I dismissed the report as bogus initially.",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        }
+      ]
+    },
+    "2023": {
+      "year": 2023,
+      "total_patches": 5,
+      "merged": 0,
+      "rejected": 0,
+      "rfc_count": 0,
+      "acceptance_rate": 0.0,
+      "top_contributors": [
+        [
+          "Yuan Tan",
+          4
+        ],
+        [
+          "Luc Van Oostenryck",
+          1
+        ]
+      ],
+      "categories": {
+        "kernel_integration": 1,
+        "general": 3,
+        "address_space": 1
+      },
+      "key_patches": [
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "original_subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:35+00:00",
+          "message_count": 4,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or SECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't need KEEP() anymore.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 7,
+          "patch_total": 14
+        },
+        {
+          "subject": "Re: parse: handle __cleanup__ attribute",
+          "original_subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Luc Van Oostenryck",
+          "date": "2023-12-18T13:51:32+00:00",
+          "message_count": 3,
+          "participants": [
+            "Luc Van Oostenryck",
+            "Dmitry Torokhov",
+            "Andy Shevchenko"
+          ],
+          "summary": "On Thu, Dec 14, 2023 at 04:20:20PM +0300, Dan Carpenter wrote:",
+          "category": "kernel_integration",
+          "version": 2,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+          "original_subject": "[PATCH v1 05/14] DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:59:54+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "SHF_LINK_ORDER requires ld >= 2.35.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 14
+        },
+        {
+          "subject": "compiler: add a global __QUITE_UNIQUE_ID()",
+          "original_subject": "[PATCH v1 02/14] compiler: add a global __QUITE_UNIQUE_ID()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:49+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "From: Zhangjin Wu <falcon@tinylab.org>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 14
+        },
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+          "original_subject": "[PATCH v1 06/14] DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:35+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "SHF_GROUP requires ld >= 2.36.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 14
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "Re: parse: handle __cleanup__ attribute",
+          "original_subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Luc Van Oostenryck",
+          "date": "2023-12-18T13:51:32+00:00",
+          "message_count": 3,
+          "participants": [
+            "Luc Van Oostenryck",
+            "Dmitry Torokhov",
+            "Andy Shevchenko"
+          ],
+          "summary": "On Thu, Dec 14, 2023 at 04:20:20PM +0300, Dan Carpenter wrote:",
+          "category": "kernel_integration",
+          "version": 2,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+          "original_subject": "[PATCH v1 05/14] DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:59:54+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "SHF_LINK_ORDER requires ld >= 2.35.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 5,
+          "patch_total": 14
+        },
+        {
+          "subject": "compiler: add a global __QUITE_UNIQUE_ID()",
+          "original_subject": "[PATCH v1 02/14] compiler: add a global __QUITE_UNIQUE_ID()",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:49+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "From: Zhangjin Wu <falcon@tinylab.org>",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 2,
+          "patch_total": 14
+        },
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "original_subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:35+00:00",
+          "message_count": 4,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or SECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't need KEEP() anymore.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 7,
+          "patch_total": 14
+        },
+        {
+          "subject": "DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+          "original_subject": "[PATCH v1 06/14] DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Yuan Tan",
+          "date": "2023-11-03T15:58:35+00:00",
+          "message_count": 1,
+          "participants": [
+            "Yuan Tan"
+          ],
+          "summary": "SHF_GROUP requires ld >= 2.36.",
+          "category": "general",
+          "version": 1,
+          "patch_num": 6,
+          "patch_total": 14
+        }
+      ]
+    },
+    "2022": {
+      "year": 2022,
+      "total_patches": 3,
+      "merged": 0,
+      "rejected": 2,
+      "rfc_count": 2,
+      "acceptance_rate": 0.0,
+      "top_contributors": [
+        [
+          "Bart Van Assche",
+          2
+        ],
+        [
+          "Dan Carpenter",
+          1
+        ]
+      ],
+      "categories": {
+        "address_space": 2,
+        "context_analysis": 1
+      },
+      "key_patches": [
+        {
+          "subject": "refcount: attempt to avoid imbalance warnings",
+          "original_subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+          "type": "rfc",
+          "status": "rejected",
+          "author": "Bart Van Assche",
+          "date": "2022-06-30T13:59:32+00:00",
+          "message_count": 8,
+          "participants": [
+            "Bart Van Assche",
+            "Peter Zijlstra",
+            "Linus Torvalds",
+            "Alexander Aring"
+          ],
+          "summary": "Hi,",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "refcount: attempt to avoid imbalance warnings",
+          "original_subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+          "type": "rfc",
+          "status": "rejected",
+          "author": "Bart Van Assche",
+          "date": "2022-06-30T13:59:32+00:00",
+          "message_count": 8,
+          "participants": [
+            "Bart Van Assche",
+            "Peter Zijlstra",
+            "Linus Torvalds",
+            "Alexander Aring"
+          ],
+          "summary": "Hi,",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Documentation: dev-tools: Enhance static analysis section with discussion",
+          "original_subject": "[PATCH v3 2/2] Documentation: dev-tools: Enhance static analysis section with discussion",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Dan Carpenter",
+          "date": "2022-03-30T21:49:59+00:00",
+          "message_count": 2,
+          "participants": [
+            "Dan Carpenter",
+            "Marcelo Schmitt"
+          ],
+          "summary": "Enhance the static analysis tools section with a discussion on when to use each of them.",
+          "category": "address_space",
+          "version": 3,
+          "patch_num": 2,
+          "patch_total": 2
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "refcount: attempt to avoid imbalance warnings",
+          "original_subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+          "type": "rfc",
+          "status": "rejected",
+          "author": "Bart Van Assche",
+          "date": "2022-06-30T13:59:32+00:00",
+          "message_count": 8,
+          "participants": [
+            "Bart Van Assche",
+            "Peter Zijlstra",
+            "Linus Torvalds",
+            "Alexander Aring"
+          ],
+          "summary": "Hi,",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "refcount: attempt to avoid imbalance warnings",
+          "original_subject": "[RFC 0/2] refcount: attempt to avoid imbalance warnings",
+          "type": "rfc",
+          "status": "rejected",
+          "author": "Bart Van Assche",
+          "date": "2022-06-30T13:59:32+00:00",
+          "message_count": 8,
+          "participants": [
+            "Bart Van Assche",
+            "Peter Zijlstra",
+            "Linus Torvalds",
+            "Alexander Aring"
+          ],
+          "summary": "Hi,",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        },
+        {
+          "subject": "Documentation: dev-tools: Enhance static analysis section with discussion",
+          "original_subject": "[PATCH v3 2/2] Documentation: dev-tools: Enhance static analysis section with discussion",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Dan Carpenter",
+          "date": "2022-03-30T21:49:59+00:00",
+          "message_count": 2,
+          "participants": [
+            "Dan Carpenter",
+            "Marcelo Schmitt"
+          ],
+          "summary": "Enhance the static analysis tools section with a discussion on when to use each of them.",
+          "category": "address_space",
+          "version": 3,
+          "patch_num": 2,
+          "patch_total": 2
+        }
+      ]
+    },
+    "2021": {
+      "year": 2021,
+      "total_patches": 1,
+      "merged": 0,
+      "rejected": 0,
+      "rfc_count": 0,
+      "acceptance_rate": 0.0,
+      "top_contributors": [
+        [
+          "Alexey Gladkov",
+          1
+        ]
+      ],
+      "categories": {
+        "address_space": 1
+      },
+      "key_patches": [
+        {
+          "subject": "dissect: Show typedefs",
+          "original_subject": "[PATCH 3/3] dissect: Show typedefs",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Alexey Gladkov",
+          "date": "2021-11-02T14:06:45+00:00",
+          "message_count": 1,
+          "participants": [
+            "Alexey Gladkov"
+          ],
+          "summary": "For indexing purposes, it is useful to see type definitions.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 3
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "dissect: Show typedefs",
+          "original_subject": "[PATCH 3/3] dissect: Show typedefs",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Alexey Gladkov",
+          "date": "2021-11-02T14:06:45+00:00",
+          "message_count": 1,
+          "participants": [
+            "Alexey Gladkov"
+          ],
+          "summary": "For indexing purposes, it is useful to see type definitions.",
+          "category": "address_space",
+          "version": 1,
+          "patch_num": 3,
+          "patch_total": 3
+        }
+      ]
+    },
+    "2020": {
+      "year": 2020,
+      "total_patches": 1,
+      "merged": 0,
+      "rejected": 0,
+      "rfc_count": 0,
+      "acceptance_rate": 0.0,
+      "top_contributors": [
+        [
+          "Luc Van Oostenryck",
+          1
+        ]
+      ],
+      "categories": {
+        "context_analysis": 1
+      },
+      "key_patches": [
+        {
+          "subject": "Re: handle more graciously labels with no statement",
+          "original_subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Luc Van Oostenryck",
+          "date": "2020-10-26T04:53:38+00:00",
+          "message_count": 5,
+          "participants": [
+            "Luc Van Oostenryck",
+            "Linus Torvalds",
+            "Bart Van Assche"
+          ],
+          "summary": "In C a label must precede a statement. A null statement is OK but a closing braces is not.",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        }
+      ],
+      "all_patches": [
+        {
+          "subject": "Re: handle more graciously labels with no statement",
+          "original_subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "type": "patch",
+          "status": "discussed",
+          "author": "Luc Van Oostenryck",
+          "date": "2020-10-26T04:53:38+00:00",
+          "message_count": 5,
+          "participants": [
+            "Luc Van Oostenryck",
+            "Linus Torvalds",
+            "Bart Van Assche"
+          ],
+          "summary": "In C a label must precede a statement. A null statement is OK but a closing braces is not.",
+          "category": "context_analysis",
+          "version": 1,
+          "patch_num": null,
+          "patch_total": null
+        }
+      ]
+    }
+  },
+  "stats": {
+    "total_patches": 183,
+    "years_covered": 7,
+    "total_merged": 35,
+    "total_rejected": 15,
+    "total_rfc": 9
+  }
+}

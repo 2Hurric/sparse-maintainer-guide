@@ -1,0 +1,501 @@
+{
+  "year": "2023",
+  "stats": {
+    "total_threads": 9,
+    "total_messages": 26,
+    "categories": {
+      "general": 5,
+      "kernel_integration": 2,
+      "address_space": 2
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: sparse regex error",
+      "normalized_subject": "sparse regex error",
+      "message_count": 5,
+      "participants": [
+        "Ramsay Jones",
+        "Luc Van Oostenryck",
+        "Junio C Hamano"
+      ],
+      "categories": [
+        "general",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2023-12-20T00:18:11+00:00",
+      "last_date": "2024-07-17T18:44:13+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/12/170303190525843.mbox",
+          "message_id": "<6f853a6b-9ac3-4bfd-a968-89d43fbcce2a () ramsayjones ! plus ! com>",
+          "author_name": "Ramsay Jones",
+          "author_email": "ramsay () ramsayjones ! plus ! com",
+          "subject": "sparse regex error",
+          "date": "2023-12-20 00:18:11+00:00",
+          "date_str": "Wed, 20 Dec 2023 00:18:11 +0000",
+          "body": "Hi Luc,\n\nLong time no hear! ;)\n\nAbout 18 months ago, I updated my Linux installation and sparse started\nto fail when run during my git build. The reason for the failure was,\nultimately, a change to the 'regex.h' header file as a result of the\nupdate from one Ubuntu LTS base to the current Ubuntu LTS base.\nIn particular, an update to the libc6-devel package from 2.31 to 2.35\nwhich (in part) looked like this:\n\n.\n\n524a525,548\n> #ifndef _REGEX_NELTS\n> # if (defined __STDC_VERSION__ && 199901L <= __STDC_VERSION__ \\\n>       && !defined __STDC_NO_VLA__)\n> #  define _REGEX_NELTS(n) n\n> # else\n> #  define _REGEX_NELTS(n)\n> # endif\n> #endif\n> \n\n.\n\n645c681,682\n<                   regmatch_t __pmatch[_Restrict_arr_],\n---\n>                   regmatch_t __pmatch[_Restrict_arr_\n>                                       _REGEX_NELTS (__nmatch)],\n\n.\n\nThe last hunk is the declaration of regexec(), thus:\n\nextern int regexec (const regex_t *_Restrict_ __preg,\n                    const char *_Restrict_ __String, size_t __nmatch,\n                    regmatch_t __pmatch[_Restrict_arr_\n                                        _REGEX_NELTS (__nmatch)],\n                    int __eflags);\n\nTo fix my build, I added the following to my config.mak file on linux:\n\n    SPARSE_FLAGS += -D__STDC_NO_VLA__\n\n. and immediately started working on a fix to sparse! Oh wait ... :)\n\nI did report the problem and the above workaround on the git ML [1], and\ncreated a test in my sparse repo to demonstrate the problem, thus:\n\n  $ git diff\n  diff --git a/validation/restrict-array.c b/validation/restrict-array.c\n  index 04bfdad9..86753b7d 100644\n  --- a/validation/restrict-array.c\n  +++ b/validation/restrict-array.c\n  @@ -29,9 +29,19 @@ typedef unsigned long int size_t;\n   \n   extern int regexec (const regex_t *__restrict __preg,\n                      const char *__restrict __string, size_t __nmatch,\n  -                   regmatch_t __pmatch[__restrict_arr],\n  +                   regmatch_t __pmatch[__restrict_arr __nmatch],\n                      int __eflags);\n   \n  +static int call_regexec(const regex_t *r)\n  +{\n  +       char s[] = \"something to search\";\n  +       regmatch_t pm[5];\n  +\n  +       if (regexec(r, s, 5, pm, 0))\n  +               return 0;\n  +       return 1;\n  +}\n  +\n   /*\n    * check-name: restrict array attribute\n    */\n  $ \n\nwhich, similarly to git, shows errors not on the declaration of the\nregexec() function, but on each call site (about a dozen in git):\n\n  $ ./sparse validation/restrict-array.c\n  validation/restrict-array.c:32:56: error: undefined identifier '__nmatch'\n  validation/restrict-array.c:32:56: error: bad constant expression type\n  $ \n\nI have tried to find the time, in the last couple of days, to take a look\nand find a fix for this, but I have had to admit defeat and just content\nmyself with noting the problem here. :(\n\nMaybe I will find some time over the xmas break.\n\n[1] https://lore.kernel.org/git/7498bff0-782f-8c81-5817-ed841f12dbba@ramsayjones.plus.com/\n\nATB,\nRamsay Jones\n\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170311405409855.mbox",
+          "message_id": "<uug4xslokvlxr6z24q52z4pt7nrtiimbzunz2gz3kpilk4kxts () 7jljsksi6baq>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "lucvoo () kernel ! org",
+          "subject": "Re: sparse regex error",
+          "date": "2023-12-20 23:13:38+00:00",
+          "date_str": "Wed, 20 Dec 2023 23:13:38 +0000",
+          "body": "On Wed, Dec 20, 2023 at 12:18:11AM +0000, Ramsay Jones wrote:\n> Hi Luc,\n> \n> Long time no hear! ;)\n\nHi,\n\nYes indeed ... \n>   $ git diff\n>   diff --git a/validation/restrict-array.c b/validation/restrict-array.c\n>   index 04bfdad9..86753b7d 100644\n>   --- a/validation/restrict-array.c\n>   +++ b/validation/restrict-array.c\n>   @@ -29,9 +29,19 @@ typedef unsigned long int size_t;\n>    \n>    extern int regexec (const regex_t *__restrict __preg,\n>                       const char *__restrict __string, size_t __nmatch,\n>   -                   regmatch_t __pmatch[__restrict_arr],\n>   +                   regmatch_t __pmatch[__restrict_arr __nmatch],\n>                       int __eflags);\n\n...    \n\n> which, similarly to git, shows errors not on the declaration of the\n> regexec() function, but on each call site (about a dozen in git):\n> \n>   $ ./sparse validation/restrict-array.c\n>   validation/restrict-array.c:32:56: error: undefined identifier '__nmatch'\n>   validation/restrict-array.c:32:56: error: bad constant expression type\n\nYes, it's because __nmatch should be in the function's prototype scope but\nSparse hasn't such a thing.\n\nThe following patch is a bit ugly but should solve the problem here above.\nIt's hasn't had much testing, only the testsuite.\n\nCheers,\n-- Luc\n\n\nFrom 2d1feff1551a97fdfd1149f4772331c540e638c9 Mon Sep 17 00:00:00 2001\nFrom: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\nDate: Wed, 20 Dec 2023 22:00:05 +0100\nSubject: [PATCH] handle protoype scope\n\nIn C99 and later, the size in an array declaration can be either:\na)\tD[ ]\nb)\tD[ * ]\nb)\tD[ assignment-expression ]\n(each optionally preceded by some qualifiers).\n\nParsing them correctly when the size is present and not an integer\nconstant expression requires to have the notion of function prototype scope.\n\nSparse doesn't have yet such a scope which results in pair of error messages like:\n\terror: undefined identifier\n\terror: bad constant expression type\n\nFix this by adding the notion of prototype scope in the form of a block scope\nopened and then closed when parsing the parameter list.\n\nNote:\n   It's a bit ugly because it is not known if a function declaration\n   is a prototype or the start of a function definition before the function\n   body is encountered.\n---\n parse.c                      |  8 ++++\n validation/prototype-scope.c | 31 +++++++++++++++\n validation/specifiers2.c     | 73 ++++++++++++++++++++++++++++++++++++\n 3 files changed, 112 insertions(+)\n create mode 100644 validation/prototype-scope.c\n\ndiff --git a/parse.c b/parse.c\nindex f868bf63a0f5..b24193e2ee65 100644\n--- a/parse.c\n+++ b/parse.c\n@@ -2593,6 +2593,7 @@ static struct token *parameter_type_list(struct token *token, struct symbol *fn)\n {\n \tstruct symbol_list **list = &fn->arguments;\n \n+\tstart_block_scope();\n \tfor (;;) {\n \t\tstruct symbol *sym;\n \n@@ -2611,10 +2612,15 @@ static struct token *parameter_type_list(struct token *token, struct symbol *fn)\n \t\t\twarning(token->pos, \"void parameter\");\n \t\t}\n \t\tadd_symbol(list, sym);\n+\t\t// do not bind if there is no ident:\n+\t\t// it's ok for declarations, it'll be warned when parsing the body\n+\t\tif (sym->ident)\n+\t\t\tbind_symbol(sym, sym->ident, NS_SYMBOL);\n \t\tif (!match_op(token, ','))\n \t\t\tbreak;\n \t\ttoken = token->next;\n \t}\n+\tend_block_scope();\n \treturn token;\n }\n \n@@ -2762,6 +2768,8 @@ static void declare_argument(struct symbol *sym, struct symbol *fn)\n \t\t\t\tshow_ident(sym->ident));\n \t\t}\n \t}\n+\t// They were previously in the prototype scope.\n+\tsym->bound = 0;\n \tbind_symbol(sym, sym->ident, NS_SYMBOL);\n }\n \ndiff --git a/validation/prototype-scope.c b/validation/prototype-scope.c\nnew file mode 100644\nindex 000000000000..19dbd7265602\n--- /dev/null\n+++ b/validation/prototype-scope.c\n@@ -0,0 +1,31 @@\n+struct stuff;\n+\n+int good(int n, int arr[n]);\n+int good(int x, int ptr[x]);\n+int good(int n, int arr[n]) { return arr[n - 1]; }\n+\n+int ugly(int arr[n], int n);\n+int  bad(int i, int arr[n]);\n+\n+int test(int n, int arr[])\n+{\n+\tint a = 0;\n+\n+\ta += good(n, arr);\n+\ta += ugly(arr, n);\n+\ta +=  bad(n, arr);\n+\n+       return a;\n+}\n+\n+/*\n+ * check-name: prototype-scope\n+ * check-command: sparse -Wno-vla $file\n+ *\n+ * check-error-start\n+prototype-scope.c:7:18: error: undefined identifier 'n'\n+prototype-scope.c:7:18: error: bad constant expression type\n+prototype-scope.c:8:25: error: undefined identifier 'n'\n+prototype-scope.c:8:25: error: bad constant expression type\n+ * check-error-end\n+ */\ndiff --git a/validation/specifiers2.c b/validation/specifiers2.c\nindex d5be118bd2ac..cd848386e2a2 100644\n--- a/validation/specifiers2.c\n+++ b/validation/specifiers2.c\n@@ -75,78 +75,151 @@ void void\n );\n /*\n  * check-name: invalid specifier combinations\n+ * check-command: sparse -fmax-warnings=unlimited -fmax-errors=unlimited $file\n  * check-error-start\n specifiers2.c:3:6: error: two or more data types in declaration specifiers\n+specifiers2.c:3:1: error: Trying to use reserved word 'char' as identifier\n specifiers2.c:4:6: error: two or more data types in declaration specifiers\n+s",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170312330213781.mbox",
+          "message_id": "<24cb6194-d04d-4c80-bd95-4f7356667884 () ramsayjones ! plus ! com>",
+          "author_name": "Ramsay Jones",
+          "author_email": "ramsay () ramsayjones ! plus ! com",
+          "subject": "Re: sparse regex error",
+          "date": "2023-12-21 01:45:41+00:00",
+          "date_str": "Thu, 21 Dec 2023 01:45:41 +0000",
+          "body": "\n\nOn 20/12/2023 23:13, Luc Van Oostenryck wrote:\n[snip] \n> The following patch is a bit ugly but should solve the problem here above.\n> It's hasn't had much testing, only the testsuite.\n> \n> Cheers,\n> -- Luc\n> \n> \n>>From 2d1feff1551a97fdfd1149f4772331c540e638c9 Mon Sep 17 00:00:00 2001\n> From: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\n> Date: Wed, 20 Dec 2023 22:00:05 +0100\n> Subject: [PATCH] handle protoype scope\n> \n\nHi Luc,\n\nThis looks good and _much_ better than my initial attempt! ;)\n\nI tried your patch and everything looks good on the sparse repo.\nOn Git, however, things didn't go quite so well, thus:\n\n  $ make V=1 sparse >ssp-out 2>&1\n  $ tail -4 ssp-out\n  >add-patch.sp\n  add-patch.c: note: in included file (through git-compat-util.h):\n  /usr/include/regex.h:682:41: error: Variable length array is used.\n  make: *** [Makefile:3234: add-patch.sp] Error 1\n  $ \n\nI think this is caused by -Wvla, which git passes to gcc, along with\nsparse (perhaps) not supporting a GCC #pragma; just after the _REGEX_NELTS\ndefinition in the header file we find:\n\n  #if defined __GNUC__ && 4 < __GNUC__ + (6 <= __GNUC_MINOR__)\n  # pragma GCC diagnostic push\n  # pragma GCC diagnostic ignored \"-Wvla\"\n  #endif\n\nBut I haven't had time to think about this too deeply. It's nearly 2am\nand I need to get some sleep - I just wanted to report this ASAP.\n\nThanks for the patch.\n\nATB,\nRamsay Jones\n\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/172124205814675.mbox",
+          "message_id": "<xmqqzfqf270i.fsf () gitster ! g>",
+          "author_name": "Junio C Hamano",
+          "author_email": "junio () pobox ! com",
+          "subject": "Re: sparse regex error",
+          "date": "2024-07-17 18:44:13+00:00",
+          "date_str": "Wed, 17 Jul 2024 18:44:13 +0000",
+          "body": "Luc Van Oostenryck <lucvoo@kernel.org> writes:\n\n>>   $ git diff\n>>   diff --git a/validation/restrict-array.c b/validation/restrict-array.c\n>>   index 04bfdad9..86753b7d 100644\n>>   --- a/validation/restrict-array.c\n>>   +++ b/validation/restrict-array.c\n>>   @@ -29,9 +29,19 @@ typedef unsigned long int size_t;\n>>    \n>>    extern int regexec (const regex_t *__restrict __preg,\n>>                       const char *__restrict __string, size_t __nmatch,\n>>   -                   regmatch_t __pmatch[__restrict_arr],\n>>   +                   regmatch_t __pmatch[__restrict_arr __nmatch],\n>>                       int __eflags);\n>\n> ...    \n>\n>> which, similarly to git, shows errors not on the declaration of the\n>> regexec() function, but on each call site (about a dozen in git):\n>> \n>>   $ ./sparse validation/restrict-array.c\n>>   validation/restrict-array.c:32:56: error: undefined identifier '__nmatch'\n>>   validation/restrict-array.c:32:56: error: bad constant expression type\n>\n> Yes, it's because __nmatch should be in the function's prototype scope but\n> Sparse hasn't such a thing.\n>\n> The following patch is a bit ugly but should solve the problem here above.\n> It's hasn't had much testing, only the testsuite.\n\nThe same breakage came up recently on the Git mailing list.\n\n  https://lore.kernel.org/git/xmqqikx42c42.fsf@gitster.g/\n\nThe patch seems to fix the problem when locally applyed to the tip\nat v0.6.4-67-g3a4c5743 (of course we have to add -Wno-vla in our\nMakefile when invoking sparse).\n\nAny plan to polish it to \"unugly\" it and merge?\n\nThanks.\n\n\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2024/07/172124205814675.mbox",
+          "message_id": "<xmqqzfqf270i.fsf () gitster ! g>",
+          "author_name": "Junio C Hamano",
+          "author_email": "junio () pobox ! com",
+          "subject": "Re: sparse regex error",
+          "date": "2024-07-17 18:44:13+00:00",
+          "date_str": "Wed, 17 Jul 2024 18:44:13 +0000",
+          "body": "Luc Van Oostenryck <lucvoo@kernel.org> writes:\n\n>>   $ git diff\n>>   diff --git a/validation/restrict-array.c b/validation/restrict-array.c\n>>   index 04bfdad9..86753b7d 100644\n>>   --- a/validation/restrict-array.c\n>>   +++ b/validation/restrict-array.c\n>>   @@ -29,9 +29,19 @@ typedef unsigned long int size_t;\n>>    \n>>    extern int regexec (const regex_t *__restrict __preg,\n>>                       const char *__restrict __string, size_t __nmatch,\n>>   -                   regmatch_t __pmatch[__restrict_arr],\n>>   +                   regmatch_t __pmatch[__restrict_arr __nmatch],\n>>                       int __eflags);\n>\n> ...    \n>\n>> which, similarly to git, shows errors not on the declaration of the\n>> regexec() function, but on each call site (about a dozen in git):\n>> \n>>   $ ./sparse validation/restrict-array.c\n>>   validation/restrict-array.c:32:56: error: undefined identifier '__nmatch'\n>>   validation/restrict-array.c:32:56: error: bad constant expression type\n>\n> Yes, it's because __nmatch should be in the function's prototype scope but\n> Sparse hasn't such a thing.\n>\n> The following patch is a bit ugly but should solve the problem here above.\n> It's hasn't had much testing, only the testsuite.\n\nThe same breakage came up recently on the Git mailing list.\n\n  https://lore.kernel.org/git/xmqqikx42c42.fsf@gitster.g/\n\nThe patch seems to fix the problem when locally applyed to the tip\nat v0.6.4-67-g3a4c5743 (of course we have to add -Wno-vla in our\nMakefile when invoking sparse).\n\nAny plan to polish it to \"unugly\" it and merge?\n\nThanks.\n\n\n",
+          "year": "2024",
+          "month": "07"
+        }
+      ],
+      "primary_category": "general"
+    },
+    {
+      "subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+      "normalized_subject": "parse: handle __cleanup__ attribute",
+      "message_count": 3,
+      "participants": [
+        "Luc Van Oostenryck",
+        "Dmitry Torokhov",
+        "Andy Shevchenko"
+      ],
+      "categories": [
+        "kernel_integration",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2023-12-18T13:51:32+00:00",
+      "last_date": "2024-02-29T14:03:03+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/12/170290748108268.mbox",
+          "message_id": "<troz4beymvsw2m4y4ocghwiidohi4nbj45ry2tfmbekanu2ray () ooravawiynxr>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "lucvoo () kernel ! org",
+          "subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+          "date": "2023-12-18 13:51:32+00:00",
+          "date_str": "Mon, 18 Dec 2023 13:51:32 +0000",
+          "body": "On Thu, Dec 14, 2023 at 04:20:20PM +0300, Dan Carpenter wrote:\n> Yep.  Perfect.  Thanks so much!\n\nPushed now.\n-- Luc \n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2024/01/170552275726539.mbox",
+          "message_id": "<Zag2fYsyJDtDR7a6 () google ! com>",
+          "author_name": "Dmitry Torokhov",
+          "author_email": "dmitry.torokhov () gmail ! com",
+          "subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+          "date": "2024-01-17 20:20:13+00:00",
+          "date_str": "Wed, 17 Jan 2024 20:20:13 +0000",
+          "body": "Hi,\n\nOn Mon, Dec 18, 2023 at 02:51:32PM +0100, Luc Van Oostenryck wrote:\n> On Thu, Dec 14, 2023 at 04:20:20PM +0300, Dan Carpenter wrote:\n> > Yep.  Perfect.  Thanks so much!\n> \n> Pushed now.\n\nAny chance someone is looking at making context tracking working for\ncode annotated as __cleanup? We already have a bunch of code using\nconstructs like:\n\n\t...\n\tguard(spinlock_irqsave)(&gpio_lock);\n\n\tif (!test_bit(FLAG_REQUESTED, &desc->flags))\n\t\treturn NULL;\n\t...\n\nwhich resuls in:\n\n$ make C=1 W=1 drivers/gpio/gpiolib.o\n  CALL    scripts/checksyscalls.sh\n  DESCEND objtool\n  INSTALL libsubcmd_headers\n  CC      drivers/gpio/gpiolib.o\n  CHECK   drivers/gpio/gpiolib.c\ndrivers/gpio/gpiolib.c:2359:6: warning: context imbalance in 'gpiochip_dup_line_label' - different lock contexts for basic block\n\nand I expect we'll see more and more of this.\n\nThanks.\n\n-- \nDmitry\n",
+          "year": "2024",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2024/02/170921528529154.mbox",
+          "message_id": "<ZeCOlzq6qLJtuc0O () smile ! fi ! intel ! com>",
+          "author_name": "Andy Shevchenko",
+          "author_email": "andriy.shevchenko () intel ! com",
+          "subject": "Re: [PATCH v2] parse: handle __cleanup__ attribute",
+          "date": "2024-02-29 14:03:03+00:00",
+          "date_str": "Thu, 29 Feb 2024 14:03:03 +0000",
+          "body": "On Wed, Jan 17, 2024 at 12:20:13PM -0800, Dmitry Torokhov wrote:\n> On Mon, Dec 18, 2023 at 02:51:32PM +0100, Luc Van Oostenryck wrote:\n> > On Thu, Dec 14, 2023 at 04:20:20PM +0300, Dan Carpenter wrote:\n> > > Yep.  Perfect.  Thanks so much!\n> > \n> > Pushed now.\n> \n> Any chance someone is looking at making context tracking working for\n> code annotated as __cleanup? We already have a bunch of code using\n> constructs like:\n> \n> \t...\n> \tguard(spinlock_irqsave)(&gpio_lock);\n> \n> \tif (!test_bit(FLAG_REQUESTED, &desc->flags))\n> \t\treturn NULL;\n> \t...\n> \n> which resuls in:\n> \n> $ make C=1 W=1 drivers/gpio/gpiolib.o\n>   CALL    scripts/checksyscalls.sh\n>   DESCEND objtool\n>   INSTALL libsubcmd_headers\n>   CC      drivers/gpio/gpiolib.o\n>   CHECK   drivers/gpio/gpiolib.c\n> drivers/gpio/gpiolib.c:2359:6: warning: context imbalance in 'gpiochip_dup_line_label' - different lock contexts for basic block\n> \n> and I expect we'll see more and more of this.\n\n+1 here. It's quite annoying for every Linux kernel developer in the world\n(which are at least 2k of active ones).\n\n-- \nWith Best Regards,\nAndy Shevchenko\n\n\n",
+          "year": "2024",
+          "month": "02"
+        }
+      ],
+      "primary_category": "kernel_integration"
+    },
+    {
+      "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+      "normalized_subject": "sparse: Expected ) at end of cast operator, got __seg_gs",
+      "message_count": 5,
+      "participants": [
+        "Luc Van Oostenryck",
+        "Uros Bizjak",
+        "Dan Carpenter"
+      ],
+      "categories": [
+        "kernel_integration",
+        "sparse_internals",
+        "type_system",
+        "address_space",
+        "compiler_compat"
+      ],
+      "first_date": "2023-12-01T14:51:17+00:00",
+      "last_date": "2023-12-04T14:50:20+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/12/170144902703369.mbox",
+          "message_id": "<17d4d1c1-6b27-4fab-bc94-9b2d734e7b36 () suswa ! mountain>",
+          "author_name": "Dan Carpenter",
+          "author_email": "dan.carpenter () linaro ! org",
+          "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+          "date": "2023-12-01 14:51:17+00:00",
+          "date_str": "Fri, 01 Dec 2023 14:51:17 +0000",
+          "body": "I patched Smatch to just ignore it.  I think Luc is on sabatical and\nit's not clear if anyone is applying patches now.\n\nSigned-off-by: Dan Carpenter <dan.carpenter@linaro.org>\n---\n parse.c | 13 +++++++++++++\n 1 file changed, 13 insertions(+)\n\ndiff --git a/parse.c b/parse.c\nindex 6803976a1337..2ddc29acbd33 100644\n--- a/parse.c\n+++ b/parse.c\n@@ -74,6 +74,7 @@ static struct token *parse_range_statement(struct token *token, struct statement\n static struct token *parse_asm_statement(struct token *token, struct statement *stmt);\n static struct token *toplevel_asm_declaration(struct token *token, struct symbol_list **list);\n static struct token *parse_static_assert(struct token *token, struct symbol_list **unused);\n+static struct token *ignore_seg_gs(struct token *token, struct symbol_list **unused);\n \n typedef struct token *attr_t(struct token *, struct symbol *,\n \t\t\t     struct decl_state *);\n@@ -354,6 +355,10 @@ static struct symbol_op static_assert_op = {\n \t.toplevel = parse_static_assert,\n };\n \n+static struct symbol_op seg_gs = {\n+\t.toplevel = ignore_seg_gs,\n+};\n+\n static struct symbol_op packed_op = {\n \t.attribute = attribute_packed,\n };\n@@ -521,6 +526,9 @@ static struct init_keyword {\n \tN(\"_Float64x\",\t\t&spec_op,\t.type = &float64x_ctype),\n \tN(\"_Float128\",\t\t&spec_op,\t.type = &float128_ctype),\n \tN(\"__float128\",\t\t&spec_op,\t.type = &float128_ctype),\n+\n+\tN(\"__seg_gs\",\t\t&seg_gs),\n+\n }, keywords[] = {\n \t/* Statements */\n \tN(\"if\",\t\t\t&if_op),\n@@ -2130,6 +2138,11 @@ static struct token *parse_static_assert(struct token *token, struct symbol_list\n \treturn token;\n }\n \n+static struct token *ignore_seg_gs(struct token *token, struct symbol_list **unused)\n+{\n+\treturn token->next;\n+}\n+\n /* Make a statement out of an expression */\n static struct statement *make_statement(struct expression *expr)\n {\n-- \n2.42.0\n\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170170110910355.mbox",
+          "message_id": "<v3beizdy56kqr4jv4zhmy6slriifuqcqll2eucqykqjilxfdya () s5v5jaflavwh>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+          "date": "2023-12-04 13:05:25+00:00",
+          "date_str": "Mon, 04 Dec 2023 13:05:25 +0000",
+          "body": "On Fri, Dec 01, 2023 at 03:10:35PM +0100, Uros Bizjak wrote:\n> > sparse warnings: (new ones prefixed by >>)\n> >    kernel/bpf/percpu_freelist.c: note: in included file (through arch/x86/include/asm/preempt.h, include/linux/preempt.h, include/linux/spinlock.h, ...):\n> >    arch/x86/include/asm/percpu.h:550:49: sparse: sparse: Expected ) at end of cast operator\n> >    arch/x86/include/asm/percpu.h:550:49: sparse: sparse: got __seg_gs\n> >    arch/x86/include/asm/percpu.h:564:33: sparse: sparse: Expected ) at end of cast operator\n> >    arch/x86/include/asm/percpu.h:564:33: sparse: sparse: got __seg_gs\n> \n> sparse is too strict here. The following code is perfectly legal:\n> \n\nIt's not that sparse is too strict, it's because it knows nothing about __seg_gs.\n\nWhat is missing is:\ndiff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h\nindex 547ea1ff806e..9214f6d54e63 100644\n--- a/include/linux/compiler_types.h\n+++ b/include/linux/compiler_types.h\n@@ -23,6 +23,7 @@\n # define __iomem\t__attribute__((noderef, address_space(__iomem)))\n # define __percpu\t__attribute__((noderef, address_space(__percpu)))\n # define __rcu\t\t__attribute__((noderef, address_space(__rcu)))\n+# define __seg_gs\t__attribute__((noderef, address_space(__seg_gs)))\n static inline void __chk_user_ptr(const volatile void __user *ptr) { }\n static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }\n /* context/locking */\n\n\nBut with this patch sparse will now complain with 'warning: dereference of noderef expression'\nwhich are quite legit given the noderef and the way __seg_gs is used.\nYou have two choices quiet these:\n1) If variables qualified with __seg_gs should only be dereferenced via some\n   special accessor like __raw_cpu_{read,write}() the patch here above is\n   correct and you need to fix the typing inside these accessors (using __force or\n   casting to unsigned long like already done anyway in __my_cpu_ptr()).\n   I think this is the correct solution.\n2) If it's OK to dereference __seg_gs qualified variables anywhere in the code\n   (I don't think we should), then the 'noderef' in the patch should be removed.\n\nSorry, I can't currently do any testing or so.\nBest regards\n -- Luc\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170170111310365.mbox",
+          "message_id": "<CAFULd4YMcHhkSR4P5tq3ghLQyUCkiTOKS6PQd1Bec-2NicUiwQ () mail ! gmail ! com>",
+          "author_name": "Uros Bizjak",
+          "author_email": "ubizjak () gmail ! com",
+          "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+          "date": "2023-12-04 13:57:53+00:00",
+          "date_str": "Mon, 04 Dec 2023 13:57:53 +0000",
+          "body": "--000000000000d01b16060baf8154\nContent-Type: text/plain; charset=\"UTF-8\"\nContent-Transfer-Encoding: quoted-printable\n\nOn Mon, Dec 4, 2023 at 2:05=E2=80=AFPM Luc Van Oostenryck\n<luc.vanoostenryck@gmail.com> wrote:\n>\n> On Fri, Dec 01, 2023 at 03:10:35PM +0100, Uros Bizjak wrote:\n> > > sparse warnings: (new ones prefixed by >>)\n> > >    kernel/bpf/percpu_freelist.c: note: in included file (through arch=\n/x86/include/asm/preempt.h, include/linux/preempt.h, include/linux/spinlock=\n.h, ...):\n> > >    arch/x86/include/asm/percpu.h:550:49: sparse: sparse: Expected ) a=\nt end of cast operator\n> > >    arch/x86/include/asm/percpu.h:550:49: sparse: sparse: got __seg_gs\n> > >    arch/x86/include/asm/percpu.h:564:33: sparse: sparse: Expected ) a=\nt end of cast operator\n> > >    arch/x86/include/asm/percpu.h:564:33: sparse: sparse: got __seg_gs\n> >\n> > sparse is too strict here. The following code is perfectly legal:\n> >\n>\n> It's not that sparse is too strict, it's because it knows nothing about _=\n_seg_gs.\n>\n> What is missing is:\n> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_type=\ns.h\n> index 547ea1ff806e..9214f6d54e63 100644\n> --- a/include/linux/compiler_types.h\n> +++ b/include/linux/compiler_types.h\n> @@ -23,6 +23,7 @@\n>  # define __iomem       __attribute__((noderef, address_space(__iomem)))\n>  # define __percpu      __attribute__((noderef, address_space(__percpu)))\n>  # define __rcu         __attribute__((noderef, address_space(__rcu)))\n> +# define __seg_gs      __attribute__((noderef, address_space(__seg_gs)))\n>  static inline void __chk_user_ptr(const volatile void __user *ptr) { }\n>  static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }\n>  /* context/locking */\n>\n>\n> But with this patch sparse will now complain with 'warning: dereference o=\nf noderef expression'\n> which are quite legit given the noderef and the way __seg_gs is used.\n> You have two choices quiet these:\n> 1) If variables qualified with __seg_gs should only be dereferenced via s=\nome\n>    special accessor like __raw_cpu_{read,write}() the patch here above is\n>    correct and you need to fix the typing inside these accessors (using _=\n_force or\n>    casting to unsigned long like already done anyway in __my_cpu_ptr()).\n>    I think this is the correct solution.\n> 2) If it's OK to dereference __seg_gs qualified variables anywhere in the=\n code\n>    (I don't think we should), then the 'noderef' in the patch should be r=\nemoved.\n\n__seg_gs qualified variables can be referenced anywhere in the code, e.g.:\n\n--cut here--\n__seg_gs int m;\n\nint foo (void)\n{\n return m + m;\n}\n--cut here--\n\nso option 2) should be the correct option here.\n\nThese __seg_gs and __seg_fs qualifiers are specific to x86, so I'd put\nthe definitions in the x86 specific percpu header, as in the attached\npatch. The patch solves the reported issue.\n\nThanks,\nUros.\n\n--000000000000d01b16060baf8154\nContent-Type: text/plain; charset=\"US-ASCII\"; name=\"p.diff.txt\"\nContent-Disposition: attachment; filename=\"p.diff.txt\"\nContent-Transfer-Encoding: base64\nContent-ID: <f_lpqz6x0k0>\nX-Attachment-Id: f_lpqz6x0k0\n\nZGlmZiAtLWdpdCBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL3BlcmNwdS5oIGIvYXJjaC94ODYvaW5j\nbHVkZS9hc20vcGVyY3B1LmgKaW5kZXggMGYxMmIyMDA0Yjk0Li4zMGU4MjNmNWFiNTUgMTAwNjQ0\nCi0tLSBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL3BlcmNwdS5oCisrKyBiL2FyY2gveDg2L2luY2x1\nZGUvYXNtL3BlcmNwdS5oCkBAIC05NSw2ICs5NSwxMSBAQAogCiAjZW5kaWYgLyogQ09ORklHX1NN\nUCAqLwogCisjaWZkZWYgX19DSEVDS0VSX18KKyNkZWZpbmUgX19zZWdfZ3MJCV9fYXR0cmlidXRl\nX18oKGFkZHJlc3Nfc3BhY2UoX19zZWdfZ3MpKSkKKyNkZWZpbmUgX19zZWdfZnMJCV9fYXR0cmli\ndXRlX18oKGFkZHJlc3Nfc3BhY2UoX19zZWdfZnMpKSkKKyNlbmRpZgorCiAjZGVmaW5lIF9fbXlf\nY3B1X3R5cGUodmFyKQl0eXBlb2YodmFyKSBfX3BlcmNwdV9zZWdfb3ZlcnJpZGUKICNkZWZpbmUg\nX19teV9jcHVfcHRyKHB0cikJKF9fbXlfY3B1X3R5cGUoKnB0cikgKikodWludHB0cl90KShwdHIp\nCiAjZGVmaW5lIF9fbXlfY3B1X3Zhcih2YXIpCSgqX19teV9jcHVfcHRyKCZ2YXIpKQo=\n--000000000000d01b16060baf8154--\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170170112710390.mbox",
+          "message_id": "<oz64jus6uqtwj76jvc5imywhwnrur4s6vuvcg3lntpj4s7dqna () fd4pecivhf2u>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+          "date": "2023-12-04 14:37:37+00:00",
+          "date_str": "Mon, 04 Dec 2023 14:37:37 +0000",
+          "body": "On Mon, Dec 04, 2023 at 02:57:53PM +0100, Uros Bizjak wrote:\n> On Mon, Dec 4, 2023 at 2:05\u202fPM Luc Van Oostenryck <luc.vanoostenryck@gmail.com> wrote:\n> \n> __seg_gs qualified variables can be referenced anywhere in the code, e.g.:\n> \n> --cut here--\n> __seg_gs int m;\n> \n> int foo (void)\n> {\n>  return m + m;\n> }\n\nYes, of course. But my point was not if they *can* be dereferenced but rather\nif *in the kernel, do want or not to use 'naked' __seg_gs qualified variable*.\nIn other words, do we want to be warned if someone, somewhere try to\ndereference such qualified variable without using the accessor function?\nAnd I think the answer to this question should be 'yes'.\n\n-- Luc\n",
+          "year": "2023",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2023/12/170170806015268.mbox",
+          "message_id": "<CAFULd4YJ2vC-3Yj648XRquz0rh5jUgJEw6S89JC-h8p5A4-WTg () mail ! gmail ! com>",
+          "author_name": "Uros Bizjak",
+          "author_email": "ubizjak () gmail ! com",
+          "subject": "Re: sparse: Expected ) at end of cast operator, got __seg_gs",
+          "date": "2023-12-04 14:50:20+00:00",
+          "date_str": "Mon, 04 Dec 2023 14:50:20 +0000",
+          "body": "On Mon, Dec 4, 2023 at 3:37=E2=80=AFPM Luc Van Oostenryck\n<luc.vanoostenryck@gmail.com> wrote:\n>\n> On Mon, Dec 04, 2023 at 02:57:53PM +0100, Uros Bizjak wrote:\n> > On Mon, Dec 4, 2023 at 2:05=E2=80=AFPM Luc Van Oostenryck <luc.vanooste=\nnryck@gmail.com> wrote:\n> >\n> > __seg_gs qualified variables can be referenced anywhere in the code, e.=\ng.:\n> >\n> > --cut here--\n> > __seg_gs int m;\n> >\n> > int foo (void)\n> > {\n> >  return m + m;\n> > }\n>\n> Yes, of course. But my point was not if they *can* be dereferenced but ra=\nther\n> if *in the kernel, do want or not to use 'naked' __seg_gs qualified varia=\nble*.\n> In other words, do we want to be warned if someone, somewhere try to\n> dereference such qualified variable without using the accessor function?\n> And I think the answer to this question should be 'yes'.\n\nNot really - when used as e.g.:\n\nextern const struct pcpu_hot __seg_gs const_pcpu_hot;\n\nwe can use variable directly, e.g.:\n\nreturn const_pcpu_hot.current_task;\n\nThis way, the compiler is able to significantly reduce the number of\nloads from current_task, which is not achievable when the accessor is\nused to dereference the structure. In the x86/percpu branch, the\nnumber of loads from current_task were reduced from ~4700 to 3201 by\nusing 'naked' __seg_gs qualified variable. IOW, the benefit of using\n__seg_gs is to be able to access the naked variable.\n\nUros.\n",
+          "year": "2023",
+          "month": "12"
+        }
+      ],
+      "primary_category": "kernel_integration"
+    },
+    {
+      "subject": "[PATCH v1 05/14] DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+      "normalized_subject": "DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+      "message_count": 1,
+      "participants": [
+        "Yuan Tan"
+      ],
+      "categories": [
+        "general"
+      ],
+      "first_date": "2023-11-03T15:59:54+00:00",
+      "last_date": "2023-11-03T15:59:54+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/11/169902711512465.mbox",
+          "message_id": "<141030de2b3d470251d1588b39cb041ec505d84f.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 05/14] DCE/DSE: add HAVE_SECTION_SHF_LINK_ORDER_SUPPORT option",
+          "date": "2023-11-03 15:59:54+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:59:54 +0000",
+          "body": "SHF_LINK_ORDER requires ld >= 2.35.\n\nLLD supports SHF_LINK_ORDER to, but it does not support riscv\nHAVE_LD_DEAD_CODE_DATA_ELIMINATION. Therefore, I haven't tested the\nminimum compatible version yet.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex aa648ce8bca1..1ef5b19918e5 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1462,6 +1462,11 @@ config HAVE_TRIM_UNUSED_SYSCALLS\n \tdepends on HAVE_LD_DEAD_CODE_DATA_ELIMINATION\n \tdefault n\n \n+config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n+\tbool\n+\tdepends on AS_IS_GNU && AS_VERSION >= 23500\n+\tdefault y\n+\n menuconfig EXPERT\n \tbool \"Configure standard kernel features (expert users)\"\n \t# Unhide debug options, to make the on-by-default options visible\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        }
+      ],
+      "primary_category": "general"
+    },
+    {
+      "subject": "[PATCH v1 02/14] compiler: add a global __QUITE_UNIQUE_ID()",
+      "normalized_subject": "compiler: add a global __QUITE_UNIQUE_ID()",
+      "message_count": 1,
+      "participants": [
+        "Yuan Tan"
+      ],
+      "categories": [
+        "compiler_compat",
+        "address_space"
+      ],
+      "first_date": "2023-11-03T15:58:49+00:00",
+      "last_date": "2023-11-03T15:58:49+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/11/169902696712343.mbox",
+          "message_id": "<152d812cb6fa2c6018794ea7f05f487631542d6e.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 02/14] compiler: add a global __QUITE_UNIQUE_ID()",
+          "date": "2023-11-03 15:58:49+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:49 +0000",
+          "body": "From: Zhangjin Wu <falcon@tinylab.org>\n\nDiffers from __UNIQUE_ID(), __QUITE_UNIQUE_ID() also appends the\n__COUNTER__ info to make it more unique.\n\nBesides, seems assembly code also require such a unique id, let's make\nit global, the same to the required __PASTE macro.\n\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\nI am not sure whether it is proper to put the __QUITE_UNIQUE_ID and\nother stuff later in compiler.h. Welcome discussion as this is just\na preliminary approach.\n\n include/linux/compiler.h       | 5 +++++\n include/linux/compiler_types.h | 8 ++++----\n 2 files changed, 9 insertions(+), 4 deletions(-)\n\ndiff --git a/include/linux/compiler.h b/include/linux/compiler.h\nindex d7779a18b24f..405b19cf6cf3 100644\n--- a/include/linux/compiler.h\n+++ b/include/linux/compiler.h\n@@ -227,6 +227,11 @@ static inline void *offset_to_ptr(const int *off)\n \n #endif /* __ASSEMBLY__ */\n \n+/* Quite-unique ID. */\n+#ifndef __QUITE_UNIQUE_ID\n+# define __QUITE_UNIQUE_ID(prefix) __PASTE(__PASTE(prefix, __LINE__), __COUNTER__)\n+#endif\n+\n /* &a[0] degrades to a pointer: a different type from an array */\n #define __must_be_array(a)\tBUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))\n \ndiff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h\nindex c523c6683789..0b79e19d1017 100644\n--- a/include/linux/compiler_types.h\n+++ b/include/linux/compiler_types.h\n@@ -70,10 +70,6 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }\n # define __builtin_warning(x, y...) (1)\n #endif /* __CHECKER__ */\n \n-/* Indirect macros required for expanded argument pasting, eg. __LINE__. */\n-#define ___PASTE(a,b) a##b\n-#define __PASTE(a,b) ___PASTE(a,b)\n-\n #ifdef __KERNEL__\n \n /* Attributes */\n@@ -308,6 +304,10 @@ struct ftrace_likely_data {\n \n #endif /* __ASSEMBLY__ */\n \n+/* Indirect macros required for expanded argument pasting, eg. __LINE__. */\n+#define ___PASTE(a, b) a##b\n+#define __PASTE(a, b) ___PASTE(a, b)\n+\n /*\n  * The below symbols may be defined for one or more, but not ALL, of the above\n  * compilers. We don't consider that to be an error, so set them to nothing.\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        }
+      ],
+      "primary_category": "address_space"
+    },
+    {
+      "subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+      "normalized_subject": "DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+      "message_count": 4,
+      "participants": [
+        "Yuan Tan"
+      ],
+      "categories": [
+        "general"
+      ],
+      "first_date": "2023-11-03T15:58:35+00:00",
+      "last_date": "2023-11-03T15:58:36+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/11/169902711512461.mbox",
+          "message_id": "<494854689a6f6f91da151ae4bd9a7a6132092271.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "date": "2023-11-03 15:58:35+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:35 +0000",
+          "body": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or\nSECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't\nneed KEEP() anymore.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex 4296c97cfc84..9834dbb0ddae 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1462,6 +1462,11 @@ config HAVE_TRIM_UNUSED_SYSCALLS\n \tdepends on HAVE_LD_DEAD_CODE_DATA_ELIMINATION\n \tdefault n\n \n+config HAVE_SECTION_NO_KEEP_SUPPORT\n+\tbool\n+\tdepends on HAVE_SECTION_SHF_LINK_ORDER_SUPPORT || HAVE_SECTION_SHF_GROUP_SUPPORT\n+\tdefault y\n+\n config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n \tbool\n \tdepends on AS_IS_GNU && AS_VERSION >= 23500\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        },
+        {
+          "filepath": "emails/2023/11/169902711612467.mbox",
+          "message_id": "<494854689a6f6f91da151ae4bd9a7a6132092271.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "date": "2023-11-03 15:58:36+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:36 +0000",
+          "body": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or\nSECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't\nneed KEEP() anymore.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex 4296c97cfc84..9834dbb0ddae 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1462,6 +1462,11 @@ config HAVE_TRIM_UNUSED_SYSCALLS\n \tdepends on HAVE_LD_DEAD_CODE_DATA_ELIMINATION\n \tdefault n\n \n+config HAVE_SECTION_NO_KEEP_SUPPORT\n+\tbool\n+\tdepends on HAVE_SECTION_SHF_LINK_ORDER_SUPPORT || HAVE_SECTION_SHF_GROUP_SUPPORT\n+\tdefault y\n+\n config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n \tbool\n \tdepends on AS_IS_GNU && AS_VERSION >= 23500\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        },
+        {
+          "filepath": "emails/2023/11/169902711612469.mbox",
+          "message_id": "<494854689a6f6f91da151ae4bd9a7a6132092271.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "date": "2023-11-03 15:58:36+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:36 +0000",
+          "body": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or\nSECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't\nneed KEEP() anymore.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex 4296c97cfc84..9834dbb0ddae 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1462,6 +1462,11 @@ config HAVE_TRIM_UNUSED_SYSCALLS\n \tdepends on HAVE_LD_DEAD_CODE_DATA_ELIMINATION\n \tdefault n\n \n+config HAVE_SECTION_NO_KEEP_SUPPORT\n+\tbool\n+\tdepends on HAVE_SECTION_SHF_LINK_ORDER_SUPPORT || HAVE_SECTION_SHF_GROUP_SUPPORT\n+\tdefault y\n+\n config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n \tbool\n \tdepends on AS_IS_GNU && AS_VERSION >= 23500\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        },
+        {
+          "filepath": "emails/2023/11/169902711612468.mbox",
+          "message_id": "<494854689a6f6f91da151ae4bd9a7a6132092271.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 07/14] DCE/DSE: add HAVE_SECTION_NO_KEEP_SUPPORT option",
+          "date": "2023-11-03 15:58:36+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:36 +0000",
+          "body": "Once there's SECTION_SHF_LINK_ORDER_SUPPORT or\nSECTION_SHF_GROUP_SUPPORT, there won't be any orphan section and won't\nneed KEEP() anymore.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex 4296c97cfc84..9834dbb0ddae 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1462,6 +1462,11 @@ config HAVE_TRIM_UNUSED_SYSCALLS\n \tdepends on HAVE_LD_DEAD_CODE_DATA_ELIMINATION\n \tdefault n\n \n+config HAVE_SECTION_NO_KEEP_SUPPORT\n+\tbool\n+\tdepends on HAVE_SECTION_SHF_LINK_ORDER_SUPPORT || HAVE_SECTION_SHF_GROUP_SUPPORT\n+\tdefault y\n+\n config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n \tbool\n \tdepends on AS_IS_GNU && AS_VERSION >= 23500\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        }
+      ],
+      "primary_category": "general"
+    },
+    {
+      "subject": "[PATCH v1 06/14] DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+      "normalized_subject": "DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+      "message_count": 1,
+      "participants": [
+        "Yuan Tan"
+      ],
+      "categories": [
+        "general"
+      ],
+      "first_date": "2023-11-03T15:58:35+00:00",
+      "last_date": "2023-11-03T15:58:35+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/11/169902711512464.mbox",
+          "message_id": "<04271c1f3a4c3d369310146faefc0d05144276e9.1699025537.git.tanyuan () tinylab ! org>",
+          "author_name": "Yuan Tan",
+          "author_email": "tanyuan () tinylab ! org",
+          "subject": "[PATCH v1 06/14] DCE/DSE: add HAVE_SECTION_SHF_GROUP_SUPPORT option",
+          "date": "2023-11-03 15:58:35+00:00",
+          "date_str": "Fri, 03 Nov 2023 15:58:35 +0000",
+          "body": "SHF_GROUP requires ld >= 2.36.\n\nLLD supports SHF_GROUP too, but it does not support riscv\nHAVE_LD_DEAD_CODE_DATA_ELIMINATION. Therefore, I haven't tested the\nminimum compatible version yet.\n\nSigned-off-by: Yuan Tan <tanyuan@tinylab.org>\nSigned-off-by: Zhangjin Wu <falcon@tinylab.org>\n---\n init/Kconfig | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/init/Kconfig b/init/Kconfig\nindex 1ef5b19918e5..4296c97cfc84 100644\n--- a/init/Kconfig\n+++ b/init/Kconfig\n@@ -1467,6 +1467,11 @@ config HAVE_SECTION_SHF_LINK_ORDER_SUPPORT\n \tdepends on AS_IS_GNU && AS_VERSION >= 23500\n \tdefault y\n \n+config HAVE_SECTION_SHF_GROUP_SUPPORT\n+\tbool\n+\tdepends on AS_IS_GNU && AS_VERSION >= 23600\n+\tdefault y\n+\n menuconfig EXPERT\n \tbool \"Configure standard kernel features (expert users)\"\n \t# Unhide debug options, to make the on-by-default options visible\n-- \n2.34.1\n",
+          "year": "2023",
+          "month": "11"
+        }
+      ],
+      "primary_category": "general"
+    },
+    {
+      "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+      "normalized_subject": "include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value",
+      "message_count": 5,
+      "participants": [
+        "Luc Van Oostenryck",
+        "Dmitry Torokhov",
+        "Chris Morgan",
+        "Linus Torvalds"
+      ],
+      "categories": [
+        "kernel_integration",
+        "sparse_internals",
+        "type_system",
+        "address_space",
+        "compiler_compat"
+      ],
+      "first_date": "2023-09-15T16:47:46+00:00",
+      "last_date": "2024-01-07T13:03:32+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2024/01/169479646214665.mbox",
+          "message_id": "<SN6PR06MB5342BF4352A5FF56C119D8FFA5F6A () SN6PR06MB5342 ! namprd06 ! prod ! outlook ! com>",
+          "author_name": "Chris Morgan",
+          "author_email": "macromorgan () hotmail ! com",
+          "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+          "date": "2023-09-15 16:47:46+00:00",
+          "date_str": "Fri, 15 Sep 2023 16:47:46 +0000",
+          "body": "On Tue, Sep 12, 2023 at 08:46:48AM +0800, kernel test robot wrote:\n> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master\n> head:   0bb80ecc33a8fb5a682236443c1e740d5c917d1d\n> commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens\n> date:   11 months ago\n> config: i386-randconfig-061-20230909 (https://download.01.org/0day-ci/archive/20230912/202309120820.bRjnU9fZ-lkp@intel.com/config)\n> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0\n> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230912/202309120820.bRjnU9fZ-lkp@intel.com/reproduce)\n> \n> If you fix the issue in a separate patch/commit (i.e. not just a new version of\n> the same patch/commit), kindly add following tags\n> | Reported-by: kernel test robot <lkp@intel.com>\n> | Closes: https://lore.kernel.org/oe-kbuild-all/202309120820.bRjnU9fZ-lkp@intel.com/\n> \n> sparse warnings: (new ones prefixed by >>)\n>    drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)\n> >> include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)\n> >> include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)\n> \n> vim +119 include/asm-generic/unaligned.h\n> \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  \t*p++ = val;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @120  \t*p++ = val >> 8;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  \t*p++ = val >> 16;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  \n> \n> :::::: The code at line 119 was first introduced by commit\n> :::::: 803f4e1eab7a8938ba3a3c30dd4eb5e9eeef5e63 asm-generic: simplify asm/unaligned.h\n> \n> :::::: TO: Arnd Bergmann <arnd@arndb.de>\n> :::::: CC: Arnd Bergmann <arnd@arndb.de>\n> \n> -- \n> 0-DAY CI Kernel Test Service\n> https://github.com/intel/lkp-tests/wiki\n\nI'm afraid I don't understand the error in question. When I call the\nfunction put_unaligned_le24() I do see that this function then calls\n__put_unaligned_le24() which takes part of the value and does cast\nit as a u8. Is that what this error is about? Just trying to figure\nout the best way to resolve it, sadly I'm not clearly seeing the issue\nso I thought I'd ask.\n\nThank you.\nChris Morgan",
+          "year": "2024",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2024/01/170458810908337.mbox",
+          "message_id": "<ZZnzd3s2L-ZwGOlz () google ! com>",
+          "author_name": "Dmitry Torokhov",
+          "author_email": "dmitry.torokhov () gmail ! com",
+          "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+          "date": "2024-01-07 00:42:31+00:00",
+          "date_str": "Sun, 07 Jan 2024 00:42:31 +0000",
+          "body": "On Sun, Jan 07, 2024 at 01:41:34AM +0800, kernel test robot wrote:\n> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master\n> head:   95c8a35f1c017327eab3b6a2ff5c04255737c856\n> commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens\n> date:   1 year, 2 months ago\n> config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/config)\n> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0\n> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/reproduce)\n> \n> If you fix the issue in a separate patch/commit (i.e. not just a new version of\n> the same patch/commit), kindly add following tags\n> | Reported-by: kernel test robot <lkp@intel.com>\n> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070147.gqwVulOn-lkp@intel.com/\n> \n> sparse warnings: (new ones prefixed by >>)\n>    drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)\n>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)\n>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)\n> \n> vim +119 include/asm-generic/unaligned.h\n> \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  \t*p++ = val;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  \t*p++ = val >> 8;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  \t*p++ = val >> 16;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  \n\nThis is not really a kernel/driver bug, just sparse being over-eager\nwith truncation detection. I wonder if we could make sparse skip this\ncheck on forced casts like this:\n\ndiff --git a/expand.c b/expand.c\nindex f14e7181..5487e8b3 100644\n--- a/expand.c\n+++ b/expand.c\n@@ -96,6 +96,7 @@ static long long get_longlong(struct expression *expr)\n \n void cast_value(struct expression *expr, struct symbol *newtype, struct expression *old)\n {\n+\tenum expression_type cast_type = expr->type;\n \tstruct symbol *oldtype = old->ctype;\n \tint old_size = oldtype->bit_size;\n \tint new_size = newtype->bit_size;\n@@ -133,7 +134,7 @@ Int:\n \texpr->value = value & mask;\n \n \t// Stop here unless checking for truncation\n-\tif (!Wcast_truncate || conservative)\n+\tif (cast_type == EXPR_FORCE_CAST || !Wcast_truncate || conservative)\n \t\treturn;\n \t\n \t// Check if we dropped any bits..\n\nand then in the kernel we would do this:\n\ndiff --git a/include/asm-generic/unaligned.h b/include/asm-generic/unaligned.h\nindex 699650f81970..034237d12d70 100644\n--- a/include/asm-generic/unaligned.h\n+++ b/include/asm-generic/unaligned.h\n@@ -104,9 +104,9 @@ static inline u32 get_unaligned_le24(const void *p)\n \n static inline void __put_unaligned_be24(const u32 val, u8 *p)\n {\n-\t*p++ = val >> 16;\n-\t*p++ = val >> 8;\n-\t*p++ = val;\n+\t*p++ = (__force u8)(val >> 16);\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)val;\n }\n \n static inline void put_unaligned_be24(const u32 val, void *p)\n@@ -116,9 +116,9 @@ static inline void put_unaligned_be24(const u32 val, void *p)\n \n static inline void __put_unaligned_le24(const u32 val, u8 *p)\n {\n-\t*p++ = val;\n-\t*p++ = val >> 8;\n-\t*p++ = val >> 16;\n+\t*p++ = (__force u8)val;\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)(val >> 16);\n }\n \n static inline void put_unaligned_le24(const u32 val, void *p)\n@@ -128,12 +128,12 @@ static inline void put_unaligned_le24(const u32 val, void *p)\n \n static inline void __put_unaligned_be48(const u64 val, u8 *p)\n {\n-\t*p++ = val >> 40;\n-\t*p++ = val >> 32;\n-\t*p++ = val >> 24;\n-\t*p++ = val >> 16;\n-\t*p++ = val >> 8;\n-\t*p++ = val;\n+\t*p++ = (__force u8)(val >> 40);\n+\t*p++ = (__force u8)(val >> 32);\n+\t*p++ = (__force u8)(val >> 24);\n+\t*p++ = (__force u8)(val >> 16);\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)val;\n }\n \n static inline void put_unaligned_be48(const u64 val, void *p)\n\nWhat do you think?\n\nThanks.\n\n-- \nDmitry\n",
+          "year": "2024",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2024/01/170458810408332.mbox",
+          "message_id": "<ZZnzd3s2L-ZwGOlz () google ! com>",
+          "author_name": "Dmitry Torokhov",
+          "author_email": "dmitry.torokhov () gmail ! com",
+          "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+          "date": "2024-01-07 00:42:31+00:00",
+          "date_str": "Sun, 07 Jan 2024 00:42:31 +0000",
+          "body": "On Sun, Jan 07, 2024 at 01:41:34AM +0800, kernel test robot wrote:\n> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master\n> head:   95c8a35f1c017327eab3b6a2ff5c04255737c856\n> commit: 66603243f5283f7f28c795f09e7c2167233df0bd Input: add driver for Hynitron cstxxx touchscreens\n> date:   1 year, 2 months ago\n> config: x86_64-randconfig-x051-20230705 (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/config)\n> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0\n> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240107/202401070147.gqwVulOn-lkp@intel.com/reproduce)\n> \n> If you fix the issue in a separate patch/commit (i.e. not just a new version of\n> the same patch/commit), kindly add following tags\n> | Reported-by: kernel test robot <lkp@intel.com>\n> | Closes: https://lore.kernel.org/oe-kbuild-all/202401070147.gqwVulOn-lkp@intel.com/\n> \n> sparse warnings: (new ones prefixed by >>)\n>    drivers/input/touchscreen/hynitron_cstxxx.c: note: in included file (through arch/x86/include/generated/asm/unaligned.h):\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (aa01a0 becomes a0)\n>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (aa01 becomes 1)\n> >> include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value (ab00d0 becomes d0)\n>    include/asm-generic/unaligned.h:120:20: sparse: sparse: cast truncates bits from constant value (ab00 becomes 0)\n> \n> vim +119 include/asm-generic/unaligned.h\n> \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  116  \n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  117  static inline void __put_unaligned_le24(const u32 val, u8 *p)\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  118  {\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08 @119  \t*p++ = val;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  120  \t*p++ = val >> 8;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  121  \t*p++ = val >> 16;\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  122  }\n> 803f4e1eab7a89 Arnd Bergmann 2021-05-08  123  \n\nThis is not really a kernel/driver bug, just sparse being over-eager\nwith truncation detection. I wonder if we could make sparse skip this\ncheck on forced casts like this:\n\ndiff --git a/expand.c b/expand.c\nindex f14e7181..5487e8b3 100644\n--- a/expand.c\n+++ b/expand.c\n@@ -96,6 +96,7 @@ static long long get_longlong(struct expression *expr)\n \n void cast_value(struct expression *expr, struct symbol *newtype, struct expression *old)\n {\n+\tenum expression_type cast_type = expr->type;\n \tstruct symbol *oldtype = old->ctype;\n \tint old_size = oldtype->bit_size;\n \tint new_size = newtype->bit_size;\n@@ -133,7 +134,7 @@ Int:\n \texpr->value = value & mask;\n \n \t// Stop here unless checking for truncation\n-\tif (!Wcast_truncate || conservative)\n+\tif (cast_type == EXPR_FORCE_CAST || !Wcast_truncate || conservative)\n \t\treturn;\n \t\n \t// Check if we dropped any bits..\n\nand then in the kernel we would do this:\n\ndiff --git a/include/asm-generic/unaligned.h b/include/asm-generic/unaligned.h\nindex 699650f81970..034237d12d70 100644\n--- a/include/asm-generic/unaligned.h\n+++ b/include/asm-generic/unaligned.h\n@@ -104,9 +104,9 @@ static inline u32 get_unaligned_le24(const void *p)\n \n static inline void __put_unaligned_be24(const u32 val, u8 *p)\n {\n-\t*p++ = val >> 16;\n-\t*p++ = val >> 8;\n-\t*p++ = val;\n+\t*p++ = (__force u8)(val >> 16);\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)val;\n }\n \n static inline void put_unaligned_be24(const u32 val, void *p)\n@@ -116,9 +116,9 @@ static inline void put_unaligned_be24(const u32 val, void *p)\n \n static inline void __put_unaligned_le24(const u32 val, u8 *p)\n {\n-\t*p++ = val;\n-\t*p++ = val >> 8;\n-\t*p++ = val >> 16;\n+\t*p++ = (__force u8)val;\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)(val >> 16);\n }\n \n static inline void put_unaligned_le24(const u32 val, void *p)\n@@ -128,12 +128,12 @@ static inline void put_unaligned_le24(const u32 val, void *p)\n \n static inline void __put_unaligned_be48(const u64 val, u8 *p)\n {\n-\t*p++ = val >> 40;\n-\t*p++ = val >> 32;\n-\t*p++ = val >> 24;\n-\t*p++ = val >> 16;\n-\t*p++ = val >> 8;\n-\t*p++ = val;\n+\t*p++ = (__force u8)(val >> 40);\n+\t*p++ = (__force u8)(val >> 32);\n+\t*p++ = (__force u8)(val >> 24);\n+\t*p++ = (__force u8)(val >> 16);\n+\t*p++ = (__force u8)(val >> 8);\n+\t*p++ = (__force u8)val;\n }\n \n static inline void put_unaligned_be48(const u64 val, void *p)\n\nWhat do you think?\n\nThanks.\n\n-- \nDmitry\n",
+          "year": "2024",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2024/01/170460682214169.mbox",
+          "message_id": "<CAHk-=wjLaBe3Y_H5WArWdQ6d36+UOQ7NSbga1w+esGYJZaVfVg () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+          "date": "2024-01-07 05:54:05+00:00",
+          "date_str": "Sun, 07 Jan 2024 05:54:05 +0000",
+          "body": "On Sat, 6 Jan 2024 at 16:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:\n>\n> This is not really a kernel/driver bug, just sparse being over-eager\n> with truncation detection. I wonder if we could make sparse skip this\n> check on forced casts like this:\n\nNo, please don't.\n\nJust face the fact that using integer casts to mask bits off is a bad idea.\n\nYes, we could say \"explicit casting is ok\", since it's really the\nhidden implicit casts changing values that sparse complains about, but\nyour solution is really ugly:\n\n>  static inline void __put_unaligned_be24(const u32 val, u8 *p)\n>  {\n> -       *p++ = val >> 16;\n> -       *p++ = val >> 8;\n> -       *p++ = val;\n> +       *p++ = (__force u8)(val >> 16);\n> +       *p++ = (__force u8)(val >> 8);\n> +       *p++ = (__force u8)val;\n>  }\n\nThat's just disgusting.\n\nThe *natural* thing to do is to simply make the masking itself be\nexplicit - not the cast. IOW, just write it as\n\n        *p++ = (val >> 16) & 0xff;\n        *p++ = (val >> 8) & 0xff;\n        *p++ = val & 0xff;\n\nand doesn't that look much more natural?\n\nSure, the compiler will then just notice \"you're assigning to a char,\nto I don't actually need to do any masking at all\", but now sparse\nwon't complain because there's no \"cast silently drops bits\" issue any\nmore.\n\nAnd while the code is a bit more to read, I think it is actually to\nsome degree more obvious to a human too what is going on.\n\nNo?\n\n              Linus\n",
+          "year": "2024",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2024/01/170463256622713.mbox",
+          "message_id": "<7yxju53lhprhihayiue3dp4xnmzpugygl47tt4w56pyscsf6tx () 2w3eytgeav7u>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "lucvoo () kernel ! org",
+          "subject": "Re: include/asm-generic/unaligned.h:119:16: sparse: sparse: cast truncates bits from constant value ",
+          "date": "2024-01-07 13:03:32+00:00",
+          "date_str": "Sun, 07 Jan 2024 13:03:32 +0000",
+          "body": "On Sat, Jan 06, 2024 at 09:54:05PM -0800, Linus Torvalds wrote:\n> On Sat, 6 Jan 2024 at 16:42, Dmitry Torokhov <dmitry.torokhov@gmail.com> wrote:\n> >\n> > This is not really a kernel/driver bug, just sparse being over-eager\n> > with truncation detection. I wonder if we could make sparse skip this\n> > check on forced casts like this:\n> \n> No, please don't.\n> \n> Just face the fact that using integer casts to mask bits off is a bad idea.\n> \n> ...\n> \n> The *natural* thing to do is to simply make the masking itself be\n> explicit - not the cast. IOW, just write it as\n> \n>         *p++ = (val >> 16) & 0xff;\n>         *p++ = (val >> 8) & 0xff;\n>         *p++ = val & 0xff;\n> \n> ...\n> \n> And while the code is a bit more to read, I think it is actually to\n> some degree more obvious to a human too what is going on.\n\n\nI fully agree.\n\nIt's kinda sad is that there is more than 800 occurrences of this\n\"cast truncates bits from constant value\" warning and almost all of\nthem are of the kind:\n\t\"a 32bit constant must be written in 2 steps via 16bit IO registers\"\n\nIn these cases, no bits are lost, they're just written in the other write,\nand real problems, when present, are drown/lost into these 800 harmless ones.\nIt's in fact the 4th most common warning in the kernel, the top 10 being:\n   2858 incorrect type in assignment (different base types)\n   2715 cast to restricted type\n    923 incorrect type in argument (different address spaces)\n    818 cast truncates bits from constant value\n    739 restricted type degrades to integer\n    549 context imbalance - unexpected unlock\n    500 symbol was not declared. Should it be static?\n    407 cast removes address space '__iomem' of expression\n    344 incompatible types in comparison expression (different address spaces)\n    323 context imbalance - different lock contexts for basic block\n\n-- Luc\n",
+          "year": "2024",
+          "month": "01"
+        }
+      ],
+      "primary_category": "address_space"
+    },
+    {
+      "subject": "Re: [sparse] forgotten patch",
+      "normalized_subject": "[sparse] forgotten patch",
+      "message_count": 1,
+      "participants": [
+        "Guennadi Liakhovetski"
+      ],
+      "categories": [
+        "general"
+      ],
+      "first_date": "2023-07-25T06:20:53+00:00",
+      "last_date": "2023-07-25T06:20:53+00:00",
+      "year": 2023,
+      "messages": [
+        {
+          "filepath": "emails/2023/07/169026596712081.mbox",
+          "message_id": "<732ac78e-9161-1fe5-f2eb-ec6f773814cb () intel ! com>",
+          "author_name": "Guennadi Liakhovetski",
+          "author_email": "guennadi.liakhovetski () linux ! intel ! com",
+          "subject": "Re: [sparse] forgotten patch",
+          "date": "2023-07-25 06:20:53+00:00",
+          "date_str": "Tue, 25 Jul 2023 06:20:53 +0000",
+          "body": "Hi,\n\nCould you please pull the below patch. We've been using a private branch \nfor SOF CI for 8 months now and this isn't a good place to be at: \nhttps://github.com/thesofproject/sof/blob/a38458dd2276fa24e37f5e60ef0a5613b03cbe00/.github/workflows/sparse-zephyr.yml#L33\n\nThanks\nGuennadi\n\nOn Tue, 18 Apr 2023, Guennadi Liakhovetski wrote:\n\n> Hi,\n>\n> Looks like this patch https://marc.info/?l=linux-sparse&m=166861736724543&w=2 \n> has been forgotten? In general - where is the sparse development taking place \n> ATM - the https://git.kernel.org/pub/scm/devel/sparse/sparse.git/ repo seems \n> to not have been updated since last June?\n>\n> Thanks\n> Guennadi\n>",
+          "year": "2023",
+          "month": "07"
+        }
+      ],
+      "primary_category": "general"
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "generated_at": "2026-02-03T23:22:24.579601",
+  "years": {
+    "2008": {
+      "file": "2008.json",
+      "threads": 3,
+      "messages": 11,
+      "categories": {
+        "context_analysis": 3
+      }
+    },
+    "2010": {
+      "file": "2010.json",
+      "threads": 1,
+      "messages": 16,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2012": {
+      "file": "2012.json",
+      "threads": 2,
+      "messages": 11,
+      "categories": {
+        "context_analysis": 2
+      }
+    },
+    "2013": {
+      "file": "2013.json",
+      "threads": 1,
+      "messages": 4,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2014": {
+      "file": "2014.json",
+      "threads": 2,
+      "messages": 10,
+      "categories": {
+        "context_analysis": 2
+      }
+    },
+    "2015": {
+      "file": "2015.json",
+      "threads": 1,
+      "messages": 4,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2016": {
+      "file": "2016.json",
+      "threads": 1,
+      "messages": 1,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2017": {
+      "file": "2017.json",
+      "threads": 1,
+      "messages": 7,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2019": {
+      "file": "2019.json",
+      "threads": 2,
+      "messages": 28,
+      "categories": {
+        "context_analysis": 2
+      }
+    },
+    "2020": {
+      "file": "2020.json",
+      "threads": 1,
+      "messages": 5,
+      "categories": {
+        "context_analysis": 1
+      }
+    },
+    "2021": {
+      "file": "2021.json",
+      "threads": 2,
+      "messages": 4,
+      "categories": {
+        "address_space": 2
+      }
+    },
+    "2022": {
+      "file": "2022.json",
+      "threads": 4,
+      "messages": 25,
+      "categories": {
+        "address_space": 4
+      }
+    },
+    "2023": {
+      "file": "2023.json",
+      "threads": 9,
+      "messages": 26,
+      "categories": {
+        "general": 5,
+        "kernel_integration": 2,
+        "address_space": 2
+      }
+    },
+    "2024": {
+      "file": "2024.json",
+      "threads": 46,
+      "messages": 352,
+      "categories": {
+        "sparse_internals": 12,
+        "general": 2,
+        "rfc_proposals": 11,
+        "kernel_integration": 11,
+        "address_space": 10
+      }
+    },
+    "2025": {
+      "file": "2025.json",
+      "threads": 63,
+      "messages": 580,
+      "categories": {
+        "sparse_internals": 16,
+        "compiler_compat": 19,
+        "type_system": 10,
+        "general": 11,
+        "rfc_proposals": 3,
+        "kernel_integration": 2,
+        "address_space": 2
+      }
+    },
+    "2026": {
+      "file": "2026.json",
+      "threads": 16,
+      "messages": 107,
+      "categories": {
+        "sparse_internals": 2,
+        "compiler_compat": 4,
+        "general": 6,
+        "rfc_proposals": 1,
+        "kernel_integration": 2,
+        "context_analysis": 1
+      }
+    }
+  }
+}

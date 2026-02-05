@@ -1,0 +1,228 @@
+{
+  "year": "2010",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 16,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+      "normalized_subject": "[patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+      "message_count": 16,
+      "participants": [
+        "Takashi Iwai",
+        "Arnd Bergmann",
+        "Johannes Berg",
+        "Josh Triplett"
+      ],
+      "categories": [
+        "context_analysis",
+        "sparse_internals",
+        "address_space",
+        "compiler_compat",
+        "rfc_proposals"
+      ],
+      "first_date": "2010-10-11T08:13:27+00:00",
+      "last_date": "2010-10-12T06:43:26+00:00",
+      "year": 2010,
+      "messages": [
+        {
+          "filepath": "emails/2010/10/128678488310035.mbox",
+          "message_id": "<201010111013.28952.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 08:13:27+00:00",
+          "date_str": "Mon, 11 Oct 2010 08:13:27 +0000",
+          "body": "On Sunday 10 October 2010 20:39:34 Arnd Bergmann wrote:\n> On Sunday 10 October 2010 19:33:52 Dan Carpenter wrote:\n> > We shouldn't return directly here because we're still holding the\n> > &soundcard_mutex.\n> > \n> > This bug goes all the way back to the start of git.  It's strange that\n> > no one has complained about it as a runtime bug.\n> > \n> > CC: stable@kernel.org\n> > Signed-off-by: Dan Carpenter <error27@gmail.com>\n> \n> It was only recently converted to a mutex from the BKL, which is much\n> more friendly to misusage because it is automatically released when\n> the kernel sleeps or when the program exits.\n> \n> The behavior was already broken with the BKL but the problem was far\n> less visible. I fear we might be seeing more of these as fallout from\n> the BKL removal. Sparse should be able to detect most of these cases\n> though, so maybe we can look more carefully for them.\n \nHmm, actually sparse does *not* warn about sound_ioctl returning in\ndifferent lock contexts. Sparse developers: is there a known limitation\nin sparse for this? I expected to see context warnings because\nsound_ioctl normally releases soundcard_mutex (previously lock_kernel)\nin some cases returns while holding the lock.\n\n\tArnd\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128678701212436.mbox",
+          "message_id": "<1286787000.3634.1.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 08:50:00+00:00",
+          "date_str": "Mon, 11 Oct 2010 08:50:00 +0000",
+          "body": "On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n\n> Hmm, actually sparse does *not* warn about sound_ioctl returning in\n> different lock contexts. Sparse developers: is there a known limitation\n> in sparse for this? I expected to see context warnings because\n> sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> in some cases returns while holding the lock.\n\nArnd, mutexes aren't annotated in the kernel source to make use of\nsparse's context checking.\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128678701212440.mbox",
+          "message_id": "<1286787000.3634.1.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 08:50:00+00:00",
+          "date_str": "Mon, 11 Oct 2010 08:50:00 +0000",
+          "body": "On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n\n> Hmm, actually sparse does *not* warn about sound_ioctl returning in\n> different lock contexts. Sparse developers: is there a known limitation\n> in sparse for this? I expected to see context warnings because\n> sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> in some cases returns while holding the lock.\n\nArnd, mutexes aren't annotated in the kernel source to make use of\nsparse's context checking.\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128680864302648.mbox",
+          "message_id": "<201010111250.16299.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 10:50:16+00:00",
+          "date_str": "Mon, 11 Oct 2010 10:50:16 +0000",
+          "body": "On Monday 11 October 2010, Johannes Berg wrote:\n> On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> \n> > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > different lock contexts. Sparse developers: is there a known limitation\n> > in sparse for this? I expected to see context warnings because\n> > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > in some cases returns while holding the lock.\n> \n> Arnd, mutexes aren't annotated in the kernel source to make use of\n> sparse's context checking.\n\nD'oh. I never realized this was only done for some types of locks.\nIs there a reason why we don't want mutexes to be annotated or do\nwe just need someone to do it?\n\n\tArnd\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128680453928780.mbox",
+          "message_id": "<201010111250.16299.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 10:50:16+00:00",
+          "date_str": "Mon, 11 Oct 2010 10:50:16 +0000",
+          "body": "On Monday 11 October 2010, Johannes Berg wrote:\n> On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> \n> > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > different lock contexts. Sparse developers: is there a known limitation\n> > in sparse for this? I expected to see context warnings because\n> > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > in some cases returns while holding the lock.\n> \n> Arnd, mutexes aren't annotated in the kernel source to make use of\n> sparse's context checking.\n\nD'oh. I never realized this was only done for some types of locks.\nIs there a reason why we don't want mutexes to be annotated or do\nwe just need someone to do it?\n\n\tArnd\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128680445028489.mbox",
+          "message_id": "<1286794326.3634.13.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 10:52:06+00:00",
+          "date_str": "Mon, 11 Oct 2010 10:52:06 +0000",
+          "body": "On Mon, 2010-10-11 at 12:50 +0200, Arnd Bergmann wrote:\n> On Monday 11 October 2010, Johannes Berg wrote:\n> > On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> > \n> > > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > > different lock contexts. Sparse developers: is there a known limitation\n> > > in sparse for this? I expected to see context warnings because\n> > > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > > in some cases returns while holding the lock.\n> > \n> > Arnd, mutexes aren't annotated in the kernel source to make use of\n> > sparse's context checking.\n> \n> D'oh. I never realized this was only done for some types of locks.\n> Is there a reason why we don't want mutexes to be annotated or do\n> we just need someone to do it?\n\nI don't know. Could be related to trylock issues, could be just historic\nsince semaphores can't really be annotated, or could be something else\nentirely... I would expect a huge amount of warnings from sparse though\nif you \"just\" annotate them since there are things like rtnl_lock()\nwhich would have to propagate context.\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128680444628333.mbox",
+          "message_id": "<1286794326.3634.13.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 10:52:06+00:00",
+          "date_str": "Mon, 11 Oct 2010 10:52:06 +0000",
+          "body": "On Mon, 2010-10-11 at 12:50 +0200, Arnd Bergmann wrote:\n> On Monday 11 October 2010, Johannes Berg wrote:\n> > On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> > \n> > > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > > different lock contexts. Sparse developers: is there a known limitation\n> > > in sparse for this? I expected to see context warnings because\n> > > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > > in some cases returns while holding the lock.\n> > \n> > Arnd, mutexes aren't annotated in the kernel source to make use of\n> > sparse's context checking.\n> \n> D'oh. I never realized this was only done for some types of locks.\n> Is there a reason why we don't want mutexes to be annotated or do\n> we just need someone to do it?\n\nI don't know. Could be related to trylock issues, could be just historic\nsince semaphores can't really be annotated, or could be something else\nentirely... I would expect a huge amount of warnings from sparse though\nif you \"just\" annotate them since there are things like rtnl_lock()\nwhich would have to propagate context.\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128680684232290.mbox",
+          "message_id": "<s5hsk0dgct4.wl%tiwai () suse ! de>",
+          "author_name": "Takashi Iwai",
+          "author_email": "tiwai () suse ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 11:59:35+00:00",
+          "date_str": "Mon, 11 Oct 2010 11:59:35 +0000",
+          "body": "At Sun, 10 Oct 2010 19:33:52 +0200,\nDan Carpenter wrote:\n> \n> We shouldn't return directly here because we're still holding the\n> &soundcard_mutex.\n> \n> This bug goes all the way back to the start of git.  It's strange that\n> no one has complained about it as a runtime bug.\n> \n> CC: stable@kernel.org\n> Signed-off-by: Dan Carpenter <error27@gmail.com>\n\nApplied now.  Thanks.\n\n\nTakashi\n\n\n> diff --git a/sound/oss/soundcard.c b/sound/oss/soundcard.c\n> index 938ed94..a5ab61e 100644\n> --- a/sound/oss/soundcard.c\n> +++ b/sound/oss/soundcard.c\n> @@ -392,11 +392,11 @@ static long sound_ioctl(struct file *file, unsigned int cmd, unsigned long arg)\n>  \tcase SND_DEV_DSP:\n>  \tcase SND_DEV_DSP16:\n>  \tcase SND_DEV_AUDIO:\n> -\t\treturn audio_ioctl(dev, file, cmd, p);\n> +\t\tret = audio_ioctl(dev, file, cmd, p);\n>  \t\tbreak;\n>  \n>  \tcase SND_DEV_MIDIN:\n> -\t\treturn MIDIbuf_ioctl(dev, file, cmd, p);\n> +\t\tret = MIDIbuf_ioctl(dev, file, cmd, p);\n>  \t\tbreak;\n>  \n>  \t}\n> \n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128682333823328.mbox",
+          "message_id": "<20101011185455.GB8537 () feather>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 18:54:56+00:00",
+          "date_str": "Mon, 11 Oct 2010 18:54:56 +0000",
+          "body": "On Mon, Oct 11, 2010 at 12:52:06PM +0200, Johannes Berg wrote:\n> On Mon, 2010-10-11 at 12:50 +0200, Arnd Bergmann wrote:\n> > On Monday 11 October 2010, Johannes Berg wrote:\n> > > On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> > > \n> > > > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > > > different lock contexts. Sparse developers: is there a known limitation\n> > > > in sparse for this? I expected to see context warnings because\n> > > > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > > > in some cases returns while holding the lock.\n> > > \n> > > Arnd, mutexes aren't annotated in the kernel source to make use of\n> > > sparse's context checking.\n> > \n> > D'oh. I never realized this was only done for some types of locks.\n> > Is there a reason why we don't want mutexes to be annotated or do\n> > we just need someone to do it?\n> \n> I don't know. Could be related to trylock issues, could be just historic\n> since semaphores can't really be annotated, or could be something else\n> entirely... I would expect a huge amount of warnings from sparse though\n> if you \"just\" annotate them since there are things like rtnl_lock()\n> which would have to propagate context.\n\nAs far as I know, no reason exists to not just annotate mutexes; I think\nmutexes just came along later and nobody happened to add the appropriate\nannotations.  (Also, sparse does handle trylock.)\n\nBut yes, annotating mutexes will then introduce a giant pile of lock\nwarnings that need further annotation propagation.  It will also\nintroduce lock warnings that represent actual bugs, making it important\nto not just blindly propagate annotations to make warnings go away.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128682331523322.mbox",
+          "message_id": "<20101011185455.GB8537 () feather>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 18:54:56+00:00",
+          "date_str": "Mon, 11 Oct 2010 18:54:56 +0000",
+          "body": "On Mon, Oct 11, 2010 at 12:52:06PM +0200, Johannes Berg wrote:\n> On Mon, 2010-10-11 at 12:50 +0200, Arnd Bergmann wrote:\n> > On Monday 11 October 2010, Johannes Berg wrote:\n> > > On Mon, 2010-10-11 at 10:13 +0200, Arnd Bergmann wrote:\n> > > \n> > > > Hmm, actually sparse does not warn about sound_ioctl returning in\n> > > > different lock contexts. Sparse developers: is there a known limitation\n> > > > in sparse for this? I expected to see context warnings because\n> > > > sound_ioctl normally releases soundcard_mutex (previously lock_kernel)\n> > > > in some cases returns while holding the lock.\n> > > \n> > > Arnd, mutexes aren't annotated in the kernel source to make use of\n> > > sparse's context checking.\n> > \n> > D'oh. I never realized this was only done for some types of locks.\n> > Is there a reason why we don't want mutexes to be annotated or do\n> > we just need someone to do it?\n> \n> I don't know. Could be related to trylock issues, could be just historic\n> since semaphores can't really be annotated, or could be something else\n> entirely... I would expect a huge amount of warnings from sparse though\n> if you \"just\" annotate them since there are things like rtnl_lock()\n> which would have to propagate context.\n\nAs far as I know, no reason exists to not just annotate mutexes; I think\nmutexes just came along later and nobody happened to add the appropriate\nannotations.  (Also, sparse does handle trylock.)\n\nBut yes, annotating mutexes will then introduce a giant pile of lock\nwarnings that need further annotation propagation.  It will also\nintroduce lock warnings that represent actual bugs, making it important\nto not just blindly propagate annotations to make warnings go away.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128682977630732.mbox",
+          "message_id": "<201010112242.19246.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 20:42:18+00:00",
+          "date_str": "Mon, 11 Oct 2010 20:42:18 +0000",
+          "body": "On Monday 11 October 2010 20:54:56 Josh Triplett wrote:\n> On Mon, Oct 11, 2010 at 12:52:06PM +0200, Johannes Berg wrote:\n>\n> > I don't know. Could be related to trylock issues, could be just historic\n> > since semaphores can't really be annotated, or could be something else\n> > entirely... I would expect a huge amount of warnings from sparse though\n> > if you \"just\" annotate them since there are things like rtnl_lock()\n> > which would have to propagate context.\n> \n> As far as I know, no reason exists to not just annotate mutexes; I think\n> mutexes just came along later and nobody happened to add the appropriate\n> annotations.  (Also, sparse does handle trylock.)\n> \n> But yes, annotating mutexes will then introduce a giant pile of lock\n> warnings that need further annotation propagation.  It will also\n> introduce lock warnings that represent actual bugs, making it important\n> to not just blindly propagate annotations to make warnings go away.\n\nI've given it a try, wrapping the trylock/interruptible/killable variants\ninto macros and the number of additional warnings was much less than\nI had feared. This is the diff for today's sparse with today's linux-next\nx86_64_defconfig:\n\n> arch/x86/kernel/smpboot.c:100:6: warning: context imbalance in 'cpu_hotplug_driver_lock' - wrong count at exit\n> arch/x86/kernel/smpboot.c:105:6: warning: context imbalance in 'cpu_hotplug_driver_unlock' - unexpected unlock\n> kernel/cpu.c:27:6: warning: context imbalance in 'cpu_maps_update_begin' - wrong count at exit\n> kernel/cpu.c:32:6: warning: context imbalance in 'cpu_maps_update_done' - unexpected unlock\n> kernel/cpu.c:110:9: warning: context imbalance in 'cpu_hotplug_begin' - wrong count at exit\n> kernel/cpu.c:120:13: warning: context imbalance in 'cpu_hotplug_done' - unexpected unlock\n> kernel/params.c:565:6: warning: context imbalance in '__kernel_param_lock' - wrong count at exit\n> kernel/params.c:571:6: warning: context imbalance in '__kernel_param_unlock' - unexpected unlock\n> kernel/irq/autoprobe.c:110:9: warning: context imbalance in 'probe_irq_on' - wrong count at exit\n> kernel/irq/autoprobe.c:145:9: warning: context imbalance in 'probe_irq_mask' - unexpected unlock\n> kernel/irq/autoprobe.c:189:9: warning: context imbalance in 'probe_irq_off' - unexpected unlock\n> kernel/trace/trace.c:1716:26: warning: context imbalance in 's_start' - different lock contexts for basic block\n> kernel/trace/trace.c:303:31: warning: context imbalance in 's_stop' - unexpected unlock\n> kernel/trace/trace.c:2277:9: warning: context imbalance in 't_start' - wrong count at exit\n> kernel/trace/trace.c:2280:13: warning: context imbalance in 't_stop' - unexpected unlock\n> kernel/trace/trace.c:3196:28: warning: context imbalance in 'tracing_read_pipe' - different lock contexts for basic block\n> kernel/trace/trace.c:3349:28: warning: context imbalance in 'tracing_splice_read_pipe' - different lock contexts for basic block\n> kernel/trace/trace.c:303:31: warning: context imbalance in 'tracing_buffers_read' - unexpected unlock\n> kernel/trace/trace.c:303:31: warning: context imbalance in 'tracing_buffers_splice_read' - unexpected unlock\n> kernel/trace/trace_stat.c:203:13: warning: context imbalance in 'stat_seq_start' - wrong count at exit\n> kernel/trace/trace_stat.c:240:13: warning: context imbalance in 'stat_seq_stop' - unexpected unlock\n> kernel/trace/trace_events.c:399:9: warning: context imbalance in 't_start' - wrong count at exit\n> kernel/trace/trace_events.c:430:9: warning: context imbalance in 's_start' - wrong count at exit\n> kernel/trace/trace_events.c:444:13: warning: context imbalance in 't_stop' - unexpected unlock\n> kernel/trace/trace_kprobe.c:1064:13: warning: context imbalance in 'probes_seq_start' - wrong count at exit\n> kernel/trace/trace_kprobe.c:1075:13: warning: context imbalance in 'probes_seq_stop' - unexpected unlock\n> kernel/cgroup.c:737:6: warning: context imbalance in 'cgroup_lock' - wrong count at exit\n> kernel/cgroup.c:748:6: warning: context imbalance in 'cgroup_unlock' - unexpected unlock\n> kernel/cgroup.c:1867:6: warning: context imbalance in 'cgroup_lock_live_group' - different lock contexts for basic block\n> kernel/cgroup.c:2155:12: warning: context imbalance in 'cgroup_create_file' - different lock contexts for basic block\n> kernel/cgroup.c:3273:47: warning: context imbalance in 'cgroup_lock_hierarchy' - different lock contexts for basic block\n> kernel/cgroup.c:3291:25: warning: context imbalance in 'cgroup_unlock_hierarchy' - unexpected unlock\n> kernel/cgroup.c:3362:9: warning: context imbalance in 'cgroup_create' - unexpected unlock\n> kernel/cpuset.c:2449:6: warning: context imbalance in 'cpuset_unlock' - unexpected unlock\n> kernel/audit_watch.c:439:5: warning: context imbalance in 'audit_add_watch' - unexpected unlock\n> kernel/audit_tree.c:662:9: warning: context imbalance in 'audit_add_tree_rule' - unexpected unlock\n> mm/shmem.c:943:9: warning: context imbalance in 'shmem_unuse_inode' - unexpected unlock\n> mm/shme",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128683581106606.mbox",
+          "message_id": "<20101011222307.GA10570 () feather>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-11 22:23:08+00:00",
+          "date_str": "Mon, 11 Oct 2010 22:23:08 +0000",
+          "body": "On Mon, Oct 11, 2010 at 10:42:18PM +0200, Arnd Bergmann wrote:\n> On Monday 11 October 2010 20:54:56 Josh Triplett wrote:\n> > On Mon, Oct 11, 2010 at 12:52:06PM +0200, Johannes Berg wrote:\n> >\n> > > I don't know. Could be related to trylock issues, could be just historic\n> > > since semaphores can't really be annotated, or could be something else\n> > > entirely... I would expect a huge amount of warnings from sparse though\n> > > if you \"just\" annotate them since there are things like rtnl_lock()\n> > > which would have to propagate context.\n> > \n> > As far as I know, no reason exists to not just annotate mutexes; I think\n> > mutexes just came along later and nobody happened to add the appropriate\n> > annotations.  (Also, sparse does handle trylock.)\n> > \n> > But yes, annotating mutexes will then introduce a giant pile of lock\n> > warnings that need further annotation propagation.  It will also\n> > introduce lock warnings that represent actual bugs, making it important\n> > to not just blindly propagate annotations to make warnings go away.\n> \n> I've given it a try, wrapping the trylock/interruptible/killable variants\n> into macros and the number of additional warnings was much less than\n> I had feared. This is the diff for today's sparse with today's linux-next\n> x86_64_defconfig:\n> \n[...snip...]\n> \n> And this is the patch I used for testing. There may still be some flaws in it,\n> but it seems to do the trick.\n> \n> Signed-off-by: Arnd Bergmann <arnd@arndb.de>\n\nThanks!\n\nOne minor suggetsion below to simplify the patch; with that added,\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\n\n> diff --git a/include/linux/mutex.h b/include/linux/mutex.h\n> index f363bc8..d4940af 100644\n> --- a/include/linux/mutex.h\n> +++ b/include/linux/mutex.h\n> @@ -14,6 +14,7 @@\n>  #include <linux/spinlock_types.h>\n>  #include <linux/linkage.h>\n>  #include <linux/lockdep.h>\n> +#include <linux/compiler.h>\n>  \n>  #include <asm/atomic.h>\n>  \n> @@ -131,20 +132,35 @@ static inline int mutex_is_locked(struct mutex *lock)\n>   * Also see Documentation/mutex-design.txt.\n>   */\n>  #ifdef CONFIG_DEBUG_LOCK_ALLOC\n> -extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);\n> -extern int __must_check mutex_lock_interruptible_nested(struct mutex *lock,\n> -\t\t\t\t\tunsigned int subclass);\n> -extern int __must_check mutex_lock_killable_nested(struct mutex *lock,\n> -\t\t\t\t\tunsigned int subclass);\n> -\n> +extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass)\n> +\t\t\t\t__acquires(lock);\n> +extern int __must_check __mutex_lock_interruptible_nested(struct mutex *lock,\n> +\t\t\t\t\t\tunsigned int subclass);\n> +extern int __must_check __mutex_lock_killable_nested(struct mutex *lock,\n> +\t\t\t\t\t\tunsigned int subclass);\n> +#define mutex_lock_interruptible_nested(lock, subclass)\t({\t\t\\\n> +   int __mutex_ret = __mutex_lock_interruptible_nested(lock, subclass);\t\\\n> +   if (!__mutex_ret) __acquire(lock); __mutex_ret; \t\t\t\\\n> +})\n> +#define mutex_lock_killable_nested(lock, subclass)\t({\t\t\\\n> +   int __mutex_ret = __mutex_lock_killable_nested(lock, subclass);\t\\\n> +   if (!__mutex_ret) __acquire(lock); __mutex_ret; \t\t\t\\\n> +})\n\nAssuming that the underlying function only returns zero/non-zero and\nthat the actual return value doesn't matter, then you can use the\n__cond_lock macro from compiler.h for this:\n\n# define __cond_lock(x,c)       ((c) ? ({ __acquire(x); 1; }) : 0)\n\n>  #define mutex_lock(lock) mutex_lock_nested(lock, 0)\n>  #define mutex_lock_interruptible(lock) mutex_lock_interruptible_nested(lock, 0)\n>  #define mutex_lock_killable(lock) mutex_lock_killable_nested(lock, 0)\n>  #else\n> -extern void mutex_lock(struct mutex *lock);\n> -extern int __must_check mutex_lock_interruptible(struct mutex *lock);\n> -extern int __must_check mutex_lock_killable(struct mutex *lock);\n> -\n> +extern void mutex_lock(struct mutex *lock) __acquires(lock);\n> +extern int __must_check __mutex_lock_interruptible(struct mutex *lock);\n> +extern int __must_check __mutex_lock_killable(struct mutex *lock);\n> +#define mutex_lock_interruptible(lock)\t({\t\t\t\t\\\n> +   int __mutex_ret = __mutex_lock_interruptible(lock);\t\t\t\\\n> +   if (!__mutex_ret) __acquire(lock); __mutex_ret; \t\t\t\\\n> +})\n> +#define mutex_lock_killable(lock)\t({\t\t\t\t\\\n> +   int __mutex_ret = __mutex_lock_killable(lock);\t\t\t\\\n> +   if (!__mutex_ret) __acquire(lock); __mutex_ret; \t\t\t\\\n> +})\n\nSame here.\n\n>  # define mutex_lock_nested(lock, subclass) mutex_lock(lock)\n>  # define mutex_lock_interruptible_nested(lock, subclass) mutex_lock_interruptible(lock)\n>  # define mutex_lock_killable_nested(lock, subclass) mutex_lock_killable(lock)\n> @@ -156,8 +172,16 @@ extern int __must_check mutex_lock_killable(struct mutex *lock);\n>   *\n>   * Returns 1 if the mutex has been acquired successfully, and 0 on contention.\n>   */\n> -extern int mutex_trylock(struct mutex *lock);\n> -extern void mutex_unlock(struct mutex *lock);\n> -extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);\n> +extern int __mutex_trylock(struct mutex ",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128686557502328.mbox",
+          "message_id": "<201010120839.15257.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-12 06:39:14+00:00",
+          "date_str": "Tue, 12 Oct 2010 06:39:14 +0000",
+          "body": "On Tuesday 12 October 2010 00:23:08 Josh Triplett wrote:\n> Assuming that the underlying function only returns zero/non-zero and\n> that the actual return value doesn't matter, then you can use the\n> __cond_lock macro from compiler.h for this:\n> \n> # define __cond_lock(x,c)       ((c) ? ({ __acquire(x); 1; }) : 0)\n> \n\nThe return from mutex_lock_{killable,interruptible} is an error\nvalue, not true/false, so it actually matters. We know that the only\npossible error that is currently returned is -EINTR though, so we\ncould do a similar trick and define another\n\n#define __cond_mutex(x, c)\t((!c) ? ({ __acquire(x); 0; }) : -EINTR)\n\nMy fear was that this would impact code generation.\n\n\tArnd\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128686557502330.mbox",
+          "message_id": "<201010120839.15257.arnd () arndb ! de>",
+          "author_name": "Arnd Bergmann",
+          "author_email": "arnd () arndb ! de",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-12 06:39:14+00:00",
+          "date_str": "Tue, 12 Oct 2010 06:39:14 +0000",
+          "body": "On Tuesday 12 October 2010 00:23:08 Josh Triplett wrote:\n> Assuming that the underlying function only returns zero/non-zero and\n> that the actual return value doesn't matter, then you can use the\n> __cond_lock macro from compiler.h for this:\n> \n> # define __cond_lock(x,c)       ((c) ? ({ __acquire(x); 1; }) : 0)\n> \n\nThe return from mutex_lock_{killable,interruptible} is an error\nvalue, not true/false, so it actually matters. We know that the only\npossible error that is currently returned is -EINTR though, so we\ncould do a similar trick and define another\n\n#define __cond_mutex(x, c)\t((!c) ? ({ __acquire(x); 0; }) : -EINTR)\n\nMy fear was that this would impact code generation.\n\n\tArnd\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128686581902641.mbox",
+          "message_id": "<20101012064326.GB1702 () feather>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-12 06:43:26+00:00",
+          "date_str": "Tue, 12 Oct 2010 06:43:26 +0000",
+          "body": "On Tue, Oct 12, 2010 at 08:39:14AM +0200, Arnd Bergmann wrote:\n> On Tuesday 12 October 2010 00:23:08 Josh Triplett wrote:\n> > Assuming that the underlying function only returns zero/non-zero and\n> > that the actual return value doesn't matter, then you can use the\n> > __cond_lock macro from compiler.h for this:\n> > \n> > # define __cond_lock(x,c)       ((c) ? ({ __acquire(x); 1; }) : 0)\n> > \n> \n> The return from mutex_lock_{killable,interruptible} is an error\n> value, not true/false, so it actually matters. We know that the only\n> possible error that is currently returned is -EINTR though, so we\n> could do a similar trick and define another\n> \n> #define __cond_mutex(x, c)\t((!c) ? ({ __acquire(x); 0; }) : -EINTR)\n> \n> My fear was that this would impact code generation.\n\nIf __cond_lock doesn't fit, then you could just define a generic wrapper\nto capture the pattern of preserving a function's return value, and use\nthat for all the mutex calls.  And if you just preserve the return\nvalue, and __acquire compiles to nothing for GCC, then GCC should just\noptimize away the extra copy into a local variable.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe kernel-janitors\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2010/10/128686581902638.mbox",
+          "message_id": "<20101012064326.GB1702 () feather>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [patch 1/2] OSS: soundcard: locking bug in sound_ioctl()",
+          "date": "2010-10-12 06:43:26+00:00",
+          "date_str": "Tue, 12 Oct 2010 06:43:26 +0000",
+          "body": "On Tue, Oct 12, 2010 at 08:39:14AM +0200, Arnd Bergmann wrote:\n> On Tuesday 12 October 2010 00:23:08 Josh Triplett wrote:\n> > Assuming that the underlying function only returns zero/non-zero and\n> > that the actual return value doesn't matter, then you can use the\n> > __cond_lock macro from compiler.h for this:\n> > \n> > # define __cond_lock(x,c)       ((c) ? ({ __acquire(x); 1; }) : 0)\n> > \n> \n> The return from mutex_lock_{killable,interruptible} is an error\n> value, not true/false, so it actually matters. We know that the only\n> possible error that is currently returned is -EINTR though, so we\n> could do a similar trick and define another\n> \n> #define __cond_mutex(x, c)\t((!c) ? ({ __acquire(x); 0; }) : -EINTR)\n> \n> My fear was that this would impact code generation.\n\nIf __cond_lock doesn't fit, then you could just define a generic wrapper\nto capture the pattern of preserving a function's return value, and use\nthat for all the mutex calls.  And if you just preserve the return\nvalue, and __acquire compiles to nothing for GCC, then GCC should just\noptimize away the extra copy into a local variable.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2010",
+          "month": "10"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

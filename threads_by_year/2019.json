@@ -1,0 +1,401 @@
+{
+  "year": "2019",
+  "stats": {
+    "total_threads": 2,
+    "total_messages": 28,
+    "categories": {
+      "context_analysis": 2
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+      "normalized_subject": "locking/refcount: add sparse annotations to dec-and-lock functions",
+      "message_count": 18,
+      "participants": [
+        "Kees Cook",
+        "Eric Biggers",
+        "Dan Carpenter",
+        "Luc Van Oostenryck",
+        "Peter Zijlstra",
+        "Linus Torvalds"
+      ],
+      "categories": [
+        "kernel_integration",
+        "context_analysis",
+        "sparse_internals",
+        "general",
+        "compiler_compat",
+        "rfc_proposals"
+      ],
+      "first_date": "2019-12-26T15:29:22+00:00",
+      "last_date": "2020-01-07T09:29:35+00:00",
+      "year": 2019,
+      "messages": [
+        {
+          "filepath": "emails/2020/01/157737436721979.mbox",
+          "message_id": "<20191226152922.2034-1-ebiggers () kernel ! org>",
+          "author_name": "Eric Biggers",
+          "author_email": "ebiggers () kernel ! org",
+          "subject": "[PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-26 15:29:22+00:00",
+          "date_str": "Thu, 26 Dec 2019 15:29:22 +0000",
+          "body": "From: Eric Biggers <ebiggers@google.com>\n\nWrap refcount_dec_and_lock() and refcount_dec_and_lock_irqsave() with\nmacros using __cond_lock() so that 'sparse' doesn't report warnings\nabout unbalanced locking when using them.\n\nThis is the same thing that's done for their atomic_t equivalents.\n\nDon't annotate refcount_dec_and_mutex_lock(), because mutexes don't\ncurrently have sparse annotations.\n\nSigned-off-by: Eric Biggers <ebiggers@google.com>\n---\n include/linux/refcount.h | 45 ++++++++++++++++++++++++++++++++++++----\n lib/refcount.c           | 39 +++++-----------------------------\n 2 files changed, 46 insertions(+), 38 deletions(-)\n\ndiff --git a/include/linux/refcount.h b/include/linux/refcount.h\nindex 0ac50cf62d06..6bb5ab9e98ed 100644\n--- a/include/linux/refcount.h\n+++ b/include/linux/refcount.h\n@@ -300,8 +300,45 @@ static inline void refcount_dec(refcount_t *r)\n extern __must_check bool refcount_dec_if_one(refcount_t *r);\n extern __must_check bool refcount_dec_not_one(refcount_t *r);\n extern __must_check bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock);\n-extern __must_check bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock);\n-extern __must_check bool refcount_dec_and_lock_irqsave(refcount_t *r,\n-\t\t\t\t\t\t       spinlock_t *lock,\n-\t\t\t\t\t\t       unsigned long *flags);\n+\n+/**\n+ * refcount_dec_and_lock - return holding spinlock if able to decrement\n+ *                         refcount to 0\n+ * @r: the refcount\n+ * @lock: the spinlock to be locked\n+ *\n+ * Similar to atomic_dec_and_lock(), it will WARN on underflow and fail to\n+ * decrement when saturated at REFCOUNT_SATURATED.\n+ *\n+ * Provides release memory ordering, such that prior loads and stores are done\n+ * before, and provides a control dependency such that free() must come after.\n+ * See the comment on top.\n+ *\n+ * Return: true and hold spinlock if able to decrement refcount to 0, false\n+ *         otherwise\n+ */\n+extern __must_check bool _refcount_dec_and_lock(refcount_t *r,\n+\t\t\t\t\t\tspinlock_t *lock);\n+#define refcount_dec_and_lock(r, lock) \\\n+\t__cond_lock(lock, _refcount_dec_and_lock(r, lock))\n+\n+/**\n+ * refcount_dec_and_lock_irqsave - return holding spinlock with disabled\n+ *                                 interrupts if able to decrement refcount to 0\n+ * @r: the refcount\n+ * @lock: the spinlock to be locked\n+ * @flags: saved IRQ-flags if the is acquired\n+ *\n+ * Same as refcount_dec_and_lock() above except that the spinlock is acquired\n+ * with disabled interrupts.\n+ *\n+ * Return: true and hold spinlock if able to decrement refcount to 0, false\n+ *         otherwise\n+ */\n+extern __must_check bool _refcount_dec_and_lock_irqsave(refcount_t *r,\n+\t\t\t\t\t\t\tspinlock_t *lock,\n+\t\t\t\t\t\t\tunsigned long *flags);\n+#define refcount_dec_and_lock_irqsave(r, lock, flags) \\\n+\t__cond_lock(lock, _refcount_dec_and_lock_irqsave(r, lock, flags))\n+\n #endif /* _LINUX_REFCOUNT_H */\ndiff --git a/lib/refcount.c b/lib/refcount.c\nindex ebac8b7d15a7..f0eb996b28c0 100644\n--- a/lib/refcount.c\n+++ b/lib/refcount.c\n@@ -125,23 +125,7 @@ bool refcount_dec_and_mutex_lock(refcount_t *r, struct mutex *lock)\n }\n EXPORT_SYMBOL(refcount_dec_and_mutex_lock);\n \n-/**\n- * refcount_dec_and_lock - return holding spinlock if able to decrement\n- *                         refcount to 0\n- * @r: the refcount\n- * @lock: the spinlock to be locked\n- *\n- * Similar to atomic_dec_and_lock(), it will WARN on underflow and fail to\n- * decrement when saturated at REFCOUNT_SATURATED.\n- *\n- * Provides release memory ordering, such that prior loads and stores are done\n- * before, and provides a control dependency such that free() must come after.\n- * See the comment on top.\n- *\n- * Return: true and hold spinlock if able to decrement refcount to 0, false\n- *         otherwise\n- */\n-bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)\n+bool _refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)\n {\n \tif (refcount_dec_not_one(r))\n \t\treturn false;\n@@ -154,23 +138,10 @@ bool refcount_dec_and_lock(refcount_t *r, spinlock_t *lock)\n \n \treturn true;\n }\n-EXPORT_SYMBOL(refcount_dec_and_lock);\n+EXPORT_SYMBOL(_refcount_dec_and_lock);\n \n-/**\n- * refcount_dec_and_lock_irqsave - return holding spinlock with disabled\n- *                                 interrupts if able to decrement refcount to 0\n- * @r: the refcount\n- * @lock: the spinlock to be locked\n- * @flags: saved IRQ-flags if the is acquired\n- *\n- * Same as refcount_dec_and_lock() above except that the spinlock is acquired\n- * with disabled interupts.\n- *\n- * Return: true and hold spinlock if able to decrement refcount to 0, false\n- *         otherwise\n- */\n-bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,\n-\t\t\t\t   unsigned long *flags)\n+bool _refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,\n+\t\t\t\t    unsigned long *flags)\n {\n \tif (refcount_dec_not_one(r))\n \t\treturn false;\n@@ -183,4 +154,4 @@ bool refcount_dec_and_lock_irqsave(refcount_t *r, spinlock_t *lock,\n \n \treturn true;\n }\n-EXPORT_SYMBOL(refcount_dec_and_lock",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157753381320801.mbox",
+          "message_id": "<20191228114918.GU2827 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-28 11:49:18+00:00",
+          "date_str": "Sat, 28 Dec 2019 11:49:18 +0000",
+          "body": "On Thu, Dec 26, 2019 at 09:29:22AM -0600, Eric Biggers wrote:\n> From: Eric Biggers <ebiggers@google.com>\n> \n> Wrap refcount_dec_and_lock() and refcount_dec_and_lock_irqsave() with\n> macros using __cond_lock() so that 'sparse' doesn't report warnings\n> about unbalanced locking when using them.\n> \n> This is the same thing that's done for their atomic_t equivalents.\n> \n> Don't annotate refcount_dec_and_mutex_lock(), because mutexes don't\n> currently have sparse annotations.\n\nI so f'ing hate that __cond_lock() crap. Previously I've suggested\nfixing sparse instead of making such an atrocious trainwreck of the\ncode.",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157756412926648.mbox",
+          "message_id": "<20191228201518.GA266348 () zzz ! localdomain>",
+          "author_name": "Eric Biggers",
+          "author_email": "ebiggers () kernel ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-28 20:15:18+00:00",
+          "date_str": "Sat, 28 Dec 2019 20:15:18 +0000",
+          "body": "On Sat, Dec 28, 2019 at 12:49:18PM +0100, Peter Zijlstra wrote:\n> On Thu, Dec 26, 2019 at 09:29:22AM -0600, Eric Biggers wrote:\n> > From: Eric Biggers <ebiggers@google.com>\n> > \n> > Wrap refcount_dec_and_lock() and refcount_dec_and_lock_irqsave() with\n> > macros using __cond_lock() so that 'sparse' doesn't report warnings\n> > about unbalanced locking when using them.\n> > \n> > This is the same thing that's done for their atomic_t equivalents.\n> > \n> > Don't annotate refcount_dec_and_mutex_lock(), because mutexes don't\n> > currently have sparse annotations.\n> \n> I so f'ing hate that __cond_lock() crap. Previously I've suggested\n> fixing sparse instead of making such an atrocious trainwreck of the\n> code.\n\nWhat is your suggestion exactly?  There has to be an annotation for this,\nbecause by design sparse only analyzes individual translation units; it's not a\nfull-blown static analyzer that operates on the AST for the whole kernel.\n\n- Eric",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157773335228592.mbox",
+          "message_id": "<20191230191547.GA1501 () zzz ! localdomain>",
+          "author_name": "Eric Biggers",
+          "author_email": "ebiggers () kernel ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-30 19:15:47+00:00",
+          "date_str": "Mon, 30 Dec 2019 19:15:47 +0000",
+          "body": "On Mon, Dec 30, 2019 at 10:43:20AM -0800, Kees Cook wrote:\n> On Sat, Dec 28, 2019 at 12:49:18PM +0100, Peter Zijlstra wrote:\n> > On Thu, Dec 26, 2019 at 09:29:22AM -0600, Eric Biggers wrote:\n> > > From: Eric Biggers <ebiggers@google.com>\n> > > \n> > > Wrap refcount_dec_and_lock() and refcount_dec_and_lock_irqsave() with\n> > > macros using __cond_lock() so that 'sparse' doesn't report warnings\n> > > about unbalanced locking when using them.\n> > > \n> > > This is the same thing that's done for their atomic_t equivalents.\n> > > \n> > > Don't annotate refcount_dec_and_mutex_lock(), because mutexes don't\n> > > currently have sparse annotations.\n> > \n> > I so f'ing hate that __cond_lock() crap. Previously I've suggested\n> > fixing sparse instead of making such an atrocious trainwreck of the\n> > code.\n> \n> Ew, I never noticed these before. That is pretty ugly. Can't __acquire()\n> be used directly in the functions instead of building the nasty\n> wrappers?\n\nThe annotation needs to go in the .h file, not the .c file, because sparse only\nanalyzes individual translation units.\n\nIt needs to be a wrapper macro because it needs to tie the acquisition of the\nlock to the return value being true.  I.e. there's no annotation you can apply\ndirectly to the function prototype that means \"if this function returns true, it\nacquires the lock that was passed in parameter N\".\n\n- Eric",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157773435628833.mbox",
+          "message_id": "<201912301131.2C7C51E8C6 () keescook>",
+          "author_name": "Kees Cook",
+          "author_email": "keescook () chromium ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-30 19:32:31+00:00",
+          "date_str": "Mon, 30 Dec 2019 19:32:31 +0000",
+          "body": "On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> On Mon, Dec 30, 2019 at 10:43:20AM -0800, Kees Cook wrote:\n> > On Sat, Dec 28, 2019 at 12:49:18PM +0100, Peter Zijlstra wrote:\n> > > On Thu, Dec 26, 2019 at 09:29:22AM -0600, Eric Biggers wrote:\n> > > > From: Eric Biggers <ebiggers@google.com>\n> > > > \n> > > > Wrap refcount_dec_and_lock() and refcount_dec_and_lock_irqsave() with\n> > > > macros using __cond_lock() so that 'sparse' doesn't report warnings\n> > > > about unbalanced locking when using them.\n> > > > \n> > > > This is the same thing that's done for their atomic_t equivalents.\n> > > > \n> > > > Don't annotate refcount_dec_and_mutex_lock(), because mutexes don't\n> > > > currently have sparse annotations.\n> > > \n> > > I so f'ing hate that __cond_lock() crap. Previously I've suggested\n> > > fixing sparse instead of making such an atrocious trainwreck of the\n> > > code.\n> > \n> > Ew, I never noticed these before. That is pretty ugly. Can't __acquire()\n> > be used directly in the functions instead of building the nasty\n> > wrappers?\n> \n> The annotation needs to go in the .h file, not the .c file, because sparse only\n> analyzes individual translation units.\n> \n> It needs to be a wrapper macro because it needs to tie the acquisition of the\n> lock to the return value being true.  I.e. there's no annotation you can apply\n> directly to the function prototype that means \"if this function returns true, it\n> acquires the lock that was passed in parameter N\".\n\nGotcha. Well, I guess I leave it to Will and Peter to hash out...\n\nIs there a meaningful proposal anywhere for sparse to DTRT here? If\nnot, it seems best to use what you've proposed until sparse reaches the\npoint of being able to do this on its own.\n\n-- \nKees Cook",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2019/12/157774909832044.mbox",
+          "message_id": "<20191230233814.2fgmsgtnhruhklnu () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-30 23:38:14+00:00",
+          "date_str": "Mon, 30 Dec 2019 23:38:14 +0000",
+          "body": "On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n> On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> > \n> > The annotation needs to go in the .h file, not the .c file, because sparse only\n> > analyzes individual translation units.\n> > \n> > It needs to be a wrapper macro because it needs to tie the acquisition of the\n> > lock to the return value being true.  I.e. there's no annotation you can apply\n> > directly to the function prototype that means \"if this function returns true, it\n> > acquires the lock that was passed in parameter N\".\n> \n> Gotcha. Well, I guess I leave it to Will and Peter to hash out...\n> \n> Is there a meaningful proposal anywhere for sparse to DTRT here? If\n> not, it seems best to use what you've proposed until sparse reaches the\n> point of being able to do this on its own.\n\nWhat \"Right Thing\" are you thinking about?\nOne of the simplest situation with these conditional locks is:\n\n\tif (test)\n\t\tlock();\n\n\tdo_stuff();\n\n\tif (test)\n\t\tunlock();\n\nNo program can check that the second test gives the same result than\nthe first one, it's undecidable. I mean, it's undecidable even on\nif single threaded and without interrupts. The best you can do is\nto simulate the whole thing (and be sure your simulation will halt).\n\nAs far as I understand, it was the intention behind Sparse's design\nregarding locking (\"context in sparse's parlance) to discourage\nsuch code and instead encourage to write things like:\n\n\tif (test) {\n\t\tdo_stuff_unlocked();\n\t} else {\n\t\tlock();\n\t\tdo_stuff_unlocked();\n\t\tunlock();\n\t}\n\nwhere it is easy to check localy that the lock/unlock are balanced.\n\nSo, of course Sparse could be improved to prove that some of the\nconditional locks are equivalent to unconditional ones like here\njust above (it already does but only for very simple cases where\neverything is inlined) but I don't thing there is a RT.\n\n-- Luc Van Oostenryck",
+          "year": "2019",
+          "month": "12"
+        },
+        {
+          "filepath": "emails/2020/01/157774909832044.mbox",
+          "message_id": "<20191230233814.2fgmsgtnhruhklnu () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-30 23:38:14+00:00",
+          "date_str": "Mon, 30 Dec 2019 23:38:14 +0000",
+          "body": "On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n> On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> > \n> > The annotation needs to go in the .h file, not the .c file, because sparse only\n> > analyzes individual translation units.\n> > \n> > It needs to be a wrapper macro because it needs to tie the acquisition of the\n> > lock to the return value being true.  I.e. there's no annotation you can apply\n> > directly to the function prototype that means \"if this function returns true, it\n> > acquires the lock that was passed in parameter N\".\n> \n> Gotcha. Well, I guess I leave it to Will and Peter to hash out...\n> \n> Is there a meaningful proposal anywhere for sparse to DTRT here? If\n> not, it seems best to use what you've proposed until sparse reaches the\n> point of being able to do this on its own.\n\nWhat \"Right Thing\" are you thinking about?\nOne of the simplest situation with these conditional locks is:\n\n\tif (test)\n\t\tlock();\n\n\tdo_stuff();\n\n\tif (test)\n\t\tunlock();\n\nNo program can check that the second test gives the same result than\nthe first one, it's undecidable. I mean, it's undecidable even on\nif single threaded and without interrupts. The best you can do is\nto simulate the whole thing (and be sure your simulation will halt).\n\nAs far as I understand, it was the intention behind Sparse's design\nregarding locking (\"context in sparse's parlance) to discourage\nsuch code and instead encourage to write things like:\n\n\tif (test) {\n\t\tdo_stuff_unlocked();\n\t} else {\n\t\tlock();\n\t\tdo_stuff_unlocked();\n\t\tunlock();\n\t}\n\nwhere it is easy to check localy that the lock/unlock are balanced.\n\nSo, of course Sparse could be improved to prove that some of the\nconditional locks are equivalent to unconditional ones like here\njust above (it already does but only for very simple cases where\neverything is inlined) but I don't thing there is a RT.\n\n-- Luc Van Oostenryck",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157774911132049.mbox",
+          "message_id": "<20191230233814.2fgmsgtnhruhklnu () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2019-12-30 23:38:14+00:00",
+          "date_str": "Mon, 30 Dec 2019 23:38:14 +0000",
+          "body": "On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n> On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> > \n> > The annotation needs to go in the .h file, not the .c file, because sparse only\n> > analyzes individual translation units.\n> > \n> > It needs to be a wrapper macro because it needs to tie the acquisition of the\n> > lock to the return value being true.  I.e. there's no annotation you can apply\n> > directly to the function prototype that means \"if this function returns true, it\n> > acquires the lock that was passed in parameter N\".\n> \n> Gotcha. Well, I guess I leave it to Will and Peter to hash out...\n> \n> Is there a meaningful proposal anywhere for sparse to DTRT here? If\n> not, it seems best to use what you've proposed until sparse reaches the\n> point of being able to do this on its own.\n\nWhat \"Right Thing\" are you thinking about?\nOne of the simplest situation with these conditional locks is:\n\n\tif (test)\n\t\tlock();\n\n\tdo_stuff();\n\n\tif (test)\n\t\tunlock();\n\nNo program can check that the second test gives the same result than\nthe first one, it's undecidable. I mean, it's undecidable even on\nif single threaded and without interrupts. The best you can do is\nto simulate the whole thing (and be sure your simulation will halt).\n\nAs far as I understand, it was the intention behind Sparse's design\nregarding locking (\"context in sparse's parlance) to discourage\nsuch code and instead encourage to write things like:\n\n\tif (test) {\n\t\tdo_stuff_unlocked();\n\t} else {\n\t\tlock();\n\t\tdo_stuff_unlocked();\n\t\tunlock();\n\t}\n\nwhere it is easy to check localy that the lock/unlock are balanced.\n\nSo, of course Sparse could be improved to prove that some of the\nconditional locks are equivalent to unconditional ones like here\njust above (it already does but only for very simple cases where\neverything is inlined) but I don't thing there is a RT.\n\n-- Luc Van Oostenryck",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157801536022570.mbox",
+          "message_id": "<CAHk-=wgkoUeLGEdUF2nsibsK8YFrOOXMd9j5Y1ND4R+1a-6n8w () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-03 01:35:34+00:00",
+          "date_str": "Fri, 03 Jan 2020 01:35:34 +0000",
+          "body": "On Mon, Dec 30, 2019 at 3:38 PM Luc Van Oostenryck\n<luc.vanoostenryck@gmail.com> wrote:\n>\n> One of the simplest situation with these conditional locks is:\n>\n>         if (test)\n>                 lock();\n>\n>         do_stuff();\n>\n>         if (test)\n>                 unlock();\n>\n> No program can check that the second test gives the same result than\n> the first one, it's undecidable. I mean, it's undecidable even on\n> if single threaded and without interrupts. The best you can do is\n> to simulate the whole thing (and be sure your simulation will halt).\n\nNo, no.\n\nIt's undecidable in the general case, but it's usually actually\ntrivially decidable in most real-world kernel cases.\n\nBecause \"test\" tends to be an argument to the function (or one bit of\nan argument), and after it has been turned into SSA form, it's\nliterally using the same exact register for the conditional thanks to\nCSE and simplification.\n\nPerhaps not every time, but I bet it would be most times.\n\nSo I guess sparse could in theory notice that certain basic blocks are\nconditional on the same thing, so if one is done, then the other is\nalways done (assuming there is conditional branch out in between, of\ncourse).\n\nIOW, the context tracking *could* do check son a bigger state than\njust one basic block. It doesn't, and it would probably be painful to\ndo, but it's certainly not impossible.\n\nSo to make a trivial example for sparse:\n\n    extern int testfn(int);\n    extern int do_something(void);\n\n    int testfn(int flag)\n    {\n        if (flag & 1)\n                __context__(1);\n        do_something();\n        if (flag & 1)\n                __context__(-1);\n    }\n\nthis causes a warning:\n\n    c.c:4:5: warning: context imbalance in 'testfn' - different lock\ncontexts for basic block\n\nbecause \"do_something()\" is called with different lock contexts. And\nthat's definitely a real issue. But if we were to want to extend the\n\"make sure we enter/exit with the same lock context\", we _could_ do\nit, because look at the linearization:\n\n    testfn:\n    .L0:\n        <entry-point>\n        and.32      %r2 <- %arg1, $1\n        cbr         %r2, .L1, .L2\n    .L1:\n        context     1\n        br          .L2\n    .L2:\n        call.32     %r4 <- do_something\n        cbr         %r2, .L3, .L5\n    .L3:\n        context     -1\n        br          .L5\n    .L5:\n        ret.32      UNDEF\n\nbecasue the conditional branch always uses \"%r2\" as the conditional.\nNotice? Not at all undecideable, and it would not be *impossible* to\nsay that \"we can see that all context changes are conditional on %r2\nnot being true\".\n\nSo sparse has already done all the real work to know that the two \"if\n(test)\" conditionals test the exact same thing. We _know_ that the\nsecond test has the same result as the first test, we're using the\nsame SSA register for both of them!\n\n              Linus",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157801793123022.mbox",
+          "message_id": "<20200103021819.jq6h53h3ktlatyj7 () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-03 02:18:19+00:00",
+          "date_str": "Fri, 03 Jan 2020 02:18:19 +0000",
+          "body": "On Thu, Jan 02, 2020 at 05:35:34PM -0800, Linus Torvalds wrote:\n> On Mon, Dec 30, 2019 at 3:38 PM Luc Van Oostenryck\n> <luc.vanoostenryck@gmail.com> wrote:\n> >\n> > One of the simplest situation with these conditional locks is:\n> >\n> >         if (test)\n> >                 lock();\n> >\n> >         do_stuff();\n> >\n> >         if (test)\n> >                 unlock();\n> >\n> > No program can check that the second test gives the same result than\n> > the first one, it's undecidable. I mean, it's undecidable even on\n> > if single threaded and without interrupts. The best you can do is\n> > to simulate the whole thing (and be sure your simulation will halt).\n> \n> No, no.\n> \n> It's undecidable in the general case, but it's usually actually\n> trivially decidable in most real-world kernel cases.\n> \n> Because \"test\" tends to be an argument to the function (or one bit of\n> an argument), and after it has been turned into SSA form, it's\n> literally using the same exact register for the conditional thanks to\n> CSE and simplification.\n> \n> Perhaps not every time, but I bet it would be most times.\n\nYes, sure. I was, in fact, speaking for for all the cases where\n'test' is more complex than an argument or local var. When I looked\nat these false warnings about context imbalance, maybe 18 months ago,\nmy vague impression was that in most cases the test contained a pointer\ndereference or worse. But I didn't look much.\n\n> So I guess sparse could in theory notice that certain basic blocks are\n> conditional on the same thing, so if one is done, then the other is\n> always done (assuming there is conditional branch out in between, of\n> course).\n> \n> IOW, the context tracking *could* do check son a bigger state than\n> just one basic block. It doesn't, and it would probably be painful to\n> do, but it's certainly not impossible.\n> \n> So to make a trivial example for sparse:\n> \n>     extern int testfn(int);\n>     extern int do_something(void);\n> \n>     int testfn(int flag)\n>     {\n>         if (flag & 1)\n>                 __context__(1);\n>         do_something();\n>         if (flag & 1)\n>                 __context__(-1);\n>     }\n> \n> this causes a warning:\n> \n>     c.c:4:5: warning: context imbalance in 'testfn' - different lock\n> contexts for basic block\n> \n> because \"do_something()\" is called with different lock contexts. And\n> that's definitely a real issue. But if we were to want to extend the\n> \"make sure we enter/exit with the same lock context\", we _could_ do\n> it, because look at the linearization:\n> \n>     testfn:\n>     .L0:\n>         <entry-point>\n>         and.32      %r2 <- %arg1, $1\n>         cbr         %r2, .L1, .L2\n>     .L1:\n>         context     1\n>         br          .L2\n>     .L2:\n>         call.32     %r4 <- do_something\n>         cbr         %r2, .L3, .L5\n>     .L3:\n>         context     -1\n>         br          .L5\n>     .L5:\n>         ret.32      UNDEF\n> \n> becasue the conditional branch always uses \"%r2\" as the conditional.\n> Notice? Not at all undecideable, and it would not be *impossible* to\n> say that \"we can see that all context changes are conditional on %r2\n> not being true\".\n> \n> So sparse has already done all the real work to know that the two \"if\n> (test)\" conditionals test the exact same thing. We _know_ that the\n> second test has the same result as the first test, we're using the\n> same SSA register for both of them!\n\nAbsolutely. I'm more than willing to look at this but I just fear\nthat in most cases the conditional is more complex. I'll make\nsome investigations.\n\n-- Luc",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157801790423013.mbox",
+          "message_id": "<20200103021819.jq6h53h3ktlatyj7 () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-03 02:18:19+00:00",
+          "date_str": "Fri, 03 Jan 2020 02:18:19 +0000",
+          "body": "On Thu, Jan 02, 2020 at 05:35:34PM -0800, Linus Torvalds wrote:\n> On Mon, Dec 30, 2019 at 3:38 PM Luc Van Oostenryck\n> <luc.vanoostenryck@gmail.com> wrote:\n> >\n> > One of the simplest situation with these conditional locks is:\n> >\n> >         if (test)\n> >                 lock();\n> >\n> >         do_stuff();\n> >\n> >         if (test)\n> >                 unlock();\n> >\n> > No program can check that the second test gives the same result than\n> > the first one, it's undecidable. I mean, it's undecidable even on\n> > if single threaded and without interrupts. The best you can do is\n> > to simulate the whole thing (and be sure your simulation will halt).\n> \n> No, no.\n> \n> It's undecidable in the general case, but it's usually actually\n> trivially decidable in most real-world kernel cases.\n> \n> Because \"test\" tends to be an argument to the function (or one bit of\n> an argument), and after it has been turned into SSA form, it's\n> literally using the same exact register for the conditional thanks to\n> CSE and simplification.\n> \n> Perhaps not every time, but I bet it would be most times.\n\nYes, sure. I was, in fact, speaking for for all the cases where\n'test' is more complex than an argument or local var. When I looked\nat these false warnings about context imbalance, maybe 18 months ago,\nmy vague impression was that in most cases the test contained a pointer\ndereference or worse. But I didn't look much.\n\n> So I guess sparse could in theory notice that certain basic blocks are\n> conditional on the same thing, so if one is done, then the other is\n> always done (assuming there is conditional branch out in between, of\n> course).\n> \n> IOW, the context tracking *could* do check son a bigger state than\n> just one basic block. It doesn't, and it would probably be painful to\n> do, but it's certainly not impossible.\n> \n> So to make a trivial example for sparse:\n> \n>     extern int testfn(int);\n>     extern int do_something(void);\n> \n>     int testfn(int flag)\n>     {\n>         if (flag & 1)\n>                 __context__(1);\n>         do_something();\n>         if (flag & 1)\n>                 __context__(-1);\n>     }\n> \n> this causes a warning:\n> \n>     c.c:4:5: warning: context imbalance in 'testfn' - different lock\n> contexts for basic block\n> \n> because \"do_something()\" is called with different lock contexts. And\n> that's definitely a real issue. But if we were to want to extend the\n> \"make sure we enter/exit with the same lock context\", we _could_ do\n> it, because look at the linearization:\n> \n>     testfn:\n>     .L0:\n>         <entry-point>\n>         and.32      %r2 <- %arg1, $1\n>         cbr         %r2, .L1, .L2\n>     .L1:\n>         context     1\n>         br          .L2\n>     .L2:\n>         call.32     %r4 <- do_something\n>         cbr         %r2, .L3, .L5\n>     .L3:\n>         context     -1\n>         br          .L5\n>     .L5:\n>         ret.32      UNDEF\n> \n> becasue the conditional branch always uses \"%r2\" as the conditional.\n> Notice? Not at all undecideable, and it would not be *impossible* to\n> say that \"we can see that all context changes are conditional on %r2\n> not being true\".\n> \n> So sparse has already done all the real work to know that the two \"if\n> (test)\" conditionals test the exact same thing. We _know_ that the\n> second test has the same result as the first test, we're using the\n> same SSA register for both of them!\n\nAbsolutely. I'm more than willing to look at this but I just fear\nthat in most cases the conditional is more complex. I'll make\nsome investigations.\n\n-- Luc",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157805616031219.mbox",
+          "message_id": "<20200103125521.GJ3911 () kadam>",
+          "author_name": "Dan Carpenter",
+          "author_email": "dan.carpenter () oracle ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-03 12:55:21+00:00",
+          "date_str": "Fri, 03 Jan 2020 12:55:21 +0000",
+          "body": "I re-wrote Smatch's locking check last month to use the cross function\nDB.  Now Smatch can parse refcount_dec_and_lock() directly without any\nmodifications or annotations.\n\nregards,\ndan carpenter\n",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157832439922673.mbox",
+          "message_id": "<20200106152629.GU2810 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-06 15:26:29+00:00",
+          "date_str": "Mon, 06 Jan 2020 15:26:29 +0000",
+          "body": "On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n\n> Is there a meaningful proposal anywhere for sparse to DTRT here?\n\nThese are what I found going through my Sent folder and Google'ing the\nresulting subjects:\n\n  https://markmail.org/message/4obybcgqscznnx63\n  https://markmail.org/message/pp4ofksgactvgjbd?q=inverted_lock\n\n> If\n> not, it seems best to use what you've proposed until sparse reaches the\n> point of being able to do this on its own.\n\nOr just leave the silly sparse warning, they're easy to ignore.",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157832529422950.mbox",
+          "message_id": "<20200106154119.GV2810 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-06 15:41:19+00:00",
+          "date_str": "Mon, 06 Jan 2020 15:41:19 +0000",
+          "body": "On Tue, Dec 31, 2019 at 12:38:14AM +0100, Luc Van Oostenryck wrote:\n> On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n> > On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> > > \n> > > The annotation needs to go in the .h file, not the .c file, because sparse only\n> > > analyzes individual translation units.\n> > > \n> > > It needs to be a wrapper macro because it needs to tie the acquisition of the\n> > > lock to the return value being true.  I.e. there's no annotation you can apply\n> > > directly to the function prototype that means \"if this function returns true, it\n> > > acquires the lock that was passed in parameter N\".\n> > \n> > Gotcha. Well, I guess I leave it to Will and Peter to hash out...\n> > \n> > Is there a meaningful proposal anywhere for sparse to DTRT here? If\n> > not, it seems best to use what you've proposed until sparse reaches the\n> > point of being able to do this on its own.\n> \n> What \"Right Thing\" are you thinking about?\n> One of the simplest situation with these conditional locks is:\n> \n> \tif (test)\n> \t\tlock();\n> \n> \tdo_stuff();\n> \n> \tif (test)\n> \t\tunlock();\n> \n> No program can check that the second test gives the same result than\n> the first one, it's undecidable. I mean, it's undecidable even on\n> if single threaded and without interrupts. The best you can do is\n> to simulate the whole thing (and be sure your simulation will halt).\n\nNot quite what we're talking about. Instead consider this:\n\nThe normal flow would be something like:\n\nextern void spin_lock(spinlock_t *lock) __acquires(lock);\nextern void spin_unlock(spinlock_t *lock) __releases(lock);\n\nextern bool _spin_trylock(spinlock_t *lock) __acquires(lock);\n\n#define __cond_lock(x, c) ((c) ? ({ __acquire(x); 1; }) : 0)\n#define spin_trylock(lock) __cond_lock(lock, _spin_lock)\n\n\n\tif (spin_trylock(lock)) {\n\n\t\t/* do crap */\n\n\t\tspin_unlock();\n\t}\n\n\nSo the proposal here:\n\n  https://markmail.org/message/4obybcgqscznnx63\n\nwould have us write:\n\nextern bool spin_trylock(spinlock_t *lock) __attribute__((context(lock, 0, spin_trylock(lock));\n\nBasically have sparse do a transform on its own expression tree and\ninject the very same crud we now do manually. This avoids cluttering the\nkernel tree with this nonsense.",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157832529022949.mbox",
+          "message_id": "<20200106154119.GV2810 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-06 15:41:19+00:00",
+          "date_str": "Mon, 06 Jan 2020 15:41:19 +0000",
+          "body": "On Tue, Dec 31, 2019 at 12:38:14AM +0100, Luc Van Oostenryck wrote:\n> On Mon, Dec 30, 2019 at 11:32:31AM -0800, Kees Cook wrote:\n> > On Mon, Dec 30, 2019 at 01:15:47PM -0600, Eric Biggers wrote:\n> > > \n> > > The annotation needs to go in the .h file, not the .c file, because sparse only\n> > > analyzes individual translation units.\n> > > \n> > > It needs to be a wrapper macro because it needs to tie the acquisition of the\n> > > lock to the return value being true.  I.e. there's no annotation you can apply\n> > > directly to the function prototype that means \"if this function returns true, it\n> > > acquires the lock that was passed in parameter N\".\n> > \n> > Gotcha. Well, I guess I leave it to Will and Peter to hash out...\n> > \n> > Is there a meaningful proposal anywhere for sparse to DTRT here? If\n> > not, it seems best to use what you've proposed until sparse reaches the\n> > point of being able to do this on its own.\n> \n> What \"Right Thing\" are you thinking about?\n> One of the simplest situation with these conditional locks is:\n> \n> \tif (test)\n> \t\tlock();\n> \n> \tdo_stuff();\n> \n> \tif (test)\n> \t\tunlock();\n> \n> No program can check that the second test gives the same result than\n> the first one, it's undecidable. I mean, it's undecidable even on\n> if single threaded and without interrupts. The best you can do is\n> to simulate the whole thing (and be sure your simulation will halt).\n\nNot quite what we're talking about. Instead consider this:\n\nThe normal flow would be something like:\n\nextern void spin_lock(spinlock_t *lock) __acquires(lock);\nextern void spin_unlock(spinlock_t *lock) __releases(lock);\n\nextern bool _spin_trylock(spinlock_t *lock) __acquires(lock);\n\n#define __cond_lock(x, c) ((c) ? ({ __acquire(x); 1; }) : 0)\n#define spin_trylock(lock) __cond_lock(lock, _spin_lock)\n\n\n\tif (spin_trylock(lock)) {\n\n\t\t/* do crap */\n\n\t\tspin_unlock();\n\t}\n\n\nSo the proposal here:\n\n  https://markmail.org/message/4obybcgqscznnx63\n\nwould have us write:\n\nextern bool spin_trylock(spinlock_t *lock) __attribute__((context(lock, 0, spin_trylock(lock));\n\nBasically have sparse do a transform on its own expression tree and\ninject the very same crud we now do manually. This avoids cluttering the\nkernel tree with this nonsense.",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157833330525624.mbox",
+          "message_id": "<20200106175459.tjuhmdrsusax3s4z () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-06 17:54:59+00:00",
+          "date_str": "Mon, 06 Jan 2020 17:54:59 +0000",
+          "body": "On Mon, Jan 06, 2020 at 04:41:19PM +0100, Peter Zijlstra wrote:\n> On Tue, Dec 31, 2019 at 12:38:14AM +0100, Luc Van Oostenryck wrote:\n\n...\n \n> Not quite what we're talking about. Instead consider this:\n> \n> The normal flow would be something like:\n> \n> extern void spin_lock(spinlock_t *lock) __acquires(lock);\n> extern void spin_unlock(spinlock_t *lock) __releases(lock);\n> \n> extern bool _spin_trylock(spinlock_t *lock) __acquires(lock);\n> \n> #define __cond_lock(x, c) ((c) ? ({ __acquire(x); 1; }) : 0)\n> #define spin_trylock(lock) __cond_lock(lock, _spin_lock)\n> \n> \n> \tif (spin_trylock(lock)) {\n> \n> \t\t/* do crap */\n> \n> \t\tspin_unlock();\n> \t}\n> \n> \n> So the proposal here:\n> \n>   https://markmail.org/message/4obybcgqscznnx63\n> \n> would have us write:\n> \n> extern bool spin_trylock(spinlock_t *lock) __attribute__((context(lock, 0, spin_trylock(lock));\n\nWell, allowing arbitrary conditions would be hard/impossible but you're\nonly asking to have the *return value* as condition, right? That looks\nas reasonably feasible.\n\n> Basically have sparse do a transform on its own expression tree and\n> inject the very same crud we now do manually. This avoids cluttering the\n> kernel tree with this nonsense.\n\nSo, a call of a function declared with __acquires() or releases() is\ninterpreted by Sparse as if the call is immediately followed by an\nincrease or a decrease of the context. It wouldn't be very hard to\nadd a new attribute (something like __cond_context) and let Sparse do\nas if a call to a function with such attribute is directly followed\nby a test of its return value and a corresponding change in the context.\nIt would boil down to:\n\n\textern bool spin_trylock(lock) __cond_context(lock);\n\n\tif (spin_trylock(lock)) {\n\t\t/* do crap */\n\t\tspin_unlock();\n\t}\n\nbehaving like the following code currently would:\n\n\textern bool spin_trylock(lock);\n\n\tif (spin_trylock(lock)) {\n\t\t__acquire(lock);\n\t\t/* do crap */\n\t\tspin_unlock();\n\t}\n\n\nWould something like this be satisfactory?\n\n-- Luc",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157838938907506.mbox",
+          "message_id": "<20200107092935.GU2844 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-07 09:29:35+00:00",
+          "date_str": "Tue, 07 Jan 2020 09:29:35 +0000",
+          "body": "On Mon, Jan 06, 2020 at 06:54:59PM +0100, Luc Van Oostenryck wrote:\n> On Mon, Jan 06, 2020 at 04:41:19PM +0100, Peter Zijlstra wrote:\n\n> > extern bool spin_trylock(spinlock_t *lock) __attribute__((context(lock, 0, spin_trylock(lock));\n> \n> Well, allowing arbitrary conditions would be hard/impossible but you're\n> only asking to have the *return value* as condition, right? That looks\n> as reasonably feasible.\n\nJust the return value would cover all the known cases yes. At the time\nI might have been somewhat over ambitious..\n\n> > Basically have sparse do a transform on its own expression tree and\n> > inject the very same crud we now do manually. This avoids cluttering the\n> > kernel tree with this nonsense.\n> \n> So, a call of a function declared with __acquires() or releases() is\n> interpreted by Sparse as if the call is immediately followed by an\n> increase or a decrease of the context. It wouldn't be very hard to\n> add a new attribute (something like __cond_context) and let Sparse do\n> as if a call to a function with such attribute is directly followed\n> by a test of its return value and a corresponding change in the context.\n> It would boil down to:\n> \n> \textern bool spin_trylock(lock) __cond_context(lock);\n> \n> \tif (spin_trylock(lock)) {\n> \t\t/* do crap */\n> \t\tspin_unlock();\n> \t}\n> \n> behaving like the following code currently would:\n> \n> \textern bool spin_trylock(lock);\n> \n> \tif (spin_trylock(lock)) {\n> \t\t__acquire(lock);\n> \t\t/* do crap */\n> \t\tspin_unlock();\n> \t}\n> \n> \n> Would something like this be satisfactory?\n\nVery much so, Thanks!",
+          "year": "2020",
+          "month": "01"
+        },
+        {
+          "filepath": "emails/2020/01/157838938907507.mbox",
+          "message_id": "<20200107092935.GU2844 () hirez ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [PATCH] locking/refcount: add sparse annotations to dec-and-lock functions",
+          "date": "2020-01-07 09:29:35+00:00",
+          "date_str": "Tue, 07 Jan 2020 09:29:35 +0000",
+          "body": "On Mon, Jan 06, 2020 at 06:54:59PM +0100, Luc Van Oostenryck wrote:\n> On Mon, Jan 06, 2020 at 04:41:19PM +0100, Peter Zijlstra wrote:\n\n> > extern bool spin_trylock(spinlock_t *lock) __attribute__((context(lock, 0, spin_trylock(lock));\n> \n> Well, allowing arbitrary conditions would be hard/impossible but you're\n> only asking to have the *return value* as condition, right? That looks\n> as reasonably feasible.\n\nJust the return value would cover all the known cases yes. At the time\nI might have been somewhat over ambitious..\n\n> > Basically have sparse do a transform on its own expression tree and\n> > inject the very same crud we now do manually. This avoids cluttering the\n> > kernel tree with this nonsense.\n> \n> So, a call of a function declared with __acquires() or releases() is\n> interpreted by Sparse as if the call is immediately followed by an\n> increase or a decrease of the context. It wouldn't be very hard to\n> add a new attribute (something like __cond_context) and let Sparse do\n> as if a call to a function with such attribute is directly followed\n> by a test of its return value and a corresponding change in the context.\n> It would boil down to:\n> \n> \textern bool spin_trylock(lock) __cond_context(lock);\n> \n> \tif (spin_trylock(lock)) {\n> \t\t/* do crap */\n> \t\tspin_unlock();\n> \t}\n> \n> behaving like the following code currently would:\n> \n> \textern bool spin_trylock(lock);\n> \n> \tif (spin_trylock(lock)) {\n> \t\t__acquire(lock);\n> \t\t/* do crap */\n> \t\tspin_unlock();\n> \t}\n> \n> \n> Would something like this be satisfactory?\n\nVery much so, Thanks!",
+          "year": "2020",
+          "month": "01"
+        }
+      ],
+      "primary_category": "context_analysis"
+    },
+    {
+      "subject": "Sparse context checking Vs Clang Thread Safety analysis",
+      "normalized_subject": "Sparse context checking Vs Clang Thread Safety analysis",
+      "message_count": 10,
+      "participants": [
+        "Himanshu Jha",
+        "Lukas Bulwahn",
+        "Julia Lawall",
+        "Dan Carpenter",
+        "Jann Horn",
+        "Derek M Jones",
+        "Philipp Reisner"
+      ],
+      "categories": [
+        "context_analysis",
+        "compiler_compat",
+        "kernel_integration",
+        "type_system"
+      ],
+      "first_date": "2019-05-20T16:54:14+00:00",
+      "last_date": "2019-05-22T16:57:45+00:00",
+      "year": 2019,
+      "messages": [
+        {
+          "filepath": "emails/2019/05/155837054421049.mbox",
+          "message_id": "<20190520164214.GA14656 () himanshu-Vostro-3559>",
+          "author_name": "Himanshu Jha",
+          "author_email": "himanshujha199640 () gmail ! com",
+          "subject": "Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-20 16:54:14+00:00",
+          "date_str": "Mon, 20 May 2019 16:54:14 +0000",
+          "body": "Hello all,\n\n\nI'm an undergrad student working on Google Summer of Code'19 Project[1]\nto apply clang thread safety analysis feature on linux kernel to find bugs\nrelated to concurrency/race condtions with Lukas & clangbuiltlinux\ncommunity.\n\nSince sparse has similar context checking feature, I started\ninvestigating by looking the source and some other resources such as\nLWN[2] about the internals.\n\n`-Wcontext` is my prime focus for now and currently we have:\n\nhimanshu@himanshu-Vostro-3559:~/linux-next$ make C=2 CF=\"-Wcontext\" 2>&1 >/dev/null | grep -w 'context' | wc -l\n772\n\no Why do we have so many open warnings for context imbalance ? Or\n  Why did we stop at some point annotating the codebase ?\n\nI tried to play around with a simple C program:\n\n-------------------------------------------------\nhimanshu@himanshu-Vostro-3559:~/sparse$ cat sparse_context_check.c\n# define __acquires(x)  __attribute__((context(x,0,1)))\n# define __releases(x)  __attribute__((context(x,1,0)))\n\n# define __acquire(x)   __context__(x,1)\n# define __release(x)   __context__(x,-1)\n\nstatic int lock1, lock2;\n\nstatic void lockfn (int i) __acquires(lock1) {\n\t__acquire(lock1);\n\ti++;\n}\n\nstatic void unlockfn (int i) __releases(lock1) {\n\t__release(lock1);\n\ti--;\n}\n\nstatic void unlockfn2 (int i) __releases(lock2) {\n\t__release(lock2);\n\ti--;\n}\n\nstatic void bad_difflocks (int j) {\n\tlockfn(j);\n\tunlockfn2(j);\n}\n\nstatic void bad_onlyunlock (void) {\n\tint check = 0;\n\tunlockfn(check);\n}\n\nstatic void bad_onlylock (void) {\n\tint check = 0;\n\tlockfn(check);\n}\n-------------------------------------------------\n\nResults:\n-------------------------------------------------\nhimanshu@himanshu-Vostro-3559:~/sparse$ sparse sparse_context_check.c \nsparse_context_check.c:29:13: warning: context imbalance in 'bad_onlyunlock' - unexpected unlock\nsparse_context_check.c:34:13: warning: context imbalance in 'bad_onlylock' - wrong count at exit\n\no Does sparse stores some sort of context counter since we didn't get\nany warnings for `bad_difflocks` which locks 'lock1' and unlocks 'lock2'\n?\n\n+1 for any lock, -1 for any lock => fails to distinguish two different\nlocks.\n\nhimanshu@himanshu-Vostro-3559:~/sparse$ ./test-linearize sparse_context_check.c\n\n<snip>\n\nbad_difflocks:\n.L6:\n\t<entry-point>\n\tcall        lockfn, %arg1\n\tcontext     1\n\tcall        unlockfn2, %arg1\n\tcontext     -1\n\tret\n\n</snip>\n\nIn case anyone is interested in clang's ast-dump:\nhttps://gist.github.com/himanshujha199640/ed8359b78b9e6e0ca00ef871e0d77a0c\n\no What exactly the usage of `__acquire/__release` ?\nI have used it to shut up the warning for lockfn & unlockfn above.\n\no How exactly is `context` defined in sparse codebase which is\nunderstood by the compiler when using __attribute__((context(lock1,1,0)))\non functions ?\n\nAccording to man sparse:\n\n-Wcontext\n  Warn about potential errors in synchronization or other delimited contexts.\n\n Sparse  supports several means of designating functions or statements that delimit contexts, such as synchronization.\n Functions with the extended attribute __attribute__((context(expression,in_context,out_context)) require the  context\n expression  (for  instance,  a  lock)  to have the value in_context (a constant nonnegative integer) when called, and\n return with the value out_context (a constant nonnegative integer).  For APIs defined via macros, use  the  statement\n form __context__(expression,in_value,out_value) in the body of the macro.\n\n With  -Wcontext  Sparse  will  warn when it sees a function change the context without indicating this with a context\n attribute, either by decreasing a context below zero (such as by releasing a lock without acquiring it), or returning\n with  a  changed  context  (such as by acquiring a lock without releasing it).  Sparse will also warn about blocks of\n code which may potentially execute with different contexts.\n\n Sparse issues these warnings by default.  To turn them off, use -Wno-context.\n---------\n\nMy understanding is that lock1 in `bad_onlyunlock()` should have a \ntotal zero lock counter sum at the end of codeblock.\n\nSo, as when `unlockfn(check);` is called we have:\n * lock1 with 0 initial value(from previous `bad_difflocks()`)\n * returns with 1 final value.\n\nProceeding to next function `bad_onlylock()` and reaching\n`lockfn(check)` we have:\n\n * according to semantics of `acquires` we should have a intial 0 \n value for lock1 but we have 1 value from above `bad_onlyunlock()`\n\nleading to context imbalance and thus the warning.\n\nPlease let me know if I'm wrong somewhere.\n\nSo, clang thread safety analysis[3] follows a different mechanism\nto overcome what we have observed above.\n\nI did small analysis on a C program[4] and a device driver[5].\n\nClang analysis has many annotations available to suitable annotate the\ncodebase which can be found in the documentation[3].\n\nQuite surprisingly, Philipp proposed[6] `__protected_by` feature which is\nvery similar to `guarded_by`[7] feature implemented in Clang.\n\nSimilarly, Johannes proposed[8] the same with a diffe",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155837259421780.mbox",
+          "message_id": "<1511500c-ccab-1702-2813-d063ebf7aa0a () knosof ! co ! uk>",
+          "author_name": "Derek M Jones",
+          "author_email": "derek () knosof ! co ! uk",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-20 17:10:31+00:00",
+          "date_str": "Mon, 20 May 2019 17:10:31 +0000",
+          "body": "Himanshu Jha,\n\nGood luck with your project.\n\n> Could you please point me some critical data examples that you know in\n> the kernel source which should be protected. This would help us a lot!\n\nHopefully not the sort of thing that appears in the kernel,\nbut a problem that the C committee continues to grapple with:\nhttp://shape-of-code.coding-guidelines.com/2019/05/17/c-considering-support-for-background-checks-on-pointer-values/\n\n\n-- \nDerek M. Jones           Software analysis\ntel: +44 (0)1252 520667  blog:shape-of-code.coding-guidelines.com",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155837891424134.mbox",
+          "message_id": "<CAG48ez2+NoQ4mtm=PCyz005O4Efmszxo3Z7wgaF_5xx1nYO8dQ () mail ! gmail ! com>",
+          "author_name": "Jann Horn",
+          "author_email": "jannh () google ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-20 19:01:26+00:00",
+          "date_str": "Mon, 20 May 2019 19:01:26 +0000",
+          "body": "+kernel-hardening\n\nOn Mon, May 20, 2019 at 6:42 PM Himanshu Jha\n<himanshujha199640@gmail.com> wrote:\n> I'm an undergrad student working on Google Summer of Code'19 Project[1]\n> to apply clang thread safety analysis feature on linux kernel to find bugs\n> related to concurrency/race condtions with Lukas & clangbuiltlinux\n> community.\n>\n> Since sparse has similar context checking feature, I started\n> investigating by looking the source and some other resources such as\n> LWN[2] about the internals.\n>\n> `-Wcontext` is my prime focus for now and currently we have:\n>\n> himanshu@himanshu-Vostro-3559:~/linux-next$ make C=2 CF=\"-Wcontext\" 2>&1 >/dev/null | grep -w 'context' | wc -l\n> 772\n>\n> o Why do we have so many open warnings for context imbalance ? Or\n>   Why did we stop at some point annotating the codebase ?\n\nMany developers don't use sparse, and sparse doesn't support some\nlocking patterns that the kernel uses.\n\n> o Does sparse stores some sort of context counter since we didn't get\n> any warnings for `bad_difflocks` which locks 'lock1' and unlocks 'lock2'\n> ?\n\nYes. Sparse currently ignores the context and only has a simple\ncounter shared by all locks.\n\n> o What exactly the usage of `__acquire/__release` ?\n> I have used it to shut up the warning for lockfn & unlockfn above.\n\nYou use those to inform sparse where you're taking a lock or releasing\na lock; and some parts of the kernel also use it to inform sparse of\nplaces where a lock is effectively taken, even though there is no\nactual locking call (e.g. when two pointers point to the same object,\nand therefore you only need to actually call the locking function once\ninstead of twice).\n\n[...]\n> So, clang thread safety analysis[3] follows a different mechanism\n> to overcome what we have observed above.\n>\n> I did small analysis on a C program[4] and a device driver[5].\n>\n> Clang analysis has many annotations available to suitable annotate the\n> codebase which can be found in the documentation[3].\n>\n> Quite surprisingly, Philipp proposed[6] `__protected_by` feature which is\n> very similar to `guarded_by`[7] feature implemented in Clang.\n>\n> Similarly, Johannes proposed[8] the same with a different implementation.\n>\n> Questions from both you:\n>\n> o Why was it not deployed in sparse ?\n>\n> o Does the lock protecting the data should be a global variable ?\n>\n> ie.,\n>\n> struct foo {\n>         struct mutex lock;\n>         int balance __protected_by(lock);\n> }\n>\n> Can this be done ? Or lock should be global ?\n>\n> Because clang analysis wants it to be global!\n>\n> There are other attribute restrictions as well for clang analysis:\n> https://github.com/llvm-mirror/clang/blob/master/test/Sema/attr-capabilities.c\n>\n>\n> *Most Important*\n> Could you please point me some critical data examples that you know in\n> the kernel source which should be protected. This would help us a lot!\n\nThe complicated thing in the kernel is that almost any structure\nmember can be accessed without locking under some circumstances - for\nexample, when a structure is initialized, or when the structure is\nbeing freed and all other references to the object have gone away. On\ntop of that, many fields can be accessed under multiple locking\nmechanisms - e.g. many fields can be read under either a\nspinlock/mutex or in an RCU read-critical section. And there are\nfunctions that conditionally acquire a lock and signal the state of\nthe lock through their return value - for example,\nmutex_lock_killable() and mutex_lock_interruptible().\n\nI think that static analysis of locking is a great thing, but the\nkernel doesn't exactly make it easy. In particular, I think it is\ngoing to require annotations that you can use to tell the compiler\nwhich state of its lifecycle an object is in (since that can influence\nlocking rules), and annotations that tell the compiler what the\nsemantics of functions like mutex_lock_killable() are.",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155846225719155.mbox",
+          "message_id": "<20190521181047.GA15859 () himanshu-Vostro-3559>",
+          "author_name": "Himanshu Jha",
+          "author_email": "himanshujha199640 () gmail ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-21 18:22:47+00:00",
+          "date_str": "Tue, 21 May 2019 18:22:47 +0000",
+          "body": "Hi Derek,\n\nOn Mon, May 20, 2019 at 06:10:31PM +0100, Derek M Jones wrote:\n> Himanshu Jha,\n> \n> Good luck with your project.\n> \n> > Could you please point me some critical data examples that you know in\n> > the kernel source which should be protected. This would help us a lot!\n> \n> Hopefully not the sort of thing that appears in the kernel,\n> but a problem that the C committee continues to grapple with:\n> http://shape-of-code.coding-guidelines.com/2019/05/17/c-considering-support-for-background-checks-on-pointer-values/\n\nAFAIK kernel doesn't follow ISO-C standards.\n\nThere are many warnings reported when `-Wformat-signedness` flag is passed\nto build kernel.\nhttps://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html\n\nwhich is undefined behavior:\nhttp://port70.net/~nsz/c/c11/n1570.html#7.21.6.1p9\n\nEg.,\n\ndrivers/iio/trigger/stm32-timer-trigger.c:228:24: warning: format \u2018%d\u2019\nexpects argument of type \u2018int\u2019, but argument 3 has type \u2018unsigned int\u2019\n[-Wformat=]\n  return sprintf(buf, \"%d\\n\", (unsigned int)freq);\n                         ~^     ~~~~~~~~~~~~~~~~~~\n\t\t\t                        %d\n\nYour blog is interesting but my current project is a different experiment.\n\nBut you might want to explore:\nhttps://lists.elisa.tech/g/main\n\n\nThanks for your time!\n\n> \n> -- \n> Derek M. Jones           Software analysis\n> tel: +44 (0)1252 520667  blog:shape-of-code.coding-guidelines.com\n\n-- \nHimanshu Jha\nUndergraduate Student\nDepartment of Electronics & Communication\nGuru Tegh Bahadur Institute of Technology",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155846611320418.mbox",
+          "message_id": "<20190521182322.GB15859 () himanshu-Vostro-3559>",
+          "author_name": "Himanshu Jha",
+          "author_email": "himanshujha199640 () gmail ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-21 18:35:23+00:00",
+          "date_str": "Tue, 21 May 2019 18:35:23 +0000",
+          "body": "Hi Jann,\n\nOn Mon, May 20, 2019 at 09:01:26PM +0200, 'Jann Horn' via Clang Built Linux wrote:\n> +kernel-hardening\n> \n> On Mon, May 20, 2019 at 6:42 PM Himanshu Jha\n> <himanshujha199640@gmail.com> wrote:\n> > I'm an undergrad student working on Google Summer of Code'19 Project[1]\n> > to apply clang thread safety analysis feature on linux kernel to find bugs\n> > related to concurrency/race condtions with Lukas & clangbuiltlinux\n> > community.\n> >\n> > Since sparse has similar context checking feature, I started\n> > investigating by looking the source and some other resources such as\n> > LWN[2] about the internals.\n> >\n> > `-Wcontext` is my prime focus for now and currently we have:\n> >\n> > himanshu@himanshu-Vostro-3559:~/linux-next$ make C=2 CF=\"-Wcontext\" 2>&1 >/dev/null | grep -w 'context' | wc -l\n> > 772\n> >\n> > o Why do we have so many open warnings for context imbalance ? Or\n> >   Why did we stop at some point annotating the codebase ?\n> \n> Many developers don't use sparse, and sparse doesn't support some\n> locking patterns that the kernel uses.\n\nI understand little interest in sparse warnings among developers.\n\nI see frequently patches related to fixing codebase such as:\nhttps://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.git/commit/?h=char-misc-testing&id=324fa64cf4189094bc4df744a9e7214a1b81d845\n\nand by 0-day bot:\nhttps://lore.kernel.org/lkml/201905210520.GS4ztecg%25lkp@intel.com/\n\n> > o Does sparse stores some sort of context counter since we didn't get\n> > any warnings for `bad_difflocks` which locks 'lock1' and unlocks 'lock2'\n> > ?\n> \n> Yes. Sparse currently ignores the context and only has a simple\n> counter shared by all locks.\n> \n> > o What exactly the usage of `__acquire/__release` ?\n> > I have used it to shut up the warning for lockfn & unlockfn above.\n> \n> You use those to inform sparse where you're taking a lock or releasing\n> a lock; and some parts of the kernel also use it to inform sparse of\n> places where a lock is effectively taken, even though there is no\n> actual locking call (e.g. when two pointers point to the same object,\n> and therefore you only need to actually call the locking function once\n> instead of twice).\n> \n> [...]\n> > So, clang thread safety analysis[3] follows a different mechanism\n> > to overcome what we have observed above.\n> >\n> > I did small analysis on a C program[4] and a device driver[5].\n> >\n> > Clang analysis has many annotations available to suitable annotate the\n> > codebase which can be found in the documentation[3].\n> >\n> > Quite surprisingly, Philipp proposed[6] `__protected_by` feature which is\n> > very similar to `guarded_by`[7] feature implemented in Clang.\n> >\n> > Similarly, Johannes proposed[8] the same with a different implementation.\n> >\n> > Questions from both you:\n> >\n> > o Why was it not deployed in sparse ?\n> >\n> > o Does the lock protecting the data should be a global variable ?\n> >\n> > ie.,\n> >\n> > struct foo {\n> >         struct mutex lock;\n> >         int balance __protected_by(lock);\n> > }\n> >\n> > Can this be done ? Or lock should be global ?\n> >\n> > Because clang analysis wants it to be global!\n> >\n> > There are other attribute restrictions as well for clang analysis:\n> > https://github.com/llvm-mirror/clang/blob/master/test/Sema/attr-capabilities.c\n> >\n> >\n> > *Most Important*\n> > Could you please point me some critical data examples that you know in\n> > the kernel source which should be protected. This would help us a lot!\n> \n> The complicated thing in the kernel is that almost any structure\n> member can be accessed without locking under some circumstances - for\n> example, when a structure is initialized, or when the structure is\n> being freed and all other references to the object have gone away. On\n> top of that, many fields can be accessed under multiple locking\n> mechanisms - e.g. many fields can be read under either a\n> spinlock/mutex or in an RCU read-critical section. And there are\n> functions that conditionally acquire a lock and signal the state of\n> the lock through their return value - for example,\n> mutex_lock_killable() and mutex_lock_interruptible().\n\nYes, I understand.\n\nMaybe TRY_ACQUIRE() would fit such a situation:\nhttps://clang.llvm.org/docs/ThreadSafetyAnalysis.html#try-acquire-bool-try-acquire-shared-bool\n\n\n> I think that static analysis of locking is a great thing, but the\n> kernel doesn't exactly make it easy. In particular, I think it is\n> going to require annotations that you can use to tell the compiler\n> which state of its lifecycle an object is in (since that can influence\n> locking rules), and annotations that tell the compiler what the\n> semantics of functions like mutex_lock_killable() are.\n\nI will try with the easy ones in the beginning and share the analysis.\n\n\nThanks for your time!\n-- \nHimanshu Jha\nUndergraduate Student\nDepartment of Electronics & Communication\nGuru Tegh Bahadur Institute of Technology",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155851662402925.mbox",
+          "message_id": "<20190522091642.GQ31203 () kadam>",
+          "author_name": "Dan Carpenter",
+          "author_email": "dan.carpenter () oracle ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-22 09:16:42+00:00",
+          "date_str": "Wed, 22 May 2019 09:16:42 +0000",
+          "body": "\nOn Mon, May 20, 2019 at 10:12:14PM +0530, Himanshu Jha wrote:\n> o Why do we have so many open warnings for context imbalance ? Or\n>   Why did we stop at some point annotating the codebase ?\n> \n\nWhat we're looking for here is mostly bugs where we forget to drop the\nlock on an error path.  Sparse isn't a great tool for this because it\ndoesn't have very sophisticated flow analysis.\n\nSmatch has decent flow analysis but it too sucks for finding locking\nbugs because I wrote the check_locks.c code 10 years ago.  I said I\nwould re-write it seven years ago but I never got around to it.  The\nsmatch check doesn't do cross function analysis, for example...\n\n> struct foo {\n> \tstruct mutex lock;\n> \tint balance __protected_by(lock);\n> }\n> \n> Can this be done ? Or lock should be global ?\n> \n> Because clang analysis wants it to be global!\n\nA __protected_by() annotation sounds like a good idea.  I don't really\ncare about the format too much.  If the information were in a comment\nand we could parse with a perl script that would be fine.  Or we could\ndo:\n\n\tstruct foo {\n\t\tstruct mutex lock;\n\t\t__start_protected(lock);\n\t\tint a, b, c;\n\t\t__end_protected(lock);\n\t};\n\nIn Smatch, I would add an \"if (is_probe_function()) return;\" and similar\nhacks to silence the majority of false positives.\n\nregards,\ndan carpenter",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155851774503397.mbox",
+          "message_id": "<2109871.T3yqqpU3n3 () phil-xps>",
+          "author_name": "Philipp Reisner",
+          "author_email": "philipp.reisner () linbit ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-22 09:35:40+00:00",
+          "date_str": "Wed, 22 May 2019 09:35:40 +0000",
+          "body": "Hi,\n\n[...]\n\nI love the whole idea, but gave up working on such a things myself.\n\n> > \n> > Because clang analysis wants it to be global!\n> \n> A __protected_by() annotation sounds like a good idea.  I don't really\n> care about the format too much.  If the information were in a comment\n> and we could parse with a perl script that would be fine.  Or we could\n> do:\n> \n> \tstruct foo {\n> \t\tstruct mutex lock;\n> \t\t__start_protected(lock);\n> \t\tint a, b, c;\n> \t\t__end_protected(lock);\n> \t};\n\nRegarding the syntax I vote for a __protected_by(lock) instead of  \n__start_protected(lock) / __end_protected(lock).\n\ncheers,\n Phil\n\n",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155851786203433.mbox",
+          "message_id": "<alpine.DEB.2.20.1905221136420.4390 () hadrien>",
+          "author_name": "Julia Lawall",
+          "author_email": "julia.lawall () lip6 ! fr",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-22 09:37:40+00:00",
+          "date_str": "Wed, 22 May 2019 09:37:40 +0000",
+          "body": "\n\nOn Wed, 22 May 2019, Philipp Reisner wrote:\n\n> Hi,\n>\n> [...]\n>\n> I love the whole idea, but gave up working on such a things myself.\n>\n> > >\n> > > Because clang analysis wants it to be global!\n> >\n> > A __protected_by() annotation sounds like a good idea.  I don't really\n> > care about the format too much.  If the information were in a comment\n> > and we could parse with a perl script that would be fine.  Or we could\n> > do:\n> >\n> > \tstruct foo {\n> > \t\tstruct mutex lock;\n> > \t\t__start_protected(lock);\n> > \t\tint a, b, c;\n> > \t\t__end_protected(lock);\n> > \t};\n>\n> Regarding the syntax I vote for a __protected_by(lock) instead of\n> __start_protected(lock) / __end_protected(lock).\n\nWhat do you mean exactly, eg in the above example?\n\nthanks,\njulia",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155851953104205.mbox",
+          "message_id": "<alpine.DEB.2.20.1905221204200.4390 () hadrien>",
+          "author_name": "Julia Lawall",
+          "author_email": "julia.lawall () lip6 ! fr",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-22 10:05:26+00:00",
+          "date_str": "Wed, 22 May 2019 10:05:26 +0000",
+          "body": "\n\nOn Wed, 22 May 2019, Philipp Reisner wrote:\n\n> Am Mittwoch, 22. Mai 2019, 11:37:40 CEST schrieb Julia Lawall:\n> > On Wed, 22 May 2019, Philipp Reisner wrote:\n> > > Hi,\n> > >\n> > > [...]\n> > >\n> > > I love the whole idea, but gave up working on such a things myself.\n> > >\n> > > > > Because clang analysis wants it to be global!\n> > > >\n> > > > A __protected_by() annotation sounds like a good idea.  I don't really\n> > > > care about the format too much.  If the information were in a comment\n> > > > and we could parse with a perl script that would be fine.  Or we could\n> > > >\n> > > > do:\n> > > > \tstruct foo {\n> > > >\n> > > > \t\tstruct mutex lock;\n> > > > \t\t__start_protected(lock);\n> > > > \t\tint a, b, c;\n> > > > \t\t__end_protected(lock);\n> > > >\n> > > > \t};\n> > >\n> > > Regarding the syntax I vote for a __protected_by(lock) instead of\n> > > __start_protected(lock) / __end_protected(lock).\n> >\n> > What do you mean exactly, eg in the above example?\n> >\n>  \tstruct foo {\n>  \t\tstruct mutex lock;\n>  \t\tint a __protected_by_(lock);\n>               int b __protected_by_(lock);\n>          };\n\nOK, thanks.  Might the lock be in another structure (eg struct upperfoo)?\nSo\n\nint a __protected_by_(upperfoo.lock);\n\njulia",
+          "year": "2019",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2019/05/155854427813946.mbox",
+          "message_id": "<CAKXUXMwgEqqQyyBdPwh994w30-qO+qpKWZ4Z2fCUiU88=+1HWQ () mail ! gmail ! com>",
+          "author_name": "Lukas Bulwahn",
+          "author_email": "lukas.bulwahn () gmail ! com",
+          "subject": "Re: Sparse context checking Vs Clang Thread Safety analysis",
+          "date": "2019-05-22 16:57:45+00:00",
+          "date_str": "Wed, 22 May 2019 16:57:45 +0000",
+          "body": "Hi Dan, Hi Julia, Hi Phil,\n\nOn Wed, May 22, 2019 at 11:16 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:\n>\n>\n> On Mon, May 20, 2019 at 10:12:14PM +0530, Himanshu Jha wrote:\n> > o Why do we have so many open warnings for context imbalance ? Or\n> >   Why did we stop at some point annotating the codebase ?\n> >\n>\n> What we're looking for here is mostly bugs where we forget to drop the\n> lock on an error path.  Sparse isn't a great tool for this because it\n> doesn't have very sophisticated flow analysis.\n>\n> Smatch has decent flow analysis but it too sucks for finding locking\n> bugs because I wrote the check_locks.c code 10 years ago.  I said I\n> would re-write it seven years ago but I never got around to it.  The\n> smatch check doesn't do cross function analysis, for example...\n>\n\nSo, when we would propose a set of annotations to the kernel that\nwould allow a combination of multiple tools (coccinelle, smatch, clang\nthread safety analysis etc.) to do static analysis of these locking\nbugs, there is some support here to get this accepted in the code\nbase.\n\nFurther, I understand now that the locking in sparse has some analysis\nimprecision, leading to various false positives, and hence, annotating\nthe kernel was eventually stopped due to missing success stories (in\naddition to the common problem that nobody continued to pick it up at\nsome point in time).\nSo, if we can show that we have static analysis tools clearly superior\nin its analysis capabilities, coverage and completeness compared to\nsparse, we could actually drop the current sparse rules, replace or\nremove the sparse annotations and in the further documentation refer\nto this new static analysis tools instead, right?\n\nThat does sound like a good motivation for us to continue our\ninvestigation to determine if and possibly finally show that we have a\ncombination of tools that can handle locking bugs statically better\nthan what sparse is currently offering.\n\nThis then makes a good GSoC project to start this activity and\nsuggests that with further community support this may be continued.\n\nBest regards,\n\nLukas",
+          "year": "2019",
+          "month": "05"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

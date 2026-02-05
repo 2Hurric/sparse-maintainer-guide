@@ -256,6 +256,148 @@
             color: var(--text-muted);
         }
 
+        /* Commits Section */
+        .commits-year {
+            margin-bottom: 48px;
+        }
+
+        .commits-year-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .commits-year-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .commits-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 0.85rem;
+        }
+
+        .commits-stat {
+            padding: 4px 12px;
+            border-radius: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+
+        .commits-stat.merged {
+            background: var(--green-soft);
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        .commits-stat.rejected {
+            background: var(--red-soft);
+            color: var(--red);
+            border-color: var(--red);
+        }
+
+        .commits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .commit-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .commit-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .commit-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .commit-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .commit-author {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 150px;
+        }
+
+        .commit-status {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .commit-status.merged { background: var(--green-soft); color: var(--green); }
+        .commit-status.rejected { background: var(--red-soft); color: var(--red); }
+        .commit-status.discussed { background: var(--yellow-soft); color: var(--yellow); }
+        .commit-status.rfc { background: var(--purple-soft); color: var(--purple); }
+
+        .contributors-list {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .contributor-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .contributor-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .contributor-count {
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
         /* Decisions */
         .decisions-grid {
             display: flex;
@@ -607,6 +749,7 @@
             <div class="logo">Sparse</div>
             <nav>
                 <a href="#topics" class="active">Topics</a>
+                <a href="#commits">Commits</a>
                 <a href="#roadmap">Roadmap</a>
                 <a href="#decisions">Key Decisions</a>
             </nav>
@@ -642,6 +785,16 @@
                     <p>Click any topic to explore related discussions and decisions</p>
                 </div>
                 <div class="topics-grid" id="topics-grid"></div>
+            </div>
+        </section>
+
+        <section id="commits">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Commit History</h2>
+                    <p>Past 5 years of patches and contributions</p>
+                </div>
+                <div id="commits-content"></div>
             </div>
         </section>
 
@@ -686,12 +839,19 @@
 
     <script>
         let topicsData = null;
+        let commitsData = null;
 
         // --- Data loading ---
         async function loadData() {
             try {
-                const resp = await fetch('topics_data.json');
-                topicsData = await resp.json();
+                // Load both data files
+                const [topicsResp, commitsResp] = await Promise.all([
+                    fetch('topics_data.json'),
+                    fetch('commits_history.json')
+                ]);
+
+                topicsData = await topicsResp.json();
+                commitsData = await commitsResp.json();
 
                 // Stats
                 const s = topicsData.stats;
@@ -700,6 +860,7 @@
                 document.getElementById('stat-topics').textContent = Object.keys(s.categories).length;
 
                 renderTopics();
+                renderCommits();
                 renderRoadmap();
                 renderDecisions();
             } catch (e) {
@@ -930,6 +1091,118 @@
             grid.querySelectorAll('.topic-card').forEach(card => {
                 card.addEventListener('click', () => showTopicThreads(card.dataset.cat));
             });
+        }
+
+        function renderCommits() {
+            const container = document.getElementById('commits-content');
+            if (!commitsData || !commitsData.years) return;
+
+            const years = Object.keys(commitsData.years).sort((a, b) => b - a);
+
+            let html = '';
+            for (const year of years) {
+                const yearData = commitsData.years[year];
+
+                html += `
+                    <div class="commits-year">
+                        <div class="commits-year-header">
+                            <div class="commits-year-title">${esc(year)}</div>
+                            <div class="commits-stats">
+                                <span class="commits-stat">${yearData.total_patches} patches</span>
+                                <span class="commits-stat merged">${yearData.merged} merged</span>
+                                ${yearData.rejected > 0 ? `<span class="commits-stat rejected">${yearData.rejected} rejected</span>` : ''}
+                                <span class="commits-stat">${yearData.acceptance_rate}% acceptance</span>
+                            </div>
+                        </div>`;
+
+                // Top contributors
+                if (yearData.top_contributors && yearData.top_contributors.length > 0) {
+                    html += '<div class="contributors-list">';
+                    for (const [author, count] of yearData.top_contributors.slice(0, 5)) {
+                        const initials = getInitials(author);
+                        html += `
+                            <div class="contributor-chip">
+                                <div class="contributor-avatar">${esc(initials)}</div>
+                                <span>${esc(author)}</span>
+                                <span class="contributor-count">${count}</span>
+                            </div>`;
+                    }
+                    html += '</div>';
+                }
+
+                // Key patches
+                if (yearData.key_patches && yearData.key_patches.length > 0) {
+                    html += '<div class="commits-grid">';
+                    for (let i = 0; i < Math.min(6, yearData.key_patches.length); i++) {
+                        const patch = yearData.key_patches[i];
+                        const statusClass = patch.type === 'rfc' ? 'rfc' : patch.status;
+                        html += `
+                            <div class="commit-card" data-year="${year}" data-patch="${i}">
+                                <div class="commit-title">${esc(patch.subject)}</div>
+                                <div class="commit-meta">
+                                    <span class="commit-author">${esc(patch.author)}</span>
+                                    <span class="commit-status ${statusClass}">${esc(patch.type === 'rfc' ? 'RFC' : patch.status)}</span>
+                                </div>
+                            </div>`;
+                    }
+                    html += '</div>';
+                }
+
+                html += '</div>';
+            }
+
+            container.innerHTML = html;
+
+            // Attach click handlers for commit cards
+            container.querySelectorAll('.commit-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const year = card.dataset.year;
+                    const patchIdx = parseInt(card.dataset.patch);
+                    const patch = commitsData.years[year].key_patches[patchIdx];
+                    if (patch) showPatchDetail(patch);
+                });
+            });
+        }
+
+        function showPatchDetail(patch) {
+            let html = `
+                <div style="margin-bottom:20px;">
+                    <h3 style="font-size:1.1rem;margin-bottom:12px;">${esc(patch.original_subject)}</h3>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;">
+                        <span class="outcome-badge ${patch.type === 'rfc' ? 'discussed' : patch.status}">${esc(patch.type === 'rfc' ? 'RFC' : patch.status)}</span>
+                        <span style="color:var(--text-muted);font-size:0.85rem;">by ${esc(patch.author)}</span>
+                        <span style="color:var(--text-muted);font-size:0.85rem;">${formatDate(patch.date)}</span>
+                        <span style="color:var(--text-muted);font-size:0.85rem;">${patch.message_count} messages</span>
+                    </div>`;
+
+            if (patch.summary) {
+                html += `
+                    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px;">
+                        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;">${esc(patch.summary)}</p>
+                    </div>`;
+            }
+
+            if (patch.participants && patch.participants.length > 1) {
+                html += `
+                    <div style="margin-top:16px;">
+                        <h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--text-muted);">Participants</h4>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            ${patch.participants.map(p => `<span class="topic-tag">${esc(p)}</span>`).join('')}
+                        </div>
+                    </div>`;
+            }
+
+            html += `
+                <div style="margin-top:20px;">
+                    <a class="marc-link" href="${marcSearchUrl(patch.original_subject)}" target="_blank" rel="noopener">View on MARC &rarr;</a>
+                </div>`;
+
+            html += '</div>';
+
+            document.getElementById('modal-title').textContent = 'Patch Details';
+            document.getElementById('modal-meta').innerHTML = '';
+            document.getElementById('modal-body').innerHTML = html;
+            openModal();
         }
 
         function renderRoadmap() {

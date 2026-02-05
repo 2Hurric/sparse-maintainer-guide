@@ -1,0 +1,100 @@
+{
+  "year": "2021",
+  "stats": {
+    "total_threads": 2,
+    "total_messages": 4,
+    "categories": {
+      "address_space": 2
+    }
+  },
+  "threads": [
+    {
+      "subject": "[PATCH 3/3] dissect: Show typedefs",
+      "normalized_subject": "dissect: Show typedefs",
+      "message_count": 1,
+      "participants": [
+        "Alexey Gladkov"
+      ],
+      "categories": [
+        "compiler_compat",
+        "address_space"
+      ],
+      "first_date": "2021-11-02T14:06:45+00:00",
+      "last_date": "2021-11-02T14:06:45+00:00",
+      "year": 2021,
+      "messages": [
+        {
+          "filepath": "emails/2021/11/163586214404064.mbox",
+          "message_id": "<20211102140645.83081-4-gladkov.alexey () gmail ! com>",
+          "author_name": "Alexey Gladkov",
+          "author_email": "gladkov.alexey () gmail ! com",
+          "subject": "[PATCH 3/3] dissect: Show typedefs",
+          "date": "2021-11-02 14:06:45+00:00",
+          "date_str": "Tue, 02 Nov 2021 14:06:45 +0000",
+          "body": "For indexing purposes, it is useful to see type definitions.\n\n$ semind search __kernel_ulong_t\n(def) include/uapi/asm-generic/posix_types.h 16 23 typedef unsigned long   __kernel_ulong_t;\n\nSigned-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>\n---\n dissect.c      | 13 ++++++++++++-\n test-dissect.c |  2 ++\n 2 files changed, 14 insertions(+), 1 deletion(-)\n\ndiff --git a/dissect.c b/dissect.c\nindex 7d5d92c9..300d5ca9 100644\n--- a/dissect.c\n+++ b/dissect.c\n@@ -615,6 +615,11 @@ static inline bool is_macro(struct symbol *sym)\n \treturn (sym->namespace == NS_MACRO || sym->namespace == NS_UNDEF);\n }\n \n+static inline bool is_typedef(struct symbol *sym)\n+{\n+\treturn (sym->namespace == NS_TYPEDEF);\n+}\n+\n static inline struct symbol *do_symbol(struct symbol *sym)\n {\n \tstruct symbol *type = base_type(sym);\n@@ -659,7 +664,7 @@ static void do_sym_list(struct symbol_list *list)\n \n static inline bool valid_namespace(enum namespace ns)\n {\n-\treturn (ns == NS_MACRO || ns == NS_UNDEF || ns == NS_STRUCT || ns == NS_SYMBOL);\n+\treturn (ns == NS_TYPEDEF || ns == NS_MACRO || ns == NS_UNDEF || ns == NS_STRUCT || ns == NS_SYMBOL);\n }\n \n static void do_file(char *file)\n@@ -673,6 +678,12 @@ static void do_file(char *file)\n \n \tDO_LIST(file_scope->symbols, sym,\n \t\tif (input_streams[sym->pos.stream].fd != -1 && valid_namespace(sym->namespace)) {\n+\t\t\tif (is_typedef(sym)) {\n+\t\t\t\tsym->kind = 't';\n+\t\t\t\treporter->r_symdef(sym);\n+\t\t\t\tcontinue;\n+\t\t\t}\n+\n \t\t\tif (is_macro(sym)) {\n \t\t\t\tsym->kind = 'd';\n \t\t\t\treporter->r_symdef(sym);\ndiff --git a/test-dissect.c b/test-dissect.c\nindex 3d870a97..65b205f8 100644\n--- a/test-dissect.c\n+++ b/test-dissect.c\n@@ -63,6 +63,8 @@ static void r_symbol(unsigned mode, struct position *pos, struct symbol *sym)\n \t\tif (sym->type == SYM_STRUCT || sym->type == SYM_UNION)\n \t\t\tbreak;\n \t\tgoto err;\n+\tcase 't':\n+\t\tbreak;\n \tcase 'f':\n \t\tif (sym->type != SYM_BAD && sym->ctype.base_type->type != SYM_FN)\n \t\t\tgoto err;\n-- \n2.33.0\n",
+          "year": "2021",
+          "month": "11"
+        }
+      ],
+      "primary_category": "address_space"
+    },
+    {
+      "subject": "Re: [tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initia",
+      "normalized_subject": "[tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initia",
+      "message_count": 3,
+      "participants": [
+        "Thomas Gleixner",
+        "Linus Torvalds"
+      ],
+      "categories": [
+        "kernel_integration",
+        "type_system",
+        "address_space",
+        "general",
+        "compiler_compat"
+      ],
+      "first_date": "2021-04-27T06:37:05+00:00",
+      "last_date": "2021-04-27T19:54:01+00:00",
+      "year": 2021,
+      "messages": [
+        {
+          "filepath": "emails/2021/04/161950547922141.mbox",
+          "message_id": "<87r1iwnsha.ffs () nanos ! tec ! linutronix ! de>",
+          "author_name": "Thomas Gleixner",
+          "author_email": "tglx () linutronix ! de",
+          "subject": "Re: [tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initia",
+          "date": "2021-04-27 06:37:05+00:00",
+          "date_str": "Tue, 27 Apr 2021 06:37:05 +0000",
+          "body": "On Tue, Apr 27 2021 at 11:00, kernel test robot wrote:\n\nCc+ sparse folks\n\n> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git x86/l1dflush\n> head:   6955fbfdad4241331d1e33362306aec3a410803a\n> commit: 193cb89595f7f3f4549b03ab9392fb9838d123e3 [7/9] x86/mm: Prepare for opt-in based L1D flush in switch_mm()\n> config: i386-randconfig-s032-20210426 (attached as .config)\n> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0\n> reproduce:\n>         # apt-get install sparse\n>         # sparse version: v0.6.3-341-g8af24329-dirty\n>         # https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=193cb89595f7f3f4549b03ab9392fb9838d123e3\n>         git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git\n>         git fetch --no-tags tglx-devel x86/l1dflush\n>         git checkout 193cb89595f7f3f4549b03ab9392fb9838d123e3\n>         # save the attached .config to linux build tree\n>         make W=1 C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=1 ARCH=i386 \n>\n> If you fix the issue, kindly add following tag as appropriate\n> Reported-by: kernel test robot <lkp@intel.com>\n>\n>\n> sparse warnings: (new ones prefixed by >>)\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>>> arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got bool * @@\n>    arch/x86/mm/tlb.c:354:13: sparse:     expected void const [noderef] __percpu *__vpp_verify\n>    arch/x86/mm/tlb.c:354:13: sparse:     got bool *\n>\n> vim +354 arch/x86/mm/tlb.c\n>\n>    336\t\n>    337\tstatic void l1d_flush_evaluate(unsigned long prev_mm, unsigned long next_mm,\n>    338\t\t\t\t\tstruct task_struct *next)\n>    339\t{\n>    340\t\t/* Flush L1D if the outgoing task requests it */\n>    341\t\tif (prev_mm & LAST_USER_MM_L1D_FLUSH)\n>    342\t\t\twrmsrl(MSR_IA32_FLUSH_CMD, L1D_FLUSH);\n>    343\t\n>    344\t\t/* Check whether the incoming task opted in for L1D flush */\n>    345\t\tif (likely(!(next_mm & LAST_USER_MM_L1D_FLUSH)))\n>  ",
+          "year": "2021",
+          "month": "04"
+        },
+        {
+          "filepath": "emails/2021/04/161954286609005.mbox",
+          "message_id": "<CAHk-=wiJ7_LCn19AGj+8mS5bV1jr4S1_6errsnfoZc0PdCNp9A () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: [tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initia",
+          "date": "2021-04-27 17:00:48+00:00",
+          "date_str": "Tue, 27 Apr 2021 17:00:48 +0000",
+          "body": "On Mon, Apr 26, 2021 at 11:37 PM Thomas Gleixner <tglx@linutronix.de> wrote:\n>\n> >  > 354                if (this_cpu_read(cpu_info.smt_active)) {\n>\n> That's a valid construct and the kernel of full of percpuvar.member reads/writes.\n\nHmm. \"cpu_info\" doesn't seem to be marked as a percpu data structure.\n\nIs this perhaps a UP config? Because we have:\n\n  extern struct cpuinfo_x86       boot_cpu_data;\n    ...\n  #ifdef CONFIG_SMP\n  DECLARE_PER_CPU_READ_MOSTLY(struct cpuinfo_x86, cpu_info);\n  #define cpu_data(cpu)           per_cpu(cpu_info, cpu)\n  #else\n  #define cpu_info                boot_cpu_data\n  #define cpu_data(cpu)           boot_cpu_data\n  #endif\n\nand notice how if CONFIG_SMP isn't set, 'cpu_info' just turns into a\nregular non-percpu thing.\n\nBut the sparse checking doesn't go away just because it's compiled for UP.\n\n              Linus",
+          "year": "2021",
+          "month": "04"
+        },
+        {
+          "filepath": "emails/2021/04/161955323914298.mbox",
+          "message_id": "<87a6pjo65i.ffs () nanos ! tec ! linutronix ! de>",
+          "author_name": "Thomas Gleixner",
+          "author_email": "tglx () linutronix ! de",
+          "subject": "Re: [tglx-devel:x86/l1dflush 7/9] arch/x86/mm/tlb.c:354:13: sparse: sparse: incorrect type in initia",
+          "date": "2021-04-27 19:54:01+00:00",
+          "date_str": "Tue, 27 Apr 2021 19:54:01 +0000",
+          "body": "On Tue, Apr 27 2021 at 10:00, Linus Torvalds wrote:\n> On Mon, Apr 26, 2021 at 11:37 PM Thomas Gleixner <tglx@linutronix.de> wrote:\n>>\n>> >  > 354                if (this_cpu_read(cpu_info.smt_active)) {\n>>\n>> That's a valid construct and the kernel of full of percpuvar.member reads/writes.\n>\n> Hmm. \"cpu_info\" doesn't seem to be marked as a percpu data structure.\n>\n> Is this perhaps a UP config? Because we have:\n>\n>   extern struct cpuinfo_x86       boot_cpu_data;\n>     ...\n>   #ifdef CONFIG_SMP\n>   DECLARE_PER_CPU_READ_MOSTLY(struct cpuinfo_x86, cpu_info);\n>   #define cpu_data(cpu)           per_cpu(cpu_info, cpu)\n>   #else\n>   #define cpu_info                boot_cpu_data\n>   #define cpu_data(cpu)           boot_cpu_data\n>   #endif\n>\n> and notice how if CONFIG_SMP isn't set, 'cpu_info' just turns into a\n> regular non-percpu thing.\n>\n> But the sparse checking doesn't go away just because it's compiled for UP.\n\nDuh yes. I'm a moron.",
+          "year": "2021",
+          "month": "04"
+        }
+      ],
+      "primary_category": "address_space"
+    }
+  ]
+}

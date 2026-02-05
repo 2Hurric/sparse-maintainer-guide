@@ -1,0 +1,93 @@
+{
+  "year": "2020",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 5,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [PATCH] handle more graciously labels with no statement",
+      "normalized_subject": "handle more graciously labels with no statement",
+      "message_count": 5,
+      "participants": [
+        "Luc Van Oostenryck",
+        "Linus Torvalds",
+        "Bart Van Assche"
+      ],
+      "categories": [
+        "context_analysis",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2020-10-26T04:53:38+00:00",
+      "last_date": "2020-10-26T23:39:23+00:00",
+      "year": 2020,
+      "messages": [
+        {
+          "filepath": "emails/2020/10/160368803205047.mbox",
+          "message_id": "<20201026045338.55218-1-luc.vanoostenryck () gmail ! com>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "[PATCH] handle more graciously labels with no statement",
+          "date": "2020-10-26 04:53:38+00:00",
+          "date_str": "Mon, 26 Oct 2020 04:53:38 +0000",
+          "body": "In C a label must precede a statement. A null statement is OK\nbut a closing braces is not.\n\nSo, catch this situation, emit a warning and continue as if a\nnull statement was there.\n\nThis occurs currently on v5.10-rc1 because of some ifdefery.\n\nSigned-off-by: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>\n---\n parse.c | 5 +++++\n 1 file changed, 5 insertions(+)\n\ndiff --git a/parse.c b/parse.c\nindex 31ecef0f554d..b6090d38cc61 100644\n--- a/parse.c\n+++ b/parse.c\n@@ -2468,6 +2468,11 @@ static struct token *statement(struct token *token, struct statement **tree)\n \t\t\t\t\twarn_label_usage(stmt->pos, s->label_pos, s->ident);\n \t\t\t}\n \t\t\ts->stmt = stmt;\n+\t\t\tif (match_op(token, '}')) {\n+\t\t\t\twarning(token->pos, \"statement expected after label\");\n+\t\t\t\tstmt->label_statement = alloc_statement(token->pos, STMT_NONE);\n+\t\t\t\treturn token;\n+\t\t\t}\n \t\t\treturn statement(token, &stmt->label_statement);\n \t\t}\n \t}\n-- \n2.29.0\n",
+          "year": "2020",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2020/10/160373411820318.mbox",
+          "message_id": "<CAHk-=wigYApoRH_LS2wu-i7fNp0wF1eJz27od02oo124qXvBjw () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "date": "2020-10-26 17:41:36+00:00",
+          "date_str": "Mon, 26 Oct 2020 17:41:36 +0000",
+          "body": "On Sun, Oct 25, 2020 at 9:53 PM Luc Van Oostenryck\n<luc.vanoostenryck@gmail.com> wrote:\n>\n> This occurs currently on v5.10-rc1 because of some ifdefery.\n\nWell, sparse being more robust is good, so the patch looks sane to me..\n\nBut can you point to the actual 5.10-rc1 problem? I haven't seen the\nreport, and afaik gcc will complain about this too (\"label at end of\ncompound statement\") so I'm surprised sparse hits it..\n\n                Linus",
+          "year": "2020",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2020/10/160374533323807.mbox",
+          "message_id": "<20201026204847.h3uokzvm74g5ykcn () ltop ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "date": "2020-10-26 20:48:47+00:00",
+          "date_str": "Mon, 26 Oct 2020 20:48:47 +0000",
+          "body": "On Mon, Oct 26, 2020 at 10:41:36AM -0700, Linus Torvalds wrote:\n> On Sun, Oct 25, 2020 at 9:53 PM Luc Van Oostenryck\n> <luc.vanoostenryck@gmail.com> wrote:\n> >\n> > This occurs currently on v5.10-rc1 because of some ifdefery.\n> \n> Well, sparse being more robust is good, so the patch looks sane to me..\n> \n> But can you point to the actual 5.10-rc1 problem? I haven't seen the\n> report, and afaik gcc will complain about this too (\"label at end of\n> compound statement\") so I'm surprised sparse hits it..\n\nWell, I was surprised it wasn't caught and was ready to send a patch\nbut it can only happen when using sparse, see below, quite ironical:\n\tdrivers/scsi/qla2xxx/qla_tmpl.c:1052.\n\t1050         }\n\t1051 \n\t1052 bailout:\n\t1053 #ifndef __CHECKER__\n\t1054         if (!hardware_locked)\n\t1055                 spin_unlock_irqrestore(&vha->hw->hardware_lock, flags);\n\t1056 #endif\n\t1057 }\n\n\n-- Luc",
+          "year": "2020",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2020/10/160375453826026.mbox",
+          "message_id": "<3abeaeef-ddde-5c47-f79b-4c61a0820c08 () acm ! org>",
+          "author_name": "Bart Van Assche",
+          "author_email": "bvanassche () acm ! org",
+          "subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "date": "2020-10-26 23:22:12+00:00",
+          "date_str": "Mon, 26 Oct 2020 23:22:12 +0000",
+          "body": "On 10/26/20 3:56 PM, Linus Torvalds wrote:\n> On Mon, Oct 26, 2020 at 1:48 PM Luc Van Oostenryck\n> <luc.vanoostenryck@gmail.com> wrote:\n>>\n>> On Mon, Oct 26, 2020 at 10:41:36AM -0700, Linus Torvalds wrote:\n>>> But can you point to the actual 5.10-rc1 problem? I haven't seen the\n>>> report, and afaik gcc will complain about this too (\"label at end of\n>>> compound statement\") so I'm surprised sparse hits it..\n>>\n>> Well, I was surprised it wasn't caught and was ready to send a patch\n>> but it can only happen when using sparse, see below, quite ironic:\n>>         drivers/scsi/qla2xxx/qla_tmpl.c:1052.\n>>         1050         }\n>>         1051\n>>         1052 bailout:\n>>         1053 #ifndef __CHECKER__\n>>         1054         if (!hardware_locked)\n>>         1055                 spin_unlock_irqrestore(&vha->hw->hardware_lock, flags);\n>>         1056 #endif\n>>         1057 }\n> \n> Yeah, that \"don't sparse this\" pattern has been problematic before.\n> \n> I removed it.\n> \n> Bart, Arun - see commit 4525c8781ec0 (\"scsi: qla2xxx: remove incorrect\n> sparse #ifdef\").\n\nHi Linus,\n\nThank you for having Cc-ed me. I agree that it's better to make the\nkernel code compliant with the C standard than to make sparse accept\nnon-standard code.\n\nThe #ifndef __CHECKER__ / #endif that I added in 2015 in the above code\n(commit 8d16366b5f23) was added because at that time I didn't see a\nbetter solution.\n\nBTW, personally I'm neither enthusiast about #ifndef __CHECKER__ /\n#endif nor about if (expression) <locking statement>.\n\nBart.",
+          "year": "2020",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2020/10/160375558426307.mbox",
+          "message_id": "<CAHk-=wh=Uf4DydFyii-nFe-a2SjRemPr9w0iw+aK8rL8_MjEYA () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: [PATCH] handle more graciously labels with no statement",
+          "date": "2020-10-26 23:39:23+00:00",
+          "date_str": "Mon, 26 Oct 2020 23:39:23 +0000",
+          "body": "On Mon, Oct 26, 2020 at 4:22 PM Bart Van Assche <bvanassche@acm.org> wrote:\n>\n> The #ifndef __CHECKER__ / #endif that I added in 2015 in the above code\n> (commit 8d16366b5f23) was added because at that time I didn't see a\n> better solution.\n\nI think there are only a couple of callers, and all of them just have\na constant \"device_locked\" argument.\n\nIt should be easy to make the (I think single) use that _didn't_ lock\nthe device just do the locking, and then all of them have\n\"device_locked = 1\", and then that argument can be removed and the\nwhole conditional be replaced by a lockdep assert.\n\nExactly like y9ou did in 8ae178760b23 (\"scsi: qla2xxx: Simplify the\nfunctions for dumping firmware\") in other words.\n\nBut I didn't really look _that_ much into it, this is just from a\nsimple \"grep\" thing and maybe I missed something. I just did the\nminimal \"don't do invalid C\" thing.\n\n              Linus",
+          "year": "2020",
+          "month": "10"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

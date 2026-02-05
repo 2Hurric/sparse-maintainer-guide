@@ -1,0 +1,188 @@
+{
+  "year": "2012",
+  "stats": {
+    "total_threads": 2,
+    "total_messages": 11,
+    "categories": {
+      "context_analysis": 2
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+      "normalized_subject": "Documentation/sparse.txt: document context annotations for lock checking",
+      "message_count": 7,
+      "participants": [
+        "Ed Cashin",
+        "Christopher Li",
+        "Josh Triplett"
+      ],
+      "categories": [
+        "kernel_integration",
+        "context_analysis",
+        "sparse_internals",
+        "type_system",
+        "compiler_compat"
+      ],
+      "first_date": "2012-10-18T14:27:26+00:00",
+      "last_date": "2012-10-19T22:14:22+00:00",
+      "year": 2012,
+      "messages": [
+        {
+          "filepath": "emails/2012/10/135057057910735.mbox",
+          "message_id": "<1350570446.22036 () cat ! he ! net>",
+          "author_name": "Ed Cashin",
+          "author_email": "ecashin () coraid ! com",
+          "subject": "[PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-18 14:27:26+00:00",
+          "date_str": "Thu, 18 Oct 2012 14:27:26 +0000",
+          "body": "The context feature of sparse is used with the Linux kernel\nsources to check for imbalanced uses of locks.  Document the\nannotations defined in include/linux/compiler.h that tell sparse\nwhat to expect when a lock is held on function entry, exit, or\nboth.\n\nSigned-off-by: Ed Cashin <ecashin@coraid.com>\n---\n Documentation/sparse.txt |   18 ++++++++++++++++++\n 1 files changed, 18 insertions(+), 0 deletions(-)\n\ndiff --git a/Documentation/sparse.txt b/Documentation/sparse.txt\nindex 4909d41..eceab13 100644\n--- a/Documentation/sparse.txt\n+++ b/Documentation/sparse.txt\n@@ -49,6 +49,24 @@ be generated without __CHECK_ENDIAN__.\n __bitwise - noisy stuff; in particular, __le*/__be* are that.  We really\n don't want to drown in noise unless we'd explicitly asked for it.\n \n+Using sparse for lock checking\n+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n+\n+The following macros are undefined for gcc and defined during a sparse\n+run to use the \"context\" tracking feature of sparse, applied to\n+locking.  These annotations tell sparse when a lock is held, with\n+regard to the annotated function's entry and exit.\n+\n+__must_hold - The specified lock is held on function entry and exit.\n+\n+__acquires - The specified lock is held on function exit, but not entry.\n+\n+__releases - The specified lock is held on function entry, but not exit.\n+\n+If the function enters and exits without the lock held, acquiring and\n+releasing the lock inside the function in a balanced way, no\n+annotation is needed.  The tree annotations above are for cases where\n+sparse would otherwise report a context imbalance.\n \n Getting sparse\n ~~~~~~~~~~~~~~\n-- \n1.7.1\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135060179823381.mbox",
+          "message_id": "<20121018230948.GC10627 () jtriplet-mobl1>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-18 23:09:49+00:00",
+          "date_str": "Thu, 18 Oct 2012 23:09:49 +0000",
+          "body": "On Thu, Oct 18, 2012 at 07:27:26AM -0700, Ed Cashin wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n> \n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\n\n>  Documentation/sparse.txt |   18 ++++++++++++++++++\n>  1 files changed, 18 insertions(+), 0 deletions(-)\n> \n> diff --git a/Documentation/sparse.txt b/Documentation/sparse.txt\n> index 4909d41..eceab13 100644\n> --- a/Documentation/sparse.txt\n> +++ b/Documentation/sparse.txt\n> @@ -49,6 +49,24 @@ be generated without __CHECK_ENDIAN__.\n>  __bitwise - noisy stuff; in particular, __le*/__be* are that.  We really\n>  don't want to drown in noise unless we'd explicitly asked for it.\n>  \n> +Using sparse for lock checking\n> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n> +\n> +The following macros are undefined for gcc and defined during a sparse\n> +run to use the \"context\" tracking feature of sparse, applied to\n> +locking.  These annotations tell sparse when a lock is held, with\n> +regard to the annotated function's entry and exit.\n> +\n> +__must_hold - The specified lock is held on function entry and exit.\n> +\n> +__acquires - The specified lock is held on function exit, but not entry.\n> +\n> +__releases - The specified lock is held on function entry, but not exit.\n> +\n> +If the function enters and exits without the lock held, acquiring and\n> +releasing the lock inside the function in a balanced way, no\n> +annotation is needed.  The tree annotations above are for cases where\n> +sparse would otherwise report a context imbalance.\n>  \n>  Getting sparse\n>  ~~~~~~~~~~~~~~\n> -- \n> 1.7.1\n> \n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-doc\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135060180323393.mbox",
+          "message_id": "<20121018230948.GC10627 () jtriplet-mobl1>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-18 23:09:49+00:00",
+          "date_str": "Thu, 18 Oct 2012 23:09:49 +0000",
+          "body": "On Thu, Oct 18, 2012 at 07:27:26AM -0700, Ed Cashin wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n> \n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\n\n>  Documentation/sparse.txt |   18 ++++++++++++++++++\n>  1 files changed, 18 insertions(+), 0 deletions(-)\n> \n> diff --git a/Documentation/sparse.txt b/Documentation/sparse.txt\n> index 4909d41..eceab13 100644\n> --- a/Documentation/sparse.txt\n> +++ b/Documentation/sparse.txt\n> @@ -49,6 +49,24 @@ be generated without __CHECK_ENDIAN__.\n>  __bitwise - noisy stuff; in particular, __le*/__be* are that.  We really\n>  don't want to drown in noise unless we'd explicitly asked for it.\n>  \n> +Using sparse for lock checking\n> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n> +\n> +The following macros are undefined for gcc and defined during a sparse\n> +run to use the \"context\" tracking feature of sparse, applied to\n> +locking.  These annotations tell sparse when a lock is held, with\n> +regard to the annotated function's entry and exit.\n> +\n> +__must_hold - The specified lock is held on function entry and exit.\n> +\n> +__acquires - The specified lock is held on function exit, but not entry.\n> +\n> +__releases - The specified lock is held on function entry, but not exit.\n> +\n> +If the function enters and exits without the lock held, acquiring and\n> +releasing the lock inside the function in a balanced way, no\n> +annotation is needed.  The tree annotations above are for cases where\n> +sparse would otherwise report a context imbalance.\n>  \n>  Getting sparse\n>  ~~~~~~~~~~~~~~\n> -- \n> 1.7.1\n> \n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135060181323400.mbox",
+          "message_id": "<20121018230948.GC10627 () jtriplet-mobl1>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-18 23:09:49+00:00",
+          "date_str": "Thu, 18 Oct 2012 23:09:49 +0000",
+          "body": "On Thu, Oct 18, 2012 at 07:27:26AM -0700, Ed Cashin wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n> \n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nReviewed-by: Josh Triplett <josh@joshtriplett.org>\n\n>  Documentation/sparse.txt |   18 ++++++++++++++++++\n>  1 files changed, 18 insertions(+), 0 deletions(-)\n> \n> diff --git a/Documentation/sparse.txt b/Documentation/sparse.txt\n> index 4909d41..eceab13 100644\n> --- a/Documentation/sparse.txt\n> +++ b/Documentation/sparse.txt\n> @@ -49,6 +49,24 @@ be generated without __CHECK_ENDIAN__.\n>  __bitwise - noisy stuff; in particular, __le*/__be* are that.  We really\n>  don't want to drown in noise unless we'd explicitly asked for it.\n>  \n> +Using sparse for lock checking\n> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n> +\n> +The following macros are undefined for gcc and defined during a sparse\n> +run to use the \"context\" tracking feature of sparse, applied to\n> +locking.  These annotations tell sparse when a lock is held, with\n> +regard to the annotated function's entry and exit.\n> +\n> +__must_hold - The specified lock is held on function entry and exit.\n> +\n> +__acquires - The specified lock is held on function exit, but not entry.\n> +\n> +__releases - The specified lock is held on function entry, but not exit.\n> +\n> +If the function enters and exits without the lock held, acquiring and\n> +releasing the lock inside the function in a balanced way, no\n> +annotation is needed.  The tree annotations above are for cases where\n> +sparse would otherwise report a context imbalance.\n>  \n>  Getting sparse\n>  ~~~~~~~~~~~~~~\n> -- \n> 1.7.1\n> \n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135068488218310.mbox",
+          "message_id": "<CANeU7QkUdeR6HyDEVF1fkm9EN=SEkcuY0QPyZxpYnGAzDj7+kg () mail ! gmail ! com>",
+          "author_name": "Christopher Li",
+          "author_email": "sparse () chrisli ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-19 22:14:22+00:00",
+          "date_str": "Fri, 19 Oct 2012 22:14:22 +0000",
+          "body": "On Thu, Oct 18, 2012 at 7:27 AM, Ed Cashin <ecashin@coraid.com> wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n>\n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>\n\nChris\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135068488218311.mbox",
+          "message_id": "<CANeU7QkUdeR6HyDEVF1fkm9EN=SEkcuY0QPyZxpYnGAzDj7+kg () mail ! gmail ! com>",
+          "author_name": "Christopher Li",
+          "author_email": "sparse () chrisli ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-19 22:14:22+00:00",
+          "date_str": "Fri, 19 Oct 2012 22:14:22 +0000",
+          "body": "On Thu, Oct 18, 2012 at 7:27 AM, Ed Cashin <ecashin@coraid.com> wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n>\n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>\n\nChris\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-doc\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "10"
+        },
+        {
+          "filepath": "emails/2012/10/135068488118309.mbox",
+          "message_id": "<CANeU7QkUdeR6HyDEVF1fkm9EN=SEkcuY0QPyZxpYnGAzDj7+kg () mail ! gmail ! com>",
+          "author_name": "Christopher Li",
+          "author_email": "sparse () chrisli ! org",
+          "subject": "Re: [PATCH] Documentation/sparse.txt: document context annotations for lock checking",
+          "date": "2012-10-19 22:14:22+00:00",
+          "date_str": "Fri, 19 Oct 2012 22:14:22 +0000",
+          "body": "On Thu, Oct 18, 2012 at 7:27 AM, Ed Cashin <ecashin@coraid.com> wrote:\n> The context feature of sparse is used with the Linux kernel\n> sources to check for imbalanced uses of locks.  Document the\n> annotations defined in include/linux/compiler.h that tell sparse\n> what to expect when a lock is held on function entry, exit, or\n> both.\n>\n> Signed-off-by: Ed Cashin <ecashin@coraid.com>\n\nSigned-off-by: Christopher Li <sparse@chrisli.org>\n\nChris\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2012",
+          "month": "10"
+        }
+      ],
+      "primary_category": "context_analysis"
+    },
+    {
+      "subject": "Killing off __cond_lock()",
+      "normalized_subject": "Killing off __cond_lock()",
+      "message_count": 4,
+      "participants": [
+        "Johannes Berg",
+        "Peter Zijlstra",
+        "Josh Triplett"
+      ],
+      "categories": [
+        "context_analysis",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2012-03-24T16:23:36+00:00",
+      "last_date": "2012-03-26T09:29:35+00:00",
+      "year": 2012,
+      "messages": [
+        {
+          "filepath": "emails/2012/03/133260629725145.mbox",
+          "message_id": "<1332606216.16159.48.camel () twins>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Killing off __cond_lock()",
+          "date": "2012-03-24 16:23:36+00:00",
+          "date_str": "Sat, 24 Mar 2012 16:23:36 +0000",
+          "body": "Hi all,\n\nSo the kernel has this __cond_lock() crap pile, which is implemented\nlike:\n\n#define __acquire(x)       __context__(x,1)\n#define __cond_lock(x,c)   ((c) ? ({ __acquire(x); 1; }) : 0)\n\nNow the problem with this is that people send ugly patches like:\n\nhttps://lkml.org/lkml/2012/3/24/57\nhttp://www.spinics.net/lists/mm-commits/msg80386.html\n\nThat basically wrap an existing function in an inline function just to\nuse __cond_lock() on the return value.\n\nIt would be ever so much nicer if we could declare such functions like:\n\nstruct anon_vma *page_lock_anon_vma(struct page *page)\n\t__cond_acquires(RCU) \n\t__cond_acquires(page_lock_anon_vma(page)->root->lock);\n\nMeaning that if the return value is true (non-zero), it would acquire\nthat lock/context. One could of course add some shorter means of\nreferring to the return value, but simply using the function in the\nexpression should be simple enough.\n\nIn order to implement this I guess we need to extend the\n__attribute__((context(expr,in,out))) thing. \n\nCurrently in,out are explicit value constants, but I guess if we make\nthem expressions we could evaluate them and get dynamic behaviour.\n\nThus allowing something like:\n\nint spin_trylock(spinlock_t *lock)\n\t__attribute__((context(lock, 0, !!spin_trylock(lock));\n\nmeaning that the context would be incremented by 1 if the return value\nwere true.\n\nHaving only briefly looked at the sparse source, is this feasible to\nimplement or do we get chicken/egg problems wrt using a function before\nits declaration is complete, and referring a return value before the\nfunction is part of an expression?\n\nIf this yields problems, are there better ways of solving this issue?\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "03"
+        },
+        {
+          "filepath": "emails/2012/03/133266538907267.mbox",
+          "message_id": "<1332665310.3840.8.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: Killing off __cond_lock()",
+          "date": "2012-03-25 08:48:30+00:00",
+          "date_str": "Sun, 25 Mar 2012 08:48:30 +0000",
+          "body": "Hi,\n\n> struct anon_vma *page_lock_anon_vma(struct page *page)\n> \t__cond_acquires(RCU) \n> \t__cond_acquires(page_lock_anon_vma(page)->root->lock);\n> \n> Meaning that if the return value is true (non-zero), it would acquire\n> that lock/context. One could of course add some shorter means of\n> referring to the return value, but simply using the function in the\n> expression should be simple enough.\n> \n> In order to implement this I guess we need to extend the\n> __attribute__((context(expr,in,out))) thing. \n> \n> Currently in,out are explicit value constants, but I guess if we make\n> them expressions we could evaluate them and get dynamic behaviour.\n> \n> Thus allowing something like:\n> \n> int spin_trylock(spinlock_t *lock)\n> \t__attribute__((context(lock, 0, !!spin_trylock(lock));\n> \n> meaning that the context would be incremented by 1 if the return value\n> were true.\n> \n> Having only briefly looked at the sparse source, is this feasible to\n> implement or do we get chicken/egg problems wrt using a function before\n> its declaration is complete, and referring a return value before the\n> function is part of an expression?\n> \n> If this yields problems, are there better ways of solving this issue?\n\nI once looked at all of this (which I suspect you saw, given that you're\nCC'ing me) but all my changes ended up being reverted since they broke\nthings so maybe I'm not the right person to ask ... :-)\n\nI played with having a \"RETURN\" builtin (or something like that) to use\ninside here but it didn't really work out well, I don't think that was\nwhat ended up going upstream though.\n\nHowever, I don't think using the function call etc. is a good idea, to\nme that makes it look too much like you could put arbitrary code there,\nbut since this doesn't even exist at runtime ...\n\nHowever, note that today sparse doesn't evaluate anything in the\ncontext, it doesn't even look at the first argument. So another thing\nyou can't really annotate well is things like this:\n\nstruct foo_object *get_locked_object(...);\n\nThis is why I used RETURN to give the return value a name, so you could\nwrite\n\t__acquires(&RETURN->lock)\n\n\nBut I was also trying to make sparse actually evaluate the first\nargument so it could tell the difference between two locks, which you\nmight not even care about ... (it would be nice though I think)\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "03"
+        },
+        {
+          "filepath": "emails/2012/03/133275251730940.mbox",
+          "message_id": "<1332752437.7081.5.camel () jlt3 ! sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: Killing off __cond_lock()",
+          "date": "2012-03-26 09:00:37+00:00",
+          "date_str": "Mon, 26 Mar 2012 09:00:37 +0000",
+          "body": "On Mon, 2012-03-26 at 10:11 +0200, Peter Zijlstra wrote:\n\n> > However, note that today sparse doesn't evaluate anything in the\n> > context, it doesn't even look at the first argument. So another thing\n> > you can't really annotate well is things like this:\n> > \n> > struct foo_object *get_locked_object(...);\n> > \n> > This is why I used RETURN to give the return value a name, so you could\n> > write\n> > \t__acquires(&RETURN->lock)\n> \n> \n> Right, but if it doesn't actually evaluate the expression used in the\n> context this is going to be problematic.\n\nIt probably could -- but the question is what context to evaluate it in.\n\n> > But I was also trying to make sparse actually evaluate the first\n> > argument so it could tell the difference between two locks, which you\n> > might not even care about ... (it would be nice though I think)\n> \n> Right, so what I thought we could maybe do is inject code in the\n> callsites of these functions.\n> \n> So after the OP_CALL emit a piece of code that works like the\n> __context__ stmt and can reference the return value that exists at that\n> point.\n> \n> This also makes the conditional thing quite simple to do.\n\nIndeed, but you'd need some sort of expression rewriting. Consider\n\nvoid lock_obj(obj_t *o) __acquires(&o->lock);\n\nvoid lock_obj(obj_t *obj)\n{\n\t__acquire(&obj->lock);\n\n\t...\n}\n\n\nvoid foo(void)\n{\n\t...\n\tlock_obj(&f);\n\t...\n\tunlock_obj(&f);\n\t...\n}\n\n\nNow you suddenly need to replace \"&o->lock\" with \"&(&f)->lock\", when\nchecking the function itself it really is called \"obj\", not \"o\". Not\nthat sparse actually checks that the function behaviour matches the\ndeclaration today though.\n\njohannes\n\n\nPS: Something else I had wanted to remind you of: the cond_lock thing\nonly works due to some sort of optimiser pass (is there such a thing?)\nin sparse, sometimes it fails mysteriously because the condition isn't\nthe exact same condition or something.\n\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "03"
+        },
+        {
+          "filepath": "emails/2012/03/133275425431684.mbox",
+          "message_id": "<20120326092935.GB21202 () leaf>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () freedesktop ! org",
+          "subject": "Re: Killing off __cond_lock()",
+          "date": "2012-03-26 09:29:35+00:00",
+          "date_str": "Mon, 26 Mar 2012 09:29:35 +0000",
+          "body": "On Mon, Mar 26, 2012 at 10:11:34AM +0200, Peter Zijlstra wrote:\n> On Sun, 2012-03-25 at 10:48 +0200, Johannes Berg wrote:\n> > But I was also trying to make sparse actually evaluate the first\n> > argument so it could tell the difference between two locks, which you\n> > might not even care about ... (it would be nice though I think)\n> \n> Right, so what I thought we could maybe do is inject code in the\n> callsites of these functions.\n> \n> So after the OP_CALL emit a piece of code that works like the\n> __context__ stmt and can reference the return value that exists at that\n> point.\n> \n> This also makes the conditional thing quite simple to do.\n\nFor the general case, this seems like roughly the right solution.  That\nwill also handle slightly more complex conditionals, though\nsignificantly more complex ones will just get sparse complaining that\nyou can reach later code with multiple contexts.\n\nSimilarly, require_context might work better as an expression executed\nbeforehand, which would ideally have access to the arguments.\n\nI don't know if it makes sense to put an __attribute__((__after_expr__,\narbitrary_expression)) into sparse just to avoid doing the same thing\nwith a macro or static inline, though.  A macro or static inline\ntrivially has access to the arguments and return value, and can run\narbitrary statements/expressions either before or after the underlying\nfunction call, including conditionals.\n\n(Even better if sparse could just always do whole-program analysis, so\nthat you could include the __context__ call inline in the normal\nfunction and have the caller see it, but that won't happen anytime\nsoon.)\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2012",
+          "month": "03"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "year": "2017",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 7,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: Unreachable code diagnostic",
+      "normalized_subject": "Unreachable code diagnostic",
+      "message_count": 7,
+      "participants": [
+        "Matthew Wilcox",
+        "Josh Triplett",
+        "Dan Carpenter",
+        "Luc Van Oostenryck",
+        "Linus Torvalds"
+      ],
+      "categories": [
+        "kernel_integration",
+        "context_analysis",
+        "sparse_internals",
+        "general",
+        "compiler_compat"
+      ],
+      "first_date": "2017-02-24T18:33:37+00:00",
+      "last_date": "2017-02-24T21:05:51+00:00",
+      "year": 2017,
+      "messages": [
+        {
+          "filepath": "emails/2017/02/148796122318039.mbox",
+          "message_id": "<CA+55aFwwv+tMb1-7u7EzVxLrn1CtdQ2Wu7jXTfxV7DrzrROmvg () mail ! gmail ! com>",
+          "author_name": "Linus Torvalds",
+          "author_email": "torvalds () linux-foundation ! org",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 18:33:37+00:00",
+          "date_str": "Fri, 24 Feb 2017 18:33:37 +0000",
+          "body": "On Fri, Feb 24, 2017 at 10:07 AM, Matthew Wilcox <willy@infradead.org> wrote:\n>\n> Maybe sparse could warn about code after an unconditional return\n> statement?\n\nThis is not likely to be a very successful model, I suspect.\n\nYou already partly see the problem:\n\n> I wouldn't like to see it warn about code after a conditional\n> return statement where the condition is always true; I think that would\n> have a lot of false positives due to macros.\n\nbecause the thing is, we actually have tons and tons of unreachable\ncode due to things like\n\n   if (IS_ENABLED(CONFIG_XYZ)) {...\n\nwhich allows us much cleaner code than using things like #ifdef's.\n\nSo yes, unreachable code in general is actually very common.\n\nAnd it's not just in Linux - think of all the code you've ever seen\nthat has used \"ASSERT()\", which often ends up doing exactly the same\nthings. Even if you'd think that \"when debugging isn't enabled, it\njust goes away entirely\", you often end up having things that\nbasically end up expanding to things like\n\n    do { if (0) {..} } while (0)\n\ninside macros very consciously in order to avoid compiler warnings\nabout unused variables etc when the variable is only used inside that\ndebug statement.\n\nI realize that on the face of it, such a \"if (0)\" sounds insane, but\nyou can seriously just grep for that pattern in Linux:\n\n    [torvalds@i7 linux]$ git grep 'if (0)' | wc -l\n    156\n\nnow, getting back to your \"limit it _only_ to code after an\nunconditional 'return' statement\" suggestion. The reason I don't\nbelieve that will be all that useful either, is that a reasonable C\ncompiler (or something like sparse) simply doesn't even see many\nconditionals.\n\nThat comes largely from how the C pre-processor is such a separate\nphase and not actually integrated with the C syntax itself. So if any\nof the conditionals above end up being done as cpp macros, it's\nbasically pretty much impossible to see them.\n\nYou'd actually likely be better off with something that doesn't\nactually really parse the C code, but parses the code _without_ doing\npreprocessor expansion, and basically look at it without doing the\nfull code analysis. More like what tools like checkpatch etc do -\nlookign for the superficial patterns, rather than the patterns that\nyou see when you actually expand everything.\n\nI'm not disputing that you can always find particular cases where a\nwarning would make sense, I just have a very strong suspicion that you\nend up having to limit the condition you search for _so_ much that it\nends up being basically pointless for anything but the one or two\ncases you already knew about and that triggered it.\n\n              Linus\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148796460219072.mbox",
+          "message_id": "<20170224192653.GA4480 () mwanda>",
+          "author_name": "Dan Carpenter",
+          "author_email": "dan.carpenter () oracle ! com",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 19:26:53+00:00",
+          "date_str": "Fri, 24 Feb 2017 19:26:53 +0000",
+          "body": "Smatch works pretty well for finding unreachable code.\n\nregards,\ndan carpenter\n\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148796622119529.mbox",
+          "message_id": "<20170224195654.3cd7bc2dz5mzhnlh () macpro ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 19:56:55+00:00",
+          "date_str": "Fri, 24 Feb 2017 19:56:55 +0000",
+          "body": "On Fri, Feb 24, 2017 at 10:57:07AM -0800, Josh Triplett wrote:\n> On Fri, Feb 24, 2017 at 10:07:59AM -0800, Matthew Wilcox wrote:\n> > I was recently sent some code that looked like this:\n> > \n> > int foo()\n> > {\n> > \tlock();\n> > \treturn bar();\n> > \tunlock();\n> > }\n> > \n> > When you're restructuring code that contains locks, this is a\n> > *really* easy mistake to make.  I've done it myself.  But there's no\n> > compiler warning for it!  gcc doesn't have it, sparse doesn't have it.\n> \n> Sparse does have a warning (via -Wcontext) for this, if you annotate\n> lock() and unlock() with __acquires(somelock) and __releases(somelock),\n> which expand to __attribute__((context(somelock,0,1))) and\n> __attribute__((context(somelock,0,1))) respectively.  You'll get a\n> warning that foo() returns with the lock held.\n> \n> Not at all perfect, but it does have reasonable handling of\n> conditionals, including a way to handle cond_lock().\n\nAbsolutely, -Wcontext is even enabled by default.\nSo with what is done in the kernel, you have something like:\n\t#define __acquires(x)  __attribute__((context(x,0,1)))\n\t#define __releases(x)  __attribute__((context(x,1,0)))\n\t\n\tvoid lock(void) __acquires(lock);\n\tvoid unlock(void) __releases(lock);\n\t\n\tint bar(void);\n\t\n\tstatic int foo(void)\n\t{\n\t        lock();\n\t        return bar();\n\t        unlock();\n\t}\n\nFor which sparse returns the following warning:\n\tzz.c:9:5: warning: context imbalance in 'foo' - wrong count at exit\n\nBut of course, that's just for code properly lock/context annotated and I'm\nnot sure if what you're asking, which is much more general, is only motivated\nby lock/unlock problems or by others problems too.\n\nLuc Van Oostenryck\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148796711919811.mbox",
+          "message_id": "<20170224201152.7skvolezq4j75su6 () macpro ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 20:11:53+00:00",
+          "date_str": "Fri, 24 Feb 2017 20:11:53 +0000",
+          "body": "On Fri, Feb 24, 2017 at 10:33:37AM -0800, Linus Torvalds wrote:\n> On Fri, Feb 24, 2017 at 10:07 AM, Matthew Wilcox <willy@infradead.org> wrote:\n> >\n> > Maybe sparse could warn about code after an unconditional return\n> > statement?\n> \n> This is not likely to be a very successful model, I suspect.\n> \n> You already partly see the problem:\n> \n> > I wouldn't like to see it warn about code after a conditional\n> > return statement where the condition is always true; I think that would\n> > have a lot of false positives due to macros.\n> \n> because the thing is, we actually have tons and tons of unreachable\n> code due to things like\n> \n>    if (IS_ENABLED(CONFIG_XYZ)) {...\n> \n> which allows us much cleaner code than using things like #ifdef's.\n> \n> So yes, unreachable code in general is actually very common.\n> \n\nsnip snip \n\n> \n> now, getting back to your \"limit it _only_ to code after an\n> unconditional 'return' statement\" suggestion. The reason I don't\n> believe that will be all that useful either, is that a reasonable C\n> compiler (or something like sparse) simply doesn't even see many\n> conditionals.\n> \n> That comes largely from how the C pre-processor is such a separate\n> phase and not actually integrated with the C syntax itself. So if any\n> of the conditionals above end up being done as cpp macros, it's\n> basically pretty much impossible to see them.\n> \n> You'd actually likely be better off with something that doesn't\n> actually really parse the C code, but parses the code _without_ doing\n> preprocessor expansion, and basically look at it without doing the\n> full code analysis. More like what tools like checkpatch etc do -\n> lookign for the superficial patterns, rather than the patterns that\n> you see when you actually expand everything.\n> \n> I'm not disputing that you can always find particular cases where a\n> warning would make sense, I just have a very strong suspicion that you\n> end up having to limit the condition you search for _so_ much that it\n> ends up being basically pointless for anything but the one or two\n> cases you already knew about and that triggered it.\n> \n>               Linus\n\n\nI'm not very sure what are the cases in wich Matthew is really\ninterested but I suppose that, even after preprocessing and\nelimination of if (0) {...}, a return statement in the middle\nof a compound statement is very often unintentional. \nThat should be easy to check.\n\n\nLuc Van Oostenryck\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148796904520307.mbox",
+          "message_id": "<20170224204356.hhfvnd6ballotrqu () x>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 20:43:56+00:00",
+          "date_str": "Fri, 24 Feb 2017 20:43:56 +0000",
+          "body": "On Fri, Feb 24, 2017 at 09:11:53PM +0100, Luc Van Oostenryck wrote:\n> I'm not very sure what are the cases in wich Matthew is really\n> interested but I suppose that, even after preprocessing and\n> elimination of if (0) {...}, a return statement in the middle\n> of a compound statement is very often unintentional. \n> That should be easy to check.\n\nBy \"middle of a compound statement\", you mean an unconditional return\nfollowed by more code?  Yes, that seems like something reasonable to\nstatically check.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148796924120364.mbox",
+          "message_id": "<20170224204710.hlhjv7ncir25ptd6 () macpro ! local>",
+          "author_name": "Luc Van Oostenryck",
+          "author_email": "luc.vanoostenryck () gmail ! com",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 20:47:10+00:00",
+          "date_str": "Fri, 24 Feb 2017 20:47:10 +0000",
+          "body": "On Fri, Feb 24, 2017 at 12:43:56PM -0800, Josh Triplett wrote:\n> On Fri, Feb 24, 2017 at 09:11:53PM +0100, Luc Van Oostenryck wrote:\n> > I'm not very sure what are the cases in wich Matthew is really\n> > interested but I suppose that, even after preprocessing and\n> > elimination of if (0) {...}, a return statement in the middle\n> > of a compound statement is very often unintentional. \n> > That should be easy to check.\n> \n> By \"middle of a compound statement\", you mean an unconditional return\n> followed by more code?  Yes, that seems like something reasonable to\n> statically check.\n> \n> - Josh Triplett\n\nYes, it's what I meant.\n\nLuc\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        },
+        {
+          "filepath": "emails/2017/02/148797035420740.mbox",
+          "message_id": "<20170224210551.GC16328 () bombadil ! infradead ! org>",
+          "author_name": "Matthew Wilcox",
+          "author_email": "willy () infradead ! org",
+          "subject": "Re: Unreachable code diagnostic",
+          "date": "2017-02-24 21:05:51+00:00",
+          "date_str": "Fri, 24 Feb 2017 21:05:51 +0000",
+          "body": "On Fri, Feb 24, 2017 at 10:57:07AM -0800, Josh Triplett wrote:\n> On Fri, Feb 24, 2017 at 10:07:59AM -0800, Matthew Wilcox wrote:\n> > I was recently sent some code that looked like this:\n> > \n> > int foo()\n> > {\n> > \tlock();\n> > \treturn bar();\n> > \tunlock();\n> > }\n> > \n> > When you're restructuring code that contains locks, this is a\n> > *really* easy mistake to make.  I've done it myself.  But there's no\n> > compiler warning for it!  gcc doesn't have it, sparse doesn't have it.\n> \n> Sparse does have a warning (via -Wcontext) for this, if you annotate\n> lock() and unlock() with __acquires(somelock) and __releases(somelock),\n> which expand to __attribute__((context(somelock,0,1))) and\n> __attribute__((context(somelock,0,1))) respectively.  You'll get a\n> warning that foo() returns with the lock held.\n> \n> Not at all perfect, but it does have reasonable handling of\n> conditionals, including a way to handle cond_lock().\n\nAh, yes, thanks.  I didn't actually try to compile the patch I was\nsent ... I was just bemused that the compiler didn't warn about this\n\"obvious\" wrongness.  So I wrote a test-case, which of course didn't have\nany lock annotations.  rcu_read_lock()/unlock() are correctly annotated\nand applying the patch I sent produces a sparse (and not gcc) warning.\nSo I've asked the submitter to run sparse in future.\n\n(of course, this means they have to ignore all the *other* pre-existing\nsparse warnings, but that's not the fault of anyone on this mailing list)\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2017",
+          "month": "02"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

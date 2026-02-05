@@ -1,0 +1,173 @@
+{
+  "year": "2014",
+  "stats": {
+    "total_threads": 2,
+    "total_messages": 10,
+    "categories": {
+      "context_analysis": 2
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+      "normalized_subject": "jffs2: fix sparse warning: unexpected unlock",
+      "message_count": 9,
+      "participants": [
+        "Brian Norris",
+        "Fabian Frederick",
+        "joshjoshtriplett ! org",
+        "Josh Triplett"
+      ],
+      "categories": [
+        "context_analysis",
+        "kernel_integration",
+        "sparse_internals"
+      ],
+      "first_date": "2014-09-18T18:46:16+00:00",
+      "last_date": "2014-10-22T08:40:45+00:00",
+      "year": 2014,
+      "messages": [
+        {
+          "filepath": "emails/2014/09/141106599010207.mbox",
+          "message_id": "<1411065976-20386-1-git-send-email-fabf () skynet ! be>",
+          "author_name": "Fabian Frederick",
+          "author_email": "fabf () skynet ! be",
+          "subject": "[PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-18 18:46:16+00:00",
+          "date_str": "Thu, 18 Sep 2014 18:46:16 +0000",
+          "body": "fs/jffs2/summary.c:846:5: warning: context imbalance in 'jffs2_sum_write_sumnode' - unexpected unlock\n\nSigned-off-by: Fabian Frederick <fabf@skynet.be>\n---\n fs/jffs2/summary.c | 2 ++\n 1 file changed, 2 insertions(+)\n\ndiff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\nindex c522d09..a0bac7b 100644\n--- a/fs/jffs2/summary.c\n+++ b/fs/jffs2/summary.c\n@@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info *c, struct jffs2_eraseblock\n /* Write out summary information - called from jffs2_do_reserve_space */\n \n int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n+\t__releases(&c->erase_completion_lock)\n+\t__acquires(&c->erase_completion_lock)\n {\n \tint datasize, infosize, padsize;\n \tstruct jffs2_eraseblock *jeb;\n-- \n1.9.1\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141140958107328.mbox",
+          "message_id": "<20140922181250.GN1193 () ld-irv-0074>",
+          "author_name": "Brian Norris",
+          "author_email": "computersforpeace () gmail ! com",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-22 18:12:50+00:00",
+          "date_str": "Mon, 22 Sep 2014 18:12:50 +0000",
+          "body": "+ linux-sparse\n\nOn Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> fs/jffs2/summary.c:846:5: warning: context imbalance in 'jffs2_sum_write_sumnode' - unexpected unlock\n> \n> Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> ---\n>  fs/jffs2/summary.c | 2 ++\n>  1 file changed, 2 insertions(+)\n> \n> diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> index c522d09..a0bac7b 100644\n> --- a/fs/jffs2/summary.c\n> +++ b/fs/jffs2/summary.c\n> @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info *c, struct jffs2_eraseblock\n>  /* Write out summary information - called from jffs2_do_reserve_space */\n>  \n>  int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> +\t__releases(&c->erase_completion_lock)\n> +\t__acquires(&c->erase_completion_lock)\n\nI'm not too familiar with sparse notations, but Documentation/sparse.txt\nsuggests the above is wrong, and the following is more accurate:\n\n\t__must_hold(&c->erase_completion_lock)\n\nBut it looks like there are several other examples which do this.\nAnyway, here's the relevant doc text, in case someone wants to clarify\nit for me, or else tell me the documentation is wrong:\n\n    __must_hold - The specified lock is held on function entry and exit.\n\n    __acquires - The specified lock is held on function exit, but not entry.\n\n    __releases - The specified lock is held on function entry, but not exit.\n\nSo __acquires and __releases look mutually exclusive, but it's not clear\nif __must_hold will actually cover what we want. (I haven't tested it.)\n\n>  {\n>  \tint datasize, infosize, padsize;\n>  \tstruct jffs2_eraseblock *jeb;\n\nBrian\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141140957607327.mbox",
+          "message_id": "<20140922181250.GN1193 () ld-irv-0074>",
+          "author_name": "Brian Norris",
+          "author_email": "computersforpeace () gmail ! com",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-22 18:12:50+00:00",
+          "date_str": "Mon, 22 Sep 2014 18:12:50 +0000",
+          "body": "+ linux-sparse\n\nOn Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> fs/jffs2/summary.c:846:5: warning: context imbalance in 'jffs2_sum_write_sumnode' - unexpected unlock\n> \n> Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> ---\n>  fs/jffs2/summary.c | 2 ++\n>  1 file changed, 2 insertions(+)\n> \n> diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> index c522d09..a0bac7b 100644\n> --- a/fs/jffs2/summary.c\n> +++ b/fs/jffs2/summary.c\n> @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info *c, struct jffs2_eraseblock\n>  /* Write out summary information - called from jffs2_do_reserve_space */\n>  \n>  int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> +\t__releases(&c->erase_completion_lock)\n> +\t__acquires(&c->erase_completion_lock)\n\nI'm not too familiar with sparse notations, but Documentation/sparse.txt\nsuggests the above is wrong, and the following is more accurate:\n\n\t__must_hold(&c->erase_completion_lock)\n\nBut it looks like there are several other examples which do this.\nAnyway, here's the relevant doc text, in case someone wants to clarify\nit for me, or else tell me the documentation is wrong:\n\n    __must_hold - The specified lock is held on function entry and exit.\n\n    __acquires - The specified lock is held on function exit, but not entry.\n\n    __releases - The specified lock is held on function entry, but not exit.\n\nSo __acquires and __releases look mutually exclusive, but it's not clear\nif __must_hold will actually cover what we want. (I haven't tested it.)\n\n>  {\n>  \tint datasize, infosize, padsize;\n>  \tstruct jffs2_eraseblock *jeb;\n\nBrian\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141177345502318.mbox",
+          "message_id": "<20140926231727.GD20917 () cloud>",
+          "author_name": "joshjoshtriplett ! org",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-26 23:17:27+00:00",
+          "date_str": "Fri, 26 Sep 2014 23:17:27 +0000",
+          "body": "On Mon, Sep 22, 2014 at 11:12:50AM -0700, Brian Norris wrote:\n> + linux-sparse\n> \n> On Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> > fs/jffs2/summary.c:846:5: warning: context imbalance in 'jffs2_sum_write_sumnode' - unexpected unlock\n> > \n> > Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> > ---\n> >  fs/jffs2/summary.c | 2 ++\n> >  1 file changed, 2 insertions(+)\n> > \n> > diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> > index c522d09..a0bac7b 100644\n> > --- a/fs/jffs2/summary.c\n> > +++ b/fs/jffs2/summary.c\n> > @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info *c, struct jffs2_eraseblock\n> >  /* Write out summary information - called from jffs2_do_reserve_space */\n> >  \n> >  int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> > +\t__releases(&c->erase_completion_lock)\n> > +\t__acquires(&c->erase_completion_lock)\n> \n> I'm not too familiar with sparse notations, but Documentation/sparse.txt\n> suggests the above is wrong, and the following is more accurate:\n> \n> \t__must_hold(&c->erase_completion_lock)\n> \n> But it looks like there are several other examples which do this.\n> Anyway, here's the relevant doc text, in case someone wants to clarify\n> it for me, or else tell me the documentation is wrong:\n> \n>     __must_hold - The specified lock is held on function entry and exit.\n> \n>     __acquires - The specified lock is held on function exit, but not entry.\n> \n>     __releases - The specified lock is held on function entry, but not exit.\n> \n> So __acquires and __releases look mutually exclusive, but it's not clear\n> if __must_hold will actually cover what we want. (I haven't tested it.)\n\n__must_hold is indeed the correct annotation.  (There isn't currently\nanything enforcing that, though.)\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141180733408395.mbox",
+          "message_id": "<1745266822.710655.1411807315752.open-xchange () webmail ! nmp ! skynet ! be>",
+          "author_name": "Fabian Frederick",
+          "author_email": "fabf () skynet ! be",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-27 08:41:55+00:00",
+          "date_str": "Sat, 27 Sep 2014 08:41:55 +0000",
+          "body": "\n\n> On 27 September 2014 at 01:17 josh@joshtriplett.org wrote:\n>\n>\n> On Mon, Sep 22, 2014 at 11:12:50AM -0700, Brian Norris wrote:\n> > + linux-sparse\n> >\n> > On Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> > > fs/jffs2/summary.c:846:5: warning: context imbalance in\n> > > 'jffs2_sum_write_sumnode' - unexpected unlock\n> > >\n> > > Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> > > ---\n> > >\u00a0 fs/jffs2/summary.c | 2 ++\n> > >\u00a0 1 file changed, 2 insertions(+)\n> > >\n> > > diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> > > index c522d09..a0bac7b 100644\n> > > --- a/fs/jffs2/summary.c\n> > > +++ b/fs/jffs2/summary.c\n> > > @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info\n> > > *c, struct jffs2_eraseblock\n> > >\u00a0 /* Write out summary information - called from jffs2_do_reserve_space */\n> > >\u00a0\n> > >\u00a0 int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> > > + __releases(&c->erase_completion_lock)\n> > > + __acquires(&c->erase_completion_lock)\n> >\n> > I'm not too familiar with sparse notations, but Documentation/sparse.txt\n> > suggests the above is wrong, and the following is more accurate:\n> >\n> >\u00a0 \u00a0 \u00a0__must_hold(&c->erase_completion_lock)\n> >\n> > But it looks like there are several other examples which do this.\n> > Anyway, here's the relevant doc text, in case someone wants to clarify\n> > it for me, or else tell me the documentation is wrong:\n> >\n> >\u00a0 \u00a0 \u00a0__must_hold - The specified lock is held on function entry and exit.\n> >\n> >\u00a0 \u00a0 \u00a0__acquires - The specified lock is held on function exit, but not entry.\n> >\n> >\u00a0 \u00a0 \u00a0__releases - The specified lock is held on function entry, but not exit.\n> >\n> > So __acquires and __releases look mutually exclusive, but it's not clear\n> > if __must_hold will actually cover what we want. (I haven't tested it.)\n>\n> __must_hold is indeed the correct annotation.\u00a0 (There isn't currently\n> anything enforcing that, though.)\n>\n> - Josh Triplett\n\nThere are 137 __releases && __acquires annotated functions in stable.\n\nAFAICS those are based on lock held on function entry / lock held on exit\n\nSee\nfs/fuse/file.c:1527\nfs/kernfs/dir.c:341\ndrivers/block/nbd.c:564\n\nDoes it mean that all of these should be updated to __must_hold ?\n\nFabian\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141180732608393.mbox",
+          "message_id": "<1745266822.710655.1411807315752.open-xchange () webmail ! nmp ! skynet ! be>",
+          "author_name": "Fabian Frederick",
+          "author_email": "fabf () skynet ! be",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-27 08:41:55+00:00",
+          "date_str": "Sat, 27 Sep 2014 08:41:55 +0000",
+          "body": "\n\n> On 27 September 2014 at 01:17 josh@joshtriplett.org wrote:\n>\n>\n> On Mon, Sep 22, 2014 at 11:12:50AM -0700, Brian Norris wrote:\n> > + linux-sparse\n> >\n> > On Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> > > fs/jffs2/summary.c:846:5: warning: context imbalance in\n> > > 'jffs2_sum_write_sumnode' - unexpected unlock\n> > >\n> > > Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> > > ---\n> > >\u00a0 fs/jffs2/summary.c | 2 ++\n> > >\u00a0 1 file changed, 2 insertions(+)\n> > >\n> > > diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> > > index c522d09..a0bac7b 100644\n> > > --- a/fs/jffs2/summary.c\n> > > +++ b/fs/jffs2/summary.c\n> > > @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info\n> > > *c, struct jffs2_eraseblock\n> > >\u00a0 /* Write out summary information - called from jffs2_do_reserve_space */\n> > >\u00a0\n> > >\u00a0 int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> > > + __releases(&c->erase_completion_lock)\n> > > + __acquires(&c->erase_completion_lock)\n> >\n> > I'm not too familiar with sparse notations, but Documentation/sparse.txt\n> > suggests the above is wrong, and the following is more accurate:\n> >\n> >\u00a0 \u00a0 \u00a0__must_hold(&c->erase_completion_lock)\n> >\n> > But it looks like there are several other examples which do this.\n> > Anyway, here's the relevant doc text, in case someone wants to clarify\n> > it for me, or else tell me the documentation is wrong:\n> >\n> >\u00a0 \u00a0 \u00a0__must_hold - The specified lock is held on function entry and exit.\n> >\n> >\u00a0 \u00a0 \u00a0__acquires - The specified lock is held on function exit, but not entry.\n> >\n> >\u00a0 \u00a0 \u00a0__releases - The specified lock is held on function entry, but not exit.\n> >\n> > So __acquires and __releases look mutually exclusive, but it's not clear\n> > if __must_hold will actually cover what we want. (I haven't tested it.)\n>\n> __must_hold is indeed the correct annotation.\u00a0 (There isn't currently\n> anything enforcing that, though.)\n>\n> - Josh Triplett\n\nThere are 137 __releases && __acquires annotated functions in stable.\n\nAFAICS those are based on lock held on function entry / lock held on exit\n\nSee\nfs/fuse/file.c:1527\nfs/kernfs/dir.c:341\ndrivers/block/nbd.c:564\n\nDoes it mean that all of these should be updated to __must_hold ?\n\nFabian\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141189822527049.mbox",
+          "message_id": "<20140928095650.GA24178 () thin>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-28 09:56:50+00:00",
+          "date_str": "Sun, 28 Sep 2014 09:56:50 +0000",
+          "body": "On Sat, Sep 27, 2014 at 10:41:55AM +0200, Fabian Frederick wrote:\n> \n> \n> > On 27 September 2014 at 01:17 josh@joshtriplett.org wrote:\n> >\n> >\n> > On Mon, Sep 22, 2014 at 11:12:50AM -0700, Brian Norris wrote:\n> > > + linux-sparse\n> > >\n> > > On Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> > > > fs/jffs2/summary.c:846:5: warning: context imbalance in\n> > > > 'jffs2_sum_write_sumnode' - unexpected unlock\n> > > >\n> > > > Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> > > > ---\n> > > >\ufffd fs/jffs2/summary.c | 2 ++\n> > > >\ufffd 1 file changed, 2 insertions(+)\n> > > >\n> > > > diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> > > > index c522d09..a0bac7b 100644\n> > > > --- a/fs/jffs2/summary.c\n> > > > +++ b/fs/jffs2/summary.c\n> > > > @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info\n> > > > *c, struct jffs2_eraseblock\n> > > >\ufffd /* Write out summary information - called from jffs2_do_reserve_space */\n> > > >\ufffd\n> > > >\ufffd int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> > > > + __releases(&c->erase_completion_lock)\n> > > > + __acquires(&c->erase_completion_lock)\n> > >\n> > > I'm not too familiar with sparse notations, but Documentation/sparse.txt\n> > > suggests the above is wrong, and the following is more accurate:\n> > >\n> > >\ufffd \ufffd \ufffd__must_hold(&c->erase_completion_lock)\n> > >\n> > > But it looks like there are several other examples which do this.\n> > > Anyway, here's the relevant doc text, in case someone wants to clarify\n> > > it for me, or else tell me the documentation is wrong:\n> > >\n> > >\ufffd \ufffd \ufffd__must_hold - The specified lock is held on function entry and exit.\n> > >\n> > >\ufffd \ufffd \ufffd__acquires - The specified lock is held on function exit, but not entry.\n> > >\n> > >\ufffd \ufffd \ufffd__releases - The specified lock is held on function entry, but not exit.\n> > >\n> > > So __acquires and __releases look mutually exclusive, but it's not clear\n> > > if __must_hold will actually cover what we want. (I haven't tested it.)\n> >\n> > __must_hold is indeed the correct annotation.\ufffd (There isn't currently\n> > anything enforcing that, though.)\n> >\n> > - Josh Triplett\n> \n> There are 137 __releases && __acquires annotated functions in stable.\n> \n> AFAICS those are based on lock held on function entry / lock held on exit\n> \n> See\n> fs/fuse/file.c:1527\n> fs/kernfs/dir.c:341\n> drivers/block/nbd.c:564\n> \n> Does it mean that all of these should be updated to __must_hold ?\n\nNot really worth changing yet until something actually pays closer\nattention to those annotations.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/09/141189823227050.mbox",
+          "message_id": "<20140928095650.GA24178 () thin>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [PATCH 1/1] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-09-28 09:56:50+00:00",
+          "date_str": "Sun, 28 Sep 2014 09:56:50 +0000",
+          "body": "On Sat, Sep 27, 2014 at 10:41:55AM +0200, Fabian Frederick wrote:\n> \n> \n> > On 27 September 2014 at 01:17 josh@joshtriplett.org wrote:\n> >\n> >\n> > On Mon, Sep 22, 2014 at 11:12:50AM -0700, Brian Norris wrote:\n> > > + linux-sparse\n> > >\n> > > On Thu, Sep 18, 2014 at 08:46:16PM +0200, Fabian Frederick wrote:\n> > > > fs/jffs2/summary.c:846:5: warning: context imbalance in\n> > > > 'jffs2_sum_write_sumnode' - unexpected unlock\n> > > >\n> > > > Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> > > > ---\n> > > >\ufffd fs/jffs2/summary.c | 2 ++\n> > > >\ufffd 1 file changed, 2 insertions(+)\n> > > >\n> > > > diff --git a/fs/jffs2/summary.c b/fs/jffs2/summary.c\n> > > > index c522d09..a0bac7b 100644\n> > > > --- a/fs/jffs2/summary.c\n> > > > +++ b/fs/jffs2/summary.c\n> > > > @@ -844,6 +844,8 @@ static int jffs2_sum_write_data(struct jffs2_sb_info\n> > > > *c, struct jffs2_eraseblock\n> > > >\ufffd /* Write out summary information - called from jffs2_do_reserve_space */\n> > > >\ufffd\n> > > >\ufffd int jffs2_sum_write_sumnode(struct jffs2_sb_info *c)\n> > > > + __releases(&c->erase_completion_lock)\n> > > > + __acquires(&c->erase_completion_lock)\n> > >\n> > > I'm not too familiar with sparse notations, but Documentation/sparse.txt\n> > > suggests the above is wrong, and the following is more accurate:\n> > >\n> > >\ufffd \ufffd \ufffd__must_hold(&c->erase_completion_lock)\n> > >\n> > > But it looks like there are several other examples which do this.\n> > > Anyway, here's the relevant doc text, in case someone wants to clarify\n> > > it for me, or else tell me the documentation is wrong:\n> > >\n> > >\ufffd \ufffd \ufffd__must_hold - The specified lock is held on function entry and exit.\n> > >\n> > >\ufffd \ufffd \ufffd__acquires - The specified lock is held on function exit, but not entry.\n> > >\n> > >\ufffd \ufffd \ufffd__releases - The specified lock is held on function entry, but not exit.\n> > >\n> > > So __acquires and __releases look mutually exclusive, but it's not clear\n> > > if __must_hold will actually cover what we want. (I haven't tested it.)\n> >\n> > __must_hold is indeed the correct annotation.\ufffd (There isn't currently\n> > anything enforcing that, though.)\n> >\n> > - Josh Triplett\n> \n> There are 137 __releases && __acquires annotated functions in stable.\n> \n> AFAICS those are based on lock held on function entry / lock held on exit\n> \n> See\n> fs/fuse/file.c:1527\n> fs/kernfs/dir.c:341\n> drivers/block/nbd.c:564\n> \n> Does it mean that all of these should be updated to __must_hold ?\n\nNot really worth changing yet until something actually pays closer\nattention to those annotations.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2014",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2014/10/141396725203692.mbox",
+          "message_id": "<20141022084045.GI16128 () brian-ubuntu>",
+          "author_name": "Brian Norris",
+          "author_email": "computersforpeace () gmail ! com",
+          "subject": "Re: [PATCH V2 linux-next] jffs2: fix sparse warning: unexpected unlock",
+          "date": "2014-10-22 08:40:45+00:00",
+          "date_str": "Wed, 22 Oct 2014 08:40:45 +0000",
+          "body": "On Sun, Sep 28, 2014 at 09:26:32PM +0200, Fabian Frederick wrote:\n> fs/jffs2/summary.c:846:5: warning: context imbalance in 'jffs2_sum_write_sumnode' - unexpected unlock\n> \n> Suggested-by: Brian Norris <computersforpeace@gmail.com>\n> Suggested-by: Josh Triplett <josh@joshtriplett.org>\n> Signed-off-by: Fabian Frederick <fabf@skynet.be>\n> ---\n> V2: use __must_hold instead of __releases / __acquires\n> (suggested by Brian Norris and Josh Triplett)\n\nPushed to l2-mtd.git. Thanks!\n\nBrian\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "10"
+        }
+      ],
+      "primary_category": "context_analysis"
+    },
+    {
+      "subject": "Sparse doesn't seem to care about checking context? data",
+      "normalized_subject": "Sparse doesn't seem to care about checking context? data",
+      "message_count": 1,
+      "participants": [
+        "Brett Nash"
+      ],
+      "categories": [
+        "context_analysis",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2014-09-09T20:51:01+00:00",
+      "last_date": "2014-09-09T20:51:01+00:00",
+      "year": 2014,
+      "messages": [
+        {
+          "filepath": "emails/2014/09/141029773819535.mbox",
+          "message_id": "<20140909205101.GA18784 () codekia ! com>",
+          "author_name": "Brett Nash",
+          "author_email": "nash () nash ! id ! au",
+          "subject": "Sparse doesn't seem to care about checking context? data",
+          "date": "2014-09-09 20:51:01+00:00",
+          "date_str": "Tue, 09 Sep 2014 20:51:01 +0000",
+          "body": "\n--SLDf9lqlvOQaIe6s\nContent-Type: text/plain; charset=us-ascii\nContent-Disposition: inline\n\nHello,\n\nI was just testing sparse on a large (non-linux) code base using the\n__must_hold macro (eg __attribute__((context, 1, 1))).\n\nHowever I don't seem to be able to trigger a warning from it.\n\nI've attached a test case below, is there some magic I need to do get sparse\nto trigger on this case.  I also note there are currently no tests in\nvalidation that check for this case.\n\nRegards,\nnash\n\n--SLDf9lqlvOQaIe6s\nContent-Type: text/x-csrc; charset=us-ascii\nContent-Disposition: attachment; filename=\"sparse_context.c\"\n\n\nstatic int must_hold(int x) __attribute__((context(1,1))) {\n\tint z;\n\n\treturn x * 7;\n}\n\nstatic int release(int x) __attribute__((context(1, 0))) {\n\t__context__(-1);\n\treturn 0;\n}\n\nstatic int acquiresilently(int x) {\n\t__context__(1);\n\n\treturn 1;\n}\n\nint main(int argc, char **argv) {\n\tmust_hold(8);\n\t__context__(1);\n\tmust_hold(0);\n\t__context__(-1);\n\treturn 0;\n}\n\n--SLDf9lqlvOQaIe6s--\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2014",
+          "month": "09"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

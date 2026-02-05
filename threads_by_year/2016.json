@@ -1,0 +1,43 @@
+{
+  "year": "2016",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 1,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "[FAIL 4/5] parse: Add acquire, release, requires and guarded_by attributes",
+      "normalized_subject": "[FAIL 4/5] parse: Add acquire, release, requires and guarded_by attributes",
+      "message_count": 1,
+      "participants": [
+        "Daniel Wagner"
+      ],
+      "categories": [
+        "context_analysis",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2016-02-17T09:51:34+00:00",
+      "last_date": "2016-02-17T09:51:34+00:00",
+      "year": 2016,
+      "messages": [
+        {
+          "filepath": "emails/2016/02/145570280814347.mbox",
+          "message_id": "<1455702695-6199-5-git-send-email-daniel.wagner () bmw-carit ! de>",
+          "author_name": "Daniel Wagner",
+          "author_email": "daniel.wagner () bmw-carit ! de",
+          "subject": "[FAIL 4/5] parse: Add acquire, release, requires and guarded_by attributes",
+          "date": "2016-02-17 09:51:34+00:00",
+          "date_str": "Wed, 17 Feb 2016 09:51:34 +0000",
+          "body": "The static clang and also gcc knows this attributes and they\nare used to do thread safety analysis.\n\nSigned-off-by: Daniel Wagner <daniel.wagner@bmw-carit.de>\nLink: http://clang.llvm.org/docs/ThreadSafetyAnalysis.html\n---\n allocate.c |  1 +\n allocate.h |  1 +\n parse.c    | 64 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n symbol.c   |  5 +++++\n symbol.h   | 17 +++++++++++++++++\n 5 files changed, 88 insertions(+)\n\ndiff --git a/allocate.c b/allocate.c\nindex f597caf..6506fcd 100644\n--- a/allocate.c\n+++ b/allocate.c\n@@ -130,6 +130,7 @@ void show_allocations(struct allocator_struct *x)\n ALLOCATOR(ident, \"identifiers\");\n ALLOCATOR(token, \"tokens\");\n ALLOCATOR(context, \"contexts\");\n+ALLOCATOR(capability, \"capability\");\n ALLOCATOR(symbol, \"symbols\");\n ALLOCATOR(expression, \"expressions\");\n ALLOCATOR(statement, \"statements\");\ndiff --git a/allocate.h b/allocate.h\nindex 9f1dc8c..ce0677d 100644\n--- a/allocate.h\n+++ b/allocate.h\n@@ -65,6 +65,7 @@ extern void show_allocations(struct allocator_struct *);\n DECLARE_ALLOCATOR(ident);\n DECLARE_ALLOCATOR(token);\n DECLARE_ALLOCATOR(context);\n+DECLARE_ALLOCATOR(capability);\n DECLARE_ALLOCATOR(symbol);\n DECLARE_ALLOCATOR(expression);\n DECLARE_ALLOCATOR(statement);\ndiff --git a/parse.c b/parse.c\nindex b43d683..aef71f1 100644\n--- a/parse.c\n+++ b/parse.c\n@@ -80,6 +80,8 @@ typedef struct token *attr_t(struct token *, struct symbol *,\n static attr_t\n \tattribute_packed, attribute_aligned, attribute_modifier,\n \tattribute_address_space, attribute_context,\n+\tattribute_acquire, attribute_release, attribute_requires,\n+\tattribute_guarded_by,\n \tattribute_designated_init,\n \tattribute_transparent_union, ignore_attribute,\n \tattribute_mode, attribute_force;\n@@ -336,6 +338,22 @@ static struct symbol_op context_op = {\n \t.attribute = attribute_context,\n };\n \n+static struct symbol_op acquire_op = {\n+\t.attribute = attribute_acquire,\n+};\n+\n+static struct symbol_op release_op = {\n+\t.attribute = attribute_release,\n+};\n+\n+static struct symbol_op requires_op = {\n+\t.attribute = attribute_requires,\n+};\n+\n+static struct symbol_op guarded_by_op = {\n+\t.attribute = attribute_guarded_by,\n+};\n+\n static struct symbol_op designated_init_op = {\n \t.attribute = attribute_designated_init,\n };\n@@ -476,6 +494,10 @@ static struct init_keyword {\n \t{ \"address_space\",NS_KEYWORD,\t.op = &address_space_op },\n \t{ \"mode\",\tNS_KEYWORD,\t.op = &mode_op },\n \t{ \"context\",\tNS_KEYWORD,\t.op = &context_op },\n+\t{ \"acquire_capability\",\tNS_KEYWORD,\t.op = &acquire_op },\n+\t{ \"release_capability\",\tNS_KEYWORD,\t.op = &release_op },\n+\t{ \"requires_capability\",\tNS_KEYWORD,\t.op = &requires_op },\n+\t{ \"guarded_by\", NS_KEYWORD,\t.op = &guarded_by_op },\n \t{ \"designated_init\",\tNS_KEYWORD,\t.op = &designated_init_op },\n \t{ \"__transparent_union__\",\tNS_KEYWORD,\t.op = &transparent_union_op },\n \t{ \"noreturn\",\tNS_KEYWORD,\tMOD_NORETURN,\t.op = &attr_mod_op },\n@@ -1197,6 +1219,48 @@ static struct token *attribute_context(struct token *token, struct symbol *attr,\n \treturn token;\n }\n \n+static const char *cap_ops[] = {\n+\t[CAP_ACQUIRE] = \"after acquire_capability attribute\",\n+\t[CAP_RELEASE] = \"after release_capability attribute\",\n+\t[CAP_REQUIRES] = \"after requires_capability attribute\",\n+\t[CAP_GUARDED_BY] = \"after guarded_by attribute\",\n+};\n+\n+static struct token *attribute_capability(struct token *token, struct decl_state *ctx, enum cap_op op)\n+{\n+\tstruct expression *expr = NULL;\n+\tstruct capability *cap;\n+\n+\ttoken = expect(token, '(', cap_ops[op]);\n+\ttoken = conditional_expression(token, &expr);\n+\tcap = alloc_capability();\n+\tcap->op = op;\n+\tcap->expr = expr;\n+\tadd_ptr_list(&ctx->ctype.capabilities, cap);\n+\ttoken = expect(token, ')', cap_ops[op]);\n+\treturn token;\n+}\n+\n+static struct token *attribute_acquire(struct token *token, struct symbol *attr, struct decl_state *ctx)\n+{\n+\treturn attribute_capability(token, ctx, CAP_ACQUIRE);\n+}\n+\n+static struct token *attribute_release(struct token *token, struct symbol *attr, struct decl_state *ctx)\n+{\n+\treturn attribute_capability(token, ctx, CAP_RELEASE);\n+}\n+\n+static struct token *attribute_requires(struct token *token, struct symbol *attr, struct decl_state *ctx)\n+{\n+\treturn attribute_capability(token, ctx, CAP_REQUIRES);\n+}\n+\n+static struct token *attribute_guarded_by(struct token *token, struct symbol *attr, struct decl_state *ctx)\n+{\n+\treturn attribute_capability(token, ctx, CAP_GUARDED_BY);\n+}\n+\n static struct token *attribute_designated_init(struct token *token, struct symbol *attr, struct decl_state *ctx)\n {\n \tif (ctx->ctype.base_type && ctx->ctype.base_type->type == SYM_STRUCT)\ndiff --git a/symbol.c b/symbol.c\nindex 0ceff62..12e23b4 100644\n--- a/symbol.c\n+++ b/symbol.c\n@@ -73,6 +73,11 @@ struct context *alloc_context(void)\n \treturn __alloc_context(0);\n }\n \n+struct capability *alloc_capability(void)\n+{\n+\treturn __alloc_capability(0);\n+}\n+\n struct symbol *alloc_symbol(struct position pos, int type)\n {\n \tstruct symbol *sym = __alloc_symbol(0);\ndiff --git a/symbol.h b/symbol.h\nindex ccb5dcb..bcb41b7 100644\n-",
+          "year": "2016",
+          "month": "02"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

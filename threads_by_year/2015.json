@@ -1,0 +1,81 @@
+{
+  "year": "2015",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 4,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "Why sparse does not support context tracking?",
+      "normalized_subject": "Why sparse does not support context tracking?",
+      "message_count": 4,
+      "participants": [
+        "Alexander Riesen",
+        "Johannes Berg"
+      ],
+      "categories": [
+        "context_analysis",
+        "rfc_proposals",
+        "compiler_compat",
+        "sparse_internals"
+      ],
+      "first_date": "2015-05-04T11:05:22+00:00",
+      "last_date": "2015-05-04T14:05:59+00:00",
+      "year": 2015,
+      "messages": [
+        {
+          "filepath": "emails/2015/05/143073754531294.mbox",
+          "message_id": "<55475272.90705 () cetitec ! com>",
+          "author_name": "Alexander Riesen",
+          "author_email": "alexander.riesen () cetitec ! com",
+          "subject": "Why sparse does not support context tracking?",
+          "date": "2015-05-04 11:05:22+00:00",
+          "date_str": "Mon, 04 May 2015 11:05:22 +0000",
+          "body": "Hi,\n\nI tried to instrument my code (a kernel driver) with __must_hold hints\nand noticed that they don't really work: a definitely broken code caused\nno errors from sparse.\n\nA test in the \"sparse\" tree confirmed. Here is the test I used:\n\nstatic int ctx;\n\nstatic void must_hold(void) __attribute__((context(ctx,1,1)))\n{\n     if (ctx)\n         ;\n}\nstatic void bad_must_hold(void)\n{\n     must_hold();\n}\n\nAfter a bit of looking I found a commit which removed context tracking\nfrom the \"sparse\":\n\nAuthor: Johannes Berg <johannes@sipsolutions.net> 2008-12-23 10:59:22\n\n     Revert the context tracking code\n\n     > Do you want to resend your change which revert the context changes?\n     > Make it base on Josh's git's tree and I will merge your changes in my\n     > branch.\n\n     Below. Or I can give it to you in git if you prefer. I still think we\n     should redo this in some form so that annotations with different\n     contexts can work properly, but I don't have time to take care of it\n     right now.\n\n     johannes\n\n     >From ca95b62edf1600a2b55ed9ca0515d049807a84fc Mon Sep 17 00:00:00 2001\n     From: Johannes Berg <johannes@sipsolutions.net>\n     Date: Tue, 23 Dec 2008 10:53:19 +0100\n     Subject: [PATCH] Revert context tracking code\n\nSo it seems that the code has problems with different contexts. Still, it seems\na bit heavy-handed to remove it completely (assuming it worked, of course).\nThe kernel even has a bit of use for it (not much, admittedly: DRBD and aoe).\n\nIs it be possible to reintroduce the code at least for the same context?\nSo that it catches at least some locks not taken?\n\nRegards,\nAlex Riesen\n\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2015",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2015/05/143074675101993.mbox",
+          "message_id": "<1430746737.2013.22.camel () sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: Why sparse does not support context tracking?",
+          "date": "2015-05-04 13:38:57+00:00",
+          "date_str": "Mon, 04 May 2015 13:38:57 +0000",
+          "body": "On Mon, 2015-05-04 at 13:05 +0200, Alexander Riesen wrote:\n> Hi,\n> \n> I tried to instrument my code (a kernel driver) with __must_hold hints\n> and noticed that they don't really work: a definitely broken code caused\n> no errors from sparse.\n\n>      Revert the context tracking code\n\n> So it seems that the code has problems with different contexts. Still, it seems\n> a bit heavy-handed to remove it completely (assuming it worked, of course).\n\nIt didn't really work. It had a lot of issues that were too big for my\nlittle wireless-focused brain :)\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-kernel\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html\nPlease read the FAQ at  http://www.tux.org/lkml/",
+          "year": "2015",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2015/05/143074674301992.mbox",
+          "message_id": "<1430746737.2013.22.camel () sipsolutions ! net>",
+          "author_name": "Johannes Berg",
+          "author_email": "johannes () sipsolutions ! net",
+          "subject": "Re: Why sparse does not support context tracking?",
+          "date": "2015-05-04 13:38:57+00:00",
+          "date_str": "Mon, 04 May 2015 13:38:57 +0000",
+          "body": "On Mon, 2015-05-04 at 13:05 +0200, Alexander Riesen wrote:\n> Hi,\n> \n> I tried to instrument my code (a kernel driver) with __must_hold hints\n> and noticed that they don't really work: a definitely broken code caused\n> no errors from sparse.\n\n>      Revert the context tracking code\n\n> So it seems that the code has problems with different contexts. Still, it seems\n> a bit heavy-handed to remove it completely (assuming it worked, of course).\n\nIt didn't really work. It had a lot of issues that were too big for my\nlittle wireless-focused brain :)\n\njohannes\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2015",
+          "month": "05"
+        },
+        {
+          "filepath": "emails/2015/05/143074838002546.mbox",
+          "message_id": "<55477CC7.4020807 () cetitec ! com>",
+          "author_name": "Alexander Riesen",
+          "author_email": "alexander.riesen () cetitec ! com",
+          "subject": "Re: Why sparse does not support context tracking?",
+          "date": "2015-05-04 14:05:59+00:00",
+          "date_str": "Mon, 04 May 2015 14:05:59 +0000",
+          "body": "On 05/04/2015 03:38 PM, Johannes Berg wrote:\n> On Mon, 2015-05-04 at 13:05  +0200, Alexander Riesen wrote:\n >>\n >>      Revert the context tracking code\n >>\n >> So it seems that the code has problems with different contexts. Still, it seems\n >> a bit heavy-handed to remove it completely (assuming it worked, of course).\n >\n > It didn't really work. It had a lot of issues that were too big for my\n > little wireless-focused brain :)\n\nAh, pity. Wasn't there any hope for it?\n\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2015",
+          "month": "05"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}

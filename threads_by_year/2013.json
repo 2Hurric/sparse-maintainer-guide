@@ -1,0 +1,82 @@
+{
+  "year": "2013",
+  "stats": {
+    "total_threads": 1,
+    "total_messages": 4,
+    "categories": {
+      "context_analysis": 1
+    }
+  },
+  "threads": [
+    {
+      "subject": "Re: [tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+      "normalized_subject": "[tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+      "message_count": 4,
+      "participants": [
+        "Peter Zijlstra",
+        "Josh Triplett"
+      ],
+      "categories": [
+        "kernel_integration",
+        "context_analysis",
+        "sparse_internals",
+        "type_system",
+        "compiler_compat"
+      ],
+      "first_date": "2013-09-25T18:59:25+00:00",
+      "last_date": "2013-09-30T15:35:17+00:00",
+      "year": 2013,
+      "messages": [
+        {
+          "filepath": "emails/2013/09/138013557621171.mbox",
+          "message_id": "<20130925185925.GD3657 () laptop ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+          "date": "2013-09-25 18:59:25+00:00",
+          "date_str": "Wed, 25 Sep 2013 18:59:25 +0000",
+          "body": "On Thu, Sep 26, 2013 at 02:31:09AM +0800, kbuild test robot wrote:\n> tree:   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core\n> head:   1a338ac32ca630f67df25b4a16436cccc314e997\n> commit: 0c44c2d0f459cd7e275242b72f500137c4fa834d [16/27] x86: Use asm goto to implement better modify_and_test() functions\n> reproduce: make C=1 CF=-D__CHECK_ENDIAN__\n> \n> \n> sparse warnings: (new ones prefixed by >>)\n> \n> >> fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wrong count at exit\n>    fs/jbd/commit.c:205:9: sparse: context imbalance in 'journal_submit_data_buffers' - different lock contexts for basic block\n>    fs/jbd/commit.c:456:9: sparse: context imbalance in 'journal_commit_transaction' - different lock contexts for basic block\n> --\n>    include/linux/bit_spinlock.h:62:25: sparse: context imbalance in '__try_to_free_cp_buf' - unexpected unlock\n>    fs/jbd/checkpoint.c:155:36: sparse: context imbalance in '__log_wait_for_space' - unexpected unlock\n>    include/linux/bit_spinlock.h:62:25: sparse: context imbalance in '__wait_cp_io' - unexpected unlock\n>    fs/jbd/checkpoint.c:294:23: sparse: context imbalance in '__process_buffer' - unexpected unlock\n>    fs/jbd/checkpoint.c:390:9: sparse: context imbalance in 'log_do_checkpoint' - different lock contexts for basic block\n> >> fs/jbd/checkpoint.c:557:12: sparse: context imbalance in 'journal_clean_one_cp_list' - wrong count at exit\n> --\n> >> drivers/infiniband/hw/qib/qib_verbs.h:1061:36: sparse: crazy programmer\n> \n> vim +/inverted_lock +105 fs/jbd/commit.c\n> \n>     89\t\t\tWARN_ON_ONCE(buffer_dirty(bh));\n>     90\t\t\tclear_buffer_freed(bh);\n>     91\t\t\tclear_buffer_mapped(bh);\n>     92\t\t\tclear_buffer_new(bh);\n>     93\t\t\tclear_buffer_req(bh);\n>     94\t\t\tbh->b_bdev = NULL;\n>     95\t\t\trelease_buffer_page(bh);\n>     96\t\t} else\n>     97\t\t\tput_bh(bh);\n>     98\t}\n>     99\t\n>    100\t/*\n>    101\t * Try to acquire jbd_lock_bh_state() against the buffer, when j_list_lock is\n>    102\t * held.  For ranking reasons we must trylock.  If we lose, schedule away and\n>    103\t * return 0.  j_list_lock is dropped in this case.\n>    104\t */\n>  > 105\tstatic int inverted_lock(journal_t *journal, struct buffer_head *bh)\n>    106\t{\n>    107\t\tif (!jbd_trylock_bh_state(bh)) {\n>    108\t\t\tspin_unlock(&journal->j_list_lock);\n>    109\t\t\tschedule();\n>    110\t\t\treturn 0;\n>    111\t\t}\n>    112\t\treturn 1;\n>    113\t}\n\nI've really no idea how that patch can cause sparse warnings. Patch\nincluded below for the sparse people. Does sparse presume to understand\ninline asm?\n\n---\nSubject: x86: Use asm goto to implement better modify_and_test() functions\nFrom: Peter Zijlstra <peterz@infradead.org>\nDate: Wed Sep 11 15:19:24 CEST 2013\n\nLinus suggested using asm goto to get rid of the typical SETcc + TEST\ninstruction pair -- which also clobbers an extra register -- for our\ntypical modify_and_test() functions.\n\nBecause asm goto doesn't allow output fields it has to include an\nunconditinal memory clobber when it changes a memory variable to force\na reload.\n\nLuckily all atomic ops already imply a compiler barrier to go along\nwith their memory barrier semantics.\n\nSuggested-by: Linus Torvalds <torvalds@linux-foundation.org>\nSigned-off-by: Peter Zijlstra <peterz@infradead.org>\n---\n arch/x86/include/asm/atomic.h      |   29 ++++----------------------\n arch/x86/include/asm/atomic64_64.h |   28 +++----------------------\n arch/x86/include/asm/bitops.h      |   24 +++------------------\n arch/x86/include/asm/local.h       |   28 +++----------------------\n arch/x86/include/asm/rmwcc.h       |   41 +++++++++++++++++++++++++++++++++++++\n 5 files changed, 58 insertions(+), 92 deletions(-)\n\n--- a/arch/x86/include/asm/atomic.h\n+++ b/arch/x86/include/asm/atomic.h\n@@ -6,6 +6,7 @@\n #include <asm/processor.h>\n #include <asm/alternative.h>\n #include <asm/cmpxchg.h>\n+#include <asm/rmwcc.h>\n \n /*\n  * Atomic operations that C can't guarantee us.  Useful for\n@@ -76,12 +77,7 @@ static inline void atomic_sub(int i, ato\n  */\n static inline int atomic_sub_and_test(int i, atomic_t *v)\n {\n-\tunsigned char c;\n-\n-\tasm volatile(LOCK_PREFIX \"subl %2,%0; sete %1\"\n-\t\t     : \"+m\" (v->counter), \"=qm\" (c)\n-\t\t     : \"ir\" (i) : \"memory\");\n-\treturn c;\n+\tGEN_BINARY_RMWcc(LOCK_PREFIX \"subl\", v->counter, i, \"%0\", \"e\");\n }\n \n /**\n@@ -118,12 +114,7 @@ static inline void atomic_dec(atomic_t *\n  */\n static inline int atomic_dec_and_test(atomic_t *v)\n {\n-\tunsigned char c;\n-\n-\tasm volatile(LOCK_PREFIX \"decl %0; sete %1\"\n-\t\t     : \"+m\" (v->counter), \"=qm\" (c)\n-\t\t     : : \"memory\");\n-\treturn c != 0;\n+\tGEN_UNARY_RMWcc(LOCK_PREFIX \"decl\", v->counter, \"%0\", \"e\");\n }\n \n /**\n@@ -136,12 +127,7 @@ static inline int atomic_dec_and_test(at\n  */\n static inline int atomic_inc_and_test(atomic_t *v)\n {\n-\tunsigned char c;\n-\n-\tasm volatile(LOCK_PREFIX \"incl %0; sete %1\"\n-\t\t     : \"+m\" (v->counter), \"=qm\" (c)\n-\t\t     : : \"memory\");\n-\treturn c != 0;\n+\tGEN_UNARY_RMWcc(LOCK_PREFIX \"incl\", v->counter, \"%0\", \"e\");\n }\n \n /**\n@@ -155,12 +141,7 @@ static inl",
+          "year": "2013",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2013/09/138014629325111.mbox",
+          "message_id": "<20130925215805.GB7716 () jtriplet-mobl1>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+          "date": "2013-09-25 21:58:05+00:00",
+          "date_str": "Wed, 25 Sep 2013 21:58:05 +0000",
+          "body": "On Wed, Sep 25, 2013 at 08:59:25PM +0200, Peter Zijlstra wrote:\n> On Thu, Sep 26, 2013 at 02:31:09AM +0800, kbuild test robot wrote:\n> > tree:   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git sched/core\n> > head:   1a338ac32ca630f67df25b4a16436cccc314e997\n> > commit: 0c44c2d0f459cd7e275242b72f500137c4fa834d [16/27] x86: Use asm goto to implement better modify_and_test() functions\n> > reproduce: make C=1 CF=-D__CHECK_ENDIAN__\n> > \n> > \n> > sparse warnings: (new ones prefixed by >>)\n> > \n> > >> drivers/infiniband/hw/qib/qib_verbs.h:1061:36: sparse: crazy programmer\n\nThis one, by the way, seems like a sparse internal error, which ought to\nhave a better message.  The patch below does that; Chris, does this\npatch seem reasonable to you?  (The message itself might need accuracy\nimprovements; it's still pretty vague about what went wrong.)\n\n---8<---\nFrom: Josh Triplett <josh@joshtriplett.org>\nDate: Wed, 25 Sep 2013 14:55:44 -0700\nSubject: [PATCH] Change \"crazy programmer\" into a proper internal error message\n\nSigned-off-by: Josh Triplett <josh@joshtriplett.org>\n---\n ident-list.h | 1 +\n simplify.c   | 2 +-\n 2 files changed, 2 insertions(+), 1 deletion(-)\n\ndiff --git a/ident-list.h b/ident-list.h\nindex e93aae7..5f1da5e 100644\n--- a/ident-list.h\n+++ b/ident-list.h\n@@ -91,6 +91,7 @@ IDENT(artificial); IDENT(__artificial__);\n IDENT(leaf); IDENT(__leaf__);\n IDENT(vector_size); IDENT(__vector_size__);\n IDENT(error); IDENT(__error__);\n+IDENT(cleanup); IDENT(__cleanup__);\n \n \n /* Preprocessor idents.  Direct use of __IDENT avoids mentioning the keyword\ndiff --git a/simplify.c b/simplify.c\nindex bda4a5b..2c266f9 100644\n--- a/simplify.c\n+++ b/simplify.c\n@@ -619,7 +619,7 @@ offset:\n \t\tif (new == VOID)\n \t\t\treturn 0;\n \t\tnew = VOID;\n-\t\twarning(insn->pos, \"crazy programmer\");\n+\t\tsparse_error(insn->pos, \"internal error: failed to simplify a memory operation\");\n \t}\n \tinsn->offset += off->value;\n \tuse_pseudo(insn, new, &insn->src);\n-- \n1.8.4.rc3\n\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2013",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2013/09/138055478907528.mbox",
+          "message_id": "<20130930152550.GA1269 () leaf>",
+          "author_name": "Josh Triplett",
+          "author_email": "josh () joshtriplett ! org",
+          "subject": "Re: [tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+          "date": "2013-09-30 15:25:51+00:00",
+          "date_str": "Mon, 30 Sep 2013 15:25:51 +0000",
+          "body": "On Mon, Sep 30, 2013 at 03:44:34PM +0200, Peter Zijlstra wrote:\n> On Wed, Sep 25, 2013 at 02:47:20PM -0700, Josh Triplett wrote:\n> > That's expressible in Sparse; look at how spin_trylock and _cond_lock,\n> > and write a _cond_unlock.\n> \n> Yeah, I know about __cond_lock() its an abomination that should die.\n\nCan't argue with that.\n\n> I\n> did take a stab at teach sparse something saner but got stuck.. was\n> years ago, can't remember more.\n\nI only see two obvious ways to extend Sparse to remove the need for\n__cond_lock, and only one makes sense.\n\nFirst, you could add an attribute for conditional context changes, which\ntakes an expression; however, that would require an expression\nevaluator, which internally would construct code a lot like __cond_lock,\nand it would require some syntax to reference the return value.  That\nseems excessively painful, and not significantly better than\n__cond_lock.\n\nSecond, the real solution: teach Sparse to do whole-program\nanalysis, similar to GCC LTO.\n\nAlternatively, someone could write a GCC plugin that understands the\ncontext attribute and __context__ statement, and then does whole-program\ncontext analysis using GCC; that seems easiest, relatively speaking.\n\n- Josh Triplett\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2013",
+          "month": "09"
+        },
+        {
+          "filepath": "emails/2013/09/138055533707799.mbox",
+          "message_id": "<20130930153517.GD3081 () twins ! programming ! kicks-ass ! net>",
+          "author_name": "Peter Zijlstra",
+          "author_email": "peterz () infradead ! org",
+          "subject": "Re: [tip:sched/core 16/27] fs/jbd/commit.c:105:12: sparse: context imbalance in 'inverted_lock' - wr",
+          "date": "2013-09-30 15:35:17+00:00",
+          "date_str": "Mon, 30 Sep 2013 15:35:17 +0000",
+          "body": "On Mon, Sep 30, 2013 at 08:25:51AM -0700, Josh Triplett wrote:\n> First, you could add an attribute for conditional context changes, which\n> takes an expression; however, that would require an expression\n> evaluator, which internally would construct code a lot like __cond_lock,\n> and it would require some syntax to reference the return value.  That\n> seems excessively painful, and not significantly better than\n> __cond_lock.\n\nThis sounds somewhat familiar; its better in that it doesn't pollute the\nactual kernel source ;-)\n--\nTo unsubscribe from this list: send the line \"unsubscribe linux-sparse\" in\nthe body of a message to majordomo@vger.kernel.org\nMore majordomo info at  http://vger.kernel.org/majordomo-info.html",
+          "year": "2013",
+          "month": "09"
+        }
+      ],
+      "primary_category": "context_analysis"
+    }
+  ]
+}
